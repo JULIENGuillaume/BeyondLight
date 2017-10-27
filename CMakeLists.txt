@@ -17,7 +17,7 @@ set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp)
+set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp src/network/server/Server.cpp src/network/server/Server.hh)
 set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC})
@@ -30,7 +30,7 @@ target_link_libraries(BeyondLightClient ${Boost_LIBRARIES})
 
 find_package(GTest)
 IF (GTEST_FOUND)
-    message("Google test has been found, setting up test environment")
+    message("-- Google test has been found, setting up test environment")
     set(UNIT_TEST_SRCS test/unittest.cpp)
     add_executable(TestSuit ${UNIT_TEST_SRCS})
 
