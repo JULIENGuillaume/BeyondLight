@@ -1,0 +1,44 @@
+C:\Users\diguie_t\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\173.3415.24\bin\cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - NMake Makefiles" E:\Desktop\BeyondLight\Git\BeyondLight\client
+-- The C compiler identification is MSVC 19.11.25547.0
+-- The CXX compiler identification is MSVC 19.11.25547.0
+-- Check for working C compiler: E:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/14.11.25503/bin/Hostx86/x86/cl.exe
+-- Check for working C compiler: E:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/14.11.25503/bin/Hostx86/x86/cl.exe -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: E:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/14.11.25503/bin/Hostx86/x86/cl.exe
+-- Check for working CXX compiler: E:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/14.11.25503/bin/Hostx86/x86/cl.exe -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found OpenGL: opengl32  
+-- Found GLEW: E:/Desktop/BeyondLight/Git/BeyondLight/client/lib/glew/include  
+-- Found GLM: E:/Desktop/BeyondLight/Git/BeyondLight/client/lib/glm  
+-- *** CEF CONFIGURATION SETTINGS ***
+-- Generator:                    NMake Makefiles
+-- Platform:                     Windows
+-- Project architecture:         x86
+-- Binary distribution root:     E:/Desktop/BeyondLight/Git/BeyondLight/client/lib/cef
+-- CEF Windows sandbox:          ON
+-- Visual Studio ATL support:    ON
+-- Standard libraries:           comctl32.lib;rpcrt4.lib;shlwapi.lib;ws2_32.lib;dbghelp.lib;psapi.lib;version.lib;winmm.lib
+-- Compile defines:              __STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;WIN32;_WIN32;_WINDOWS;UNICODE;_UNICODE;WINVER=0x0601;_WIN32_WINNT=0x601;NOMINMAX;WIN32_LEAN_AND_MEAN;_HAS_EXCEPTIONS=0;PSAPI_VERSION=1;CEF_USE_SANDBOX;CEF_USE_ATL
+-- Compile defines (Debug):      
+-- Compile defines (Release):    NDEBUG;_NDEBUG
+-- C compile flags:              /MP;/Gy;/GR-;/W4;/WX;/wd4100;/wd4127;/wd4244;/wd4481;/wd4512;/wd4701;/wd4702;/wd4996;/Zi 
+-- C compile flags (Debug):      /MTd;/RTC1;/Od 
+-- C compile flags (Release):    /MT;/O2;/Ob2;/GF 
+-- C++ compile flags:            /MP;/Gy;/GR-;/W4;/WX;/wd4100;/wd4127;/wd4244;/wd4481;/wd4512;/wd4701;/wd4702;/wd4996;/Zi 
+-- C++ compile flags (Debug):    /MTd;/RTC1;/Od 
+-- C++ compile flags (Release):  /MT;/O2;/Ob2;/GF 
+-- Exe link flags:                /MANIFEST:NO;/LARGEADDRESSAWARE
+-- Exe link flags (Debug):       /DEBUG 
+-- Exe link flags (Release):      
+-- Shared link flags:             
+-- Shared link flags (Debug):    /DEBUG 
+-- Shared link flags (Release):   
+-- CEF Binary files:             chrome_elf.dll;d3dcompiler_43.dll;d3dcompiler_47.dll;libcef.dll;libEGL.dll;libGLESv2.dll;natives_blob.bin;snapshot_blob.bin;swiftshader
+-- CEF Resource files:           cef.pak;cef_100_percent.pak;cef_200_percent.pak;cef_extensions.pak;devtools_resources.pak;icudtl.dat;locales
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug
