@@ -1,0 +1,326 @@
+[1030/160110.397:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/164231.858:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/164732.627:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/165254.552:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/224214.707:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/224231.238:ERROR:icu_util.cc(174)] Invalid file descriptor to ICU data received.
+[1030/224449.982:WARNING:resource_bundle.cc(366)] locale_file_path.empty() for locale 
+[1030/224450.015:ERROR:main_delegate.cc(676)] Could not load locale pak for en-US
+[1030/224450.015:ERROR:main_delegate.cc(683)] Could not load cef.pak
+[1030/224450.015:ERROR:main_delegate.cc(700)] Could not load cef_100_percent.pak
+[1030/224450.016:ERROR:main_delegate.cc(709)] Could not load cef_200_percent.pak
+[1030/224450.016:ERROR:main_delegate.cc(718)] Could not load cef_extensions.pak
+[1030/224451.560:ERROR:content_client.cc(268)] No data resource available for id 101
+[1030/224451.560:FATAL:service_manager_context.cc(127)] Check failed: !contents.empty(). 
+[1030/224616.432:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/224616.685:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225005.758:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225036.584:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225036.588:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225056.403:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225232.205:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/225906.133:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/230416.125:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/230551.977:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/230606.944:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/230606.963:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/231652.757:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/231653.247:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/233652.077:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/233652.738:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/233742.777:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234119.984:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234119.997:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234549.023:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234549.031:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234649.873:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234649.886:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234805.700:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234805.720:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234830.623:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234936.419:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234936.430:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234954.598:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/234954.610:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235117.631:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235117.653:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235129.129:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235129.147:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235540.761:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235540.765:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235656.874:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1030/235713.946:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1030/235713.960:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/000106.039:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/000106.080:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/121838.488:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/121838.773:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/130336.234:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/130336.244:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/130336.252:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/135824.605:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/135824.608:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140523.536:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140523.550:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140739.800:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140739.803:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140841.263:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/140841.288:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141248.533:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141248.536:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141333.019:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141333.027:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141532.710:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/141532.737:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/142303.507:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/142303.519:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/142613.335:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/142613.348:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/144139.690:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/144139.722:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/145057.204:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/145057.220:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/150521.133:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/150521.160:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/150912.038:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/150912.044:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/151040.219:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/151040.242:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/151909.145:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/151909.177:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/152116.921:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/152116.951:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/153245.184:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/153245.209:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/160648.416:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/160648.448:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161104.120:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161104.139:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161144.325:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1031/161341.026:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161341.037:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161606.806:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/161606.813:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/162905.115:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/162905.138:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163021.035:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1031/163211.418:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163211.428:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163234.190:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163234.206:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163249.245:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163249.253:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163824.248:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/163824.263:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/164918.332:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/164918.365:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165528.274:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165528.285:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165827.451:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165827.454:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165917.097:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165917.109:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165936.492:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/165936.513:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170014.935:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170014.950:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170050.025:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170050.027:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170149.673:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170149.685:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170216.685:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170216.699:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170308.325:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170308.331:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170528.556:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170528.582:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170838.023:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/170838.039:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172543.618:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172543.627:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172715.133:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172715.156:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172822.729:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172822.753:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/172823.566:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1031/173121.590:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/173121.604:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/173214.833:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/173214.853:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174028.299:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174028.302:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174102.332:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174102.354:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174145.683:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/174145.694:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/183317.620:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1031/183317.620:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/171208.015:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/171208.017:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/180624.805:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/180822.292:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/180828.192:FATAL:gpu_process_transport_factory.cc(266)] Check failed: per_compositor_data_.empty(). 
+[1101/180912.946:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181010.343:FATAL:gpu_process_transport_factory.cc(266)] Check failed: per_compositor_data_.empty(). 
+[1101/181151.627:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181201.169:FATAL:gpu_process_transport_factory.cc(266)] Check failed: per_compositor_data_.empty(). 
+[1101/181541.080:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181554.256:FATAL:gpu_process_transport_factory.cc(266)] Check failed: per_compositor_data_.empty(). 
+[1101/181639.613:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181640.913:FATAL:browser_main.cc(215)] Check failed: global_request_context_->HasOneRef(). 
+[1101/181713.118:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181713.858:FATAL:gpu_process_transport_factory.cc(266)] Check failed: per_compositor_data_.empty(). 
+[1101/181739.882:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/181741.739:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/183111.709:WARNING:resource_bundle.cc(366)] locale_file_path.empty() for locale 
+[1101/183111.709:ERROR:main_delegate.cc(676)] Could not load locale pak for en-US
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.766:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.767:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.768:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.772:WARNING:resource_bundle.cc(563)] locale resources are not loaded
+[1101/183111.773:FATAL:prefs_tab_helper.cc(330)] Check failed: success. 
+[1101/183111.908:WARNING:resource_bundle.cc(366)] locale_file_path.empty() for locale 
+[1101/183111.908:ERROR:main_delegate.cc(676)] Could not load locale pak for en-US
+[1101/183116.955:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183142.201:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/183204.659:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183324.142:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/183333.893:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183443.871:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/183451.185:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183722.825:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/183732.484:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183853.549:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/183856.380:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183929.717:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/183931.252:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/183958.564:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/184000.080:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/184022.711:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/184024.267:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/184051.196:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/184052.633:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/184117.888:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/184119.571:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/184151.952:FATAL:context.cc(55)] Check failed: !g_context. CefShutdown was not called
+[1101/184155.829:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/184225.985:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/184238.971:FATAL:url_util.cc(490)] Check failed: !scheme_registries_locked. Trying to add a scheme after the lists have been locked.
+[1101/224826.185:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/224948.030:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1101/225002.619:FATAL:dwrite_font_proxy_init_win.cc(95)] Check failed: fallback_available == base::win::GetVersion() > base::win::VERSION_WIN8 (1 vs. 0)
+[1102/152231.410:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/152231.422:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/152939.662:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/152939.664:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153002.036:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153002.036:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153637.988:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153637.989:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153639.340:INFO:CONSOLE(0)] "Refused to execute script from 'https://gist.github.com/mrdoob/838785/raw/a19a753b441d6ad41707c58f06dbe17f3470423c/RequestAnimationFrame.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.", source: https://s.codepen.io/soulwire/fullpage/Ffvlo (0)
+[1102/153639.340:INFO:CONSOLE(0)] "Refused to execute script from 'https://raw.github.com/mrdoob/stats.js/master/build/stats.min.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.", source: https://s.codepen.io/soulwire/fullpage/Ffvlo (0)
+[1102/153733.814:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153733.814:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153735.446:INFO:CONSOLE(0)] "Refused to execute script from 'https://gist.github.com/mrdoob/838785/raw/a19a753b441d6ad41707c58f06dbe17f3470423c/RequestAnimationFrame.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.", source: https://s.codepen.io/soulwire/fullpage/Ffvlo (0)
+[1102/153735.447:INFO:CONSOLE(0)] "Refused to execute script from 'https://raw.github.com/mrdoob/stats.js/master/build/stats.min.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.", source: https://s.codepen.io/soulwire/fullpage/Ffvlo (0)
+[1102/153958.376:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153958.376:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/153959.148:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/153959.287:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/153959.288:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195611.447:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/195611.457:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/195612.163:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195612.231:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195612.232:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195659.406:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/195659.406:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/195700.689:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195700.773:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/195700.773:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/203818.666:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/203818.666:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/203819.399:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/203819.437:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/203819.438:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204039.594:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204039.594:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204040.294:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204040.377:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204040.377:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204455.137:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204455.137:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204457.354:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204457.403:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204457.406:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204600.444:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204600.444:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/204601.044:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204601.097:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/204601.103:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205203.656:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/205203.657:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/205205.540:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205205.572:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205205.576:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205324.842:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/205324.843:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/205325.393:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205325.509:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/205325.510:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/214522.663:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/214522.678:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/214523.446:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/214523.546:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/214523.546:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/215251.744:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/215251.745:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/215253.377:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/215253.443:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/215253.444:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/220745.572:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/220745.572:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/220747.023:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/220747.090:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/220747.090:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/233954.104:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/233954.104:INFO:CONSOLE(58)] "A parser-blocking, cross site (i.e. different eTLD+1) script, http://www.google-analytics.com/ga.js, is invoked via document.write. The network request for this script MAY be blocked by the browser in this or a future page load due to poor network connectivity. If blocked in this page load, it will be confirmed in a subsequent console message. See https://www.chromestatus.com/feature/5718547946799104 for more details.", source: http://ich.deanmcnamee.com/pre3d/monster.html (58)
+[1102/233955.186:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/233955.266:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
+[1102/233955.266:INFO:CONSOLE(36)] "Invalid asm.js: expected double or float?", source: http://zenphoton.com/rayworker-asm.js (36)
