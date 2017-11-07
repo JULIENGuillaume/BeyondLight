@@ -2,6 +2,7 @@
 #include <map>
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 // GL
 #include "GL/glew.h"
@@ -96,16 +97,16 @@ GLint texcoord_loc = -1;
 GLint tex_loc = -1;
 GLint mvp_loc = -1;
 
-//int main(int ac, char *av[]) {
-int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+int main(int ac, char *av[]) {
+//int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     int exit_code = 0;
     bool success = g_web_core_manager.setUp( &exit_code );
     if ( !success ) {
         return exit_code;
     }
 
-    int width = 640;
-    int height = 480;
+    int width = 1280;
+    int height = 720;
 
     // create GL context
     GLFWwindow *window = initialize_glfw_window(width, height);
@@ -121,7 +122,7 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         return -1;
     }
 
-    std::string url = "http://zenphoton.com/#AAQAAkACAAEgfwAFAiUBWQENAQn/AAAA9AEKAHgCSP8AAACHAY4AxwCm/wAAARUAcQEjAJP/AAABNgDqATgAxf8AAA==";
+    std::string url = "file:///E:/Desktop/BeyondLight/Git/BeyondLight/client/html/header.html";
     web_core = g_web_core_manager.createBrowser(url);
     web_core.lock()->reshape(width, height);
 
@@ -173,8 +174,19 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
             0, 3, 2,
     };
 
-    while (!glfwWindowShouldClose( window ) )
-    {
+    double lastTime = glfwGetTime();
+    int nbFrames = 0;
+
+    while (!glfwWindowShouldClose( window ) ) {
+        double currentTime = glfwGetTime();
+        nbFrames++;
+        if ((currentTime - lastTime) >= 1.0) { // If last prinf() was more
+            // than 1 sec ago
+            // printf and reset timer
+            printf("%f ms/frame\n", 1000.0/double(nbFrames));
+            nbFrames = 0;
+            lastTime += 1.0;
+        }
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glUseProgram(prog);

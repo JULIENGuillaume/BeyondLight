@@ -66,14 +66,14 @@ WebCore::WebCore(const std::string &url)
 	render_handler_ = new RenderHandler();
 	render_handler_->init();
 	// initial size
-	render_handler_->resize(128, 128);
+	render_handler_->resize(256, 256);
 
 	CefWindowInfo window_info;
 	HWND hwnd = GetConsoleWindow();
 	window_info.SetAsWindowless(hwnd);
 
 	CefBrowserSettings browserSettings;
-	// browserSettings.windowless_frame_rate = 60; // 30 is default
+	browserSettings.windowless_frame_rate = 60; // 30 is default
 	client_ = new BrowserClient(render_handler_);
 
 	browser_ = CefBrowserHost::CreateBrowserSync(window_info, client_.get(), url, browserSettings, nullptr);
