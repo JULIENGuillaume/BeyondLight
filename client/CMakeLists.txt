@@ -107,7 +107,7 @@ include_directories(${CEF_ROOT}
 # Display configuration settings.
 PRINT_CEF_CONFIG()
 
-add_executable(CEFOffScreen WIN32
+add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
         browser_client.h
         browser_client.cpp
         gl_core.cpp
