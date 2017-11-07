@@ -11,12 +11,7 @@
 #include <SocketFactory.hh>
 #include "BeyondLightServer.hh"
 
-network::server::BeyondLightServer::BeyondLightServer(unsigned short port) : AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port) {
+network::server::BeyondLightServer::BeyondLightServer()
+		: AServer(socket::serverKeyUdpSslAsyncBoostSocket) {
 
-}
-
-void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socket::ISocket> socket) {
-	std::cout << "Main loop reached" << std::endl;
-	socket->send("Hello wolrd! ");
-	std::cout << "End of server" << std::endl;
 }

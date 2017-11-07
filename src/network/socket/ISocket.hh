@@ -16,15 +16,19 @@ namespace network {
 
 		public:
 			virtual bool connect(std::string const &address, unsigned short port) = 0;
-			virtual bool openConnection(unsigned short port) = 0;
 
 		public:
 			virtual void send(char const* msg) = 0;
 			virtual void send(std::string const& msg) = 0;
+			virtual void wsend(std::u16string const& msg) = 0;
 
 		public:
 			virtual char* receive(char *buf, size_t bufSize) = 0;
 			virtual std::string receive() = 0;
+			virtual std::u16string wreceive() = 0;
+
+		public:
+			virtual std::u16string toWstring(const std::string &str) = 0;
 
 		public:
 			virtual void setAutoDataEncrypt(bool encrypt) = 0;

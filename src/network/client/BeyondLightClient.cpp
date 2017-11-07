@@ -11,9 +11,4 @@
 #include "SocketFactory.hh"
 #include "BeyondLightClient.hh"
 
-network::client::BeyondLightClient::BeyondLightClient() : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket) {}
-
-void network::client::BeyondLightClient::mainLoop() {
-	std::cout << "Client is in the main loop" << std::endl;
-	std::cout << this->m_socket->receive() << std::endl;
-}
+network::client::BeyondLightClient::BeyondLightClient() : AClient(socket::clientKeyUdpSslAsyncBoostSocket) {}

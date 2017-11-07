@@ -5,8 +5,6 @@
 #ifndef KEYLOGGER_ISERVER_HH
 #define KEYLOGGER_ISERVER_HH
 
-#include "ISocket.hh"
-
 namespace network {
 	namespace server {
 		class IServer {

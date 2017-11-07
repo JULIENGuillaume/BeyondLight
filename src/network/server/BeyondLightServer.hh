@@ -11,15 +11,13 @@
 #ifndef BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 #define BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 
-#include "AServerUdp.hh"
+#include "AServer.hh"
 
 namespace network {
 	namespace server {
-		class BeyondLightServer : public AServerUdp {
+		class BeyondLightServer : public AServer {
 		public:
-			BeyondLightServer(unsigned short port);
-		protected:
-			void mainLoop(std::shared_ptr<socket::ISocket> socket) override;
+			BeyondLightServer();
 		};
 	}
 }
