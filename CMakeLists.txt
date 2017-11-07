@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.9)
 project(BeyondLight)
 
+##
+##  CMake initialization, with flags and cpp standard version
+##
+
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
@@ -9,24 +13,51 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -Og")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
 
+##
+##  BOOST setup
+##
+
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
 find_package(Boost COMPONENTS REQUIRED chrono system regex filesystem date_time)
 
+##
+##  Set path to source directories
+##
+
 set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
+set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
 
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp src/network/server/Server.cpp src/network/server/Server.hh)
-set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp)
+##
+##  Compile network
+##
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC})
+set(NETWORK_SOCKET_SRC ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp)
+set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC_DIR}/AServer.cpp src/network/server/BeyondLightServer.cpp src/network/server/BeyondLightServer.hh)
+set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC_DIR}/AClient.cpp src/network/client/BeyondLightClient.cpp src/network/client/BeyondLightClient.hh)
 
-target_include_directories(BeyondLightServer PRIVATE ${BOOST_INCLUDE_DIRS})
-target_include_directories(BeyondLightClient PRIVATE ${BOOST_INCLUDE_DIRS})
-target_link_libraries(BeyondLightServer ${Boost_LIBRARIES})
-target_link_libraries(BeyondLightClient ${Boost_LIBRARIES})
+set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
+        ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server)
+
+add_executable(BeyondLightServer ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC})
+add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC})
+
+target_include_directories(BeyondLightServer PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
+target_include_directories(BeyondLightClient PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
+
+IF (UNIX)
+    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
+ELSEIF (WIN32)
+    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES})
+    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES})
+ENDIF (UNIX)
+
+##
+##  Compile the test environment with Google test, optionnal
+##
 
 find_package(GTest)
 IF (GTEST_FOUND)
