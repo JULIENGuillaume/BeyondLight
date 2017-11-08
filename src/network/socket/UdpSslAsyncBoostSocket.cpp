@@ -86,3 +86,7 @@ std::shared_ptr<network::socket::ISocket> network::socket::UdpSslAsyncBoostSocke
 boost::asio::ip::udp::endpoint network::socket::UdpSslAsyncBoostSocket::getLastSenderEndpoint() {
 	return m_lastSenderEndpoint;
 }
+
+void network::socket::UdpSslAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
+	m_targetEndpoint = endpoint;
+}

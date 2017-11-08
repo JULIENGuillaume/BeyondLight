@@ -16,5 +16,4 @@ network::client::BeyondLightClient::BeyondLightClient() : AClientUdp(socket::cli
 void network::client::BeyondLightClient::mainLoop() {
 	std::cout << "Client is in the main loop" << std::endl;
 	std::cout << this->m_socket->receive() << std::endl;
-	std::cout << this->m_socket->receive() << std::endl;
 }
