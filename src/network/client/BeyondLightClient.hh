@@ -11,13 +11,15 @@
 #ifndef BEYONDLIGHT_BEYONDLIGHTCLIENT_HH
 #define BEYONDLIGHT_BEYONDLIGHTCLIENT_HH
 
-#include "AClient.hh"
+#include "AClientUdp.hh"
 
 namespace network {
 	namespace client {
-		class BeyondLightClient : public AClient {
+		class BeyondLightClient : public AClientUdp {
 		public:
 			BeyondLightClient();
+		protected:
+			void mainLoop() override;
 		};
 	}
 }
