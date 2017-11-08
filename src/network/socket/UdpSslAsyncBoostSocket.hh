@@ -32,6 +32,7 @@ namespace network {
 			void setAutoDataDecrypt(bool decrypt) override;
 			bool openConnection(unsigned short port) override;
 			boost::asio::ip::udp::endpoint getLastSenderEndpoint();
+			void updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint);
 
 		private:
 			bool m_connected = false;
