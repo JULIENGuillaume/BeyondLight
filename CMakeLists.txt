@@ -35,8 +35,8 @@ set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
 ##
 
 set(NETWORK_SOCKET_SRC ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp)
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC_DIR}/AServer.cpp src/network/server/BeyondLightServer.cpp src/network/server/BeyondLightServer.hh)
-set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC_DIR}/AClient.cpp src/network/client/BeyondLightClient.cpp src/network/client/BeyondLightClient.hh)
+set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp src/network/server/BeyondLightServer.cpp src/network/server/BeyondLightServer.hh)
+set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp src/network/client/BeyondLightClient.cpp src/network/client/BeyondLightClient.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
         ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server)

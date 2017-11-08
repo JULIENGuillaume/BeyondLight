@@ -11,10 +11,10 @@
 
 namespace network {
 	namespace client {
-		class AClient : public IClient {
+		class AClientUdp : public IClient {
 		public:
-			explicit AClient(const std::string &factoryKey);
-			~AClient() override = default;
+			explicit AClientUdp(const std::string &factoryKey);
+			~AClientUdp() override = default;
 
 		public:
 			bool connectTo(const std::string &address, unsigned short port) override;

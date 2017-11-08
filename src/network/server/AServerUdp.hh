@@ -13,10 +13,10 @@
 
 namespace network {
 	namespace server {
-		class AServer : public IServer {
+		class AServerUdp : public IServer {
 		public:
-			explicit AServer(std::string const &factoryKey);
-			~AServer() override = default;
+			explicit AServerUdp(std::string const &factoryKey, unsigned short port);
+			~AServerUdp() override = default;
 
 		public:
 			void run() override;
@@ -25,6 +25,8 @@ namespace network {
 
 		private:
 			std::string const m_factoryKey;
+			unsigned short m_port;
+
 		private:
 			std::vector<std::thread> m_clients;
 			bool running = false;
