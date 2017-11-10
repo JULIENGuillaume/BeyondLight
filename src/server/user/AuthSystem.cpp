@@ -19,16 +19,8 @@ server::user::AuthSystem::~AuthSystem() {
 
 }
 
-bool server::user::AuthSystem::tryToAuthenticate() {
-	const std::string realLogin = "root";
-	const std::string realPassword = "bite";
-
-	std::string login;
-	std::string password;
-
-	m_clientSocket->send("");
-
-	return login == realLogin && password == realPassword;
+bool server::user::AuthSystem::tryToAuthenticate(std::string login) {
+	return false;
 }
 
 void server::user::AuthSystem::setClientSocket(std::shared_ptr<network::socket::ISocket> &clientSocket) {
