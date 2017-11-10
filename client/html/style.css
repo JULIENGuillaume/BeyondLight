@@ -41,6 +41,17 @@ body {
     background-color:rgba(17, 33, 90, 0.7);
 }
 
+.game-menu-content {
+    position: relative;
+    display: inline-block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    left: 14%;
+    top: 8.9595%;
+    width: 68.0%;
+    max-height: 88.5%;
+}
+
 .game-main {
     width: 48.9062%;
     margin-left: 1.3541%;
@@ -54,6 +65,7 @@ body {
     padding-left: 2.7083%;
     padding-right: 2.7083%;
     color: aliceblue;
+    word-wrap: break-word;
 }
 
 .game-header-res {
@@ -137,4 +149,55 @@ body {
     line-height: 16px;
     margin: 0 0 24px;
     text-align: left;
+}
+
+.vertical-menu {
+    text-align: left;
+    font-family: Raleway;
+    width: 100%; /* Set a width if you like */
+}
+
+.vertical-menu a {
+    color: white; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    text-decoration: none; /* Remove underline from links */
+    transition: 0.3s ease;
+    border-left: solid #00000000 4px;
+    padding: 10px 0;
+    padding-left: 10%;
+    border-bottom: 1px solid #0a5586;
+}
+
+.vertical-menu a:hover {
+    background-color: #42edf818; /* Dark grey background on mouse-over */
+    border-left: 4px solid #ffffff;
+}
+
+.vertical-menu a.active {
+    color: white;
+    background-color: #42edf822; /* Dark grey background on mouse-over */
+    border-left: 4px solid #40e4f0;
+}
+
+.game-main-title {
+    background-image: url(title.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: block;
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    margin-top: 0.8333%;
+}
+
+.game-main-title-text {
+    color: white;
+    font-family: Lato;
+    font-size: 200%;
+    margin-right: 20.5%;
+    margin-bottom: 4px;
+    padding-left: 1.7083%;
+    border-left: 4px solid #40e4f0;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
 }
