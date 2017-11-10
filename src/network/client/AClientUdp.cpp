@@ -23,6 +23,4 @@ bool network::client::AClientUdp::connectTo(const std::string &address, unsigned
 	return true;
 }
 
-void network::client::AClientUdp::disconnect() {
-
-}
+void network::client::AClientUdp::disconnect() {}

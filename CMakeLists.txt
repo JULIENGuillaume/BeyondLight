@@ -29,20 +29,34 @@ set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
+set(USER_SRC_DIR "${SRC_BASE_DIR}/server/user")
+set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 
 ##
-##  Compile network
+##  Common sources
+##
+
+set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh)
+
+##
+##  Network sources
 ##
 
 set(NETWORK_SOCKET_SRC ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp)
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp src/network/server/BeyondLightServer.cpp src/network/server/BeyondLightServer.hh)
-set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp src/network/client/BeyondLightClient.cpp src/network/client/BeyondLightClient.hh)
+set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh)
+set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
         ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server)
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC})
+##
+##  User sources
+##
+
+set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh)
+
+add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
+add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
@@ -62,13 +76,13 @@ ENDIF (UNIX)
 find_package(GTest)
 IF (GTEST_FOUND)
     message("-- Google test has been found, setting up test environment")
-    set(UNIT_TEST_SRCS test/unittest.cpp)
-    add_executable(TestSuit ${UNIT_TEST_SRCS})
+    set(UNIT_TEST_SRCS test/unittest.cpp  ${NETWORK_SERVER_SRC} ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC})
+    add_executable(TestSuit ${UNIT_TEST_SRCS} ${COMMON_SRC})
 
-    target_include_directories(TestSuit PRIVATE ${GTEST_INCLUDE_DIRS})
+    target_include_directories(TestSuit PRIVATE ${GTEST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
     IF (UNIX)
-        target_link_libraries(TestSuit ${GTEST_BOTH_LIBRARIES} pthread)
+        target_link_libraries(TestSuit ${Boost_LIBRARIES} ${GTEST_BOTH_LIBRARIES} pthread)
     ELSEIF (WIN32)
-        target_link_libraries(TestSuit ${GTEST_BOTH_LIBRARIES})
+        target_link_libraries(TestSuit ${Boost_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
     ENDIF (UNIX)
 ENDIF (GTEST_FOUND)
