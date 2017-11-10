@@ -8,7 +8,38 @@
 ** Last update Thu Oct 26 16:03:23 2017 Guillaume Julien
 */
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+#include <thread>
+#include <UdpSslAsyncBoostSocket.hh>
+#include <SocketFactory.hh>
+#include "../src/network/server/BeyondLightServer.hh"
+#include "../src/network/client/BeyondLightClient.hh"
+
+void FactoriesInit() {
+	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<network::socket::ISocket>(
+			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+
+	network::socket::SocketFactory::getInstance()->registerModel(network::socket::clientKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<network::socket::ISocket>(
+			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+}
+
+void serverLaunch() {
+	network::server::BeyondLightServer server(4242);
+	server.run();
+}
+
+TEST(Network, ClientServerConnection) {
+	FactoriesInit();
+	std::thread thread(&serverLaunch);
+	thread.detach();
+
+	sleep(1);
+	network::client::BeyondLightClient client;
+	ASSERT_TRUE(client.connectTo("127.0.0.1", 4242));
+	client.disconnect();
+}
 
 TEST(SimpleAdd, Diff) {
 	EXPECT_NE(1, 0 + 2);
