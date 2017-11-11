@@ -7,11 +7,13 @@ project(BeyondLight)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(${MINGW})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
                                         -Wcast-align -Wswitch-enum -Wconversion -Wunreachable-code \
                                         -Wwrite-strings -fstack-check -pipe -ftrapv --std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -Og")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
+endif()
 
 ##
 ##  BOOST setup
