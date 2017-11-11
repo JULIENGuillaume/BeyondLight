@@ -8,7 +8,6 @@
 #include <memory>
 #include <vector>
 #include <thread>
-#include <mingw.thread.h>
 #include "ISocket.hh"
 #include "IServer.hh"
 
