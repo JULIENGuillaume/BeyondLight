@@ -22,7 +22,7 @@ namespace server {
 			virtual ~AuthSystem();
 
 		public:
-			bool tryToAuthenticate(std::string login);
+			bool tryToAuthenticate();
 			void setClientSocket(std::shared_ptr<network::socket::ISocket> &clientSocket);
 
 		private:

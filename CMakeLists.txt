@@ -19,7 +19,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
-find_package(Boost COMPONENTS REQUIRED chrono system regex filesystem date_time)
+set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
+find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 
 ##
 ##  Set path to source directories
@@ -53,20 +54,20 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 ##  User sources
 ##
 
-set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh)
+set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
 
-target_include_directories(BeyondLightServer PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
-target_include_directories(BeyondLightClient PRIVATE ${BOOST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
+target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
+target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
 
 IF (UNIX)
     target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
     target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
-ELSEIF (WIN32)
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES})
-    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES})
+ELSE ()
+  target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
+  target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32)
 ENDIF (UNIX)
 
 ##

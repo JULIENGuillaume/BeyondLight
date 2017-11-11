@@ -11,6 +11,7 @@
 #include <iostream>
 #include <boost/bind.hpp>
 #include <boost/array.hpp>
+#include <utility>
 #include "UdpSslAsyncBoostSocket.hh"
 
 network::socket::UdpSslAsyncBoostSocket::UdpSslAsyncBoostSocket() : m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
@@ -26,7 +27,7 @@ bool network::socket::UdpSslAsyncBoostSocket::connect(std::string const &address
 		m_targetEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(address), port);
 		boost::array<char, 1> send_buf = {0};
 		m_socket->send_to(boost::asio::buffer(send_buf), m_targetEndpoint);
-	} catch (boost::system::system_error e) {
+	} catch (boost::system::system_error &e) {
 		std::cerr << "Can't connect: " << e.what() << std::endl;
 		return false;
 	}
@@ -40,7 +41,7 @@ bool network::socket::UdpSslAsyncBoostSocket::openConnection(unsigned short port
 		}
 		m_socket->open(boost::asio::ip::udp::v4());
 		m_socket->bind(boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port));
-	} catch (boost::system::system_error e) {
+	} catch (boost::system::system_error &e) {
 		std::cerr << "Can't open connection: " << e.what() << std::endl;
 		return false;
 	}
@@ -62,7 +63,7 @@ char *network::socket::UdpSslAsyncBoostSocket::receive(char *buf, size_t bufSize
 }
 
 std::string network::socket::UdpSslAsyncBoostSocket::receive() {
-	boost::array<char, m_bufferSize> recv_buf;
+	boost::array<char, m_bufferSize> recv_buf{};
 	boost::asio::ip::udp::endpoint sender_endpoint;
 	m_socket->receive_from(boost::asio::buffer(recv_buf), m_lastSenderEndpoint, 0);
 	return std::string(recv_buf.data());
@@ -88,5 +89,5 @@ boost::asio::ip::udp::endpoint network::socket::UdpSslAsyncBoostSocket::getLastS
 }
 
 void network::socket::UdpSslAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
-	m_targetEndpoint = endpoint;
+	m_targetEndpoint = std::move(endpoint);
 }
