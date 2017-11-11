@@ -6,10 +6,6 @@
 #include "UdpSslAsyncBoostSocket.hh"
 
 void FactoriesInit() {
-	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,
-	                                                             std::shared_ptr<network::socket::ISocket>(
-			                                                             new network::socket::UdpSslAsyncBoostSocket()));
-
 	network::socket::SocketFactory::getInstance()->registerModel(network::socket::clientKeyUdpSslAsyncBoostSocket,
 	                                                             std::shared_ptr<network::socket::ISocket>(
 			                                                             new network::socket::UdpSslAsyncBoostSocket()));
@@ -18,7 +14,14 @@ void FactoriesInit() {
 int main() {
 	FactoriesInit();
 
-	std::shared_ptr<network::client::IClient> client(new network::client::BeyondLightClient());
-	client->connectTo("0.0.0.0", 8080);
+	try {
+		std::shared_ptr<network::client::IClient> client(new network::client::BeyondLightClient());
+		client->connectTo("127.0.0.1", 8080);
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+
 	return 0;
 }

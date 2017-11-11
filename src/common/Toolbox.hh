@@ -11,8 +11,6 @@
 #ifndef BEYONDLIGHT_TOOLBOX_HH
 #define BEYONDLIGHT_TOOLBOX_HH
 
-#include <bits/shared_ptr.h>
-
 namespace common {
 	class Toolbox {
 
