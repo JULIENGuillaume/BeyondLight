@@ -5,6 +5,7 @@
 #include "SocketFactory.hh"
 #include "UdpSslAsyncBoostSocket.hh"
 
+
 void FactoriesInit() {
 	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,
 	                                                             std::shared_ptr<network::socket::ISocket>(
@@ -14,8 +15,12 @@ void FactoriesInit() {
 int main() {
 	FactoriesInit();
 
-	std::shared_ptr<network::server::IServer> server(new network::server::BeyondLightServer(8080));
-	server->run();
-	std::cout << "Hello, World!" << std::endl;
+	try {
+		std::shared_ptr<network::server::IServer> server(new network::server::BeyondLightServer(8080));
+		server->run();
+	} catch (std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 	return 0;
 }

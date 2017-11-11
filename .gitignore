@@ -24,37 +24,15 @@
 *.lai
 *.la
 *.a
-#*.lib
+*.lib
 
 # Executables
 *.exe
 *.out
 *.app
 
-#cmake-build*/
+**/cmake-build*/
 .idea/
-/client/cmake-build-debug/CEFOffScreen.cbp
-client/cmake-build-debug/CMakeFiles/3.9.4/CompilerIdC/tmp/
-client/cmake-build-debug/CMakeFiles/3.9.4/CompilerIdCXX/tmp/
-client/cmake-build-debug/CMakeFiles/CMakeTmp/
-client/cmake-build-release/.vs/
-client/cmake-build-release/CMakeFiles/3.9.4/CompilerIdC/tmp/
-client/cmake-build-release/CMakeFiles/3.9.4/CompilerIdCXX/tmp/
-client/cmake-build-release/CMakeFiles/CMakeTmp/
-cmake-build-debug/CMakeCache.txt
-cmake-build-debug/CMakeFiles/3.9.4/CMakeDetermineCompilerABI_C.bin
-cmake-build-debug/CMakeFiles/3.9.4/CMakeDetermineCompilerABI_CXX.bin
-cmake-build-debug/CMakeFiles/3.9.4/CompilerIdC/CMakeCCompilerId.c
-cmake-build-debug/CMakeFiles/3.9.4/CompilerIdC/tmp/
-cmake-build-debug/CMakeFiles/3.9.4/CompilerIdCXX/CMakeCXXCompilerId.cpp
-cmake-build-debug/CMakeFiles/3.9.4/CompilerIdCXX/tmp/
-cmake-build-debug/CMakeFiles/CMakeOutput.log
-cmake-build-debug/CMakeFiles/CMakeTmp/
-cmake-build-debug/CMakeFiles/clion-environment.txt
-cmake-build-debug/CMakeFiles/clion-log.txt
-cmake-build-debug/CMakeFiles/cmake.check_cache
-cmake-build-debug/CMakeFiles/feature_tests.bin
-cmake-build-debug/CMakeFiles/feature_tests.cxx
 *.make
 *.cbp
 *.includecache

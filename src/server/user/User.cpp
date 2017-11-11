@@ -10,4 +10,4 @@
 
 #include "User.hh"
 
-server::user::User::User(unsigned long m_id, const std::string &m_login) : m_id(m_id), m_login(m_login) {}
+server::user::User::User(unsigned long id, const std::string &login) : m_id(id), m_login(login) {}
