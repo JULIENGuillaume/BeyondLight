@@ -146,19 +146,17 @@ void MainHandler::onKeyEvent(GLFWwindow *window, int key, int scancode, int acti
 }
 
 void MainHandler::onMouseEvent(GLFWwindow *window, int btn, int state, int mods) {
-    int mouse_up = (GLFW_RELEASE == state);
-
     std::map<int, CefBrowserHost::MouseButtonType> btn_type_map; // todo improve
     btn_type_map[GLFW_MOUSE_BUTTON_LEFT] = MBT_LEFT;
     btn_type_map[GLFW_MOUSE_BUTTON_MIDDLE] = MBT_MIDDLE;
     btn_type_map[GLFW_MOUSE_BUTTON_RIGHT] = MBT_RIGHT;
     CefBrowserHost::MouseButtonType btn_type = btn_type_map[btn];
 
-    this->_webCore.lock()->mouseClick(btn_type, mouse_up);
+    this->_webCore.lock()->mouseClick(btn_type, (GLFW_RELEASE == state), mods);
 }
 
 void MainHandler::onCursorMotion(GLFWwindow *window, double x, double y) {
-    this->_webCore.lock()->mouseMove(static_cast<int>(x), static_cast<int>(y));
+    this->_webCore.lock()->mouseMove(x, y, 1);
 }
 
 void MainHandler::onWinResize(GLFWwindow *window, int w, int h) {
@@ -170,4 +168,15 @@ void MainHandler::onWinResize(GLFWwindow *window, int w, int h) {
 void MainHandler::onCharEvent(GLFWwindow *window, unsigned int codepoint) {
     if (this->_isInput)
         this->_webCore.lock()->charPress(codepoint);
+}
+
+void MainHandler::onScroll(GLFWwindow *window, double x, double y) {
+    this->_webCore.lock()->mouseScroll(x, y);
+}
+
+void MainHandler::onCursorEnter(GLFWwindow *window, int entered) {
+    double x = 0;
+    double y = 0;
+    glfwGetCursorPos(window, &x, &y);
+    this->_webCore.lock()->mouseMove(x, y, entered);
 }

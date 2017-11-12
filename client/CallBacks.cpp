@@ -36,3 +36,13 @@ void CallBacks::onCharEvent(GLFWwindow *window, unsigned int codepoint) {
     static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onCharEvent
             (window, codepoint);
 }
+
+void CallBacks::onScroll(GLFWwindow *window, double xoffset, double yoffset) {
+    static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onScroll
+            (window, xoffset, yoffset);
+}
+
+void CallBacks::onCursorEnter(GLFWwindow *window, int entered) {
+    static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onCursorEnter
+            (window, entered);
+}

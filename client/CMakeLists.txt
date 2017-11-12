@@ -116,6 +116,6 @@ add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
         RenderHandler.hh
         RenderHandler.cpp
         WebCore.cpp
-        WebCore.hh CallBacks.cpp CallBacks.hh GlfwHandler.cpp GlfwHandler.hh MainHandler.cpp MainHandler.hh WebCoreManager.cpp WebCoreManager.hh KeyHandler.cpp KeyHandler.hh App.cpp App.hh)
+        WebCore.hh CallBacks.cpp CallBacks.hh GlfwHandler.cpp GlfwHandler.hh MainHandler.cpp MainHandler.hh WebCoreManager.cpp WebCoreManager.hh KeyHandler.cpp KeyHandler.hh)
 
 target_link_libraries(CEFOffScreen libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
