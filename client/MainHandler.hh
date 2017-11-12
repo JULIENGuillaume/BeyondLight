@@ -35,7 +35,9 @@ public:
     void onMouseEvent(GLFWwindow* window, int btn, int state, int mods);
     void onCursorMotion(GLFWwindow* window, double x, double y);
     void onWinResize(GLFWwindow* window, int w, int h);
+    void onScroll(GLFWwindow* window, double x, double y);
 
+    void onCursorEnter(GLFWwindow *pWwindow, int i);
 };
 
 

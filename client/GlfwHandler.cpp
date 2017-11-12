@@ -35,6 +35,7 @@ void GlfwHandler::setupGlfw() {
     glfwSetCursorPosCallback(this->_win, CallBacks::onCursorMotion);
     glfwSetMouseButtonCallback(this->_win, CallBacks::onMouseEvent);
     glfwSetFramebufferSizeCallback(this->_win, CallBacks::onWinResize);
+    glfwSetScrollCallback(this->_win, CallBacks::onScroll);
 }
 
 GlfwHandler::GlfwHandler() {

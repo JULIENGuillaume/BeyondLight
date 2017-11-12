@@ -10,6 +10,7 @@ class WebCore {
 private:
     int _mouseX;
     int _mouseY;
+    int _curMouseMod;
 
     CefRefPtr<CefBrowser> _browser;
     CefRefPtr<BrowserClient> _client;
@@ -21,9 +22,10 @@ public:
 
 	void reshape(int w, int h);
 
-	void mouseMove(double x, int y);
-	void mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up);
+	void mouseMove(double x, double y, int entered);
+	void mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up, int mods);
 	void keyPress(int key, int scancode, int action, int mods);
+	void mouseScroll(int x, int y);
 
 	RenderHandler* getRenderHandler() const;
 

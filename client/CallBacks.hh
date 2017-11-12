@@ -16,6 +16,8 @@ public:
     static void onCursorMotion(GLFWwindow* window, double x, double y);
     static void onWinResize(GLFWwindow* window, int w, int h);
     static void onCharEvent(GLFWwindow *window, unsigned int codepoint);
+    static void onScroll(GLFWwindow* window, double xoffset, double yoffset);
+    static void onCursorEnter(GLFWwindow* window, int entered);
 };
 
 
