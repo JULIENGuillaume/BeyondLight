@@ -90,7 +90,7 @@ endif()
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /Gy /Zi /EHsc")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
 endif(MSVC)
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -108,14 +108,14 @@ include_directories(${CEF_ROOT}
 PRINT_CEF_CONFIG()
 
 add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
-        browser_client.h
-        browser_client.cpp
-        gl_core.cpp
-        gl_core.h
+        BrowserClient.hh
+        BrowserClient.cpp
+        GLCore.cpp
+        GLCore.hh
         main.cpp
-        render_handler.h
-        render_handler.cpp
-        web_core.cpp
-        web_core.h)
+        RenderHandler.hh
+        RenderHandler.cpp
+        WebCore.cpp
+        WebCore.hh CallBacks.cpp CallBacks.hh GlfwHandler.cpp GlfwHandler.hh MainHandler.cpp MainHandler.hh WebCoreManager.cpp WebCoreManager.hh KeyHandler.cpp KeyHandler.hh App.cpp App.hh)
 
 target_link_libraries(CEFOffScreen libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
