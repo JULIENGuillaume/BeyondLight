@@ -122,6 +122,8 @@ void WebCore::keyPress(int key, int scancode, int action, int mods)
 {
     CefKeyEvent event;
 
+    CefRefPtr<CefFrame> frame = this->_browser->GetMainFrame(); // todo remove test
+    frame->ExecuteJavaScript("i = 0;", frame->GetURL(), 0);
     unsigned int nativeKey = 0;
     if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
         nativeKey = VK_BACK;

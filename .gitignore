@@ -60,3 +60,5 @@ cmake-build-debug/CMakeFiles/feature_tests.cxx
 *.includecache
 *.cmake
 *.pdb
+*.marks
+*.rsp
