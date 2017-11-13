@@ -58,64 +58,64 @@ include CMakeFiles\CEFOffScreen.dir\progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles\CEFOffScreen.dir\flags.make
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj: ..\browser_client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CEFOffScreen.dir/browser_client.cpp.obj"
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj: ..\BrowserClient.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CEFOffScreen.dir/BrowserClient.cpp.obj"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\browser_client.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\BrowserClient.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/browser_client.cpp.i"
-	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\browser_client.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\browser_client.cpp
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/BrowserClient.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\BrowserClient.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/browser_client.cpp.s"
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/BrowserClient.cpp.s"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\browser_client.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\browser_client.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\BrowserClient.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.requires:
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.requires:
 
-.PHONY : CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.requires
+.PHONY : CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.requires
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.provides.build
-.PHONY : CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.provides
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.provides
 
-CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj
+CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj
 
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj: ..\gl_core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CEFOffScreen.dir/gl_core.cpp.obj"
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj: ..\GLCore.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CEFOffScreen.dir/GLCore.cpp.obj"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\gl_core.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\GLCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/gl_core.cpp.i"
-	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\gl_core.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\gl_core.cpp
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/GLCore.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\GLCore.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\GLCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/gl_core.cpp.s"
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/GLCore.cpp.s"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\gl_core.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\gl_core.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\GLCore.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\GLCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.requires:
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.requires:
 
-.PHONY : CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.requires
+.PHONY : CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.requires
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.provides.build
-.PHONY : CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.provides
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.provides
 
-CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj
+CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj
 
 
 CMakeFiles\CEFOffScreen.dir\main.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
@@ -148,88 +148,248 @@ CMakeFiles\CEFOffScreen.dir\main.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\m
 CMakeFiles\CEFOffScreen.dir\main.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\main.cpp.obj
 
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj: ..\render_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CEFOffScreen.dir/render_handler.cpp.obj"
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj: ..\RenderHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CEFOffScreen.dir/RenderHandler.cpp.obj"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\render_handler.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\RenderHandler.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/render_handler.cpp.i"
-	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\render_handler.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\render_handler.cpp
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/RenderHandler.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\RenderHandler.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/render_handler.cpp.s"
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/RenderHandler.cpp.s"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\render_handler.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\render_handler.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\RenderHandler.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.requires:
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.requires:
 
-.PHONY : CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.requires
+.PHONY : CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.requires
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.provides.build
-.PHONY : CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.provides
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.provides
 
-CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj
+CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj
 
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj: ..\web_core.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CEFOffScreen.dir/web_core.cpp.obj"
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj: ..\WebCore.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CEFOffScreen.dir/WebCore.cpp.obj"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\web_core.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\web_core.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/web_core.cpp.i"
-	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\web_core.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\web_core.cpp
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/WebCore.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\WebCore.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/web_core.cpp.s"
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/WebCore.cpp.s"
 	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\web_core.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\web_core.cpp
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\WebCore.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCore.cpp
 <<
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.requires:
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.requires:
 
-.PHONY : CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.requires
+.PHONY : CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.requires
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.requires
-	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.provides.build
-.PHONY : CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.provides
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.provides
 
-CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj
+CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj
+
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj: ..\CallBacks.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CEFOffScreen.dir/CallBacks.cpp.obj"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\CallBacks.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/CallBacks.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\CallBacks.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/CallBacks.cpp.s"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\CallBacks.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\CallBacks.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.requires:
+
+.PHONY : CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.requires
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.provides
+
+CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj
+
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj: ..\GlfwHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CEFOffScreen.dir/GlfwHandler.cpp.obj"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\GlfwHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/GlfwHandler.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\GlfwHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/GlfwHandler.cpp.s"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\GlfwHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.requires:
+
+.PHONY : CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.requires
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.provides
+
+CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj
+
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj: ..\MainHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CEFOffScreen.dir/MainHandler.cpp.obj"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\MainHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/MainHandler.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\MainHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/MainHandler.cpp.s"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\MainHandler.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\MainHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.requires:
+
+.PHONY : CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.requires
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.provides
+
+CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj
+
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj: ..\WebCoreManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CEFOffScreen.dir/WebCoreManager.cpp.obj"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCoreManager.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/WebCoreManager.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCoreManager.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/WebCoreManager.cpp.s"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\WebCoreManager.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.requires:
+
+.PHONY : CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.requires
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.provides
+
+CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj
+
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj: CMakeFiles\CEFOffScreen.dir\flags.make
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj: ..\KeyHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/CEFOffScreen.dir/KeyHandler.cpp.obj"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj /FdCMakeFiles\CEFOffScreen.dir\ /FS -c E:\Desktop\BeyondLight\Git\BeyondLight\client\KeyHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CEFOffScreen.dir/KeyHandler.cpp.i"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" > CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\Desktop\BeyondLight\Git\BeyondLight\client\KeyHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CEFOffScreen.dir/KeyHandler.cpp.s"
+	"E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\cl.exe" @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.s /c E:\Desktop\BeyondLight\Git\BeyondLight\client\KeyHandler.cpp
+<<
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.requires:
+
+.PHONY : CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.requires
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.provides: CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.requires
+	$(MAKE) -f CMakeFiles\CEFOffScreen.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.provides.build
+.PHONY : CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.provides
+
+CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.provides.build: CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj
 
 
 # Object files for target CEFOffScreen
 CEFOffScreen_OBJECTS = \
-"CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj" \
-"CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj" \
 "CMakeFiles\CEFOffScreen.dir\main.cpp.obj" \
-"CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj" \
-"CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj"
+"CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj" \
+"CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj"
 
 # External object files for target CEFOffScreen
 CEFOffScreen_EXTERNAL_OBJECTS =
 
-CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj
-CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj
 CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\main.cpp.obj
-CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj
-CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj
+CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj
 CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\build.make
 CEFOffScreen.exe: ..\lib\glfw\glfw3dll.lib
 CEFOffScreen.exe: CMakeFiles\CEFOffScreen.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable CEFOffScreen.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable CEFOffScreen.exe"
 	C:\Users\diguie_t\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\173.3415.24\bin\cmake\bin\cmake.exe -E vs_link_exe --intdir=CMakeFiles\CEFOffScreen.dir --manifests  -- "E:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Tools\MSVC\14.11.25503\bin\Hostx86\x86\link.exe" /nologo @CMakeFiles\CEFOffScreen.dir\objects1.rsp @<<
- /out:CEFOffScreen.exe /implib:CEFOffScreen.lib /pdb:E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CEFOffScreen.pdb /version:0.0  /machine:X86 /INCREMENTAL:NO /subsystem:windows  -LIBPATH:E:\Desktop\BeyondLight\Git\BeyondLight\client\lib\cef\Release  -LIBPATH:E:\Desktop\BeyondLight\Git\BeyondLight\client\lib\glew\lib\Release\Win32 libcef_dll_wrapper.lib libcef.lib opengl32.lib glew32.lib ..\lib\glfw\glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
+ /out:CEFOffScreen.exe /implib:CEFOffScreen.lib /pdb:E:\Desktop\BeyondLight\Git\BeyondLight\client\cmake-build-release\CEFOffScreen.pdb /version:0.0  /machine:X86 /INCREMENTAL:NO /subsystem:console  -LIBPATH:E:\Desktop\BeyondLight\Git\BeyondLight\client\lib\cef\Release  -LIBPATH:E:\Desktop\BeyondLight\Git\BeyondLight\client\lib\glew\lib\Release\Win32 libcef_dll_wrapper.lib libcef.lib opengl32.lib glew32.lib ..\lib\glfw\glfw3dll.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<
 
 # Rule to build all files generated by this target.
@@ -237,11 +397,16 @@ CMakeFiles\CEFOffScreen.dir\build: CEFOffScreen.exe
 
 .PHONY : CMakeFiles\CEFOffScreen.dir\build
 
-CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\browser_client.cpp.obj.requires
-CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\gl_core.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\BrowserClient.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\GLCore.cpp.obj.requires
 CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\main.cpp.obj.requires
-CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\render_handler.cpp.obj.requires
-CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\web_core.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\RenderHandler.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\WebCore.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\CallBacks.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\GlfwHandler.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\MainHandler.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\WebCoreManager.cpp.obj.requires
+CMakeFiles\CEFOffScreen.dir\requires: CMakeFiles\CEFOffScreen.dir\KeyHandler.cpp.obj.requires
 
 .PHONY : CMakeFiles\CEFOffScreen.dir\requires
 

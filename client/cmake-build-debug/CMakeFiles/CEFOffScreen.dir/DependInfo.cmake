@@ -4,11 +4,16 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "E:/Desktop/BeyondLight/Git/BeyondLight/client/browser_client.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/browser_client.cpp.obj"
-  "E:/Desktop/BeyondLight/Git/BeyondLight/client/gl_core.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/gl_core.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/BrowserClient.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/BrowserClient.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/CallBacks.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/CallBacks.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/GLCore.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/GLCore.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/GlfwHandler.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/GlfwHandler.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/KeyHandler.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/KeyHandler.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/MainHandler.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/MainHandler.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/RenderHandler.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/RenderHandler.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCore.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/WebCore.cpp.obj"
+  "E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCoreManager.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/WebCoreManager.cpp.obj"
   "E:/Desktop/BeyondLight/Git/BeyondLight/client/main.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/main.cpp.obj"
-  "E:/Desktop/BeyondLight/Git/BeyondLight/client/render_handler.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/render_handler.cpp.obj"
-  "E:/Desktop/BeyondLight/Git/BeyondLight/client/web_core.cpp" "E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CMakeFiles/CEFOffScreen.dir/web_core.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
 
