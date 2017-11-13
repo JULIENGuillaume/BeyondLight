@@ -21,7 +21,7 @@
 				<Option output="E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CEFOffScreen.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="0"/>
+				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add option="-DDEBUG"/>
@@ -51,7 +51,7 @@
 				<Option output="E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug/CEFOffScreen.exe" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="E:/Desktop/BeyondLight/Git/BeyondLight/client/cmake-build-debug"/>
 				<Option object_output="./"/>
-				<Option type="0"/>
+				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
 					<Add option="-DDEBUG"/>
@@ -98,31 +98,61 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/browser_client.cpp">
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/BrowserClient.cpp">
 			<Option target="CEFOffScreen"/>
 		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/browser_client.h">
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/BrowserClient.hh">
 			<Option target="CEFOffScreen"/>
 		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/gl_core.cpp">
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/CallBacks.cpp">
 			<Option target="CEFOffScreen"/>
 		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/gl_core.h">
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/CallBacks.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/GLCore.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/GLCore.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/GlfwHandler.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/GlfwHandler.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/KeyHandler.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/KeyHandler.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/MainHandler.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/MainHandler.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/RenderHandler.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/RenderHandler.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCore.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCore.hh">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCoreManager.cpp">
+			<Option target="CEFOffScreen"/>
+		</Unit>
+		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/WebCoreManager.hh">
 			<Option target="CEFOffScreen"/>
 		</Unit>
 		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/main.cpp">
-			<Option target="CEFOffScreen"/>
-		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/render_handler.cpp">
-			<Option target="CEFOffScreen"/>
-		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/render_handler.h">
-			<Option target="CEFOffScreen"/>
-		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/web_core.cpp">
-			<Option target="CEFOffScreen"/>
-		</Unit>
-		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/web_core.h">
 			<Option target="CEFOffScreen"/>
 		</Unit>
 		<Unit filename="E:/Desktop/BeyondLight/Git/BeyondLight/client/CMakeLists.txt">
