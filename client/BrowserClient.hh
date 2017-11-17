@@ -15,12 +15,6 @@ public:
 	BrowserClient(RenderHandler *renderHandler);
 	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 
-	bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent &event,
-					   MSG *os_event, bool *is_keyboard_shortcut) override;
-
-	bool OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent &event,
-					MSG *os_event) override;
-
 IMPLEMENT_REFCOUNTING(BrowserClient);
 };
 #endif //BROWSER_CLIENT_HH

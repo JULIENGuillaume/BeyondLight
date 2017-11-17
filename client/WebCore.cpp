@@ -10,24 +10,18 @@ WebCore::WebCore(const std::string &url)
 	: _mouseX(0), _mouseY(0)
 {
 	_renderHandler = new RenderHandler();
-	_renderHandler->init();
+	_renderHandler->Initialize();
 	// initial size
-	_renderHandler->resize(256, 256);
+	_renderHandler->resize(1280, 720);
     _curMouseMod = 0;
 
 	CefWindowInfo window_info;
 	HWND hwnd = GetConsoleWindow();
 	window_info.SetAsWindowless(hwnd);
 
-    /*cmds->AppendArgument("disable-gpu");
-    cmds->AppendArgument("enable-begin-frame-scheduling");
-    cmds->AppendArgument("disable-d3d11");*/
-    // https://peter.sh/experiments/chromium-command-line-switches/#winhttp-proxy-resolver
     CefBrowserSettings browserSettings;
-    //browserSettings.accelerated_compositing = STATE_DISABLED;
     browserSettings.webgl = STATE_DISABLED;
     browserSettings.plugins = STATE_DISABLED;
-    //browserSettings.java = STATE_DISABLED
     browserSettings.javascript_close_windows = STATE_DISABLED;
     browserSettings.javascript_access_clipboard = STATE_DISABLED;
     browserSettings.javascript_dom_paste = STATE_DISABLED;
@@ -35,7 +29,7 @@ WebCore::WebCore(const std::string &url)
     browserSettings.databases = STATE_DISABLED;
     browserSettings.universal_access_from_file_urls = STATE_DISABLED;
     browserSettings.web_security = STATE_ENABLED;
-	browserSettings.windowless_frame_rate = 30; // 30 is default
+	browserSettings.windowless_frame_rate = 25; // 30 is default
 	_client = new BrowserClient(_renderHandler);
 	_browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(), url, browserSettings, nullptr);
 }
@@ -95,7 +89,7 @@ void WebCore::mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up, int
         auto now = std::chrono::system_clock::now();
         double diff_ms = std::chrono::duration <double, std::milli> (now - before).count();
         before = now;
-        if(diff_ms > 10 && diff_ms < 200) {
+            if(diff_ms > 10 && diff_ms < 200) {
             ++count;
         } else {
             count = 1;
@@ -151,7 +145,7 @@ RenderHandler *WebCore::getRenderHandler() const {
 }
 
 void WebCore::mouseScroll(int x, int y) {
-    static const int scrollbarPixelsPerTick = 40;
+    static const int scrollbarPixelsPerTick = 50;
     CefMouseEvent mouseEvent;
 
     mouseEvent.modifiers = this->_curMouseMod;

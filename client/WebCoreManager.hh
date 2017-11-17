@@ -5,9 +5,10 @@
 #ifndef CEFOFFSCREEN_WEBCOREMANAGER_HH
 #define CEFOFFSCREEN_WEBCOREMANAGER_HH
 
+#include "include/cef_app.h"
 #include "WebCore.hh"
 
-class WebCoreManager {
+class WebCoreManager : public CefApp {
 private:
     std::vector<std::shared_ptr<WebCore>> _browsers;
 
@@ -22,6 +23,15 @@ public:
 
 	std::weak_ptr<WebCore> createBrowser(const std::string &url);
 	void removeBrowser(std::weak_ptr<WebCore> web_core);
+
+    void AddRef() const override;
+
+    bool Release() const override;
+
+    bool HasOneRef() const override;
+
+    void OnBeforeCommandLineProcessing(const CefString &process_type,
+                                       CefRefPtr<CefCommandLine> command_line) override;
 };
 
 

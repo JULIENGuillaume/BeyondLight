@@ -9,14 +9,12 @@
 #include "WebCoreManager.hh"
 #include "WebCore.hh"
 #include "GlfwHandler.hh"
-#include "GLCore.hh"
 
 class MainHandler {
 private:
     std::weak_ptr<WebCore> _webCore;
     WebCoreManager _webCoreManager;
     GlfwHandler _glfwHandler;
-    GLCore _glCore;
     bool _sizeUpdated;
     uint64 _frame;
     double _lastTickTime;
