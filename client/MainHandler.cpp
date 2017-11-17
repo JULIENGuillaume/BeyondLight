@@ -60,7 +60,6 @@ bool MainHandler::init() {
     this->_glfwHandler.setUserPointer(this);
 
     // init opengl & shader
-    this->_glCore.init(width, height);
 
     return false;
 }
@@ -94,31 +93,17 @@ bool MainHandler::startMainLoop() {
         }
 
         const double currentTime = glfwGetTime();
+        const double delta = currentTime - this->_lastTickTime;
         ++this->_frame;
-        if ((currentTime - this->_lastTickTime) >= 1.0) {
-            std::cout << std::to_string(1000.0 / this->_frame) << " ms/frame"
-                      << std::endl;
+        if (delta >= 1.0) {
+            /*std::cout << std::to_string(1000.0 / this->_frame) << " ms/frame"
+                      << std::endl;*/
             this->_frame = 0;
             this->_lastTickTime += 1.0;
         }
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glUseProgram(this->_glCore.getProg());
-
-        glm::mat4 mvp = glm::ortho(-1, 1, -1, 1);
-        glUniformMatrix4fv(this->_glCore.getMvpLoc(), 1, GL_FALSE, glm::value_ptr(mvp));
-
-        glEnableVertexAttribArray(this->_glCore.getPosLoc());
-        glEnableVertexAttribArray(this->_glCore.getTexcoordLoc());
-
-        // bind texture
-        glBindTexture(GL_TEXTURE_2D,
-                      this->_webCore.lock()->getRenderHandler()->getTex());
-
-        // draw
-        glVertexAttribPointer(this->_glCore.getPosLoc(), 3, GL_FLOAT, GL_FALSE, 0, this->_glCore.getVertices());
-        glVertexAttribPointer(this->_glCore.getTexcoordLoc(), 2, GL_FLOAT, GL_FALSE, 0, this->_glCore.getTexCoords());
-        glDrawElements(GL_TRIANGLES, this->_glCore.getNbIndices(), GL_UNSIGNED_SHORT, this->_glCore.getIndices());
+        const double begin = glfwGetTime();
+        this->_webCore.lock()->getRenderHandler()->Render();
 
         // render end
         this->_glfwHandler.swapBuffer();
@@ -127,13 +112,17 @@ bool MainHandler::startMainLoop() {
         this->_glfwHandler.pollEvents();
 
         this->_webCoreManager.update();
+        const double end = glfwGetTime();
+        /*if (delta >= 1.0) {
+            std::cout << "it took: " << std::to_string(end - begin)
+                      << " to render" << std::endl;
+        }*/
     }
     return (false);
 }
 
 void MainHandler::destroy() {
     this->_glfwHandler.shutDownGlfw();
-    this->_glCore.destroy();
 
     // close cef
     this->_webCoreManager.removeBrowser(this->_webCore);

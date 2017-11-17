@@ -110,12 +110,24 @@ PRINT_CEF_CONFIG()
 add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
         BrowserClient.hh
         BrowserClient.cpp
-        GLCore.cpp
-        GLCore.hh
         main.cpp
         RenderHandler.hh
         RenderHandler.cpp
         WebCore.cpp
-        WebCore.hh CallBacks.cpp CallBacks.hh GlfwHandler.cpp GlfwHandler.hh MainHandler.cpp MainHandler.hh WebCoreManager.cpp WebCoreManager.hh KeyHandler.cpp KeyHandler.hh)
+        WebCore.hh
+        CallBacks.cpp
+        CallBacks.hh
+        GlfwHandler.cpp
+        GlfwHandler.hh
+        MainHandler.cpp
+        MainHandler.hh
+        WebCoreManager.cpp
+        WebCoreManager.hh
+        KeyHandler.cpp
+        KeyHandler.hh)
+
+add_executable(perf_test
+        performance_test.cpp)
 
 target_link_libraries(CEFOffScreen libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+target_link_libraries(perf_test libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)

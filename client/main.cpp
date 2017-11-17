@@ -1,6 +1,20 @@
 ﻿#include <iostream>
+#include <include/cef_app.h>
 #include "GL/glew.h"
 #include "MainHandler.hh"
+
+std::string GetApplicationDir()
+{
+    HMODULE hModule = GetModuleHandleW(NULL);
+    WCHAR   wpath[MAX_PATH];
+
+    GetModuleFileNameW(hModule, wpath, MAX_PATH);
+    std::wstring wide(wpath);
+
+    std::string path = CefString(wide);
+    path = path.substr( 0, path.find_last_of("\\/") );
+    return path;
+}
 
 
 int main(int ac, char *av[]) {

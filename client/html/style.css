@@ -6,11 +6,25 @@ body {
     background-image: url("bg.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    width: 100%; 
-    height: 100%; 
-    position: fixed; 
-    left: 0%; 
-    top: 0%; 
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    z-index: -2;
+}
+
+.game-background-grid {
+    position: absolute;
+    background-image: url("gridbg-glow2.png");
+    background-repeat:repeat;
+    background-attachment: scroll;
+    background-position: 2.7% 0;
+    /*padding-right: 2.7%;*/
+    background-size: 5% auto;
+    /*background-origin: todo fix ?*/
+    left: 0%;
+    top: 0%;
     z-index: -1;
 }
 
@@ -32,9 +46,12 @@ body {
     background-image: url("menu.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    height: 851px;
+    /*height: 851px;*/ /* todo fix hard coded */
+    padding-top: 2%;
+    padding-bottom: 2%;
     width: 17.8646%;
     margin-left: 15.9375%;
+    margin-right: 1.3541%;
     z-index: -1;
     overflow:auto;
     float:left;
@@ -53,18 +70,21 @@ body {
 }
 
 .game-main {
+    position: relative;
     width: 48.9062%;
-    margin-left: 1.3541%;
     z-index: -1;
     float: left;
     overflow:auto;
     background-color:rgba(17, 33, 90, 0.7);
+    border-left: 1px solid #0a5586;
+    border-right: 1px solid #0a5586;
+
 }
 
 .game-main-text {
-    padding-left: 2.7083%;
-    padding-right: 2.7083%;
-    color: aliceblue;
+    position: relative;
+    padding-left: 3%;
+    padding-right: 2%;
     word-wrap: break-word;
 }
 
@@ -86,12 +106,6 @@ body {
     width: 100%;
     height: 100%;
     color: white;
-}
-
-.cube {
-    float: left;
-    width: 50px; 
-    height: 50%;
 }
 
 .game-header-content {
@@ -129,6 +143,7 @@ body {
     /*overflow: hidden;*/
     float: left;
     width:auto;
+    max-height: 50%;
 }
 
 .game-header-logo-pane {
@@ -180,6 +195,7 @@ body {
 }
 
 .game-main-title {
+    position: relative;
     background-image: url(title.png);
     background-repeat: no-repeat;
     background-size: contain;
@@ -191,13 +207,155 @@ body {
 }
 
 .game-main-title-text {
+    position: relative;
     color: white;
     font-family: Lato;
     font-size: 200%;
     margin-right: 20.5%;
     margin-bottom: 4px;
+    margin-left: 3%;
     padding-left: 1.7083%;
     border-left: 4px solid #40e4f0;
     text-overflow: ellipsis;
     word-wrap: break-word;
+}
+
+.game-entity {
+    position: relative;
+    /*width: auto;
+    height: auto;*/
+    padding: 3%;
+    overflow: auto;
+    border-top: 1px solid #0a5586;
+    border-bottom: 1px solid #0a5586;
+    color: white;
+    /*height: 200px;*/
+    overflow: hidden;
+    font-family: Lato;
+    
+}
+
+.game-entity-title {
+    display: inline-block;
+    width: 98.5%;
+    border-left: 4px solid #40e4f0;
+    font-family: Lato;
+    font-size: 150%;
+    padding-left: 1.5%;
+
+}
+
+.game-entity-desc {
+    position: relative;
+    display: flex;
+    float: left;
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #0a5586;
+    font: 100% Lato;
+
+}
+
+.game-entity-desc-picture {
+    position: relative;
+    float: left;
+    width: 20%;
+    height: 20%;
+}
+
+.game-entity-desc-text {
+    position: relative;
+    display: inline-grid;
+    width: 100%;
+    
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    float: left;
+    color: lightgrey;
+    margin-left: 1%;
+
+    /*max-width: 60%;*/
+    /*margin-top: auto;*/
+
+}
+
+.game-entity-desc-right {
+    position: relative;
+    float: right;
+    text-align: center;
+}
+
+.game-entity-desc-right-upgrade {
+    height: 100%;
+    font-size: 100%;
+    text-transform: uppercase;
+    background: rgba(39, 174, 96,1.0);
+}
+
+.game-entity-desc-upgrade {
+    display: block;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    float: left;
+    color: lightgrey;
+    /*width: 80%;*/
+    /*max-width: 60%;*/
+    margin-top: auto;
+}
+
+.game-entity-desc-res-cost {
+    position: relative;
+    float: left;
+    display: block;
+    border-collapse:separate; 
+    flex-flow:row wrap;
+    justify-content:space-around;
+    text-align: center;
+    margin-left: 3%;
+}
+
+.game-entity-desc-res-cost-img {
+	margin-left: auto;
+	margin-right: auto;
+    height: 20px;
+
+    /*width: 40%;*/
+    /*width: 50%;*/
+}
+
+.upgrade-button {
+  float: right;
+  position: relative;
+  box-sizing: content-box;
+  cursor: pointer;
+  border: 1px solid #0f9b0f;
+  /*border-radius: 3px;*/
+  font: 100% "Questrial", Helvetica, sans-serif;
+  color: rgb(255, 255, 255);
+  text-overflow: clip;
+  background: linear-gradient(180deg, rgb(90,190,87) 0, rgb(53,146,56) 100%), rgb(90, 190, 87);
+  background-origin: padding-box;
+  background-clip: border-box;
+  background-size: auto auto;
+  /*box-shadow: 0 2px 1px 0 rgba(0,0,0,0.3);
+  text-shadow: 0 1px 2px rgb(50,114,40);*/
+  font-size: 200%;
+
+}
+
+.upgrade-button:hover {
+  background: rgb(90, 190, 87);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11) ;
+  transition: all 150ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.upgrade-button:active {
+  border: 1px solid rgba(180,180,180,0.2);
+  background: rgba(77,168,74,1);
+  box-shadow: 0 3px 0 0 rgba(0,0,0,0.1) inset;
+  transition: 0.3s ease;
 }
