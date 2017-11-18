@@ -28,8 +28,8 @@ WebCore::WebCore(const std::string &url)
     browserSettings.local_storage = STATE_DISABLED;
     browserSettings.databases = STATE_DISABLED;
     browserSettings.universal_access_from_file_urls = STATE_DISABLED;
-    browserSettings.web_security = STATE_ENABLED;
-	browserSettings.windowless_frame_rate = 25; // 30 is default
+    browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
+	browserSettings.windowless_frame_rate = 60; // 30 is default
 	_client = new BrowserClient(_renderHandler);
 	_browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(), url, browserSettings, nullptr);
 }
@@ -145,12 +145,12 @@ RenderHandler *WebCore::getRenderHandler() const {
 }
 
 void WebCore::mouseScroll(int x, int y) {
-    static const int scrollbarPixelsPerTick = 50;
+    static const int scrollbarPixelsPerTick = 200;
     CefMouseEvent mouseEvent;
 
     mouseEvent.modifiers = this->_curMouseMod;
-    mouseEvent.x = x;
-    mouseEvent.y = y;
+    mouseEvent.x = this->_mouseX;
+    mouseEvent.y = this->_mouseY;
 
     int deltaX = 0;
     int deltaY = 0;

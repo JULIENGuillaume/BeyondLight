@@ -64,8 +64,21 @@ bool MainHandler::init() {
     return false;
 }
 
+std::string GetApplicationDir() // todo move to utils class
+{
+    HMODULE hModule = GetModuleHandleW(NULL);
+    WCHAR   wpath[MAX_PATH];
+
+    GetModuleFileNameW(hModule, wpath, MAX_PATH);
+    std::wstring wide(wpath);
+
+    std::string path = CefString(wide);
+    path = path.substr( 0, path.find_last_of("\\/") );
+    return path;
+}
+
 void MainHandler::createBrowser() {
-    std::string url = "file:///E:/Desktop/BeyondLight/Git/BeyondLight/client/html/header.html"; // todo fix hard path
+    std::string url = "file:///" + GetApplicationDir() + "/../html/index.html";
     this->_webCore = this->_webCoreManager.createBrowser(url);
     this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(), 
                                    this->_glfwHandler.getHeight());

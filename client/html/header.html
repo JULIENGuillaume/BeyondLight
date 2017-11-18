@@ -1,270 +1,52 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <title>beyondlight-header</title>
-        <link rel="stylesheet" type="text/css"
-              href="http://fonts.googleapis.com/css?family=Lato">
-    </head>
-    <body class="scrollbar" id="solid-scrollbar">
-    <div class="game-background">
-    </div>
-     <div class="game-background-grid">
-        <div class="game-header game-header-gradient">
-            <div class="game-header-content">
-                <div class="game-header-logo-pane">
-                    <img src="logo_flat_small.png" alt="BeyondLight Logo"
-                         class="game-logo">
-                </div>
-                <div class="game-header-res-pane class="scrollbar" id="alpha-scrollbar">
-                    <div class="game-header-res-box">
-                        <div>
-                            <img src="metal.jpg" alt="Metal" style="height: 50%;">
-                        </div>
-                        <div id="metal-value">
-                            Metal
-                        </div>
-                    </div>
-                    <div class="game-header-res-box">
-                        <div>
-                            <img src="crystal.jpg" alt="Metal" style="height: 50%;">
-                        </div>
-                        <div id="crystal-value">
-                            Crystal
-                        </div>
-                    </div>
-                    <div class="game-header-res-box">
-                        <div>
-                            <img src="ore.png" alt="Metal" style="height: 50%;">
-                        </div>
-                        <div id="deuterium-value">
-                            Deuterium
-                        </div>
-                    </div>
-                    <div class="game-header-res-box">
-                        <div>
-                            <img src="ore.png" alt="Metal" style="height: 50%;">
-                        </div>
-                        <div id="antimatter-value">
-                            AntiMatter
-                        </div>
-                    </div>
-                    <div class="game-header-res-box">
-                        <div>
-                            <img src="ore.png" alt="Metal" style="height: 50%;">
-                        </div>
-                        <div id="energy-value">
-                            Energy
-                        </div>
-                    </div>
-                    <table class="game-header-table">
-                        <!-- todo convert to multiple div block instead of table -->
-                    </table>
-                </div>
+<div id="header-template">
+    <div class="game-header game-header-gradient">
+        <div class="game-header-content">
+            <div class="game-header-logo-pane">
+                <img src="logo_flat_small.png" alt="BeyondLight Logo"
+                     class="game-logo">
             </div>
-        </div>
-        <div class="game-menu">
-            <div class="game-menu-content">
-                <div class="vertical-menu">
-                    <a href="#" class="active">Home</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
-                </div>
-            </div>
-        </div>
-        <div class="game-main">
-            <div class="game-entity">
-                <div class="game-entity-title">
-                    <span style="float:left;">
-                        Deuterium extractor
-                    </span>
-                    <span style="float:right; border-bottom: 4px solid #40e4f0;">
-                        Level 42
-                    </span>
-                </div>
-                <div class="game-entity-desc">
-                    <img src="deut.png" alt="Metal" class="game-entity-desc-picture">
-                    <div class="game-entity-desc-text">
-                        <div style="width: 100%;">
-                            Building time :<br/>
-                        </div>
-                        <div class="game-entity-desc-upgrade">
-                            Upgrade cost for level 43 :<br/>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="metal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    100
-                                </div>
-                            </div>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="crystal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    22k
-                                </div>
-                            </div>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="ore.png" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    32
-                                </div>
-                            </div>
-                            <input type="button" class="upgrade-button"value="UPGRADE"/>
-                        </div>
+            <div class="game-header-res-pane" class="scrollbar" id="alpha-scrollbar">
+                <div class="game-header-res-box">
+                    <div>
+                        <img src="metal.jpg" alt="Metal" style="height: 50%;">
+                    </div>
+                    <div id="metal-value">
+                        Metal
                     </div>
                 </div>
-            </div>
-            <div class="game-entity">
-                <div class="game-entity-title">
-                    <span style="float:left;">
-                        Deuterium extractor
-                    </span>
-                    <span style="float:right; border-bottom: 4px solid #40e4f0;">
-                        Level 42
-                    </span>
-                </div>
-                <div class="game-entity-desc">
-                    <img src="deut.png" alt="Metal" class="game-entity-desc-picture">
-                    <div class="game-entity-desc-text">
-                        <div style="width: 100%;">
-                            Building time :<br/>
-                        </div>
-                        <div class="game-entity-desc-upgrade">
-                            Upgrade cost for level 43 :<br/>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="metal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    42
-                                </div>
-                            </div>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="crystal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    1337
-                                </div>
-                            </div>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="ore.png" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    12345678987654
-                                </div>
-                            </div>
-                            <div class="game-entity-desc-res-cost">
-                                <div>
-                                    <img src="ore.png" alt="Metal" class="game-entity-desc-res-cost-img">
-                                </div>
-                                <div id="metal-value">
-                                    101
-                                </div>
-                            </div>
-                            <input type="button" class="upgrade-button"value="UPGRADE"/>
-                        </div>
+                <div class="game-header-res-box">
+                    <div>
+                        <img src="crystal.jpg" alt="Metal" style="height: 50%;">
+                    </div>
+                    <div id="crystal-value">
+                        Crystal
                     </div>
                 </div>
-            </div>
-            <div class="game-main-title">
-                <div class="game-main-title-text">
-                    Overview - planet42
+                <div class="game-header-res-box">
+                    <div>
+                        <img src="ore.png" alt="Metal" style="height: 50%;">
+                    </div>
+                    <div id="deuterium-value">
+                        Deuterium
+                    </div>
                 </div>
-            </div>
-            <div class="game-main-text nice-text">
-                <br/>aaaaaaaaaaaaaaaabbbbbbbbbbbbbbbcccccccccccddddddddddddddddddddddd
-                <br/>a
-            </div>
-            <div class="game-main-title">
-                <div class="game-main-title-text">
-                    Quantum Stuff
+                <div class="game-header-res-box">
+                    <div>
+                        <img src="ore.png" alt="Metal" style="height: 50%;">
+                    </div>
+                    <div id="antimatter-value">
+                        AntiMatter
+                    </div>
                 </div>
-            </div>
-            <form action="/action_page.php">
-                First name: <input type="text" name="fname"><br>
-                Last name: <input type="text" name="lname"><br>
-                <input type="submit" value="Submit">
-            </form>
-            <div class="game-main-text nice-text">
-                <p>
-                    Quantum mechanics is the science of the very small. It explains the
-                    behavior of matter and its interactions with energy on the scale of
-                    atoms and subatomic particles.
-
-                    By contrast, classical physics only explains matter and energy on a
-                    scale familiar to human experience, including the behavior of
-                    astronomical bodies such as the Moon. Classical physics is still
-                    used in much of modern science and technology. However, towards the
-                    end of the 19th century, scientists discovered phenomena in both the
-                    large (macro) and the small (micro) worlds that classical physics
-                    could not explain.[1] Coming to terms with these limitations led to
-                    two major revolutions in physics which created a shift in the
-                    original scientific paradigm: the theory of relativity and the
-                    development of quantum mechanics.[2] This article describes how
-                    physicists discovered the limitations of classical physics and
-                    developed the main concepts of the quantum theory that replaced it
-                    in the early decades of the 20th century. These concepts are
-                    described in roughly the order in which they were first discovered.
-                    For a more complete history of the subject, see History of quantum
-                    mechanics.
-
-                    Light behaves in some respects like particles and in other respects
-                    like waves. Matter—the "stuff" of the universe consisting of
-                    particles such as electrons and atoms—exhibits wavelike behavior
-                    too. Some light sources, including neon lights, give off only
-                    certain frequencies of light. Quantum mechanics shows that light,
-                    along with all other forms of electromagnetic radiation, comes in
-                    discrete units, called photons, and predicts its energies, colors,
-                    and spectral intensities. A single photon is a quantum, or smallest
-                    observable amount, of the electromagnetic field because a partial
-                    photon has never been observed. More broadly, quantum mechanics
-                    shows that many quantities, such as angular momentum, that appeared
-                    to be continuous in the zoomed-out view of classical mechanics, turn
-                    out to be (at the small, zoomed-in scale of quantum mechanics)
-                    quantized. Angular momentum is required to take on one of a set of
-                    discrete allowable values, and since the gap between these values is
-                    so minute, the discontinuity is only apparent at the atomic level.
-
-                    Many aspects of quantum mechanics are counterintuitive[3] and can
-                    seem paradoxical, because they describe behavior quite different
-                    from that seen at larger length scales. In the words of quantum
-                    physicist Richard Feynman, quantum mechanics deals with "nature as
-                    She is – absurd".[4] For example, the uncertainty principle of
-                    quantum mechanics means that the more closely one pins down one
-                    measurement (such as the position of a particle), the less accurate
-                    another measurement pertaining to the same particle (such as its
-                    momentum) must become.
-                </p>
+                <div class="game-header-res-box">
+                    <div>
+                        <img src="ore.png" alt="Metal" style="height: 50%;">
+                    </div>
+                    <div id="energy-value">
+                        Energy
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    </body>
-    <script type="text/javascript">
-        var i = 0;
-		// todo fix lag
-        setInterval(oneSecondFunction, 1);
-
-        function oneSecondFunction() {
-            var metal = document.getElementById("metal-value");
-            var crystal = document.getElementById("crystal-value");
-            var deuterium = document.getElementById("deuterium-value");
-            var antimatter = document.getElementById("antimatter-value");
-            var energy = document.getElementById("energy-value");
-            metal.innerHTML = i;
-            crystal.innerHTML = (i)*2;
-            deuterium.innerHTML = Math.round((i)*4 / 1.5);
-            antimatter.innerHTML = Math.round((i) / (Math.sqrt(i) + 1));
-            energy.innerHTML = "42/" + i;
-            i += 10;
-        }
-    </script>
-</html>
+</div>
