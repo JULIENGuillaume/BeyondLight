@@ -11,8 +11,20 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
 
-#pragma comment (lib, "libcef.lib")
 #pragma comment (lib, "winmm.lib")
+
+std::string GetApplicationDir()
+{
+    HMODULE hModule = GetModuleHandleW(NULL);
+    WCHAR   wpath[MAX_PATH];
+
+    GetModuleFileNameW(hModule, wpath, MAX_PATH);
+    std::wstring wide(wpath);
+
+    std::string path = CefString(wide);
+    path = path.substr( 0, path.find_last_of("\\/") );
+    return path;
+}
 
 class SimpleHandler : public CefClient, public CefRenderHandler
 {
@@ -77,12 +89,10 @@ public:
         browserSettings.local_storage = STATE_DISABLED;
         browserSettings.databases = STATE_DISABLED;
         browserSettings.universal_access_from_file_urls = STATE_DISABLED;
-        browserSettings.web_security = STATE_ENABLED;
+        browserSettings.web_security = STATE_DISABLED;
         browserSettings.windowless_frame_rate = 60; // 30 is default
-        //browser_settings.webgl = STATE_ENABLED;
-        //browser_settings.windowless_frame_rate = 60;
 
-        std::string url = "file:///E:/Desktop/BeyondLight/Git/BeyondLight/client/html/header.html";
+        std::string url = "file:///" + GetApplicationDir() + "/../html/index.html";
         //std::string url = "https://www.shadertoy.com/view/Msf3R8";
 
         CefWindowInfo window_info;
@@ -120,7 +130,6 @@ public:
         command_line.get()->AppendSwitch("off-screen-rendering-enabled");
         //command_line.get()->AppendSwitch("disable-gpu-vsync");
         //command_line.get()->AppendSwitchWithValue("off-screen-frame-rate", "1"); overight by browser settings
-
         CefApp::OnBeforeCommandLineProcessing(process_type, command_line);
     }
 
@@ -140,13 +149,9 @@ int main()
     }
 
     CefSettings settings;
-    /*CefString(&settings.locales_dir_path).FromASCII
-            ("c:\\temp\\cef\\Resources\\locales");
-    CefString(&settings.resources_dir_path).FromASCII
-     ("c:\\temp\\cef\\Resources");*/
-    settings.no_sandbox = true;
     settings.multi_threaded_message_loop = true;
-    settings.windowless_rendering_enabled = true;
+    settings.no_sandbox = true;
+    //settings.pack_loading_disabled = true;
     settings.single_process = false;
     settings.command_line_args_disabled = false;
     settings.windowless_rendering_enabled = true;

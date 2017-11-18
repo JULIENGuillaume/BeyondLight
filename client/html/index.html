@@ -1,15 +1,60 @@
 <!DOCTYPE html>
 <html>
-    
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>GETTING STARTED WITH BRACKETS</title>
-        <meta name="description" content="An interactive getting started guide for Brackets.">
-        <link rel="stylesheet" href="main.css">
+        <title>Beyond Light</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="import" href="header.html">
+        <link rel="import" href="left-menu.html">
+        <link rel="import" href="main-content.html">
+
     </head>
-    <body>
-        
+    <!-- <body class="scrollbar" id="solid-scrollbar"> -->
+    <body style="overflow-y:hidden; height:100%;">
+        <div class="game-background"></div>
+        <div class="game-background-grid">
+            <header></header>
+            <left-menu></left-menu>
+            <main-content></main-content>
+        </div>
     </body>
+    <script>      
+        var elements = document.querySelectorAll('link[rel=import]');
+        for(var i = 0; i < elements.length; i++){
+            if (i === 0) {
+                var post = elements[i].import.querySelector('#header-template');
+                var container = document.querySelector('header');
+                container.appendChild(post.cloneNode(true));
+            }
+            if (i === 1) {
+                var post = elements[i].import.querySelector('#left-menu-template');
+                var container = document.querySelector('left-menu');
+                container.appendChild(post.cloneNode(true));
+            }
+            if (i === 2) {
+                var post = elements[i].import.querySelector('#main-content-template');
+                var container = document.querySelector('main-content');
+                container.appendChild(post.cloneNode(true));
+            }
+        }
+  </script>
+        <script>
+        var i = 0;
+        window.setInterval(oneSecondFunction, 1);
+
+        function oneSecondFunction() {
+            var metal = document.getElementById("metal-value");
+            var crystal = document.getElementById("crystal-value");
+            var deuterium = document.getElementById("deuterium-value");
+            var antimatter = document.getElementById("antimatter-value");
+            var energy = document.getElementById("energy-value");
+            metal.innerHTML = i;
+            crystal.innerHTML = (i)*2;
+            deuterium.innerHTML = Math.round((i)*4 / 1.5);
+            antimatter.innerHTML = Math.round((i) / (Math.sqrt(i) + 1));
+            energy.innerHTML = "42/" + i;
+            i += 10;
+        }
+    </script>
 </html>
 

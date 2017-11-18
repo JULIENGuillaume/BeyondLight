@@ -3,7 +3,7 @@ body {
 }
 
 .scrollbar {
-	margin-left: 22px;
+	/*margin-left: 22px;*/
 	float: left;
 	height: 300px;
 	width: 65px;
@@ -32,6 +32,7 @@ body {
 
 #alpha-scrollbar::-webkit-scrollbar-thumb {
 	box-shadow: inset 0 0 1px rgba(64,228,240,1);
+    background-color: rgba(10, 85, 134, 0.7);
 }
 
 #solid-scrollbar::-webkit-scrollbar {
@@ -125,11 +126,11 @@ body {
     width: 48.9062%;
     z-index: -1;
     float: left;
-    overflow:auto;
+    /*overflow-y: scroll;*/
     background-color:rgba(17, 33, 90, 0.7);
     border-left: 1px solid #0a5586;
     border-right: 1px solid #0a5586;
-
+    height: 88vh;
 }
 
 .game-main-text {
@@ -164,7 +165,8 @@ body {
     display: inline-block;
     overflow:hidden;
     left: 18.25%;
-    top: 15.5172%;
+    /*top: 15.5172%;*/
+    top: 17.5%;
     width: 63.5%;
     height: 81.8965%;
 }
@@ -253,7 +255,7 @@ body {
     display: block;
     background-size: 100% 100%;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     margin-top: 0.8333%;
 }
 
