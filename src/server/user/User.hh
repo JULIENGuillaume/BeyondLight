@@ -18,6 +18,8 @@ namespace server {
 		class User {
 		public:
 			User(unsigned long m_id, const std::string &m_login);
+			unsigned long int getId() const;
+			std::string getLogin() const;
 
 		private:
 			unsigned long int m_id;

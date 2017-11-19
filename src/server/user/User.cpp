@@ -11,3 +11,11 @@
 #include "User.hh"
 
 server::user::User::User(unsigned long id, const std::string &login) : m_id(id), m_login(login) {}
+
+unsigned long int server::user::User::getId() const {
+    return m_id;
+}
+
+std::string server::user::User::getLogin() const {
+    return m_login;
+}

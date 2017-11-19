@@ -9,6 +9,7 @@
 #include "BeyondLightServer.hh"
 #include "SocketFactory.hh"
 #include "UdpSslAsyncBoostSocket.hh"
+#include "../../server/storage/Database.hh"
 
 
 void FactoriesInit() {
@@ -20,6 +21,17 @@ void FactoriesInit() {
 int main() {
 	mongocxx::instance inst{};
 
+	server::storage::Database::getDbInstance()->insertUser(server::user::User(42, "Daniel"));
+
+	server::user::User *daniel = server::storage::Database::getDbInstance()->getUserByLogin("Daniel");
+
+	std::cout << daniel->getId() << " - " << daniel->getLogin() << std::endl;
+
+	auto delCount = server::storage::Database::getDbInstance()->removeUserByLogin("Daniel");
+
+	std::cout << "deleted : " << delCount << " Daniels." << std::endl;
+
+	/*
 	FactoriesInit();
 
 	try {
@@ -29,5 +41,6 @@ int main() {
 		std::cerr << e.what() << std::endl;
 		return 1;
 	}
+	 */
 	return 0;
 }
