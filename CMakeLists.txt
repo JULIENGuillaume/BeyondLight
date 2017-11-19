@@ -6,6 +6,7 @@ project(BeyondLight)
 ##
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-module)
 
 if(${MINGW})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
@@ -56,7 +57,8 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 ##  User sources
 ##
 
-set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
+set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh
+        src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
@@ -65,7 +67,12 @@ target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NET
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
 
 IF (UNIX)
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
+    find_package(libmongocxx REQUIRED)
+    find_package(libbsoncxx REQUIRED)
+
+    target_include_directories(BeyondLightServer PRIVATE ${LIBMONGOCXX_INCLUDE_DIR} ${LIBBSONCXX_INCLUDE_DIR})
+
+    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
     target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
 ELSE ()
   target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)

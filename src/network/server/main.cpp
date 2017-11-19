@@ -1,5 +1,10 @@
 #include <iostream>
 #include <memory>
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/json.hpp>
+
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
 #include "IServer.hh"
 #include "BeyondLightServer.hh"
 #include "SocketFactory.hh"
@@ -13,6 +18,8 @@ void FactoriesInit() {
 }
 
 int main() {
+	mongocxx::instance inst{};
+
 	FactoriesInit();
 
 	try {
