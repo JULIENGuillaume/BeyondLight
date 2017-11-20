@@ -34,6 +34,7 @@ set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
 set(USER_SRC_DIR "${SRC_BASE_DIR}/server/user")
+set(DB_SRC_DIR "${SRC_BASE_DIR}/server/storage")
 set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 
 ##
@@ -60,7 +61,9 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh
         src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
+set(DB_SRC ${DB_SRC_DIR}/Database.cpp ${DB_SRC_DIR}/Database.hh)
+
+add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${DB_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})

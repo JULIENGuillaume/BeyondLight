@@ -22,7 +22,7 @@ namespace server {
             Database();
 
         protected:
-            mongocxx::client client{mongocxx::uri{}};
+            mongocxx::client client;
             mongocxx::database db;
             mongocxx::collection users;
 

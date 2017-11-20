@@ -21,7 +21,10 @@ void FactoriesInit() {
 int main() {
 	mongocxx::instance inst{};
 
-	server::storage::Database::getDbInstance()->insertUser(server::user::User(42, "Daniel"));
+	std::srand(time(nullptr));
+
+	server::storage::Database::getDbInstance()->insertUser(server::user::User(std::rand(), "Daniel"));
+	server::storage::Database::getDbInstance()->insertMultipleUsers({server::user::User(std::rand(), "Daniel")});
 
 	server::user::User *daniel = server::storage::Database::getDbInstance()->getUserByLogin("Daniel");
 
