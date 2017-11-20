@@ -124,7 +124,9 @@ add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
         WebCoreManager.cpp
         WebCoreManager.hh
         KeyHandler.cpp
-        KeyHandler.hh)
+        KeyHandler.hh
+        Utils.cpp
+        Utils.hh MessageHandler.cpp MessageHandler.hh)
 
 add_executable(perf_test
         performance_test.cpp)

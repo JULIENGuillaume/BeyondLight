@@ -26,10 +26,13 @@ public:
 	void mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up, int mods);
 	void keyPress(int key, int scancode, int action, int mods);
 	void mouseScroll(int x, int y);
-
+	void changeUrl(const std::string &url);
 	RenderHandler* getRenderHandler() const;
-
 	void charPress(unsigned int key);
+	void paste();
+	void copy();
+	void selectAll();
+	void cut();
 };
 
 #endif // WEB_CORE_HH

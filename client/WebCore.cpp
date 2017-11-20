@@ -159,3 +159,23 @@ void WebCore::mouseScroll(int x, int y) {
 
     _browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
 }
+
+void WebCore::changeUrl(const std::string &url) {
+    this->_browser->GetMainFrame()->LoadURL(url);
+}
+
+void WebCore::paste() {
+    this->_browser->GetMainFrame()->Paste();
+}
+
+void WebCore::copy() {
+    this->_browser->GetMainFrame()->Copy();
+}
+
+void WebCore::cut() {
+    this->_browser->GetMainFrame()->Cut();
+}
+
+void WebCore::selectAll() {
+    this->_browser->GetMainFrame()->SelectAll();
+}

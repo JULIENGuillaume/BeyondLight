@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Beyond Light</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div class="login-background">
+            <div class="login-container">
+                <div class="login-container-field">
+                    <label><b>Username</b></label>
+                    <input id="login" class="login-box-style"style="float:right;" type="text" placeholder="Enter Username" name="uname" required>
+                </div>
+                <div class="login-container-field">
+                    <label style="float:left;"><b>Password</b></label>
+                    <input id="pw" class="login-box-style" style="float:right;" type="password" placeholder="Enter Password" name="psw" required>
+                </div>
+                <div class="login-container-field">
+                    <button id="submit" style="float:left;" type="submit">Login</button>
+                    <div style="float:right;">
+                        <input type="checkbox" checked="checked"> Remember me
+                    </div>
+                </div>
+                <label id="message"></label>
+            </div>
+        </div>
+    </body>
+    <script>
+        var login = "";
+        var pw = "";
+        document.getElementById("submit").onclick = function() {onSubmit()};
+
+        function sendMessage() {
+            // Results in a call to the OnQuery method in client_impl.cc.
+            window.cefQuery({
+                request: 'MainRoute:' + login + ':' + pw,
+                onSuccess: function(response) {
+                    document.getElementById('message').innerText = response;
+                },
+                onFailure: function(error_code, error_message) {
+                    document.getElementById('message').innerText = error_message;
+                }
+            });
+        }
+
+
+        function onSubmit() {
+            login = document.getElementById("login").value;
+            pw = document.getElementById("pw").value;
+            sendMessage();
+        }
+    </script>
+</html> 

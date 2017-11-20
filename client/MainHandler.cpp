@@ -12,6 +12,7 @@
 
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
+#include "Utils.hh"
 
 MainHandler::MainHandler() {
     this->_sizeUpdated = false;
@@ -27,7 +28,6 @@ bool initialize_glew_context() // todo to member func
         std::cerr << "Error: " << glewGetErrorString(err) << std::endl;
         return false;
     }
-    std::cout << "Status: Using GLEW "<< glewGetString(GLEW_VERSION) << std::endl;
     return true;
 }
 
@@ -64,21 +64,8 @@ bool MainHandler::init() {
     return false;
 }
 
-std::string GetApplicationDir() // todo move to utils class
-{
-    HMODULE hModule = GetModuleHandleW(NULL);
-    WCHAR   wpath[MAX_PATH];
-
-    GetModuleFileNameW(hModule, wpath, MAX_PATH);
-    std::wstring wide(wpath);
-
-    std::string path = CefString(wide);
-    path = path.substr( 0, path.find_last_of("\\/") );
-    return path;
-}
-
 void MainHandler::createBrowser() {
-    std::string url = "file:///" + GetApplicationDir() + "/../html/index.html";
+    std::string url = "file:///" + Utils::getApplicationDir() + "/../html/login.html";
     this->_webCore = this->_webCoreManager.createBrowser(url);
     this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(), 
                                    this->_glfwHandler.getHeight());
@@ -144,7 +131,21 @@ void MainHandler::destroy() {
 
 void MainHandler::onKeyEvent(GLFWwindow *window, int key, int scancode, int action, int mods) {
     //if (!this->_isInput) // todo if isinput and key = delete -> send it
-        this->_webCore.lock()->keyPress(key, scancode, action, mods);
+    this->_webCore.lock()->keyPress(key, scancode, action, mods);
+    if (mods == GLFW_MOD_CONTROL) {
+        if (key == GLFW_KEY_C) { // todo improve
+            this->_webCore.lock()->copy();
+        }
+        if (key == GLFW_KEY_V) { // todo improve
+            this->_webCore.lock()->paste();
+        }
+        if (key == GLFW_KEY_Q) { // todo improve
+            this->_webCore.lock()->selectAll();
+        }
+        if (key == GLFW_KEY_X) { // todo improve
+            this->_webCore.lock()->cut();
+        }
+    }
 }
 
 void MainHandler::onMouseEvent(GLFWwindow *window, int btn, int state, int mods) {
