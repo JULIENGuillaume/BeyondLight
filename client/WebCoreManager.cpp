@@ -19,7 +19,7 @@ bool WebCoreManager::setUp(int *exit_code)
     assert(exit_code != nullptr);
 
     CefMainArgs args;
-     *exit_code = CefExecuteProcess(args, nullptr /*this*/, nullptr);
+     *exit_code = CefExecuteProcess(args, this, nullptr);
     if (*exit_code >= 0) {
         return false;
     }
@@ -36,6 +36,7 @@ bool WebCoreManager::setUp(int *exit_code)
         *exit_code = -1;
         return false;
     }
+
     return true;
 }
 
@@ -69,22 +70,9 @@ void WebCoreManager::removeBrowser(std::weak_ptr<WebCore> web_core)
     }
 }
 
-void WebCoreManager::AddRef() const {
-
-}
-
-bool WebCoreManager::Release() const {
-    return false;
-}
-
-bool WebCoreManager::HasOneRef() const {
-    return false;
-}
-
 // https://peter.sh/experiments/chromium-command-line-switches/#winhttp-proxy-resolver
 void WebCoreManager::OnBeforeCommandLineProcessing(const CefString &process_type,
                                               CefRefPtr<CefCommandLine> command_line) {
-    std::cout << "-         cmd            -" << std::endl;
     command_line.get()->AppendSwitch("disable-3d-apis");
     command_line.get()->AppendSwitch("disable-d3d11");
     command_line.get()->AppendSwitch("disable-databases");
@@ -111,12 +99,71 @@ void WebCoreManager::OnBeforeCommandLineProcessing(const CefString &process_type
     command_line.get()->AppendSwitch("off-screen-rendering-enabled");
     //command_line.get()->AppendSwitch("disable-gpu-vsync");
     //command_line.get()->AppendSwitchWithValue("off-screen-frame-rate", "1"); overight by browser settings
-
-    std::vector<CefString> args;
-    command_line.get()->GetArgv(args);
-    for (const CefString &arg : args) {
-        std::wcout << arg.c_str() << std::endl;
-    }
-    std::cout << std::endl;
     CefApp::OnBeforeCommandLineProcessing(process_type, command_line);
 }
+
+void WebCoreManager::OnWebKitInitialized() {
+    CefMessageRouterConfig config;
+    message_router_ = CefMessageRouterRendererSide::Create(config);
+}
+
+void WebCoreManager::OnContextCreated(CefRefPtr<CefBrowser> browser,
+                                      CefRefPtr<CefFrame> frame,
+                                      CefRefPtr<CefV8Context> context) {
+
+    message_router_->OnContextCreated(browser, frame, context);
+}
+
+void WebCoreManager::OnContextReleased(CefRefPtr<CefBrowser> browser,
+                                       CefRefPtr<CefFrame> frame,
+                                       CefRefPtr<CefV8Context> context) {
+    message_router_->OnContextReleased(browser, frame, context);
+}
+
+void WebCoreManager::OnUncaughtException(CefRefPtr<CefBrowser> browser,
+                                         CefRefPtr<CefFrame> frame,
+                                         CefRefPtr<CefV8Context> context,
+                                         CefRefPtr<CefV8Exception> exception,
+                                         CefRefPtr<CefV8StackTrace> stackTrace) {
+    std::cerr << "An uncaught exception happened!" << std::endl;
+    CefRenderProcessHandler::OnUncaughtException(browser, frame, context,
+                                                 exception, stackTrace);
+}
+
+bool WebCoreManager::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+                                              CefProcessId source_process,
+                                              CefRefPtr<CefProcessMessage> message) {
+    return message_router_->OnProcessMessageReceived(browser, source_process,
+                                                     message);
+}
+
+CefRefPtr<CefRenderProcessHandler> WebCoreManager::GetRenderProcessHandler() {
+    return (this);
+}
+
+void WebCoreManager::AddRef() const {
+
+}
+
+bool WebCoreManager::Release() const {
+    return false;
+}
+
+bool WebCoreManager::HasOneRef() const {
+    return false;
+}
+
+//void WebCoreManager::OnContextInitialized() {
+//    /* // Create the browser window.
+//    const CefString& startup_url = GetStartupURL();
+//    shared::CreateBrowser(new Client(startup_url), startup_url,
+//                          CefBrowserSettings()); todo setup ?*/
+//    std::cout << "01" << std::endl;
+//    CefBrowserProcessHandler::OnContextInitialized();
+//}
+
+/*CefRefPtr<CefBrowserProcessHandler> WebCoreManager::GetBrowserProcessHandler
+        () {
+    std::cout << "02" << std::endl;
+    return (this);
+}*/

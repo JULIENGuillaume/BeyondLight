@@ -10,21 +10,9 @@
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
+#include "Utils.hh"
 
 #pragma comment (lib, "winmm.lib")
-
-std::string GetApplicationDir()
-{
-    HMODULE hModule = GetModuleHandleW(NULL);
-    WCHAR   wpath[MAX_PATH];
-
-    GetModuleFileNameW(hModule, wpath, MAX_PATH);
-    std::wstring wide(wpath);
-
-    std::string path = CefString(wide);
-    path = path.substr( 0, path.find_last_of("\\/") );
-    return path;
-}
 
 class SimpleHandler : public CefClient, public CefRenderHandler
 {
@@ -92,7 +80,7 @@ public:
         browserSettings.web_security = STATE_DISABLED;
         browserSettings.windowless_frame_rate = 60; // 30 is default
 
-        std::string url = "file:///" + GetApplicationDir() + "/../html/index.html";
+        std::string url = "file:///" + Utils::getApplicationDir() + "/../html/index.html";
         //std::string url = "https://www.shadertoy.com/view/Msf3R8";
 
         CefWindowInfo window_info;
@@ -117,7 +105,7 @@ public:
         command_line.get()->AppendSwitch("disable-gpu");
         command_line.get()->AppendSwitch("disable-gpu-compositing");
         command_line.get()->AppendSwitch("disable-gpu-sandbox");
-        command_line.get()->AppendSwitch("disable-infobars"); // todo check
+        command_line.get()->AppendSwitch("disable-infobars");
         command_line.get()->AppendSwitch("disable-notifications");
         command_line.get()->AppendSwitch("disable-pepper-3d");
         command_line.get()->AppendSwitch("disable-pepper-3d-image-chromium");
