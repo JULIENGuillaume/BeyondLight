@@ -1,24 +1,29 @@
 cmake_minimum_required(VERSION 3.9)
 
+set(CLIENT_PROJECT_DIR "${CMAKE_SOURCE_DIR}/")
+set(CLIENT_PROJECT_NAME beyondlight_client)
+set(CLIENT_EXECUTABLE_NAME beyondlight_client)
+set(CLIENT_PERF_EXECUTABLE_NAME beyondlight_client_perftest)
+
 set(CMAKE_CONFIGURATION_TYPES Debug Release) # todo debug not working atm
 
-project(CEFOffScreen)
+project(${CLIENT_PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(CEF_ROOT "${CMAKE_SOURCE_DIR}/lib/cef")
+set(CEF_ROOT "${CLIENT_PROJECT_DIR}/lib/cef")
 
 list(APPEND CMAKE_MODULE_PATH ${CEF_ROOT}/cmake)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CLIENT_PROJECT_DIR}/cmake)
 
 set(CMAKE_PREFIX_PATH ${CEF_ROOT})
 set(CEF_INCLUDE_DIR ${CEF_ROOT})
 set(CEF_LIBRARY ${CEF_ROOT}/Release) #todo handle release and debug
-set(GLEW_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/glew/include)
-set(GLEW_LIBRARY ${CMAKE_SOURCE_DIR}/lib/glew/lib/Release/Win32) #todo handle release and debug
-set(GLM_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/glm)
-set(GLFW_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/glfw/include)
-set(GLFW_LIBRARIES ${CMAKE_SOURCE_DIR}/lib/glfw)
+set(GLEW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glew/include)
+set(GLEW_LIBRARY ${CLIENT_PROJECT_DIR}/lib/glew/lib/Release/Win32) #todo handle release and debug
+set(GLM_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glm)
+set(GLFW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glfw/include)
+set(GLFW_LIBRARIES ${CLIENT_PROJECT_DIR}/lib/glfw)
 
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -107,29 +112,37 @@ include_directories(${CEF_ROOT}
 # Display configuration settings.
 PRINT_CEF_CONFIG()
 
-add_executable(CEFOffScreen #WIN32 #todo uncomment if debug build
-        BrowserClient.hh
-        BrowserClient.cpp
-        main.cpp
-        RenderHandler.hh
-        RenderHandler.cpp
-        WebCore.cpp
-        WebCore.hh
-        CallBacks.cpp
-        CallBacks.hh
-        GlfwHandler.cpp
-        GlfwHandler.hh
-        MainHandler.cpp
-        MainHandler.hh
-        WebCoreManager.cpp
-        WebCoreManager.hh
-        KeyHandler.cpp
-        KeyHandler.hh
-        Utils.cpp
-        Utils.hh MessageHandler.cpp MessageHandler.hh)
+set(CLIENT_SRC
+        ${CLIENT_PROJECT_DIR}/BrowserClient.hh
+        ${CLIENT_PROJECT_DIR}/BrowserClient.cpp
+        ${CLIENT_PROJECT_DIR}/main.cpp
+        ${CLIENT_PROJECT_DIR}/RenderHandler.hh
+        ${CLIENT_PROJECT_DIR}/RenderHandler.cpp
+        ${CLIENT_PROJECT_DIR}/WebCore.cpp
+        ${CLIENT_PROJECT_DIR}/WebCore.hh
+        ${CLIENT_PROJECT_DIR}/CallBacks.cpp
+        ${CLIENT_PROJECT_DIR}/CallBacks.hh
+        ${CLIENT_PROJECT_DIR}/GlfwHandler.cpp
+        ${CLIENT_PROJECT_DIR}/GlfwHandler.hh
+        ${CLIENT_PROJECT_DIR}/MainHandler.cpp
+        ${CLIENT_PROJECT_DIR}/MainHandler.hh
+        ${CLIENT_PROJECT_DIR}/WebCoreManager.cpp
+        ${CLIENT_PROJECT_DIR}/WebCoreManager.hh
+        ${CLIENT_PROJECT_DIR}/KeyHandler.cpp
+        ${CLIENT_PROJECT_DIR}/KeyHandler.hh
+        ${CLIENT_PROJECT_DIR}/Utils.cpp
+        ${CLIENT_PROJECT_DIR}/Utils.hh
+        ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
+        ${CLIENT_PROJECT_DIR}/MessageHandler.hh)
+set(PERF_TEST_SRC
+        ${CLIENT_PROJECT_DIR}/performance_test.cpp
+        ${CLIENT_PROJECT_DIR}/Utils.cpp
+        ${CLIENT_PROJECT_DIR}/Utils.hh)
 
-add_executable(perf_test
-        performance_test.cpp)
+add_executable(${CLIENT_EXECUTABLE_NAME} #WIN32 #todo uncomment if debug build
+        ${CLIENT_SRC})
 
-target_link_libraries(CEFOffScreen libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
-target_link_libraries(perf_test libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
+
+target_link_libraries(${CLIENT_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
