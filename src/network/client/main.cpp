@@ -4,6 +4,9 @@
 #include "BeyondLightClient.hh"
 #include "SocketFactory.hh"
 #include "UdpSslAsyncBoostSocket.hh"
+#include "../../common/NetworkWrapper.hh"
+
+std::shared_ptr<network::socket::ISocket> NetworkWrapper::m_socket = nullptr;
 
 void FactoriesInit() {
 	network::socket::SocketFactory::getInstance()->registerModel(network::socket::clientKeyUdpSslAsyncBoostSocket,

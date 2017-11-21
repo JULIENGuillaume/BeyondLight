@@ -4,6 +4,8 @@
 
 #include "MessageHandler.hh"
 #include "Utils.hh"
+#include "../src/common/NetworkWrapper.hh"
+#include "../src/common/Toolbox.hh"
 
 bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
@@ -12,6 +14,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                                              bool persistent,
                                              CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
     // Only handle messages from the startup URL.
+    auto socket = NetworkWrapper::m_socket;
     const std::string &url = frame->GetURL();
     if (url.find(_startupUrl) != 0)
         return false;
@@ -23,12 +26,27 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
         std::vector<std::string> logInfo = Utils::split(result, ":");
         if (logInfo.size() != 2) {
             callback->Failure(0, "Please enter both your login and password");
-        } else if (logInfo[0] == "root" && logInfo[1] == "root") {
+        } else {
+	        socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
+	        auto toks = common::Toolbox::split(socket->receive(), ":");
+	        std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
+	        if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
+		        callback->Success("Login success");
+		        browser->GetMainFrame()->LoadURL("file:///" + Utils::getApplicationDir() + "/../client/html/index.html");
+	        } else {
+		        callback->Failure(0, "Bad login or password");
+	        }
+		        
+        } 
+	    
+	    /*else if (logInfo[0] == "root" && logInfo[1] == "root") {
+            socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
+            std::cout << socket->receive() << std::endl;
             callback->Success("Login success");
             browser->GetMainFrame()->LoadURL("file:///" + Utils::getApplicationDir() + "/../client/html/index.html");
         } else {
             callback->Failure(0, "Bad login or password");
-        }
+        }*/
         return true;
     }
 

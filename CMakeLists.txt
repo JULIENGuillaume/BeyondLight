@@ -29,6 +29,7 @@ find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 ##
 
 set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(CLIENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/client)
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
@@ -40,6 +41,65 @@ set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 ##
 
 set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh)
+
+##
+##  Game client sources
+##
+
+set(CLIENT_SRC
+        ${CLIENT_PROJECT_DIR}/BrowserClient.hh
+        ${CLIENT_PROJECT_DIR}/BrowserClient.cpp
+        ${CLIENT_PROJECT_DIR}/RenderHandler.hh
+        ${CLIENT_PROJECT_DIR}/RenderHandler.cpp
+        ${CLIENT_PROJECT_DIR}/WebCore.cpp
+        ${CLIENT_PROJECT_DIR}/WebCore.hh
+        ${CLIENT_PROJECT_DIR}/CallBacks.cpp
+        ${CLIENT_PROJECT_DIR}/CallBacks.hh
+        ${CLIENT_PROJECT_DIR}/GlfwHandler.cpp
+        ${CLIENT_PROJECT_DIR}/GlfwHandler.hh
+        ${CLIENT_PROJECT_DIR}/MainHandler.cpp
+        ${CLIENT_PROJECT_DIR}/MainHandler.hh
+        ${CLIENT_PROJECT_DIR}/WebCoreManager.cpp
+        ${CLIENT_PROJECT_DIR}/WebCoreManager.hh
+        ${CLIENT_PROJECT_DIR}/KeyHandler.cpp
+        ${CLIENT_PROJECT_DIR}/KeyHandler.hh
+        ${CLIENT_PROJECT_DIR}/Utils.cpp
+        ${CLIENT_PROJECT_DIR}/Utils.hh
+        ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
+        ${CLIENT_PROJECT_DIR}/MessageHandler.hh src/common/NetworkWrapper.hh)
+
+set(CEF_ROOT "${CLIENT_PROJECT_DIR}/lib/cef")
+
+list(APPEND CMAKE_MODULE_PATH ${CEF_ROOT}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CLIENT_PROJECT_DIR}/cmake)
+
+set(CMAKE_PREFIX_PATH ${CEF_ROOT})
+set(CEF_INCLUDE_DIR ${CEF_ROOT})
+set(CEF_LIBRARY ${CEF_ROOT}/Release) #todo handle release and debug
+set(GLEW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glew/include)
+set(GLEW_LIBRARY ${CLIENT_PROJECT_DIR}/lib/glew/lib/Release/Win32) #todo handle release and debug
+set(GLM_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glm)
+set(GLFW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glfw/include)
+set(GLFW_LIBRARIES ${CLIENT_PROJECT_DIR}/lib/glfw)
+
+find_package(CEF REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(glew REQUIRED) # todo release version for both release & debug
+#find_package(glfw REQUIRED) # todo release version for both release & debug
+find_package(glm REQUIRED)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    link_directories(${CEF_ROOT}/Debug/ ${GLEW_LIBRARY})
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    link_directories(${CEF_ROOT}/Release/ ${GLEW_LIBRARY})
+else()
+    message("Unknown build type")
+endif()
+
+include_directories(${CEF_ROOT}
+        ${GLM_INCLUDE_DIR}
+        ${GLEW_INCLUDE_DIR}
+        ${GLFW_INCLUDE_DIR})
 
 ##
 ##  Network sources
@@ -59,7 +119,7 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
+add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
@@ -68,11 +128,11 @@ IF (UNIX)
     target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
     target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
 ELSE ()
-    set(CLIENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/client)
+
     include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
   target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
-  target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32)
+  target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 ENDIF (UNIX)
 
 ##

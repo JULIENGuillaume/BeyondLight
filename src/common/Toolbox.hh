@@ -11,9 +11,13 @@
 #ifndef BEYONDLIGHT_TOOLBOX_HH
 #define BEYONDLIGHT_TOOLBOX_HH
 
+#include <string>
+#include <vector>
+
 namespace common {
 	class Toolbox {
-
+	public:
+		static std::vector<std::string> split(const std::string &str, const std::string &separator);
 	};
 }
 

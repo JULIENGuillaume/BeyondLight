@@ -6,6 +6,7 @@
 #include <fstream>
 #include <UdpSslAsyncBoostSocket.hh>
 #include "AClientUdp.hh"
+#include "../../common/NetworkWrapper.hh"
 
 network::client::AClientUdp::AClientUdp(std::string const &factoryKey) : m_socket(socket::SocketFactory::getInstance()->create(factoryKey)) {
 	if (m_socket == nullptr)
@@ -19,6 +20,7 @@ bool network::client::AClientUdp::connectTo(const std::string &address, unsigned
 	this->m_socket->receive();
 	dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
 			dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
+	NetworkWrapper::m_socket = this->m_socket;
 	this->mainLoop();
 	return true;
 }
