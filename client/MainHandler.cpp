@@ -65,7 +65,7 @@ bool MainHandler::init() {
 }
 
 void MainHandler::createBrowser() {
-    std::string url = "file:///" + Utils::getApplicationDir() + "/../html/login.html";
+    std::string url = "file:///" + Utils::getApplicationDir() + "/../client/html/login.html";
     this->_webCore = this->_webCoreManager.createBrowser(url);
     this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(), 
                                    this->_glfwHandler.getHeight());
