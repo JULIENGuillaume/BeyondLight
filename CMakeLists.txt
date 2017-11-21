@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
-find_package(Boost COMPONENTS REQUIRED chrono system regex filesystem date_time)
+find_package(Boost COMPONENTS REQUIRED chrono system regex date_time)
 
 set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
