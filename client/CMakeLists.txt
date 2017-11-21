@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.9)
 
-set(CLIENT_PROJECT_DIR "${CMAKE_SOURCE_DIR}/")
+if (NOT DEFINED CLIENT_PROJECT_DIR)
+    set(CLIENT_PROJECT_DIR "${CMAKE_SOURCE_DIR}/")
+endif ()
 set(CLIENT_PROJECT_NAME beyondlight_client)
 set(CLIENT_EXECUTABLE_NAME beyondlight_client)
 set(CLIENT_PERF_EXECUTABLE_NAME beyondlight_client_perftest)
