@@ -10,10 +10,16 @@
 
 #include "SocketFactory.hh"
 #include "BeyondLightClient.hh"
+#include "../../../client/MainHandler.hh"
 
 network::client::BeyondLightClient::BeyondLightClient() : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket) {}
 
 void network::client::BeyondLightClient::mainLoop() {
+	MainHandler mainHandler;
 	std::cout << "Client is in the main loop" << std::endl;
-	std::cout << this->m_socket->receive() << std::endl;
+	mainHandler.init();
+	mainHandler.createBrowser();
+	std::cout << "Browser created" << std::endl;
+	mainHandler.startMainLoop();
+	mainHandler.destroy();
 }

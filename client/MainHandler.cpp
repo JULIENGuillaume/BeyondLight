@@ -65,10 +65,14 @@ bool MainHandler::init() {
 }
 
 void MainHandler::createBrowser() {
+    std::cout << "creating...0" << std::endl;
     std::string url = "file:///" + Utils::getApplicationDir() + "/../client/html/login.html";
+    std::cout << "creating...1" << std::endl;
     this->_webCore = this->_webCoreManager.createBrowser(url);
-    this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(), 
+    std::cout << "creating...2" << std::endl;
+    this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(),
                                    this->_glfwHandler.getHeight());
+    std::cout << "creating...3" << std::endl;
 }
 
 bool MainHandler::isSizeUpdated() {
