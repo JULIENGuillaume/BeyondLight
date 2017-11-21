@@ -80,7 +80,7 @@ public:
         browserSettings.web_security = STATE_DISABLED;
         browserSettings.windowless_frame_rate = 60; // 30 is default
 
-        std::string url = "file:///" + Utils::getApplicationDir() + "/../html/index.html";
+        std::string url = "file:///" + Utils::getApplicationDir() + "/../client/html/index.html";
         //std::string url = "https://www.shadertoy.com/view/Msf3R8";
 
         CefWindowInfo window_info;

@@ -25,7 +25,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
             callback->Failure(0, "Please enter both your login and password");
         } else if (logInfo[0] == "root" && logInfo[1] == "root") {
             callback->Success("Login success");
-            browser->GetMainFrame()->LoadURL("file:///" + Utils::getApplicationDir() + "/../html/index.html");
+            browser->GetMainFrame()->LoadURL("file:///" + Utils::getApplicationDir() + "/../client/html/index.html");
         } else {
             callback->Failure(0, "Bad login or password");
         }
