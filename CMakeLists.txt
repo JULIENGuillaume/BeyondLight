@@ -29,7 +29,7 @@ find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 ##
 
 set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
-set(CLIENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/client)
+set(CLIENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/client)
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
@@ -68,7 +68,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
         ${CLIENT_PROJECT_DIR}/MessageHandler.hh src/common/NetworkWrapper.hh)
 
-set(CEF_ROOT "${CLIENT_PROJECT_DIR}/lib/cef")
+set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
 list(APPEND CMAKE_MODULE_PATH ${CEF_ROOT}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${CLIENT_PROJECT_DIR}/cmake)
@@ -76,11 +76,11 @@ list(APPEND CMAKE_MODULE_PATH ${CLIENT_PROJECT_DIR}/cmake)
 set(CMAKE_PREFIX_PATH ${CEF_ROOT})
 set(CEF_INCLUDE_DIR ${CEF_ROOT})
 set(CEF_LIBRARY ${CEF_ROOT}/Release) #todo handle release and debug
-set(GLEW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glew/include)
-set(GLEW_LIBRARY ${CLIENT_PROJECT_DIR}/lib/glew/lib/Release/Win32) #todo handle release and debug
-set(GLM_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glm)
-set(GLFW_INCLUDE_DIR ${CLIENT_PROJECT_DIR}/lib/glfw/include)
-set(GLFW_LIBRARIES ${CLIENT_PROJECT_DIR}/lib/glfw)
+set(GLEW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include)
+set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32) #todo handle release and debug
+set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
+set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
+set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
 
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -152,3 +152,17 @@ IF (GTEST_FOUND)
         target_link_libraries(TestSuit ${Boost_LIBRARIES} ${GTEST_BOTH_LIBRARIES})
     ENDIF (UNIX)
 ENDIF (GTEST_FOUND)
+
+##
+##  Copy static elements in the target root directory
+##
+
+add_custom_command(TARGET BeyondLightClient PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release # todo fix hard path
+        $<TARGET_FILE_DIR:BeyondLightClient>)
+
+add_custom_command(TARGET BeyondLightClient PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/resources/static/
+        $<TARGET_FILE_DIR:BeyondLightClient>)
