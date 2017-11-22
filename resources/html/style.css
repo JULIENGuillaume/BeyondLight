@@ -75,6 +75,7 @@ body {
     /*padding-right: 2.7%;*/
     background-size: 5% auto;
     /*background-origin: todo fix ?*/
+    height: 100%;
     left: 0%;
     top: 0%;
     z-index: -1;
@@ -130,7 +131,7 @@ body {
     background-color:rgba(17, 33, 90, 0.7);
     border-left: 1px solid #0a5586;
     border-right: 1px solid #0a5586;
-    height: 88vh;
+    height: 84vh;
 }
 
 .game-main-text {
