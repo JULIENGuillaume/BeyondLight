@@ -461,3 +461,40 @@ body {
 input {
     max-width: 90%;
 }
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.26);
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: white;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.26);
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    border-bottom: 2px solid rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 2px solid rgba(64,228,240,1);
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    margin-top: 10px;
+    color: white;
+}

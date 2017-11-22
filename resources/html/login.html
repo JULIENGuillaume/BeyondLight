@@ -8,18 +8,53 @@
     <body>
         <div class="login-background">
             <div class="login-container">
-                <div class="login-container-field">
-                    <label><b>Username</b></label>
-                    <input id="login" class="login-box-style"style="float:right;" type="text" placeholder="Enter Username" name="uname" required>
+                <div class="tab">
+                  <button id="login-btn" class="tablinks">Login</button>
+                  <button id="register-btn" class="tablinks">Register</button>
                 </div>
-                <div class="login-container-field">
-                    <label style="float:left;"><b>Password</b></label>
-                    <input id="pw" class="login-box-style" style="float:right;" type="password" placeholder="Enter Password" name="psw" required>
+                <div id="login" class="tabcontent">
+                    <div class="login-container-field">
+                        <label><b>Username</b></label>
+                        <input id="login-login" class="login-box-style"style="float:right;" type="text" placeholder="Enter Username" name="uname" required>
+                    </div>
+                    <div class="login-container-field">
+                        <label style="float:left;"><b>Password</b></label>
+                        <input id="login-pw" class="login-box-style" style="float:right;" type="password" placeholder="Enter Password" name="psw" required>
+                    </div>
+                    <div class="login-container-field">
+                        <button id="login-submit" style="float:left;" type="submit">Login</button>
+                        <div style="float:right;">
+                            <input type="checkbox" checked="checked"> Remember me
+                        </div>
+                    </div>
                 </div>
-                <div class="login-container-field">
-                    <button id="submit" style="float:left;" type="submit">Login</button>
-                    <div style="float:right;">
-                        <input type="checkbox" checked="checked"> Remember me
+                <div id="register" class="tabcontent">
+                    <div class="login-container-field">
+                        <label><b>First name</b></label>
+                        <input id="register-firstname" class="login-box-style"style="float:right;" type="text" placeholder="first name" name="uname" required>
+                    </div>
+                    <div class="login-container-field">
+                        <b>Last name</b>
+                        <input id="register-lastname" class="login-box-style" style="float:right;" type="text" placeholder="last name" name="uname" required>
+                    </div>
+                    <div class="login-container-field">
+                        <b>User name</b>
+                        <input id="register-username" class="login-box-style" style="float:right;" type="text" placeholder="user name" name="uname" required>
+                    </div>
+                    <div class="login-container-field">
+                        <b>Email</b>
+                        <input id="register-email" class="login-box-style" style="float:right;" type="text" placeholder="your@email.com" name="uname" required>
+                    </div>
+                    <div class="login-container-field">
+                        <b>Password</b>
+                        <input id="register-pw" class="login-box-style" style="float:right;" type="password" placeholder="password" name="psw" required>
+                    </div>
+                    <div class="login-container-field">
+                        <b>Repeat password</b>
+                        <input id="register-repeat-pw" class="login-box-style" style="float:right;" type="password" placeholder="repeat password" name="psw" required>
+                    </div>
+                    <div class="login-container-field">
+                        <button id="register-submit" style="float:left;" type="submit">Register</button>
                     </div>
                 </div>
                 <label id="message"></label>
@@ -27,11 +62,36 @@
         </div>
     </body>
     <script>
+        document.getElementById("login-btn").onclick = function() {openTab("login")};
+        document.getElementById("register-btn").onclick = function() {openTab("register")};
+        document.getElementById("login-btn").click(); // default open
+        function openTab(tabId) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabId).style.display = "block";
+            document.getElementById(tabId + "-btn").className += " active";
+        }
+    </script>
+    <script>
         var login = "";
         var pw = "";
-        document.getElementById("submit").onclick = function() {onSubmit()};
+        document.getElementById("login-submit").onclick = function() {onLoginSubmit()};
 
-        function sendMessage() {
+        function sendLoginMessage() {
             // Results in a call to the OnQuery method in client_impl.cc.
             window.cefQuery({
                 request: 'MainRoute:' + login + ':' + pw,
@@ -45,10 +105,47 @@
         }
 
 
-        function onSubmit() {
-            login = document.getElementById("login").value;
-            pw = document.getElementById("pw").value;
-            sendMessage();
+        function onLoginSubmit() {
+            login = document.getElementById("login-login").value;
+            pw = document.getElementById("login-pw").value;
+            sendLoginMessage();
+        }
+    </script>
+    <script>
+        var firstname;
+        var lastname;
+        var username;
+        var email;
+        var password;
+        var repeatPassword;
+        
+        function sendRegisterMessage() {
+            // Results in a call to the OnQuery method in client_impl.cc.
+            window.cefQuery({
+                request: 'MainRoute:' + firstname + ':'
+                + lastname + ':'
+                + username + ':'
+                + email + ':'
+                + password + ':'
+                + repeatPassword,
+                onSuccess: function(response) {
+                    document.getElementById('message').innerText = response;
+                },
+                onFailure: function(error_code, error_message) {
+                    document.getElementById('message').innerText = error_message;
+                }
+            });
+        }
+        
+        document.getElementById("register-submit").onclick = function() {onRegisterSubmit()};        
+        function onRegisterSubmit() {
+            firstname = document.getElementById("register-firstname").value;
+            lastname = document.getElementById("register-lastname").value;
+            username = document.getElementById("register-username").value;
+            email = document.getElementById("register-email").value;
+            password = document.getElementById("register-pw").value;
+            repeatPassword = document.getElementById("register-repeat-pw").value;
+            sendRegisterMessage();
         }
     </script>
 </html> 
