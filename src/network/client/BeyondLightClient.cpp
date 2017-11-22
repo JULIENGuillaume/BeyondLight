@@ -10,7 +10,7 @@
 
 #include "SocketFactory.hh"
 #include "BeyondLightClient.hh"
-#include "../../../client/MainHandler.hh"
+#include "../../client/MainHandler.hh"
 
 network::client::BeyondLightClient::BeyondLightClient() : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket) {}
 
