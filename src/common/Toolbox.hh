@@ -18,6 +18,13 @@ namespace common {
 	class Toolbox {
 	public:
 		static std::vector<std::string> split(const std::string &str, const std::string &separator);
+		static std::string getApplicationDir(); // todo fix windows only
+		static std::u16string to16string(const std::string &str);
+		static std::u16string to16string(const std::wstring &str);
+		static std::wstring toWstring(const std::u16string &str);
+		static std::wstring toWstring(const std::string &str);
+		static std::string toString(const std::wstring &str);
+		static const std::u16string &escapeChar(std::u16string &str, const std::vector<char> &toEscape, char16_t eschapeChar);
 	};
 }
 
