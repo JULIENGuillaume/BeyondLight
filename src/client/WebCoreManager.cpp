@@ -5,7 +5,8 @@
 #include <iostream>
 #include "include/cef_app.h"
 #include "WebCoreManager.hh"
-#include "Utils.hh"
+#include "../common/Toolbox.hh"
+
 
 WebCoreManager::WebCoreManager() {
 
@@ -32,7 +33,7 @@ bool WebCoreManager::setUp(int *exit_code)
     settings.single_process = false;
     settings.command_line_args_disabled = false;
     settings.windowless_rendering_enabled = true;
-    std::string rootDir = Utils::getApplicationDir();
+    std::string rootDir = common::Toolbox::getApplicationDir();
     rootDir = rootDir.substr(0, rootDir.rfind("\\"));
     CefString(&settings.resources_dir_path) = rootDir + "\\resources\\cef";
     CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";

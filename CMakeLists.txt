@@ -7,6 +7,24 @@ project(BeyondLight)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CLIENT_PERF_EXECUTABLE_NAME BeyondLightClientPerfTest)
+
+# Determine the project architecture.
+if(NOT DEFINED PROJECT_ARCH)
+    if(CMAKE_SIZEOF_VOID_P MATCHES 8)
+        set(PROJECT_ARCH "x86_64")
+    else()
+        set(PROJECT_ARCH "x86")
+    endif()
+    if(NOT MSVC)
+        set(CMAKE_CXX_FLAGS "-m32")
+    endif()
+    if(OS_MACOSX)
+        # PROJECT_ARCH should be specified on Mac OS X.
+        message(WARNING "No PROJECT_ARCH value specified, using ${PROJECT_ARCH}")
+    endif()
+endif()
+
 if(${MINGW})
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
                                         -Wcast-align -Wswitch-enum -Wconversion -Wunreachable-code \
@@ -14,6 +32,29 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -Og")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
 endif()
+
+################# Flags ################
+# Defines Flags for Windows and Linux. #
+########################################
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
+endif(MSVC)
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # todo remove overwriting flags
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    endif()
+endif(NOT MSVC)
+
+# Definition of Macros
+#add_definitions(
+#        -DDEBUG
+#        -DUNICODE
+#        -D_UNICODE
+#        -DGLFW_DLL
+#)
 
 ##
 ##  BOOST setup
@@ -43,6 +84,15 @@ set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh)
 
 ##
+##  Game Client perf test
+##
+set(PERF_TEST_SRC
+        ${CLIENT_PROJECT_DIR}/performance_test.cpp
+        src/common/Toolbox.cpp
+        src/common/Toolbox.hh
+        )
+
+##
 ##  Game client sources
 ##
 
@@ -63,10 +113,12 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/WebCoreManager.hh
         ${CLIENT_PROJECT_DIR}/KeyHandler.cpp
         ${CLIENT_PROJECT_DIR}/KeyHandler.hh
-        ${CLIENT_PROJECT_DIR}/Utils.cpp
-        ${CLIENT_PROJECT_DIR}/Utils.hh
         ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
-        ${CLIENT_PROJECT_DIR}/MessageHandler.hh src/common/NetworkWrapper.hh)
+        ${CLIENT_PROJECT_DIR}/MessageHandler.hh
+        src/common/NetworkWrapper.hh
+        src/common/Toolbox.cpp
+        src/common/Toolbox.hh
+        )
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -120,17 +172,19 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})
+add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
+add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
-target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
+target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 
 IF (UNIX)
     target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
     target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
 ELSE ()
 
-    include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
+    #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
   target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
   target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)

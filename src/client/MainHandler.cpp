@@ -12,7 +12,7 @@
 
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
-#include "Utils.hh"
+#include "../common/Toolbox.hh"
 
 MainHandler::MainHandler() {
     this->_sizeUpdated = false;
@@ -65,14 +65,10 @@ bool MainHandler::init() {
 }
 
 void MainHandler::createBrowser() {
-    std::cout << "creating...0" << std::endl;
-    std::string url = "file:///" + Utils::getApplicationDir() + "/../resources/html/login.html";
-    std::cout << "creating...1" << std::endl;
+    std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/login.html";
     this->_webCore = this->_webCoreManager.createBrowser(url);
-    std::cout << "creating...2" << std::endl;
     this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(),
                                    this->_glfwHandler.getHeight());
-    std::cout << "creating...3" << std::endl;
 }
 
 bool MainHandler::isSizeUpdated() {
