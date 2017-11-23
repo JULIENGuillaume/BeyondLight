@@ -145,6 +145,11 @@ void MainHandler::onKeyEvent(GLFWwindow *window, int key, int scancode, int acti
         if (key == GLFW_KEY_X) { // todo improve
             this->_webCore.lock()->cut();
         }
+        // todo handle tab
+        // todo handle enter
+    }
+    if (key == GLFW_KEY_F5) {
+        this->_webCore.lock()->reload(true); // todo remove debug
     }
 }
 

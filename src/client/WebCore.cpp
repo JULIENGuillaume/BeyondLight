@@ -179,3 +179,11 @@ void WebCore::cut() {
 void WebCore::selectAll() {
     this->_browser->GetMainFrame()->SelectAll();
 }
+
+void WebCore::reload(bool ignoreCache) {
+    if (ignoreCache) {
+        this->_browser->ReloadIgnoreCache();
+    } else {
+        this->_browser->Reload();
+    }
+}

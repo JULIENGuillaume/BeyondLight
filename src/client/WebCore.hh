@@ -33,6 +33,7 @@ public:
 	void copy();
 	void selectAll();
 	void cut();
+	void reload(bool ignoreCache);
 };
 
 #endif // WEB_CORE_HH
