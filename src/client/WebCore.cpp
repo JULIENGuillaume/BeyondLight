@@ -125,6 +125,8 @@ void WebCore::keyPress(int key, int scancode, int action, int mods)
         nativeKey = VK_PRIOR;
     } else if (key == GLFW_KEY_PAGE_DOWN) {
         nativeKey = VK_NEXT;
+    } else if (key == GLFW_KEY_TAB) {
+        nativeKey = VK_TAB;
     }
 
     event.windows_key_code = nativeKey;
