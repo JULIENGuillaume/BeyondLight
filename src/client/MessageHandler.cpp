@@ -23,20 +23,27 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
         // Reverse the string and return.
         std::string result = message_name.substr(_mainRoute.length());
         std::vector<std::string> logInfo = common::Toolbox::split(result, ":");
-        if (logInfo.size() != 2) {
-            callback->Failure(0, "Please enter both your login and password");
-        } else {
-	        socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
-	        auto toks = common::Toolbox::split(socket->receive(), ":");
-	        std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
-	        if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
-		        callback->Success("Login success");
-		        browser->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
-	        } else {
-		        callback->Failure(0, "Bad login or password");
-	        }
-		        
-        } 
+	    if (logInfo.size() != 6) {
+		    if (logInfo.size() != 2) {
+			    callback->Failure(0, "Please enter both your login and password");
+		    } else {
+			    socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
+			    auto toks = common::Toolbox::split(socket->receive(), ":");
+			    std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
+			    if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
+				    callback->Success("Login success");
+				    browser->GetMainFrame()->LoadURL(
+						    "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
+			    } else {
+				    callback->Failure(0, "Bad login or password");
+			    }
+
+		    }
+	    } else {
+		    socket->send("043:" + logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
+		    auto toks = common::Toolbox::split(socket->receive(), ":");
+		    std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
+	    }
 	    
 	    /*else if (logInfo[0] == "root" && logInfo[1] == "root") {
             socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
