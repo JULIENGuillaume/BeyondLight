@@ -11,10 +11,13 @@
 #ifndef BEYONDLIGHT_REGISTEREDUSERS_HH
 #define BEYONDLIGHT_REGISTEREDUSERS_HH
 
+#include <PSingleton.hpp>
+#include <unordered_map>
+
 namespace server {
 	namespace user {
-		class RegisteredUsers {
-
+		struct RegisteredUsers : public pattern::PSingleton<RegisteredUsers> {
+			std::unordered_map<std::string, std::string> users = {std::make_pair("root", "root")};
 		};
 
 	}
