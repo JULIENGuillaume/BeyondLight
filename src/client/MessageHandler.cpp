@@ -13,6 +13,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                                              bool persistent,
                                              CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
     // Only handle messages from the startup URL.
+    std::cout << "networkhandler test value: " << this->_networkHandler->test << std::endl; // todo remove debug
     auto socket = NetworkWrapper::m_socket;
     const std::string &url = frame->GetURL();
     if (url.find(_startupUrl) != 0)
@@ -59,6 +60,6 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
     return false;
 }
 
-MessageHandler::MessageHandler(const CefString &startup_url)
-        : _startupUrl(startup_url) {
+MessageHandler::MessageHandler(const CefString &startup_url, std::shared_ptr<network::client::NetworkHandler> networkHandler)
+        : _startupUrl(startup_url), _networkHandler(networkHandler) {
 }

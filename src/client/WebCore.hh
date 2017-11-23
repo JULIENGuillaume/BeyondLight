@@ -5,6 +5,7 @@
 #include <vector>
 #include "include/cef_client.h"
 #include "BrowserClient.hh"
+#include "NetworkHandler.hh"
 
 class WebCore {
 private:
@@ -14,10 +15,10 @@ private:
 
     CefRefPtr<CefBrowser> _browser;
     CefRefPtr<BrowserClient> _client;
-
+	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
     RenderHandler* _renderHandler;
 public:
-	WebCore(const std::string &url);
+	WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler);
 	~WebCore();
 
 	void reshape(int w, int h);

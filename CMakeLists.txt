@@ -118,7 +118,8 @@ set(CLIENT_SRC
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
-        )
+        src/network/client/NetworkHandler.cpp
+        src/network/client/NetworkHandler.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 

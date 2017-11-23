@@ -1,6 +1,7 @@
 ﻿#ifndef BROWSER_CLIENT_HH
 #define BROWSER_CLIENT_HH
 
+#include "NetworkHandler.hh"
 #include "include/cef_client.h"
 #include "include/wrapper/cef_message_router.h"
 
@@ -19,8 +20,10 @@ private:
 	// Track the number of browsers using this Client.
 	int browser_ct_;
 
+	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+
 public:
-	explicit BrowserClient(RenderHandler *renderHandler);
+	explicit BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler>);
 	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 	CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
 	CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
