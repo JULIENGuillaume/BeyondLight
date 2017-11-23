@@ -12,9 +12,10 @@ class WebCoreManager : public CefApp, public CefRenderProcessHandler {
 private:
     std::vector<std::shared_ptr<WebCore>> _browsers;
 	CefRefPtr<CefMessageRouterRendererSide> message_router_;
+	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
 
 public:
-	WebCoreManager();
+	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler);
 	~WebCoreManager();
 
 	bool setUp(int *exit_code);

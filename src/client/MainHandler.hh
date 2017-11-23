@@ -12,6 +12,7 @@
 
 class MainHandler {
 private:
+    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
     std::weak_ptr<WebCore> _webCore;
     WebCoreManager _webCoreManager;
     GlfwHandler _glfwHandler;
@@ -21,6 +22,7 @@ private:
     bool _isInput;
 public:
     MainHandler();
+    ~MainHandler();
     bool init();
     void createBrowser();
     bool isSizeUpdated();

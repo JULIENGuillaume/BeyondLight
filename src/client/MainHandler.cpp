@@ -14,7 +14,7 @@
 #include "RenderHandler.hh"
 #include "../common/Toolbox.hh"
 
-MainHandler::MainHandler() {
+MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler), _webCoreManager(_networkHandler) {
     this->_sizeUpdated = false;
     this->_frame = 0;
 }
@@ -58,6 +58,8 @@ bool MainHandler::init() {
     // setup glfw
     this->_glfwHandler.setupGlfw();
     this->_glfwHandler.setUserPointer(this);
+
+    this->_networkHandler->test = "network is working";
 
     // init opengl & shader
 
@@ -187,4 +189,8 @@ void MainHandler::onCursorEnter(GLFWwindow *window, int entered) {
     double y = 0;
     glfwGetCursorPos(window, &x, &y);
     this->_webCore.lock()->mouseMove(x, y, entered);
+}
+
+MainHandler::~MainHandler() {
+    // todo destroy networkhandler ?
 }
