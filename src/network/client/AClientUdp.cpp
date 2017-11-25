@@ -11,7 +11,6 @@
 network::client::AClientUdp::AClientUdp(std::string const &factoryKey) : m_socket(socket::SocketFactory::getInstance()->create(factoryKey)) {
 	if (m_socket == nullptr)
 		std::cerr << "Can't create socket client: invalid factory key" << std::endl;
-	_hacking = false;
 }
 
 bool network::client::AClientUdp::connectTo(const std::string &address, unsigned short port) {
@@ -21,8 +20,18 @@ bool network::client::AClientUdp::connectTo(const std::string &address, unsigned
 	dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
 			dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
 	NetworkWrapper::m_socket = this->m_socket;
-	this->mainLoop();
+	m_running = true;
 	return true;
 }
 
-void network::client::AClientUdp::disconnect() {}
+void network::client::AClientUdp::disconnect() {
+	m_running = false;
+}
+
+std::shared_ptr<std::thread> network::client::AClientUdp::asyncLaunch() {
+	return std::make_shared<std::thread>(&AClientUdp::launch, this);
+}
+
+void network::client::AClientUdp::launch() {
+	this->mainLoop();
+}

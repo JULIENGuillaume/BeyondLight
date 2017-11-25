@@ -33,6 +33,7 @@ namespace network {
 			bool openConnection(unsigned short port) override;
 			boost::asio::ip::udp::endpoint getLastSenderEndpoint();
 			void updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint);
+			void close() override;
 
 		private:
 			bool m_connected = false;

@@ -21,6 +21,10 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 	auto users = ::server::user::RegisteredUsers::getInstance();
 	std::cout << "Main loop reached" << std::endl;
 	auto msg = socket->receive();
+	while (msg.find("\r\n") == msg.npos) {
+		msg += socket->receive();
+	}
+	msg = msg.substr(0, msg.find("\r\n"));
 	auto toks = common::Toolbox::split(msg, ":");
 	if (!toks.empty()) {
 		switch (std::atoi(toks[0].c_str())) {
