@@ -17,6 +17,10 @@
 network::socket::UdpSslAsyncBoostSocket::UdpSslAsyncBoostSocket() : m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
 }
 
+void network::socket::UdpSslAsyncBoostSocket::close() {
+	m_socket->close();
+}
+
 bool network::socket::UdpSslAsyncBoostSocket::connect(std::string const &address, unsigned short port) {
 	try {
 		if (m_socket->is_open()) {
@@ -49,11 +53,11 @@ bool network::socket::UdpSslAsyncBoostSocket::openConnection(unsigned short port
 }
 
 void network::socket::UdpSslAsyncBoostSocket::send(char const *msg) {
-	m_socket->send_to(boost::asio::buffer(std::string(msg)), m_targetEndpoint);
+	m_socket->send_to(boost::asio::buffer(std::string(msg) + "\r\n"), m_targetEndpoint);
 }
 
 void network::socket::UdpSslAsyncBoostSocket::send(std::string const &msg) {
-	m_socket->send_to(boost::asio::buffer(msg), m_targetEndpoint);
+	m_socket->send_to(boost::asio::buffer(msg + "\r\n"), m_targetEndpoint);
 }
 
 char *network::socket::UdpSslAsyncBoostSocket::receive(char *buf, size_t bufSize) {

@@ -19,10 +19,12 @@ namespace network {
 		public:
 			bool connectTo(const std::string &address, unsigned short port) override;
 			void disconnect() override;
+			std::shared_ptr<std::thread> asyncLaunch() override;
+			void launch() override;
 
 		protected:
 			std::shared_ptr<socket::ISocket> m_socket;
-			bool _hacking;
+			bool m_running = false;
 		};
 	}
 }

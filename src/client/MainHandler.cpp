@@ -14,7 +14,7 @@
 #include "RenderHandler.hh"
 #include "../common/Toolbox.hh"
 
-MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler()),
+MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler("127.0.0.1", 8080)),
                              _webCoreManager(_networkHandler) {
     this->_sizeUpdated = false;
     this->_frame = 0;
@@ -60,7 +60,7 @@ bool MainHandler::init() {
     this->_glfwHandler.setupGlfw();
     this->_glfwHandler.setUserPointer(this);
 
-    this->_networkHandler->test = "network is working";
+    //this->_networkHandler->test = "network is working";
 
     // init opengl & shader
 
@@ -132,6 +132,7 @@ void MainHandler::destroy() {
     // close cef
     this->_webCoreManager.removeBrowser(this->_webCore);
     this->_webCoreManager.shutDown();
+    this->_networkHandler = nullptr;
 }
 
 void MainHandler::onKeyEvent(GLFWwindow *window, int key, int scancode, int action, int mods) {

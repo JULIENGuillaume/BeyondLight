@@ -5,6 +5,7 @@
 #include "SocketFactory.hh"
 #include "UdpSslAsyncBoostSocket.hh"
 #include "../../common/NetworkWrapper.hh"
+#include "../../client/MainHandler.hh"
 
 std::shared_ptr<network::socket::ISocket> NetworkWrapper::m_socket = nullptr;
 
@@ -18,8 +19,17 @@ int main() {
 	FactoriesInit();
 
 	try {
-		std::shared_ptr<network::client::IClient> client(new network::client::BeyondLightClient());
-		client->connectTo("127.0.0.1", 8080);
+		MainHandler mainHandler;
+
+		if (mainHandler.init()) {
+			std::cerr << "initialization failed!" << std::endl;
+			return (1);
+		}
+
+		mainHandler.createBrowser();
+		mainHandler.startMainLoop();
+
+		mainHandler.destroy();
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return 1;

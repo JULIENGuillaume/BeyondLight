@@ -17,6 +17,7 @@ namespace network {
 		public:
 			virtual bool connect(std::string const &address, unsigned short port) = 0;
 			virtual bool openConnection(unsigned short port) = 0;
+			virtual void close() = 0;
 
 		public:
 			virtual void send(char const* msg) = 0;

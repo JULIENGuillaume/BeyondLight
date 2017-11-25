@@ -204,8 +204,8 @@ void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type
     const double delta = currentTime - this->_lastTickTime;
     ++this->_calls;
     if (delta >= 1.0) {
-        std::cout << std::to_string(1000.0 / this->_calls) << " CEF ms/frame"
-                  << std::endl;
+        /*std::cout << std::to_string(1000.0 / this->_calls) << " CEF ms/frame"
+                  << std::endl;*/
         this->_calls = 0;
         this->_lastTickTime += 1.0;
     }
