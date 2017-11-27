@@ -20,10 +20,18 @@ namespace server {
 			User(unsigned long m_id, const std::string &m_login);
 			unsigned long int getId() const;
 			std::string getLogin() const;
+			std::string getFirstName() const;
+			std::string getLastName() const;
+			std::string getEmail() const;
+			std::string getPassword() const;
 
 		private:
 			unsigned long int m_id;
 			std::string m_login;
+			std::string m_firstName;
+			std::string m_lastName;
+			std::string m_email;
+			std::string m_password;
 			char m_nonce[32];
 		};
 	}

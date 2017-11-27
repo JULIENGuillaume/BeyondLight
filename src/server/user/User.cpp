@@ -19,3 +19,19 @@ unsigned long int server::user::User::getId() const {
 std::string server::user::User::getLogin() const {
     return m_login;
 }
+
+std::string server::user::User::getFirstName() const {
+    return m_firstName;
+}
+
+std::string server::user::User::getLastName() const {
+    return m_lastName;
+}
+
+std::string server::user::User::getEmail() const {
+    return m_email;
+}
+
+std::string server::user::User::getPassword() const {
+    return m_password;
+}
