@@ -35,3 +35,27 @@ std::string server::user::User::getEmail() const {
 std::string server::user::User::getPassword() const {
     return m_password;
 }
+
+void server::user::User::setId(const unsigned long int &nid) {
+    m_id = nid;
+}
+
+void server::user::User::setLogin(const std::string &nl) {
+    m_login = nl;
+}
+
+void server::user::User::setFirstName(const std::string &nfn) {
+    m_firstName = nfn;
+}
+
+void server::user::User::setLastName(const std::string &nln) {
+    m_lastName = nln;
+}
+
+void server::user::User::setEmail(const std::string &ne) {
+    m_email = ne;
+}
+
+void server::user::User::setPassword(const std::string &np) {
+    m_password = np;
+}

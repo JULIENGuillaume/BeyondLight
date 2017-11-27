@@ -29,11 +29,12 @@ bsoncxx::stdx::optional<mongocxx::result::insert_one> server::storage::Database:
 	bsoncxx::document::value tmp = builder
 		<< "_id" << bsoncxx::types::b_utf8{std::to_string(usr.getId())}
 		<< "login" << usr.getLogin()
-		<< "password" << "default"
-		<< bsoncxx::builder::stream::finalize;
-    /*builder.append(bsoncxx::builder::basic::kvp("_id", bsoncxx::types::b_utf8{std::to_string(usr.getId())}));
-	builder.append(bsoncxx::builder::basic::kvp("login", usr.getLogin()));
-	builder.append(bsoncxx::builder::basic::kvp("password", "default"));*/
+		<< "password" << usr.getPassword()
+		<< "firstName" << usr.getFirstName()
+        << "lastName" << usr.getLastName()
+        << "email" << usr.getEmail()
+        << bsoncxx::builder::stream::finalize;
+
 
 	try {
 		bsoncxx::document::view_or_value test{tmp};
@@ -57,7 +58,10 @@ bsoncxx::stdx::optional<mongocxx::result::insert_many> server::storage::Database
 
         builder.append(bsoncxx::builder::basic::kvp("_id", bsoncxx::types::b_utf8{std::to_string(usr.getId())}),
                        bsoncxx::builder::basic::kvp("login", usr.getLogin()),
-                       bsoncxx::builder::basic::kvp("password", "default"));
+                       bsoncxx::builder::basic::kvp("password", usr.getPassword()),
+                       bsoncxx::builder::basic::kvp("firstName", usr.getFirstName()),
+                       bsoncxx::builder::basic::kvp("lastName", usr.getLastName()),
+                       bsoncxx::builder::basic::kvp("email", usr.getEmail()));
 
         docs.push_back(builder.extract());
     }
@@ -72,6 +76,8 @@ server::user::User *server::storage::Database::getUserByLogin(const std::string 
 
     bsoncxx::stdx::optional<bsoncxx::document::value> usrDoc = users.find_one(builder.extract());
 
+    server::user::User *usr = new server::user::User(0, "tmp");
+
     if (usrDoc) {
         std::stringstream ss;
 
@@ -84,10 +90,21 @@ server::user::User *server::storage::Database::getUserByLogin(const std::string 
                 ss >> usrId;
             } else if (it.key().to_string() == "login") {
                 usrLogin = it.get_utf8().value.to_string();
+            } else if (it.key().to_string() == "firstName") {
+                usr->setFirstName(it.get_utf8().value.to_string());
+            } else if (it.key().to_string() == "lastName") {
+                usr->setLastName(it.get_utf8().value.to_string());
+            } else if (it.key().to_string() == "email") {
+                usr->setEmail(it.get_utf8().value.to_string());
+            } else if (it.key().to_string() == "password") {
+                usr->setPassword(it.get_utf8().value.to_string());
             }
         }
-        if (usrId && !usrLogin.empty())
-            return new server::user::User(usrId, usrLogin);
+        if (usrId && !usrLogin.empty()) {
+            usr->setId(usrId);
+            usr->setLogin(usrLogin);
+            return usr;
+        }
     }
     return nullptr;
 }
