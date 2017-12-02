@@ -119,7 +119,34 @@ set(CLIENT_SRC
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
         src/network/client/NetworkHandler.cpp
-        src/network/client/NetworkHandler.hh)
+        src/network/client/NetworkHandler.hh
+        src/common/event/IEventObserver.hh
+        src/common/event/EventObserver.cpp
+        src/common/event/EventObserver.hh
+        src/common/pattern/Observator.hpp
+        ${CLIENT_PROJECT_DIR}/mvc/DataHandler.hpp
+        ${CLIENT_PROJECT_DIR}/mvc/view/StudentView.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/view/StudentView.hh
+        ${CLIENT_PROJECT_DIR}/mvc/view/StudentViewTwo.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/view/StudentViewTwo.hh
+        ${CLIENT_PROJECT_DIR}/mvc/view/ABaseView.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/view/ABaseView.hh
+        ${CLIENT_PROJECT_DIR}/mvc/view/ViewHandler.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/view/ViewHandler.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/IBaseController.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerHandler.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerHandler.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerFactory.hhp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/IControllerFactory.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/StudentController.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/StudentController.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/ModelHandler.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/ModelHandler.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/StudentModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/StudentModel.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.hh
+        )
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
