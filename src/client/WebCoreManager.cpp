@@ -8,8 +8,9 @@
 #include "../common/Toolbox.hh"
 
 
-WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) : _networkHandler(networkHandler) {
-
+WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler) :
+        _networkHandler(networkHandler),
+        _mvcHandler(mvcHandler) {
 }
 
 WebCoreManager::~WebCoreManager() {
@@ -60,7 +61,7 @@ void WebCoreManager::update()
 
 std::weak_ptr<WebCore> WebCoreManager::createBrowser(const std::string &url)
 {
-    auto web_core = std::make_shared<WebCore>(url, this->_networkHandler);
+    auto web_core = std::make_shared<WebCore>(url, this->_networkHandler, this->_mvcHandler);
     _browsers.push_back(web_core);
     return web_core;
 }

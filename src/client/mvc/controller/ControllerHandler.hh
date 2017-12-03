@@ -6,6 +6,7 @@
 #define MVC_TEST_CONTROLLERHANDLER_HH
 
 #include <unordered_map>
+#include "include/wrapper/cef_message_router.h"
 #include "IBaseController.hh"
 #include "IControllerFactory.hh"
 #include "../DataHandler.hpp"
@@ -16,14 +17,17 @@ private:
     std::string _curSubRoute;
     std::shared_ptr<IBaseController> _currentController;
     std::shared_ptr<ModelHandler> _modelHandler;
-    std::shared_ptr<ViewHandler> _viewHandler;
+    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
 
     std::shared_ptr<IControllerFactory> getRouteControllerFactory(const std::string &route);
 
 public:
     ControllerHandler() = delete;
-    explicit ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::shared_ptr<ViewHandler> viewHandler);
+    explicit ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler);
     void changeRoute(const std::string &route, const std::string &subRoute);
+    void onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                 int64 query_id, const CefString &request, bool persistent,
+                 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 };
 
 

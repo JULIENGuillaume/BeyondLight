@@ -94,7 +94,7 @@
         function sendLoginMessage() {
             // Results in a call to the OnQuery method in client_impl.cc.
             window.cefQuery({
-                request: 'MainRoute:' + login + ':' + pw,
+                request: 'login-connect:' + login + ':' + pw,
                 onSuccess: function(response) {
                     document.getElementById('message').innerText = response;
                 },
@@ -122,7 +122,7 @@
         function sendRegisterMessage() {
             // Results in a call to the OnQuery method in client_impl.cc.
             window.cefQuery({
-                request: 'MainRoute:' + firstname + ':'
+                request: 'login-register:' + firstname + ':'
                 + lastname + ':'
                 + username + ':'
                 + email + ':'
