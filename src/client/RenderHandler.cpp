@@ -434,7 +434,7 @@ void RenderHandler::loadBgTexture() {
     int width;
     int height;
     int nrChannels;
-    unsigned char *data = stbi_load("../resources/html/bg.jpg", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load("../resources/html/img/bg.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -458,7 +458,7 @@ void RenderHandler::loadBgGridTexture() { // todo refactor
     int width;
     int height;
     int nrChannels;
-    unsigned char *data = stbi_load("../resources/html/gridbg-glow2.png", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load("../resources/html/img/gridbg-glow2.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
