@@ -9,10 +9,12 @@
 #include "WebCoreManager.hh"
 #include "WebCore.hh"
 #include "GlfwHandler.hh"
+#include "mvc/MvcHandler.hh"
 
 class MainHandler {
 private:
     std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+    std::shared_ptr<MvcHandler> _mvcHandler;
     std::weak_ptr<WebCore> _webCore;
     WebCoreManager _webCoreManager;
     GlfwHandler _glfwHandler;

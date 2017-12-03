@@ -6,8 +6,11 @@
 #include "RenderHandler.hh"
 #include "include/cef_app.h"
 
-WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler)
-	: _mouseX(0), _mouseY(0), _networkHandler(networkHandler)
+WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler) :
+        _mouseX(0),
+        _mouseY(0),
+        _networkHandler(networkHandler),
+        _mvcHandler(mvcHandler)
 {
 	_renderHandler = new RenderHandler();
 	_renderHandler->Initialize();
@@ -30,7 +33,7 @@ WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::Networ
     browserSettings.universal_access_from_file_urls = STATE_DISABLED;
     browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
 	browserSettings.windowless_frame_rate = 60; // 30 is default
-	_client = new BrowserClient(_renderHandler, networkHandler);
+	_client = new BrowserClient(_renderHandler, this->_networkHandler, this->_mvcHandler);
 	_browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(), url, browserSettings, nullptr);
 }
 

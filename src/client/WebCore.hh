@@ -16,9 +16,10 @@ private:
     CefRefPtr<CefBrowser> _browser;
     CefRefPtr<BrowserClient> _client;
 	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-    RenderHandler* _renderHandler;
+	std::shared_ptr<MvcHandler> _mvcHandler;
+	RenderHandler* _renderHandler; // todo RAII
 public:
-	WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler);
+	WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> _mvcHandler);
 	~WebCore();
 
 	void reshape(int w, int h);

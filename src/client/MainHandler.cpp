@@ -14,7 +14,9 @@
 #include "RenderHandler.hh"
 #include "../common/Toolbox.hh"
 
-MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler), _webCoreManager(_networkHandler) {
+MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler()),
+                             _mvcHandler(new MvcHandler(this->_networkHandler)),
+                             _webCoreManager(this->_networkHandler, this->_mvcHandler) {
     this->_sizeUpdated = false;
     this->_frame = 0;
 }

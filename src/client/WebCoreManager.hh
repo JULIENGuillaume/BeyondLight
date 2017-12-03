@@ -13,9 +13,10 @@ private:
     std::vector<std::shared_ptr<WebCore>> _browsers;
 	CefRefPtr<CefMessageRouterRendererSide> message_router_;
 	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+	std::shared_ptr<MvcHandler> _mvcHandler;
 
 public:
-	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler);
+	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler);
 	~WebCoreManager();
 
 	bool setUp(int *exit_code);

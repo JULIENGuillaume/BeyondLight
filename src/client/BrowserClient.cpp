@@ -5,8 +5,11 @@
 #include "RenderHandler.hh"
 #include "MessageHandler.hh"
 
-BrowserClient::BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler)
-        : _renderHandler(renderHandler), _networkHandler(networkHandler) {
+BrowserClient::BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler)
+        : _renderHandler(renderHandler),
+          _networkHandler(networkHandler),
+          _mvcHandler(mvcHandler)
+{
     this->browser_ct_ = 0;
 }
 
@@ -40,7 +43,7 @@ void BrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
         message_router_ = CefMessageRouterBrowserSide::Create(config);
 
         // Register handlers with the router.
-        message_handler_.reset(new MessageHandler("", this->_networkHandler)); // todo check startup_url
+        message_handler_.reset(new MessageHandler("", this->_networkHandler, this->_mvcHandler)); // todo check startup_url
         message_router_->AddHandler(message_handler_.get(), false);
     }
 

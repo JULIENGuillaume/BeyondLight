@@ -5,11 +5,13 @@
 #ifndef MVC_TEST_IBASECONTROLLER_HH
 #define MVC_TEST_IBASECONTROLLER_HH
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
 #include <string>
 #include "../model/ModelHandler.hh"
-#include "../view/ViewHandler.hh"
+#include "../../../network/client/NetworkHandler.hh"
+#include "include/wrapper/cef_message_router.h"
 
 class IBaseController {
 public:
@@ -18,7 +20,10 @@ public:
     IBaseController(const IBaseController &) {}
     IBaseController & operator = (const IBaseController &) {return (*this);}
     virtual void setModelHandler(std::shared_ptr<ModelHandler> modelHandler) = 0;
-    virtual void setViewHandler(std::shared_ptr<ViewHandler> viewHandler) = 0;
+    virtual void setNetWorkHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler) = 0;
+    virtual void onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                     int64 query_id, const CefString &request, bool persistent,
+                     CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) = 0;
 };
 
 #endif //MVC_TEST_IBASECONTROLLER_HH

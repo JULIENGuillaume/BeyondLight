@@ -4,6 +4,7 @@
 #include "NetworkHandler.hh"
 #include "include/cef_client.h"
 #include "include/wrapper/cef_message_router.h"
+#include "mvc/MvcHandler.hh"
 
 class RenderHandler;
 
@@ -21,10 +22,11 @@ private:
 	int browser_ct_;
 
 	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+	std::shared_ptr<MvcHandler> _mvcHandler;
 
 public:
-	explicit BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler>);
-	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() override;
+	explicit BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler>, std::shared_ptr<MvcHandler> _mvcHandler);
+	CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 	CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
 	CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
 	CefRefPtr<CefRequestHandler> GetRequestHandler() override;
