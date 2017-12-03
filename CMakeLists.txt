@@ -49,12 +49,13 @@ if(NOT MSVC)
 endif(NOT MSVC)
 
 # Definition of Macros
-#add_definitions(
+add_definitions(
+        -DSTB_IMAGE_IMPLEMENTATION
 #        -DDEBUG
 #        -DUNICODE
 #        -D_UNICODE
 #        -DGLFW_DLL
-#)
+)
 
 ##
 ##  BOOST setup
@@ -146,7 +147,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/model/StudentModel.hh
         ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.cpp
         ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.hh
-        )
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 

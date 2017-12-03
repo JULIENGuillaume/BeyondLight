@@ -13,13 +13,10 @@
     <!-- <body class="scrollbar" id="solid-scrollbar"> -->
     <body style="overflow-y:hidden; height:100%;">
     <div id="snow">
+        <header></header>
+        <left-menu></left-menu>
+        <main-content></main-content>
     </div>
-        <div class="game-background"></div>
-        <div class="game-background-grid">
-            <header></header>
-            <left-menu></left-menu>
-            <main-content></main-content>
-        </div>
     </body>
     <script>      
         var elements = document.querySelectorAll('link[rel=import]');
@@ -43,7 +40,7 @@
   </script>
         <script>
         var i = 0;
-        window.setInterval(oneSecondFunction, 500);
+        window.setInterval(oneSecondFunction, 500); 
 
         function oneSecondFunction() {
             var metal = document.getElementById("metal-value");

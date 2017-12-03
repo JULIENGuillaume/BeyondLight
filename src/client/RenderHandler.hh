@@ -21,12 +21,13 @@ private:
 	cef_color_t _backgroundColor;
 	double _lastTickTime;
 	unsigned int _calls;
+	GLuint _bgTexture;
+	GLuint _bgGrid;
 
 public:
 	RenderHandler();
 	~RenderHandler();
 
-	void init();
 	void resize(int w, int h);
 
 	// CefRenderHandler interface
@@ -41,6 +42,9 @@ public:
 	void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect &rect);
 	CefRect GetPopupRectInWebView(const CefRect &original_rect);
 	void ClearPopupRects();
+
+	void loadBgTexture();
+	void loadBgGridTexture();
 
 	// CefBase interface
 	IMPLEMENT_REFCOUNTING(RenderHandler);
