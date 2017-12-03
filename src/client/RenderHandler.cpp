@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "RenderHandler.hh"
+#include "../../libs/stb/stb_image.h"
 
 
 #ifndef GL_BGR
@@ -151,6 +152,14 @@ void RenderHandler::Render() {
     } static vertices[] = {{0.0f, 1.0f, -1.0f, -1.0f, 0.0f},
                            {1.0f, 1.0f, 1.0f, -1.0f, 0.0f},
                            {1.0f, 0.0f, 1.0f, 1.0f, 0.0f},
+                           {0.0f, 0.0f, -1.0f, 1.0f, 0.0f}}; // todo improve
+
+    struct {
+        float tu, tv;
+        float x, y, z;
+    } static vertices2[] = {{0.0f, 10.0f, -1.0f, -1.0f, 0.0f},
+                           {20.0f, 10.0f, 1.0f, -1.0f, 0.0f},
+                           {20.0f, 0.0f, 1.0f, 1.0f, 0.0f},
                            {0.0f, 0.0f, -1.0f, 1.0f, 0.0f}};
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -197,6 +206,26 @@ void RenderHandler::Render() {
 
     // Enable 2D textures.
     glEnable(GL_TEXTURE_2D);
+    VERIFY_NO_ERROR;
+
+    // draw bg
+    glBindTexture(GL_TEXTURE_2D, this->_bgTexture);
+    VERIFY_NO_ERROR;
+    glInterleavedArrays(GL_T2F_V3F, 0, vertices);
+    VERIFY_NO_ERROR;
+    glDrawArrays(GL_QUADS, 0, 4);
+    VERIFY_NO_ERROR;
+
+    // draw bg grid
+    glBindTexture(GL_TEXTURE_2D, this->_bgGrid);
+    VERIFY_NO_ERROR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    VERIFY_NO_ERROR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    VERIFY_NO_ERROR;
+    glInterleavedArrays(GL_T2F_V3F, 0, vertices2);
+    VERIFY_NO_ERROR;
+    glDrawArrays(GL_QUADS, 0, 4);
     VERIFY_NO_ERROR;
 
     // Draw the facets with the texture.
@@ -339,6 +368,8 @@ void RenderHandler::Initialize() {
     initialized_ = true;
     this->_lastTickTime = glfwGetTime();
     this->_calls = 0;
+    this->loadBgTexture();
+    this->loadBgGridTexture();
 }
 
 void RenderHandler::Cleanup() {
@@ -390,4 +421,52 @@ bool RenderHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect)
 {
     rect = CefRect(0, 0, this->_width, this->_height);
     return true;
+}
+
+void RenderHandler::loadBgTexture() {
+    this->_bgTexture = 0;
+    glGenTextures(1, &this->_bgTexture);
+    glBindTexture(GL_TEXTURE_2D, this->_bgTexture);
+    // set the texture wrapping/filtering options (on the currently bound texture object)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load and generate the texture
+    int width;
+    int height;
+    int nrChannels;
+    unsigned char *data = stbi_load("../resources/html/bg.jpg", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+}
+
+void RenderHandler::loadBgGridTexture() { // todo refactor
+    this->_bgGrid = 0;
+    glGenTextures(1, &this->_bgGrid);
+    glBindTexture(GL_TEXTURE_2D, this->_bgGrid);
+    // set the texture wrapping/filtering options (on the currently bound texture object)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // load and generate the texture
+    int width;
+    int height;
+    int nrChannels;
+    unsigned char *data = stbi_load("../resources/html/gridbg-glow2.png", &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
 }
