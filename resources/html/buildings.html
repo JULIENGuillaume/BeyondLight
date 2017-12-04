@@ -7,8 +7,6 @@
         <link rel="stylesheet" type="text/css" href="css/snow.css">
         <link rel="import" href="header.html">
         <link rel="import" href="left-menu.html">
-        <link rel="import" href="main-content.html">
-
     </head>
     <!-- <body class="scrollbar" id="solid-scrollbar"> -->
     <body style="overflow-y:hidden; height:100%;">
@@ -59,5 +57,12 @@
     </body>
     <script src="js/page-template.js"></script>
     <script src="js/header-ressources.js"></script>
+    <script src="js/left-menu.js"></script>
+    <script src="js/document-ready.js"></script>
+    <script>
+        ready(function () {
+            document.getElementById("buildings").className = "active";
+        });
+    </script>
 </html>
 
