@@ -26,6 +26,9 @@ namespace server {
 				const resource::UpgradeCost &getResources() const override;
 				int getId() const override;
 				int getLevel() const override;
+				bool isUpgrading() const override;
+				int getFullUpgradeTime() const override;
+				int getTimeLeft() const override;
 
 			protected:
 				int m_level = 0;
