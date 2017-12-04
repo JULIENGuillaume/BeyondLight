@@ -13,10 +13,10 @@ class MvcHandler {
 private:
     std::shared_ptr<ModelHandler> _modelHandler;
     std::shared_ptr<ControllerHandler> _controllerHandler;
-    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+    std::weak_ptr<WebCore> _webCore;
 
 public:
-    MvcHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler);
+    MvcHandler(std::weak_ptr<WebCore> webCore);
 
     std::shared_ptr<const ModelHandler> getModelHandler() const;
     std::shared_ptr<const ControllerHandler> getControllerHandler() const;

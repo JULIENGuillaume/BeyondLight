@@ -7,24 +7,27 @@
 #include "../../../common/NetworkWrapper.hh"
 
 void LoginController::setModelHandler(std::shared_ptr<ModelHandler> modelHandler) {
-
+    this->_modelHandler = modelHandler;
 }
 
-void LoginController::onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+std::string LoginController::onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                        int64 query_id, const CefString &request,
                        bool persistent,
                        CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
     std::string message(request);
     if (message.find("login-connect") == 0) {
-        this->handleLogin(browser, message.substr(std::string("login-connect").length()), callback);
+        if (this->handleLogin(browser, message.substr(std::string("login-connect").length()), callback)) {
+            return ("/index");
+        }
     } else if (message.find("login-register") == 0) {
         this->handleRegister(browser, message.substr(std::string("login-register").length()), callback);
     } else {
         callback->Failure(0, "Unknown route");
     }
+    return (std::string());
 }
 
-void LoginController::handleLogin(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
+bool LoginController::handleLogin(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
     auto socket = NetworkWrapper::m_socket;
 
     std::vector<std::string> logInfo = common::Toolbox::split(message, ":");
@@ -36,13 +39,12 @@ void LoginController::handleLogin(CefRefPtr<CefBrowser> browser, std::string mes
         std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
         if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
             callback->Success("Login success");
-            browser->GetMainFrame()->LoadURL(
-                    "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
+            return (true);
         } else {
             callback->Failure(0, "Bad login or password");
         }
-
     }
+    return (false);
 }
 
 void LoginController::handleRegister(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
@@ -56,7 +58,7 @@ void LoginController::handleRegister(CefRefPtr<CefBrowser> browser, std::string 
     }
 }
 
-void LoginController::setNetWorkHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler) {
-    this->_networkHandler = networkHandler;
+void LoginController::setWebCore(std::weak_ptr<WebCore> webCore) {
+    this->_webCore = webCore;
 }
 

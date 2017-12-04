@@ -1,20 +1,16 @@
 ﻿#include <iostream>
 #include <include/cef_v8.h>
 #include <include/wrapper/cef_helpers.h>
-#include "BrowserClient.hh"
 #include "RenderHandler.hh"
+#include "BrowserClient.hh"
 #include "MessageHandler.hh"
 
-BrowserClient::BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler)
-        : _renderHandler(renderHandler),
-          _networkHandler(networkHandler),
-          _mvcHandler(mvcHandler)
-{
+BrowserClient::BrowserClient(WebCore *webCore) : _webCore(webCore) { // todo improve
     this->browser_ct_ = 0;
 }
 
 CefRefPtr<CefRenderHandler> BrowserClient::GetRenderHandler() {
-    return (this->_renderHandler);
+    return (this->_webCore->getRenderHandler());
 }
 
 CefRefPtr<CefDisplayHandler> BrowserClient::GetDisplayHandler() {
@@ -43,7 +39,7 @@ void BrowserClient::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
         message_router_ = CefMessageRouterBrowserSide::Create(config);
 
         // Register handlers with the router.
-        message_handler_.reset(new MessageHandler("", this->_networkHandler, this->_mvcHandler)); // todo check startup_url
+        message_handler_.reset(new MessageHandler("", this->_webCore)); // todo check startup_url
         message_router_->AddHandler(message_handler_.get(), false);
     }
 
@@ -94,8 +90,7 @@ bool BrowserClient::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
                                                       message));
 }
 
-CefRefPtr<CefResourceHandler>
-BrowserClient::GetResourceHandler(CefRefPtr<CefBrowser> browser,
+CefRefPtr<CefResourceHandler> BrowserClient::GetResourceHandler(CefRefPtr<CefBrowser> browser,
                                   CefRefPtr<CefFrame> frame,
                                   CefRefPtr<CefRequest> request) {
     CEF_REQUIRE_IO_THREAD();

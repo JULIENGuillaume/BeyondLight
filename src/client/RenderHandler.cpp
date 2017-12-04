@@ -26,6 +26,75 @@
 #define VERIFY_NO_ERROR
 #endif
 
+RenderHandler::RenderHandler()
+        : _showDirtyRect(false),
+          _isTransparent(true),
+          initialized_(false),
+          _tex(0),
+          _width(0),
+          _height(0),
+          spin_x_(0),
+          spin_y_(0),
+          _backgroundColor(255) {
+
+}
+
+RenderHandler::~RenderHandler() {
+    Cleanup();
+}
+
+void RenderHandler::Initialize() {
+    if (initialized_)
+        return;
+
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    VERIFY_NO_ERROR;
+
+    if (_isTransparent) {
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        VERIFY_NO_ERROR;
+    } else {
+        glClearColor(float(CefColorGetR(_backgroundColor)) / 255.0f,
+                     float(CefColorGetG(_backgroundColor)) / 255.0f,
+                     float(CefColorGetB(_backgroundColor)) / 255.0f,
+                     1.0f);
+        VERIFY_NO_ERROR;
+    }
+
+    // Necessary for non-power-of-2 textures to render correctly.
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    VERIFY_NO_ERROR;
+
+    // Create the texture.
+    glGenTextures(1, &_tex);
+    VERIFY_NO_ERROR;
+    DCHECK_NE(_tex, 0U);
+    VERIFY_NO_ERROR;
+
+    glBindTexture(GL_TEXTURE_2D, _tex);
+    VERIFY_NO_ERROR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    VERIFY_NO_ERROR;
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    VERIFY_NO_ERROR;
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    VERIFY_NO_ERROR;
+
+    // initial GL state
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_CULL_FACE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    initialized_ = true;
+    this->_lastTickTime = glfwGetTime();
+    this->_calls = 0;
+    this->loadBgTexture();
+    this->loadBgGridTexture();
+}
+
 void RenderHandler::resize(int w, int h)
 {
 	_width = w;
@@ -34,7 +103,7 @@ void RenderHandler::resize(int w, int h)
 
 void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height)
 {
-	if (true /*IsTransparent()*/) {
+	if (this->_isTransparent) {
 		// Enable alpha blending.
 		glEnable(GL_BLEND);
 		VERIFY_NO_ERROR;
@@ -300,76 +369,6 @@ void RenderHandler::Render() {
 
 GLuint RenderHandler::getTex() const {
 	return (this->_tex);
-}
-
-RenderHandler::RenderHandler()
-        : _showDirtyRect(false),
-          _isTransparent(false),
-          initialized_(false),
-          _tex(0),
-          _width(0),
-          _height(0),
-          spin_x_(0),
-          spin_y_(0),
-          _backgroundColor(255) {
-    this->_showDirtyRect = true;
-    this->_isTransparent = true;
-}
-
-RenderHandler::~RenderHandler() {
-    Cleanup();
-}
-
-void RenderHandler::Initialize() {
-    if (initialized_)
-        return;
-
-    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-    VERIFY_NO_ERROR;
-
-    if (_isTransparent) {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        VERIFY_NO_ERROR;
-    } else {
-        glClearColor(float(CefColorGetR(_backgroundColor)) / 255.0f,
-                     float(CefColorGetG(_backgroundColor)) / 255.0f,
-                     float(CefColorGetB(_backgroundColor)) / 255.0f,
-                     1.0f);
-        VERIFY_NO_ERROR;
-    }
-
-    // Necessary for non-power-of-2 textures to render correctly.
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    VERIFY_NO_ERROR;
-
-    // Create the texture.
-    glGenTextures(1, &_tex);
-    VERIFY_NO_ERROR;
-    DCHECK_NE(_tex, 0U);
-    VERIFY_NO_ERROR;
-
-    glBindTexture(GL_TEXTURE_2D, _tex);
-    VERIFY_NO_ERROR;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    VERIFY_NO_ERROR;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    VERIFY_NO_ERROR;
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    VERIFY_NO_ERROR;
-
-    // initial GL state
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_CULL_FACE);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
-
-    initialized_ = true;
-    this->_lastTickTime = glfwGetTime();
-    this->_calls = 0;
-    this->loadBgTexture();
-    this->loadBgGridTexture();
 }
 
 void RenderHandler::Cleanup() {

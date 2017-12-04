@@ -1,17 +1,18 @@
 ﻿#include <chrono>
 #include <iostream>
+#include <memory>
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "WebCore.hh"
 #include "RenderHandler.hh"
 #include "include/cef_app.h"
+#include "RenderHandler.hh"
+#include "BrowserClient.hh"
 
-WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler) :
+WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler) :
         _mouseX(0),
         _mouseY(0),
-        _networkHandler(networkHandler),
-        _mvcHandler(mvcHandler)
-{
+        _networkHandler(networkHandler) {
 	_renderHandler = new RenderHandler();
 	_renderHandler->Initialize();
 	// initial size
@@ -33,7 +34,7 @@ WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::Networ
     browserSettings.universal_access_from_file_urls = STATE_DISABLED;
     browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
 	browserSettings.windowless_frame_rate = 60; // 30 is default
-	_client = new BrowserClient(_renderHandler, this->_networkHandler, this->_mvcHandler);
+	_client = new BrowserClient(this);
 	_browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(), url, browserSettings, nullptr);
 }
 
@@ -48,8 +49,10 @@ WebCore::~WebCore()
 
 void WebCore::reshape(int w, int h)
 {
-	_renderHandler->resize(w, h);
-	_browser->GetHost()->WasResized();
+    _renderHandler->resize(w, h);
+    std::cout << "lal" << std::endl;
+    _browser->GetHost()->WasResized();
+    std::cout << "lal" << std::endl;
 }
 
 
@@ -145,7 +148,7 @@ void WebCore::keyPress(int key, int scancode, int action, int mods)
     _browser->GetHost()->SendKeyEvent(event);
 }
 
-RenderHandler *WebCore::getRenderHandler() const {
+CefRefPtr<RenderHandler> WebCore::getRenderHandler() const {
     return (this->_renderHandler);
 }
 
@@ -191,4 +194,40 @@ void WebCore::reload(bool ignoreCache) {
     } else {
         this->_browser->Reload();
     }
+}
+
+CefRefPtr<const CefBrowser> WebCore::getBrowser() const {
+    return _browser;
+}
+
+CefRefPtr<const BrowserClient> WebCore::getClient() const {
+    return _client;
+}
+
+CefRefPtr<CefBrowser> WebCore::getBrowser() {
+    return _browser;
+}
+
+CefRefPtr<BrowserClient> WebCore::getClient() {
+    return _client;
+}
+
+std::shared_ptr<const network::client::NetworkHandler> WebCore::getNetworkHandler() const {
+    return (this->_networkHandler);
+}
+
+std::shared_ptr<const MvcHandler> WebCore::getMvcHandler() const {
+    return (this->_mvcHandler);
+}
+
+std::shared_ptr<network::client::NetworkHandler> WebCore::getNetworkHandler() {
+    return (this->_networkHandler);
+}
+
+std::shared_ptr<MvcHandler> WebCore::getMvcHandler() {
+    return (this->_mvcHandler);
+}
+
+void WebCore::setMvcHandler(std::shared_ptr<MvcHandler> mvcHandler) {
+    this->_mvcHandler = mvcHandler;
 }
