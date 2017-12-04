@@ -21,6 +21,8 @@ nlohmann::json server::game::building::ABuilding::serialize() const {
 		json["resourcesRequired"] = this->getResources().serialize();
 	json["isUpgrading"] = m_upgrading;
 	json["timeLeft"] = m_upgradeTimeLeft;
+	json["name"] = m_name;
+	json["description"] = m_desc;
 
 	return json;
 }
