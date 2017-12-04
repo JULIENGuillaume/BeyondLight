@@ -17,7 +17,8 @@ public:
 
     void setModelHandler(std::shared_ptr<ModelHandler> modelHandler) override;
     void setWebCore(std::weak_ptr<WebCore> webCore) override;
-
+    void buildings(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
+    void overview(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
     std::string onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                         int64 query_id, const CefString &request, bool persistent,
                         CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) override;
