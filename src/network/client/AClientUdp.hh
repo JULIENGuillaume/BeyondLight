@@ -21,6 +21,7 @@ namespace network {
 			void disconnect() override;
 			std::shared_ptr<std::thread> asyncLaunch() override;
 			void launch() override;
+			bool isRunning() override;
 
 		protected:
 			std::shared_ptr<socket::ISocket> m_socket;

@@ -19,6 +19,7 @@ namespace network {
 			virtual void launch() = 0;
 			virtual std::shared_ptr<std::thread> asyncLaunch() = 0;
 			virtual void disconnect() = 0;
+			virtual bool isRunning() = 0;
 
 		protected:
 			virtual void mainLoop() = 0;
