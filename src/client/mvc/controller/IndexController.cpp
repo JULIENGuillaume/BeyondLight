@@ -37,6 +37,9 @@ void IndexController::buildings(CefRefPtr<CefBrowser> browser,
                                 CefRefPtr<CefFrame> frame,
                                 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
     callback->Success(std::string());
+    auto network = this->_webCore.lock()->getNetworkHandler();
+	network->send("4242");
+	std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
     this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html");
 }
 
