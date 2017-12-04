@@ -18,6 +18,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 	//	return false;
 	return (true); // todo check the diff between true & false
 }
+
 /* TODO: check utility before deletion
 bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                              CefRefPtr<CefFrame> frame,
