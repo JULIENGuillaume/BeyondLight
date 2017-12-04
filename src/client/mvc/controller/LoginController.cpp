@@ -3,6 +3,7 @@
 //
 
 #include "LoginController.hh"
+#include "../../WebCore.hh"
 #include "../../../common/Toolbox.hh"
 #include "../../../common/NetworkWrapper.hh"
 
@@ -28,33 +29,37 @@ std::string LoginController::onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
 }
 
 bool LoginController::handleLogin(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-    auto socket = NetworkWrapper::m_socket;
+	auto networkHandler = this->_webCore.lock()->getNetworkHandler();
 
     std::vector<std::string> logInfo = common::Toolbox::split(message, ":");
     if (logInfo.size() != 2) {
         callback->Failure(0, "Please enter both your login and password");
     } else {
-        socket->send("042:" + logInfo[0] + ":" + logInfo[1]);
-        auto toks = common::Toolbox::split(socket->receive(), ":");
-        std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
-        if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
-            callback->Success("Login success");
-            return (true);
-        } else {
-            callback->Failure(0, "Bad login or password");
-        }
+	    networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
+	    auto future = networkHandler->asyncGetLine();
+	    future.wait();
+	    auto toks = common::Toolbox::split(future.get(), ":");
+	    if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
+		    callback->Success("Login success");
+		    return (true);
+	    } else {
+		    callback->Failure(0, "Bad login or password");
+	    }
     }
     return (false);
 }
 
 void LoginController::handleRegister(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-    auto socket = NetworkWrapper::m_socket;
+	auto networkHandler = this->_webCore.lock()->getNetworkHandler();
 
     std::vector<std::string> logInfo = common::Toolbox::split(message, ":");
     if (logInfo.size() == 6) {
-        socket->send("043:" + logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
-        auto toks = common::Toolbox::split(socket->receive(), ":");
-        std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
+	    networkHandler->send("043:" + logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
+	    auto future = networkHandler->asyncGetLine();
+	    future.wait();
+	    auto toks = common::Toolbox::split(future.get(), ":");
+	    //std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
+	    //TODO: redirect to login page
     }
 }
 
