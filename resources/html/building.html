@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Beyond Light</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/snow.css">
+        <link rel="import" href="header.html">
+        <link rel="import" href="left-menu.html">
+        <link rel="import" href="main-content.html">
+
+    </head>
+    <!-- <body class="scrollbar" id="solid-scrollbar"> -->
+    <body style="overflow-y:hidden; height:100%;">
+        <div id="snow">
+            <header></header>
+            <left-menu></left-menu>
+            <div id="main-content-template">
+                <div class="game-main  scrollbar" id="alpha-scrollbar">
+                    <div class="game-entity-desc">
+                        <img src="img/mine.jpg" alt="Metal" class="game-entity-desc-picture">
+                        <div class="game-entity-desc-text">
+                            <div style="width: 100%;">
+                                Building time :<br/>
+                            </div>
+                            <div class="game-entity-desc-upgrade">
+                                Upgrade cost for level 43 :<br/>
+                                <div class="game-entity-desc-res-cost">
+                                    <div>
+                                        <img src="img/metal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
+                                    </div>
+                                    <div id="metal-value">
+                                        100
+                                    </div>
+                                </div>
+                                <div class="game-entity-desc-res-cost">
+                                    <div>
+                                        <img src="img/crystal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
+                                    </div>
+                                    <div id="metal-value">
+                                        22k
+                                    </div>
+                                </div>
+                                <div class="game-entity-desc-res-cost">
+                                    <div>
+                                        <img src="img/ore.png" alt="Metal" class="game-entity-desc-res-cost-img">
+                                    </div>
+                                    <div id="metal-value">
+                                        32
+                                    </div>
+                                </div>
+                                <input type="button" class="upgrade-button"value="UPGRADE"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/page-template.js"></script>
+    <script src="js/header-ressources.js"></script>
+</html>
+

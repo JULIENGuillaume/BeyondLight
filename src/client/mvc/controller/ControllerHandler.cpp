@@ -5,6 +5,7 @@
 #include "ControllerFactory.hhp"
 #include "ControllerHandler.hh"
 #include "LoginController.hh"
+#include "IndexController.hh"
 
 std::shared_ptr<IControllerFactory> ControllerHandler::getRouteControllerFactory(const std::string &route) {
     auto pair = this->getData(route);
@@ -23,15 +24,16 @@ void ControllerHandler::changeRoute(const std::string &baseRoute, const std::str
     this->_currentController = nullptr;
     this->_curBaseRoute = baseRoute;
     this->_curSubRoute = subRoute;
-    this->_currentController = pFactory->build(_modelHandler, this->_networkHandler);
+    this->_currentController = pFactory->build(_modelHandler, this->_webCore);
 }
 
-ControllerHandler::ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler) {
+ControllerHandler::ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::weak_ptr<WebCore> webCore) {
     this->_modelHandler = modelHandler;
-    this->_networkHandler = networkHandler;
+    this->_webCore = webCore;
     this->_currentController = nullptr;
     this->_data = {
-            {"/login", std::shared_ptr<ControllerFactory<LoginController>>(new ControllerFactory<LoginController>())}
+            {"/login", std::shared_ptr<ControllerFactory<LoginController>>(new ControllerFactory<LoginController>())},
+            {"/index", std::shared_ptr<ControllerFactory<IndexController>>(new ControllerFactory<IndexController>())}
     };
     this->changeRoute("/login", "");
 }
@@ -44,6 +46,8 @@ void ControllerHandler::onQuery(CefRefPtr<CefBrowser> browser,
     if (this->_currentController == nullptr /* or is invalid controller */) {
         callback->Failure(0, "Invalid route");
     } else {
-        this->_currentController->onQuery(browser, frame, query_id, request, persistent, callback);
+        auto newRoute = this->_currentController->onQuery(browser, frame, query_id, request, persistent, callback);
+        if (!newRoute.empty())
+        this->changeRoute(newRoute, "");
     }
 }

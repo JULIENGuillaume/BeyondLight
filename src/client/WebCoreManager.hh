@@ -5,6 +5,7 @@
 #ifndef CEFOFFSCREEN_WEBCOREMANAGER_HH
 #define CEFOFFSCREEN_WEBCOREMANAGER_HH
 
+#include <include/wrapper/cef_message_router.h>
 #include "include/cef_app.h"
 #include "WebCore.hh"
 
@@ -12,11 +13,10 @@ class WebCoreManager : public CefApp, public CefRenderProcessHandler {
 private:
     std::vector<std::shared_ptr<WebCore>> _browsers;
 	CefRefPtr<CefMessageRouterRendererSide> message_router_;
-	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-	std::shared_ptr<MvcHandler> _mvcHandler;
+    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
 
 public:
-	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler);
+	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler);
 	~WebCoreManager();
 
 	bool setUp(int *exit_code);

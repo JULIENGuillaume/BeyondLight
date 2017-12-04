@@ -16,12 +16,11 @@ class MessageHandler : public CefMessageRouterBrowserSide::Handler {
 private:
     const std::string _mainRoute = "MainRoute";
     const CefString _startupUrl;
-    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-    std::shared_ptr<MvcHandler> _mvcHandler;
+    WebCore *_webCore; // todo improve
 
     // Handle messages in the browser process.
 public:
-    explicit MessageHandler(const CefString &startup_url, std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler);
+    explicit MessageHandler(const CefString &startup_url, WebCore *webCore);
 
     bool OnQuery(CefRefPtr<CefBrowser> browser,
                  CefRefPtr<CefFrame> frame,

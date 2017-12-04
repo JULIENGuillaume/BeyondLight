@@ -14,9 +14,9 @@
 class MainHandler {
 private:
     std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-    std::shared_ptr<MvcHandler> _mvcHandler;
     std::weak_ptr<WebCore> _webCore;
     WebCoreManager _webCoreManager;
+    std::shared_ptr<MvcHandler> _mvcHandler;
     GlfwHandler _glfwHandler;
     bool _sizeUpdated;
     uint64 _frame;

@@ -4,10 +4,10 @@
 
 #include "MvcHandler.hh"
 
-MvcHandler::MvcHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler) {
-    this->_networkHandler = networkHandler;
+MvcHandler::MvcHandler(std::weak_ptr<WebCore> webCore) {
+    this->_webCore = webCore;
     this->_modelHandler = std::shared_ptr<ModelHandler>(new ModelHandler());
-    this->_controllerHandler = std::shared_ptr<ControllerHandler>(new ControllerHandler(this->_modelHandler, this->_networkHandler));
+    this->_controllerHandler = std::shared_ptr<ControllerHandler>(new ControllerHandler(this->_modelHandler, this->_webCore));
 }
 
 std::shared_ptr<const ModelHandler> MvcHandler::getModelHandler() const {

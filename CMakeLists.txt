@@ -51,7 +51,7 @@ endif(NOT MSVC)
 # Definition of Macros
 add_definitions(
         -DSTB_IMAGE_IMPLEMENTATION
-#        -DDEBUG
+        -DDEBUG
 #        -DUNICODE
 #        -D_UNICODE
 #        -DGLFW_DLL
@@ -139,6 +139,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/MvcHandler.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.hh
         libs/stb/stb_image.h
         )
 

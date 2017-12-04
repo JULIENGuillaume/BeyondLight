@@ -17,13 +17,12 @@ private:
     std::string _curSubRoute;
     std::shared_ptr<IBaseController> _currentController;
     std::shared_ptr<ModelHandler> _modelHandler;
-    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+    std::weak_ptr<WebCore> _webCore;
 
     std::shared_ptr<IControllerFactory> getRouteControllerFactory(const std::string &route);
-
 public:
     ControllerHandler() = delete;
-    explicit ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler);
+    explicit ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::weak_ptr<WebCore> webCore);
     void changeRoute(const std::string &route, const std::string &subRoute);
     void onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                  int64 query_id, const CefString &request, bool persistent,

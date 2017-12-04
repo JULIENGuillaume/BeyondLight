@@ -15,17 +15,15 @@ class BrowserClient : public CefClient, public CefKeyboardHandler,
 					  public CefRequestHandler
 {
 private:
-    CefRefPtr<CefRenderHandler> _renderHandler;
 	CefRefPtr<CefMessageRouterBrowserSide> message_router_;
 	scoped_ptr<CefMessageRouterBrowserSide::Handler> message_handler_;
 	// Track the number of browsers using this Client.
 	int browser_ct_;
+	WebCore *_webCore;
 
-	std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-	std::shared_ptr<MvcHandler> _mvcHandler;
 
 public:
-	explicit BrowserClient(RenderHandler *renderHandler, std::shared_ptr<network::client::NetworkHandler>, std::shared_ptr<MvcHandler> _mvcHandler);
+	explicit BrowserClient(WebCore *webCore);
 	CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 	CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
 	CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
@@ -35,9 +33,7 @@ public:
 								  CefProcessId source_process,
 								  CefRefPtr<CefProcessMessage> message) override;
 
-	CefRefPtr<CefResourceHandler>
-	GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-					   CefRefPtr<CefRequest> request) override;
+	CefRefPtr<CefResourceHandler> GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) override;
 
 	void OnTitleChange(CefRefPtr<CefBrowser> browser,
 					   const CefString &title) override;

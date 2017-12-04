@@ -3,14 +3,15 @@
 //
 
 #include <iostream>
+#include <memory>
 #include "include/cef_app.h"
 #include "WebCoreManager.hh"
 #include "../common/Toolbox.hh"
 
 
-WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler, std::shared_ptr<MvcHandler> mvcHandler) :
-        _networkHandler(networkHandler),
-        _mvcHandler(mvcHandler) {
+WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) :
+    _networkHandler(networkHandler) {
+
 }
 
 WebCoreManager::~WebCoreManager() {
@@ -61,7 +62,7 @@ void WebCoreManager::update()
 
 std::weak_ptr<WebCore> WebCoreManager::createBrowser(const std::string &url)
 {
-    auto web_core = std::make_shared<WebCore>(url, this->_networkHandler, this->_mvcHandler);
+    auto web_core = std::make_shared<WebCore>(url, this->_networkHandler);
     _browsers.push_back(web_core);
     return web_core;
 }

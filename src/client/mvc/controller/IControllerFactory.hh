@@ -7,11 +7,12 @@
 
 #include <memory>
 #include "IBaseController.hh"
+#include "../../WebCore.hh"
 
 class IControllerFactory {
 public:
     virtual ~IControllerFactory() {}
-    virtual std::shared_ptr<IBaseController> build(std::shared_ptr<ModelHandler> modelHandler, std::shared_ptr<network::client::NetworkHandler> networkHandler) = 0;
+    virtual std::shared_ptr<IBaseController> build(std::shared_ptr<ModelHandler> modelHandler, std::weak_ptr<WebCore> webCore) = 0;
 };
 
 #endif //MVC_TEST_ICONTROLLERFACTORY_HH

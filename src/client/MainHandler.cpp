@@ -15,8 +15,7 @@
 #include "../common/Toolbox.hh"
 
 MainHandler::MainHandler() : _networkHandler(new network::client::NetworkHandler()),
-                             _mvcHandler(new MvcHandler(this->_networkHandler)),
-                             _webCoreManager(this->_networkHandler, this->_mvcHandler) {
+                             _webCoreManager(_networkHandler) {
     this->_sizeUpdated = false;
     this->_frame = 0;
 }
@@ -71,6 +70,8 @@ bool MainHandler::init() {
 void MainHandler::createBrowser() {
     std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/login.html";
     this->_webCore = this->_webCoreManager.createBrowser(url);
+    this->_mvcHandler = std::shared_ptr<MvcHandler>(new MvcHandler(this->_webCore));
+    this->_webCore.lock()->setMvcHandler(this->_mvcHandler);
     this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(),
                                    this->_glfwHandler.getHeight());
 }
