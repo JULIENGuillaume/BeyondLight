@@ -50,9 +50,7 @@ WebCore::~WebCore()
 void WebCore::reshape(int w, int h)
 {
     _renderHandler->resize(w, h);
-    std::cout << "lal" << std::endl;
     _browser->GetHost()->WasResized();
-    std::cout << "lal" << std::endl;
 }
 
 
