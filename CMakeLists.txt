@@ -142,7 +142,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.hh
-        libs/stb/stb_image.h src/server/game/resource/UpgradeCost.cpp src/server/game/resource/UpgradeCost.hh)
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -213,7 +213,9 @@ set(GAME_SRC
         src/server/game/building/ABuilding.hh
         src/server/game/building/IBuilding.hh
         src/server/game/resource/IResource.hh
-        src/server/game/technology/ITechnology.hh)
+        src/server/game/technology/ITechnology.hh
+        src/server/game/resource/UpgradeCost.cpp
+        src/server/game/resource/UpgradeCost.hh src/server/game/building/IronMine.cpp src/server/game/building/IronMine.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build

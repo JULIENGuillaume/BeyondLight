@@ -50,3 +50,15 @@ int server::game::building::ABuilding::getId() const {
 int server::game::building::ABuilding::getLevel() const {
 	return this->m_level;
 }
+
+bool server::game::building::ABuilding::isUpgrading() const {
+	return this->m_upgrading;
+}
+
+int server::game::building::ABuilding::getFullUpgradeTime() const {
+	return 60;
+}
+
+int server::game::building::ABuilding::getTimeLeft() const {
+	return this->m_upgradeTimeLeft;
+}
