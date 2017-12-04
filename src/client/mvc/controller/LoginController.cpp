@@ -22,6 +22,8 @@ std::string LoginController::onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<Ce
         }
     } else if (message.find("login-register") == 0) {
         this->handleRegister(browser, message.substr(std::string("login-register").length()), callback);
+	    browser->ReloadIgnoreCache();
+	    //frame->ExecuteJavaScript();
     } else {
         callback->Failure(0, "Unknown route");
     }
@@ -35,9 +37,13 @@ bool LoginController::handleLogin(CefRefPtr<CefBrowser> browser, std::string mes
     if (logInfo.size() != 2) {
         callback->Failure(0, "Please enter both your login and password");
     } else {
+	    std::cout << "Sending" << std::endl;
 	    networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
+	    std::cout << "GetLine" << std::endl;
 	    auto future = networkHandler->asyncGetLine();
+	    std::cout << "Waiting" << std::endl;
 	    future.wait();
+	    std::cout << "Spliting" << std::endl;
 	    auto toks = common::Toolbox::split(future.get(), ":");
 	    if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
 		    callback->Success("Login success");

@@ -35,3 +35,7 @@ std::shared_ptr<std::thread> network::client::AClientUdp::asyncLaunch() {
 void network::client::AClientUdp::launch() {
 	this->mainLoop();
 }
+
+bool network::client::AClientUdp::isRunning() {
+	return this->m_running;
+}

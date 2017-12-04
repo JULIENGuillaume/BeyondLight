@@ -25,6 +25,9 @@ network::client::NetworkHandler::~NetworkHandler() {
 
 std::string network::client::NetworkHandler::getLine() {
 	while (this->m_lines.empty()) {
+		if (!this->m_networkClient->isRunning()) {
+			throw std::runtime_error("Failed to get line: network isn't connected.");
+		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 	auto line = this->m_lines.front();

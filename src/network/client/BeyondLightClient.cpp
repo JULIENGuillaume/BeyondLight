@@ -48,9 +48,11 @@ void network::client::BeyondLightClient::readingThread() {
 				this->m_handler->notifyWatchers(EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (std::exception const&) {
+		} catch (std::exception const &) {
 			isOpen = false;
+			std::cerr << "Exception in reading thread, quitting" << std::endl;
 			this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
+			this->m_running = false;
 		}
 	}
 }
@@ -67,9 +69,11 @@ void network::client::BeyondLightClient::sendingThread() {
 				this->m_handler->notifyWatchers(EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		} catch (std::exception const&) {
+		} catch (std::exception const &) {
 			isOpen = false;
+			std::cerr << "Exception in sending thread, quitting" << std::endl;
 			this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
+			this->m_running = false;
 		}
 	}
 }
