@@ -31,6 +31,22 @@ std::vector<std::string> common::Toolbox::split(const std::string &str, const st
 	return tokens;
 }
 
+std::vector<std::string> common::Toolbox::splitAtMax(const std::string &str, const std::string &sep, int max) {
+	std::vector<std::string> tokens;
+	std::string s = str;
+	size_t pos;
+
+	while (tokens.size() < max && (pos = s.find(sep)) != std::string::npos) {
+		auto token = s.substr(0, pos);
+		if (!token.empty())
+			tokens.push_back(token);
+		s.erase(0, pos + sep.length());
+	}
+	if (!s.empty())
+		tokens.push_back(s);
+	return tokens;
+}
+
 std::string common::Toolbox::getApplicationDir() {
 #ifdef WIN32
 	HMODULE hModule = GetModuleHandleW(NULL);

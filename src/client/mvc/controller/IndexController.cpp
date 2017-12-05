@@ -65,14 +65,19 @@ void IndexController::onFrameEnd() {
         network->send("4242");
         std::string jsonReceived = network->getLine();
         std::cout << jsonReceived << std::endl;
+        auto toks = common::Toolbox::splitAtMax(jsonReceived, ":", 1);
         nlohmann::json building;
-        try {
-            building = nlohmann::json::parse(jsonReceived);
-        } catch (...) {
-            std::cerr << "json parse error" << std::endl;
-            return ;
+        if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
+            try {
+                building = nlohmann::json::parse(toks[1]);
+            } catch (...) {
+                std::cerr << "json parse error" << std::endl;
+                return;
+            }
+        } else {
+            std::cerr << "Invalid reply" << std::endl;
         }
-        unsigned int id = building.at("id").get<unsigned int>();
+        auto id = building.at("id").get<unsigned int>();
         std::string name = building.at("name").get<std::string>();
         //std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
         std::string js = std::string("createBuilding(") + std::to_string(id) + ",\"" + name + "\", 1, 42, 1337, 323, 12);";
