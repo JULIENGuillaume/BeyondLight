@@ -29,6 +29,7 @@ namespace server {
 				bool isUpgrading() const override;
 				int getFullUpgradeTime() const override;
 				int getTimeLeft() const override;
+				bool upgrade() override;
 
 			protected:
 				int m_level = 0;

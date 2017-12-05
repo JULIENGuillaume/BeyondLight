@@ -64,3 +64,14 @@ int server::game::building::ABuilding::getFullUpgradeTime() const {
 int server::game::building::ABuilding::getTimeLeft() const {
 	return this->m_upgradeTimeLeft;
 }
+
+bool server::game::building::ABuilding::upgrade() {
+	auto res = this->getResources();
+	if (res.isValid()) {
+		auto ret = res.launchUpgrade();
+		if (ret)
+			this->m_level++;
+		return ret;
+	}
+	return false;
+}

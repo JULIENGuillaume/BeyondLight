@@ -27,6 +27,7 @@ namespace server {
 				virtual int getLevel() const = 0;
 
 			public:
+				virtual bool upgrade() = 0;
 				virtual bool isUpgrading() const = 0;
 				virtual int getFullUpgradeTime() const = 0;
 				virtual int getTimeLeft() const = 0;
