@@ -2,6 +2,7 @@
 // Created by diguie_t on 12/3/2017.
 //
 
+#include <json.hpp>
 #include "IndexController.hh"
 #include "../../../common/Toolbox.hh"
 #include "../../WebCore.hh"
@@ -43,9 +44,7 @@ void IndexController::buildings(CefRefPtr<CefBrowser> browser,
     if (callback != nullptr) {
         callback->Success(std::string());
     }
-    auto network = this->_webCore.lock()->getNetworkHandler();
-	network->send("4242");
-	std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
+
     this->_needToInsertBuilding = true;
     this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_buildingsUrl);
 }
@@ -62,6 +61,21 @@ void IndexController::overview(CefRefPtr<CefBrowser> browser,
 void IndexController::onFrameEnd() {
     if (this->_needToInsertBuilding) {
         this->_needToInsertBuilding = false;
-        this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript("createBuilding(1, \"lel\", 1, 42, 1337, 323, 12);", _buildingsUrl, 0);
+        auto network = this->_webCore.lock()->getNetworkHandler();
+        network->send("4242");
+        std::string jsonReceived = network->getLine();
+        std::cout << jsonReceived << std::endl;
+        nlohmann::json building;
+        try {
+            building = nlohmann::json::parse(jsonReceived);
+        } catch (...) {
+            std::cerr << "json parse error" << std::endl;
+            return ;
+        }
+        unsigned int id = building.at("id").get<unsigned int>();
+        std::string name = building.at("name").get<std::string>();
+        //std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
+        std::string js = std::string("createBuilding(") + std::to_string(id) + ",\"" + name + "\", 1, 42, 1337, 323, 12);";
+        this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, _buildingsUrl, 0);
     }
 }
