@@ -12,7 +12,9 @@ class IndexController : public IBaseController {
 private:
     std::weak_ptr<WebCore> _webCore;
     bool _needToInsertBuilding;
+    bool _needToInsertTechnologies;
     static const std::string _buildingsUrl;
+    static const std::string _technologiesUrl;
 
 public:
     IndexController();
@@ -26,6 +28,9 @@ public:
                         CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) override;
 
     void onFrameEnd() override;
+
+    void technologies(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                      CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 };
 
 
