@@ -24,7 +24,7 @@ namespace network {
 		public:
 			std::string const& getLine() const;
 			void setLineToRead();
-			std::string const& getAndEraseLine();
+			std::string getAndEraseLine();
 			void addToSend(std::string const& cmd);
 			void disconnect() override;
 

@@ -90,7 +90,7 @@ void network::client::BeyondLightClient::setLineToRead() {
 	this->m_lines.pop();
 }
 
-std::string const &network::client::BeyondLightClient::getAndEraseLine() {
+std::string network::client::BeyondLightClient::getAndEraseLine() {
 	std::string line = this->getLine();
 	this->setLineToRead();
 	while (line.empty()) {
