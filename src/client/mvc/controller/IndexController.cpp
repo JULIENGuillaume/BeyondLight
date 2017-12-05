@@ -28,6 +28,13 @@ std::string IndexController::onQuery(CefRefPtr<CefBrowser> browser,
         this->buildings(browser, frame, callback);
     } else if (message.find("index-overview") == 0) {
         this->overview(browser, frame, callback);
+    } else if (message.find("index-building-upgrade") == 0) {
+        auto result = message.substr(std::string("index-building-upgrade-").length());
+        static int level = 1;
+        // todo get building level
+        callback->Success(std::to_string(++level));
+    } else {
+        std::wcout << L"unknown query: " << request.c_str() << std::endl;
     }
     return (std::string());
 }
@@ -79,9 +86,31 @@ void IndexController::onFrameEnd() {
             return;
         }
         auto id = building.at("id").get<unsigned int>();
+        auto level = building.at("id").get<unsigned int>();
         std::string name = building.at("name").get<std::string>();
+        auto iron = building.at("resourcesRequired").get<nlohmann::json>().at("iron").get<unsigned int>();
+        auto crystal = building.at("resourcesRequired").get<nlohmann::json>().at("crystal").get<unsigned int>();
+        auto iridium = building.at("resourcesRequired").get<nlohmann::json>().at("iridium").get<unsigned int>();
+        auto energy = building.at("resourcesRequired").get<nlohmann::json>().at("energy").get<unsigned int>();
+
         //std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
-        std::string js = std::string("createBuilding(") + std::to_string(id) + ",\"" + name + "\", 1, 42, 1337, 323, 12);";
+        std::string js = std::string("createBuilding(")
+                         + std::to_string(id) + ",\""
+                         + name + "\","
+                         + std::to_string(level) + ","
+                         + std::to_string(iron) + ","
+                         + std::to_string(crystal) + ","
+                         + std::to_string(iridium) + ","
+                         + std::to_string(energy) + ");";
+        this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, _buildingsUrl, 0);
+        js = std::string("createBuilding(")
+                         + std::to_string(id + 1) + ",\""
+                         + name + "\","
+                         + std::to_string(level) + ","
+                         + std::to_string(iron) + ","
+                         + std::to_string(crystal) + ","
+                         + std::to_string(iridium) + ","
+                         + std::to_string(energy) + ");";
         this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, _buildingsUrl, 0);
     }
 }
