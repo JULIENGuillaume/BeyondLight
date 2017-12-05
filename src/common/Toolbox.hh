@@ -18,6 +18,7 @@ namespace common {
 	class Toolbox {
 	public:
 		static std::vector<std::string> split(const std::string &str, const std::string &separator);
+		static std::vector<std::string> splitAtMax(const std::string &str, const std::string &separator, int max);
 		static std::string getApplicationDir(); // todo fix windows only
 		static std::u16string to16string(const std::string &str);
 		static std::u16string to16string(const std::wstring &str);
