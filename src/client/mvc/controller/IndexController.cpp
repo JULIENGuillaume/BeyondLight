@@ -76,6 +76,7 @@ void IndexController::onFrameEnd() {
             }
         } else {
             std::cerr << "Invalid reply" << std::endl;
+            return;
         }
         auto id = building.at("id").get<unsigned int>();
         std::string name = building.at("name").get<std::string>();
