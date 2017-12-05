@@ -43,8 +43,11 @@ void IndexController::buildings(CefRefPtr<CefBrowser> browser,
     if (callback != nullptr) {
         callback->Success(std::string());
     }
-    this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_buildingsUrl);
+    auto network = this->_webCore.lock()->getNetworkHandler();
+	network->send("4242");
+	std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
     this->_needToInsertBuilding = true;
+    this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_buildingsUrl);
 }
 
 void IndexController::overview(CefRefPtr<CefBrowser> browser,

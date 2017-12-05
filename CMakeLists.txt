@@ -76,13 +76,14 @@ set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
 set(USER_SRC_DIR "${SRC_BASE_DIR}/server/user")
+set(GAME_SRC_DIR "${SRC_BASE_DIR}/server/game")
 set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 
 ##
 ##  Common sources
 ##
 
-set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh)
+set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh src/common/pattern/ISerializable.hh)
 
 ##
 ##  Game Client perf test
@@ -141,8 +142,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.hh
-        libs/stb/stb_image.h
-        )
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -158,6 +158,7 @@ set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32) #todo 
 set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
 set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
+set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
 
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -193,14 +194,35 @@ set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/
 ##  User sources
 ##
 
-set(USER_SRC src/server/user/User.cpp src/server/user/User.hh src/server/user/AuthSystem.cpp src/server/user/AuthSystem.hh src/server/user/RegisteredUsers.cpp src/server/user/RegisteredUsers.hh src/network/socket/SocketMessage.cpp src/network/socket/SocketMessage.hh)
+set(USER_SRC
+        src/server/user/User.cpp
+        src/server/user/User.hh
+        src/server/user/AuthSystem.cpp
+        src/server/user/AuthSystem.hh
+        src/server/user/RegisteredUsers.cpp
+        src/server/user/RegisteredUsers.hh
+        src/network/socket/SocketMessage.cpp
+        src/network/socket/SocketMessage.hh)
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC})
+##
+##  Game sources
+##
+
+set(GAME_SRC
+        src/server/game/building/ABuilding.cpp
+        src/server/game/building/ABuilding.hh
+        src/server/game/building/IBuilding.hh
+        src/server/game/resource/IResource.hh
+        src/server/game/technology/ITechnology.hh
+        src/server/game/resource/UpgradeCost.cpp
+        src/server/game/resource/UpgradeCost.hh src/server/game/building/IronMine.cpp src/server/game/building/IronMine.hh)
+
+add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
 add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
-target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
-target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR})
+target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 
 IF (UNIX)
