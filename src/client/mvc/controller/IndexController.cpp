@@ -6,7 +6,10 @@
 #include "../../../common/Toolbox.hh"
 #include "../../WebCore.hh"
 
-IndexController::IndexController() {
+const std::string IndexController::_buildingsUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
+
+IndexController::IndexController() :
+    _needToInsertBuilding(false) {
 
 }
 
@@ -36,11 +39,12 @@ void IndexController::setWebCore(std::weak_ptr<WebCore> webCore) {
 void IndexController::buildings(CefRefPtr<CefBrowser> browser,
                                 CefRefPtr<CefFrame> frame,
                                 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-    callback->Success(std::string());
-    auto network = this->_webCore.lock()->getNetworkHandler();
-	network->send("4242");
-	std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
-    this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html");
+
+    if (callback != nullptr) {
+        callback->Success(std::string());
+    }
+    this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_buildingsUrl);
+    this->_needToInsertBuilding = true;
 }
 
 void IndexController::overview(CefRefPtr<CefBrowser> browser,
@@ -50,4 +54,11 @@ void IndexController::overview(CefRefPtr<CefBrowser> browser,
         callback->Success(std::string());
     }
     this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
+}
+
+void IndexController::onFrameEnd() {
+    if (this->_needToInsertBuilding) {
+        this->_needToInsertBuilding = false;
+        this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript("createBuilding(1, \"lel\", 1, 42, 1337, 323, 12);", _buildingsUrl, 0);
+    }
 }

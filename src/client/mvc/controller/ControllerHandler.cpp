@@ -51,3 +51,9 @@ void ControllerHandler::onQuery(CefRefPtr<CefBrowser> browser,
         this->changeRoute(newRoute, "");
     }
 }
+
+void ControllerHandler::onFrameEnd() {
+    if (this->_currentController != nullptr) {
+        this->_currentController->onFrameEnd();
+    }
+}

@@ -11,6 +11,8 @@
 class IndexController : public IBaseController {
 private:
     std::weak_ptr<WebCore> _webCore;
+    bool _needToInsertBuilding;
+    static const std::string _buildingsUrl;
 
 public:
     IndexController();
@@ -22,6 +24,8 @@ public:
     std::string onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                         int64 query_id, const CefString &request, bool persistent,
                         CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) override;
+
+    void onFrameEnd() override;
 };
 
 
