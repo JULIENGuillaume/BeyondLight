@@ -8,9 +8,11 @@
 #include "../../WebCore.hh"
 
 const std::string IndexController::_buildingsUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
+const std::string IndexController::_technologiesUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/technologies.html";
 
 IndexController::IndexController() :
-		_needToInsertBuilding(false) {
+		_needToInsertBuilding(false),
+        _needToInsertTechnologies(false) {
 
 }
 
@@ -25,10 +27,18 @@ std::string IndexController::onQuery(CefRefPtr<CefBrowser> browser,
                                      CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
 	std::string message(request);
 	if (message.find("index-buildings") == 0) {
-		this->buildings(browser, frame, callback);
-	} else if (message.find("index-overview") == 0) {
+        this->buildings(browser, frame, callback);
+    } else if (message.find("index-technologies") == 0) {
+        this->technologies(browser, frame, callback);
+    } else if (message.find("index-overview") == 0) {
 		this->overview(browser, frame, callback);
-	} else if (message.find("index-building-upgrade") == 0) {
+    } else if (message.find("index-technology-upgrade") == 0) {
+        static int level = 1;
+        auto result = message.substr(std::string("index-technology-upgrade-").length());
+
+        auto network = this->_webCore.lock()->getNetworkHandler();
+            callback->Success(std::to_string(++level));
+    } else if (message.find("index-building-upgrade") == 0) {
 		auto result = message.substr(std::string("index-building-upgrade-").length());
 
 		auto network = this->_webCore.lock()->getNetworkHandler();
@@ -64,6 +74,18 @@ void IndexController::buildings(CefRefPtr<CefBrowser> browser,
 	this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_buildingsUrl);
 }
 
+void IndexController::technologies(CefRefPtr<CefBrowser> browser,
+                                   CefRefPtr<CefFrame> frame,
+                                   CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
+
+    if (callback != nullptr) {
+        callback->Success(std::string());
+    }
+
+    this->_needToInsertTechnologies = true;
+    this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(_technologiesUrl);
+}
+
 void IndexController::overview(CefRefPtr<CefBrowser> browser,
                                CefRefPtr<CefFrame> frame,
                                CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
@@ -74,6 +96,18 @@ void IndexController::overview(CefRefPtr<CefBrowser> browser,
 }
 
 void IndexController::onFrameEnd() {
+    if (this->_needToInsertTechnologies) {
+        this->_needToInsertTechnologies = false;
+        std::string js = std::string("createTechnologie(")
+                         + std::to_string(1) + ",\""
+                         + "Quantum Technology" + "\","
+                         + std::to_string(1) + ","
+                         + std::to_string(400000) + ","
+                         + std::to_string(30000) + ","
+                         + std::to_string(10000) + ","
+                         + std::to_string(5000) + ");";
+        this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, _technologiesUrl, 0);
+    }
 	if (this->_needToInsertBuilding) {
 		this->_needToInsertBuilding = false;
 		auto network = this->_webCore.lock()->getNetworkHandler();
