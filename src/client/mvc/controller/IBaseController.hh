@@ -26,6 +26,7 @@ public:
     virtual std::string onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, /* todo improve return type */
                                 int64 query_id, const CefString &request, bool persistent,
                                 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) = 0;
+    virtual void onFrameEnd() = 0;
 };
 
 #endif //MVC_TEST_IBASECONTROLLER_HH

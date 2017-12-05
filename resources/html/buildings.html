@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="css/snow.css">
         <link rel="import" href="header.html">
         <link rel="import" href="left-menu.html">
+        <link rel="import" href="entity-template.html">
     </head>
     <!-- <body class="scrollbar" id="solid-scrollbar"> -->
     <body style="overflow-y:hidden; height:100%;">
@@ -15,51 +16,36 @@
             <left-menu></left-menu>
             <div id="main-content-template">
                 <div class="game-main  scrollbar" id="alpha-scrollbar">
-                    <div class="game-entity-desc">
-                        <img src="img/mine.jpg" alt="Metal" class="game-entity-desc-picture">
-                        <div class="game-entity-desc-text">
-                            <div style="width: 100%;">
-                                Building time :<br/>
-                            </div>
-                            <div class="game-entity-desc-upgrade">
-                                Upgrade cost for level 43 :<br/>
-                                <div class="game-entity-desc-res-cost">
-                                    <div>
-                                        <img src="img/metal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                    </div>
-                                    <div id="metal-value">
-                                        100
-                                    </div>
-                                </div>
-                                <div class="game-entity-desc-res-cost">
-                                    <div>
-                                        <img src="img/crystal.jpg" alt="Metal" class="game-entity-desc-res-cost-img">
-                                    </div>
-                                    <div id="metal-value">
-                                        22k
-                                    </div>
-                                </div>
-                                <div class="game-entity-desc-res-cost">
-                                    <div>
-                                        <img src="img/ore.png" alt="Metal" class="game-entity-desc-res-cost-img">
-                                    </div>
-                                    <div id="metal-value">
-                                        32
-                                    </div>
-                                </div>
-                                <input type="button" class="upgrade-button"value="UPGRADE"/>
-                            </div>
-                        </div>
-                    </div>
+                    <entities></entities>
                 </div>
             </div>
         </div>
     </body>
+    <script src="js/utils.js"></script>
     <script src="js/page-template.js"></script>
     <script src="js/header-ressources.js"></script>
     <script src="js/left-menu.js"></script>
     <script src="js/document-ready.js"></script>
     <script>
+        function createBuilding(id, name, level, iron, crystal, iridium) {
+            var elements = document.querySelectorAll('link[rel=import]');
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].getAttribute("href") === "entity-template.html") {
+                    var post = elements[i].import.querySelector('#entity-template');
+                    var template = post.cloneNode(true);
+                    template.id = "entity-" + id;
+                    Utils.findChildById(template, "entity-name", true).innerText = name;
+                    Utils.findChildById(template, "entity-level", true).innerText = "Level " + level;
+                    Utils.findChildById(template, "iron-value", true).innerText = iron;
+                    Utils.findChildById(template, "crystal-value", true).innerText = crystal;
+                    Utils.findChildById(template, "iridium-value", true).innerText = iridium;
+                    var container = document.querySelector('entities');
+                    container.appendChild(template);
+                    return ;
+                }
+            }
+        }
+
         ready(function () {
             document.getElementById("buildings").className = "active";
         });

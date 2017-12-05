@@ -73,3 +73,7 @@ void LoginController::setWebCore(std::weak_ptr<WebCore> webCore) {
     this->_webCore = webCore;
 }
 
+void LoginController::onFrameEnd() {
+
+}
+

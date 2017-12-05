@@ -12,7 +12,8 @@ class RenderHandler;
 class BrowserClient : public CefClient, public CefKeyboardHandler,
 					  public CefDisplayHandler,
 					  public CefLifeSpanHandler,
-					  public CefRequestHandler
+					  public CefRequestHandler,
+					  public CefLoadHandler
 {
 private:
 	CefRefPtr<CefMessageRouterBrowserSide> message_router_;
@@ -44,6 +45,15 @@ public:
 				   CefRefPtr<CefRequest> request, bool is_redirect) override;
 	void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
 								   TerminationStatus status) override;
+
+	void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+					 TransitionType transition_type) override;
+
+	CefRefPtr<CefLoadHandler> GetLoadHandler() override;
+
+	void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+				   int httpStatusCode) override;
+
 
 private:
 	IMPLEMENT_REFCOUNTING(BrowserClient);

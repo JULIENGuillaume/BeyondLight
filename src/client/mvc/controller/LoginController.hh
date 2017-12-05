@@ -23,6 +23,8 @@ public:
                      int64 query_id, const CefString &request, bool persistent,
                      CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 
+    void onFrameEnd() override;
+
     void setWebCore(std::weak_ptr<WebCore> webCore) override;
 
 };

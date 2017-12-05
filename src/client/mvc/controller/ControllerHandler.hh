@@ -24,6 +24,7 @@ public:
     ControllerHandler() = delete;
     explicit ControllerHandler(std::shared_ptr<ModelHandler> modelHandler, std::weak_ptr<WebCore> webCore);
     void changeRoute(const std::string &route, const std::string &subRoute);
+    void onFrameEnd();
     void onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                  int64 query_id, const CefString &request, bool persistent,
                  CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);

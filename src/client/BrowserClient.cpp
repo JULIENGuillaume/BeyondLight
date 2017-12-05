@@ -107,3 +107,19 @@ CefRefPtr<CefResourceHandler> BrowserClient::GetResourceHandler(CefRefPtr<CefBro
 
     return CefRequestHandler::GetResourceHandler(browser, frame, request);
 }
+
+void BrowserClient::OnLoadStart(CefRefPtr<CefBrowser> browser,
+                                CefRefPtr<CefFrame> frame,
+                                CefLoadHandler::TransitionType transition_type) {
+    CefLoadHandler::OnLoadStart(browser, frame, transition_type);
+}
+
+CefRefPtr<CefLoadHandler> BrowserClient::GetLoadHandler() {
+    return (this);
+}
+
+void BrowserClient::OnLoadEnd(CefRefPtr<CefBrowser> browser,
+                              CefRefPtr<CefFrame> frame, int httpStatusCode) {
+    this->_webCore->getMvcHandler()->getControllerHandler()->onFrameEnd();
+    CefLoadHandler::OnLoadEnd(browser, frame, httpStatusCode);
+}
