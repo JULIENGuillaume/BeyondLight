@@ -34,8 +34,9 @@ std::string IndexController::onQuery(CefRefPtr<CefBrowser> browser,
 		auto network = this->_webCore.lock()->getNetworkHandler();
 		network->send("421356:" + result);
 		auto answers = common::Toolbox::split(network->getLine(), ":");
-		std::cout << answers[0] << " " << answers[1] << " " << result << " " << answers[2] << std::endl;
-		if (answers[0] == "421357" && answers[1] == result)
+		if (answers[0] == "321")
+			callback->Failure(404, "MARCHE PAAAAAAAAS");
+		else if (answers[0] == "421357" && answers[1] == result)
 			callback->Success(answers[2]);
 		else
 			callback->Failure(404, "MARCHE PAAAAAAAAS");
