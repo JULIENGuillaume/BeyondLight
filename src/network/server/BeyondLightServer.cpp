@@ -56,6 +56,21 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 						socket->send("321:KO");
 					}
 					break;
+				case 421356:
+					if (toks.size() == 2 && loggedIn) {
+						int buildingId = std::atoi(toks[1].c_str());
+						if (buildingId != build->getId())
+							socket->send("321:KO");
+						else {
+							if (!build->upgrade())
+								socket->send("321:KO");
+							else
+								socket->send("421357:" + toks[1] + ":" + std::to_string(build->getLevel()));
+						}
+					} else {
+						socket->send("321:KO");
+					}
+					break;
 				case 1337:
 					this->m_running = false;
 					socket->send("123:OK");
