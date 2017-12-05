@@ -40,8 +40,10 @@ const std::string &server::game::building::ABuilding::getDescription() const {
 }
 
 const server::game::resource::UpgradeCost &server::game::building::ABuilding::getResources() const {
+	static auto noUpgradeAvailable = server::game::resource::UpgradeCost(false);
+
 	if (this->m_level >= this->m_upgrades.size())
-		return server::game::resource::UpgradeCost(false);
+		return noUpgradeAvailable;
 	return this->m_upgrades[this->m_level];
 }
 
