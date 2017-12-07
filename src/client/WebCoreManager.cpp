@@ -9,9 +9,8 @@
 #include "../common/Toolbox.hh"
 
 namespace bl {
-    WebCoreManager::WebCoreManager(
-            std::shared_ptr<network::client::NetworkHandler> networkHandler) :
-            _networkHandler(networkHandler) {
+    WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) :
+            m_networkHandler(networkHandler) {
 
     }
 
@@ -50,7 +49,7 @@ namespace bl {
     }
 
     bool WebCoreManager::shutDown() {
-        _browsers.clear();
+        m_browsers.clear();
         CefShutdown();
         return true;
     }
@@ -59,26 +58,24 @@ namespace bl {
         CefDoMessageLoopWork();
     }
 
-    std::weak_ptr<WebCore>
-    WebCoreManager::createBrowser(const std::string &url) {
-        auto web_core = std::make_shared<WebCore>(url, this->_networkHandler);
-        _browsers.push_back(web_core);
+    std::weak_ptr<WebCore> WebCoreManager::createBrowser(const std::string &url) {
+        auto web_core = std::make_shared<WebCore>(url, this->m_networkHandler);
+        m_browsers.push_back(web_core);
         return web_core;
     }
 
     void WebCoreManager::removeBrowser(std::weak_ptr<WebCore> web_core) {
         auto elem = web_core.lock();
         if (elem) {
-            auto found = std::find(_browsers.begin(), _browsers.end(), elem);
-            if (found != _browsers.end()) {
-                _browsers.erase(found);
+            auto found = std::find(m_browsers.begin(), m_browsers.end(), elem);
+            if (found != m_browsers.end()) {
+                m_browsers.erase(found);
             }
         }
     }
 
 // https://peter.sh/experiments/chromium-command-line-switches/#winhttp-proxy-resolver
-    void
-    WebCoreManager::OnBeforeCommandLineProcessing(const CefString &process_type,
+    void WebCoreManager::OnBeforeCommandLineProcessing(const CefString &process_type,
                                                   CefRefPtr<CefCommandLine> command_line) {
         command_line.get()->AppendSwitch("disable-3d-apis");
         command_line.get()->AppendSwitch("disable-d3d11");
@@ -111,20 +108,20 @@ namespace bl {
 
     void WebCoreManager::OnWebKitInitialized() {
         CefMessageRouterConfig config;
-        message_router_ = CefMessageRouterRendererSide::Create(config);
+        m_message_router = CefMessageRouterRendererSide::Create(config);
     }
 
     void WebCoreManager::OnContextCreated(CefRefPtr<CefBrowser> browser,
                                           CefRefPtr<CefFrame> frame,
                                           CefRefPtr<CefV8Context> context) {
 
-        message_router_->OnContextCreated(browser, frame, context);
+        m_message_router->OnContextCreated(browser, frame, context);
     }
 
     void WebCoreManager::OnContextReleased(CefRefPtr<CefBrowser> browser,
                                            CefRefPtr<CefFrame> frame,
                                            CefRefPtr<CefV8Context> context) {
-        message_router_->OnContextReleased(browser, frame, context);
+        m_message_router->OnContextReleased(browser, frame, context);
     }
 
     void WebCoreManager::OnUncaughtException(CefRefPtr<CefBrowser> browser,
@@ -140,7 +137,7 @@ namespace bl {
     bool WebCoreManager::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
                                                   CefProcessId source_process,
                                                   CefRefPtr<CefProcessMessage> message) {
-        return message_router_->OnProcessMessageReceived(browser,
+        return m_message_router->OnProcessMessageReceived(browser,
                                                          source_process,
                                                          message);
     }
@@ -161,20 +158,4 @@ namespace bl {
     bool WebCoreManager::HasOneRef() const {
         return false;
     }
-
-//void WebCoreManager::OnContextInitialized() {
-//    /* // Create the browser window.
-//    const CefString& startup_url = GetStartupURL();
-//    shared::CreateBrowser(new Client(startup_url), startup_url,
-//                          CefBrowserSettings()); todo setup ?*/
-//    std::cout << "01" << std::endl;
-//    CefBrowserProcessHandler::OnContextInitialized();
-//}
-
-/*CefRefPtr<CefBrowserProcessHandler> WebCoreManager::GetBrowserProcessHandler
-        () {
-    std::cout << "02" << std::endl;
-    return (this);
-}*/
-
 }

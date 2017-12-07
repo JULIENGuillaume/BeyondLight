@@ -13,14 +13,15 @@ namespace bl {
     WebCore::WebCore(const std::string &url,
                      std::shared_ptr<network::client::NetworkHandler> networkHandler)
             :
-            _mouseX(0),
-            _mouseY(0),
-            _networkHandler(networkHandler) {
-        _renderHandler = new RenderHandler();
-        _renderHandler->Initialize();
+            m_mouseX(0),
+            m_mouseY(0),
+            m_mvcHandler(new mvc::MvcHandler()),
+            m_networkHandler(networkHandler) {
+        m_renderHandler = new RenderHandler();
+        m_renderHandler->Initialize();
         // initial size
-        _renderHandler->resize(1280, 720);
-        _curMouseMod = 0;
+        m_renderHandler->resize(1280, 720);
+        m_curMouseMod = 0;
 
         CefWindowInfo window_info;
         HWND hwnd = GetConsoleWindow();
@@ -37,38 +38,39 @@ namespace bl {
         browserSettings.universal_access_from_file_urls = STATE_DISABLED;
         browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
         browserSettings.windowless_frame_rate = 60; // 30 is default
-        _client = new BrowserClient(this);
-        _browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(),
+        m_client = new BrowserClient(this);
+        m_browser = CefBrowserHost::CreateBrowserSync(window_info, m_client.get(),
                                                      url, browserSettings,
                                                      nullptr);
+        this->m_mvcHandler->setWebCore(this);
     }
 
     WebCore::~WebCore() {
-        _browser->GetHost()->CloseBrowser(true);
+        m_browser->GetHost()->CloseBrowser(true);
         CefDoMessageLoopWork();
 
-        _browser = nullptr;
-        _client = nullptr;
+        m_browser = nullptr;
+        m_client = nullptr;
     }
 
     void WebCore::reshape(int w, int h) {
-        _renderHandler->resize(w, h);
-        _browser->GetHost()->WasResized();
+        m_renderHandler->resize(w, h);
+        m_browser->GetHost()->WasResized();
     }
 
 
     void WebCore::mouseMove(double x, double y, int entered) {
-        this->_mouseX = static_cast<int>(x);
-        this->_mouseY = static_cast<int>(y);
+        this->m_mouseX = static_cast<int>(x);
+        this->m_mouseY = static_cast<int>(y);
 
         CefMouseEvent mouseEvent;
         mouseEvent.x = static_cast<int>(x);
         mouseEvent.y = static_cast<int>(y);
-        mouseEvent.modifiers = this->_curMouseMod;
+        mouseEvent.modifiers = this->m_curMouseMod;
 
         bool mouseLeave = entered == 0;
 
-        _browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
+        m_browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
     }
 
     void WebCore::mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up,
@@ -76,20 +78,20 @@ namespace bl {
         static auto before = std::chrono::system_clock::now(); // todo improve
         static int count = 0;
 
-        this->_curMouseMod = 0;
+        this->m_curMouseMod = 0;
         if (btn == CefBrowserHost::MouseButtonType::MBT_LEFT) {
-            this->_curMouseMod = EVENTFLAG_LEFT_MOUSE_BUTTON;
+            this->m_curMouseMod = EVENTFLAG_LEFT_MOUSE_BUTTON;
         } else if (btn == CefBrowserHost::MouseButtonType::MBT_RIGHT) {
-            this->_curMouseMod = EVENTFLAG_RIGHT_MOUSE_BUTTON;
+            this->m_curMouseMod = EVENTFLAG_RIGHT_MOUSE_BUTTON;
         } else if (btn == CefBrowserHost::MouseButtonType::MBT_MIDDLE) {
-            this->_curMouseMod = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+            this->m_curMouseMod = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
         } else {
-            this->_curMouseMod = 0;
+            this->m_curMouseMod = 0;
         }
         CefMouseEvent evt;
-        evt.x = _mouseX;
-        evt.y = _mouseY;
-        evt.modifiers = this->_curMouseMod;
+        evt.x = m_mouseX;
+        evt.y = m_mouseY;
+        evt.modifiers = this->m_curMouseMod;
 
         if (!mouse_up) {
             auto now = std::chrono::system_clock::now();
@@ -103,7 +105,7 @@ namespace bl {
             }
         }
 
-        _browser->GetHost()->SendMouseClickEvent(evt, btn, mouse_up, count);
+        m_browser->GetHost()->SendMouseClickEvent(evt, btn, mouse_up, count);
     }
 
     void WebCore::charPress(unsigned int key) {
@@ -116,13 +118,13 @@ namespace bl {
         evt.native_key_code = key;
         evt.unmodified_character = static_cast<short>(key);
 
-        this->_browser->GetHost()->SendKeyEvent(evt);
+        this->m_browser->GetHost()->SendKeyEvent(evt);
     }
 
     void WebCore::keyPress(int key, int scancode, int action, int mods) {
         CefKeyEvent event;
 
-        CefRefPtr<CefFrame> frame = this->_browser->GetMainFrame(); // todo remove test
+        CefRefPtr<CefFrame> frame = this->m_browser->GetMainFrame(); // todo remove test
         unsigned int nativeKey = 0;
         if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
             nativeKey = VK_BACK;
@@ -146,92 +148,88 @@ namespace bl {
         else
             event.type = KEYEVENT_KEYUP;
 
-        _browser->GetHost()->SendKeyEvent(event);
+        m_browser->GetHost()->SendKeyEvent(event);
     }
 
     CefRefPtr<RenderHandler> WebCore::getRenderHandler() const {
-        return (this->_renderHandler);
+        return (this->m_renderHandler);
     }
 
     void WebCore::mouseScroll(int x, int y) {
         static const int scrollbarPixelsPerTick = 200;
         CefMouseEvent mouseEvent;
 
-        mouseEvent.modifiers = this->_curMouseMod;
-        mouseEvent.x = this->_mouseX;
-        mouseEvent.y = this->_mouseY;
+        mouseEvent.modifiers = this->m_curMouseMod;
+        mouseEvent.x = this->m_mouseX;
+        mouseEvent.y = this->m_mouseY;
 
         int deltaX = 0;
         int deltaY = 0;
         deltaX = (x > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
         deltaY = (y > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
 
-        _browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+        m_browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
     }
 
     void WebCore::changeUrl(const std::string &url) {
-        this->_browser->GetMainFrame()->LoadURL(url);
+        this->m_browser->GetMainFrame()->LoadURL(url);
     }
 
     void WebCore::paste() {
-        this->_browser->GetMainFrame()->Paste();
+        this->m_browser->GetMainFrame()->Paste();
     }
 
     void WebCore::copy() {
-        this->_browser->GetMainFrame()->Copy();
+        this->m_browser->GetMainFrame()->Copy();
     }
 
     void WebCore::cut() {
-        this->_browser->GetMainFrame()->Cut();
+        this->m_browser->GetMainFrame()->Cut();
     }
 
     void WebCore::selectAll() {
-        this->_browser->GetMainFrame()->SelectAll();
+        this->m_browser->GetMainFrame()->SelectAll();
     }
 
     void WebCore::reload(bool ignoreCache) {
         if (ignoreCache) {
-            this->_browser->ReloadIgnoreCache();
+            this->m_browser->ReloadIgnoreCache();
         } else {
-            this->_browser->Reload();
+            this->m_browser->Reload();
         }
     }
 
     CefRefPtr<const CefBrowser> WebCore::getBrowser() const {
-        return _browser;
+        return m_browser;
     }
 
     CefRefPtr<const BrowserClient> WebCore::getClient() const {
-        return _client;
+        return m_client;
     }
 
     CefRefPtr<CefBrowser> WebCore::getBrowser() {
-        return _browser;
+        return m_browser;
     }
 
     CefRefPtr<BrowserClient> WebCore::getClient() {
-        return _client;
+        return m_client;
     }
 
     std::shared_ptr<const network::client::NetworkHandler>
     WebCore::getNetworkHandler() const {
-        return (this->_networkHandler);
+        return (this->m_networkHandler);
     }
 
     std::shared_ptr<const mvc::MvcHandler> WebCore::getMvcHandler() const {
-        return (this->_mvcHandler);
+        return (this->m_mvcHandler);
     }
 
     std::shared_ptr<network::client::NetworkHandler>
     WebCore::getNetworkHandler() {
-        return (this->_networkHandler);
+        return (this->m_networkHandler);
     }
 
     std::shared_ptr<mvc::MvcHandler> WebCore::getMvcHandler() {
-        return (this->_mvcHandler);
-    }
-
-    void WebCore::setMvcHandler(std::shared_ptr<mvc::MvcHandler> mvcHandler) {
-        this->_mvcHandler = mvcHandler;
+        return (this->m_mvcHandler);
     }
 }

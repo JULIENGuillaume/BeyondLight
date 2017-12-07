@@ -16,11 +16,11 @@ namespace bl {
 						  public CefRequestHandler,
 						  public CefLoadHandler {
 	private:
-		CefRefPtr<CefMessageRouterBrowserSide> message_router_;
-		scoped_ptr<CefMessageRouterBrowserSide::Handler> message_handler_;
+		CefRefPtr<CefMessageRouterBrowserSide> m_message_router;
+		scoped_ptr<CefMessageRouterBrowserSide::Handler> m_message_handler;
 		// Track the number of browsers using this Client.
-		int browser_ct_;
-		WebCore *_webCore;
+		int m_browser_ct;
+		WebCore *m_webCore;
 
 
 	public:

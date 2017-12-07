@@ -20,24 +20,24 @@ namespace bl {
             return (true);
         }
         glfwMakeContextCurrent(window);
-        this->_win = window;
+        this->m_win = window;
 
         return (false);
     }
 
     void GlfwHandler::shutDownGlfw() {
-        glfwDestroyWindow(this->_win);
+        glfwDestroyWindow(this->m_win);
         glfwTerminate();
     }
 
     void GlfwHandler::setupGlfw() {
         glfwSwapInterval(1);
-        glfwSetKeyCallback(this->_win, CallBacks::onKeyEvent);
-        glfwSetCharCallback(this->_win, CallBacks::onCharEvent);
-        glfwSetCursorPosCallback(this->_win, CallBacks::onCursorMotion);
-        glfwSetMouseButtonCallback(this->_win, CallBacks::onMouseEvent);
-        glfwSetFramebufferSizeCallback(this->_win, CallBacks::onWinResize);
-        glfwSetScrollCallback(this->_win, CallBacks::onScroll);
+        glfwSetKeyCallback(this->m_win, CallBacks::onKeyEvent);
+        glfwSetCharCallback(this->m_win, CallBacks::onCharEvent);
+        glfwSetCursorPosCallback(this->m_win, CallBacks::onCursorMotion);
+        glfwSetMouseButtonCallback(this->m_win, CallBacks::onMouseEvent);
+        glfwSetFramebufferSizeCallback(this->m_win, CallBacks::onWinResize);
+        glfwSetScrollCallback(this->m_win, CallBacks::onScroll);
     }
 
     GlfwHandler::GlfwHandler() {
@@ -48,41 +48,41 @@ namespace bl {
     }
 
     void GlfwHandler::setUserPointer(void *pointer) {
-        glfwSetWindowUserPointer(this->_win, pointer);
+        glfwSetWindowUserPointer(this->m_win, pointer);
     }
 
     void *GlfwHandler::getUserPointer() {
-        return (glfwGetWindowUserPointer(this->_win));
+        return (glfwGetWindowUserPointer(this->m_win));
     }
 
     unsigned int GlfwHandler::getWidth() const {
         unsigned int width;
 
-        glfwGetWindowSize(this->_win, reinterpret_cast<int *>(&width), nullptr);
+        glfwGetWindowSize(this->m_win, reinterpret_cast<int *>(&width), nullptr);
         return (width);
     }
 
     unsigned int GlfwHandler::getHeight() const {
         unsigned int height;
 
-        glfwGetWindowSize(this->_win, nullptr,
+        glfwGetWindowSize(this->m_win, nullptr,
                           reinterpret_cast<int *>(&height));
         return (height);
     }
 
     bool GlfwHandler::winShouldClose() {
-        return (glfwWindowShouldClose(this->_win));
+        return (glfwWindowShouldClose(this->m_win));
     }
 
     std::pair<unsigned int, unsigned int> GlfwHandler::getWinSize() const {
         std::pair<unsigned int, unsigned int> size;
-        glfwGetWindowSize(this->_win, reinterpret_cast<int *>(&size.first),
+        glfwGetWindowSize(this->m_win, reinterpret_cast<int *>(&size.first),
                           reinterpret_cast<int *>(&size.second));
         return (size);
     }
 
     void GlfwHandler::swapBuffer() {
-        glfwSwapBuffers(this->_win);
+        glfwSwapBuffers(this->m_win);
     }
 
     void GlfwHandler::pollEvents() {

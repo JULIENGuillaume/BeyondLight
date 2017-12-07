@@ -3,15 +3,10 @@
 //
 
 #include "LoginController.hh"
-#include "../../WebCore.hh"
+#include "../MvcHandler.hh"
 #include "../../../common/Toolbox.hh"
-#include "../../../common/NetworkWrapper.hh"
 namespace bl {
     namespace mvc {
-        void LoginController::setModelHandler(
-                std::shared_ptr<ModelHandler> modelHandler) {
-            this->_modelHandler = modelHandler;
-        }
 
         std::string LoginController::onQuery(CefRefPtr<CefBrowser> browser,
                                              CefRefPtr<CefFrame> frame,
@@ -39,7 +34,7 @@ namespace bl {
         bool LoginController::handleLogin(CefRefPtr<CefBrowser> browser,
                                           std::string message,
                                           CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-            auto networkHandler = this->_webCore.lock()->getNetworkHandler();
+            auto networkHandler = this->m_webCore->getNetworkHandler();
 
             std::vector<std::string> logInfo = common::Toolbox::split(message,
                                                                       ":");
@@ -68,7 +63,7 @@ namespace bl {
         void LoginController::handleRegister(CefRefPtr<CefBrowser> browser,
                                              std::string message,
                                              CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-            auto networkHandler = this->_webCore.lock()->getNetworkHandler();
+            auto networkHandler = this->m_webCore->getNetworkHandler();
 
             std::vector<std::string> logInfo = common::Toolbox::split(message,
                                                                       ":");
@@ -85,8 +80,9 @@ namespace bl {
             }
         }
 
-        void LoginController::setWebCore(std::weak_ptr<WebCore> webCore) {
-            this->_webCore = webCore;
+        void LoginController::setWebCore(WebCore *webCore) {
+            this->m_webCore = webCore;
+            this->m_modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
         }
 
         void LoginController::onFrameEnd() {

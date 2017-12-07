@@ -7,22 +7,22 @@
 namespace bl {
 	class RenderHandler : public CefRenderHandler {
 	private:
-		bool _showDirtyRect;
-		bool _isTransparent;
-		bool initialized_;
-		GLuint _tex;
-		int _width;
-		int _height;
-		CefRect popup_rect_;
-		RectList update_rect_;
-		CefRect original_popup_rect_;
-		float spin_x_;
-		float spin_y_;
-		cef_color_t _backgroundColor;
-		double _lastTickTime;
-		unsigned int _calls;
-		GLuint _bgTexture;
-		GLuint _bgGrid;
+		bool m_showDirtyRect;
+		bool m_isTransparent;
+		bool m_initialized;
+		GLuint m_tex;
+		int m_width;
+		int m_height;
+		CefRect m_popup_rect;
+		RectList m_update_rect;
+		CefRect m_original_popup_rect;
+		float m_spin_x;
+		float m_spin_y;
+		cef_color_t m_backgroundColor;
+		double m_lastTickTime;
+		unsigned int m_calls;
+		GLuint m_bgTexture;
+		GLuint m_bgGrid;
 
 	public:
 		RenderHandler();

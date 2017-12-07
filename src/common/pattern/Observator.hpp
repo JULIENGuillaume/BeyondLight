@@ -20,12 +20,12 @@ public:
     using Listener = std::function<bool()>;
 
 private:
-    std::unordered_map<EventType, std::unordered_map<ListenerConnection, Listener>> _observers;
-    ListenerConnection _curId;
+    std::unordered_map<EventType, std::unordered_map<ListenerConnection, Listener>> m_observers;
+    ListenerConnection m_curId;
 
 private:
     ListenerConnection getNewId() {
-        return (++this->_curId);
+        return (++this->m_curId);
     }
 
     void unregisterIds(const std::vector<ListenerConnection> &ids) {
@@ -33,7 +33,7 @@ private:
             return;
 
         for (const ListenerConnection &id : ids) {
-            for (auto &listeners : this->_observers) {
+            for (auto &listeners : this->m_observers) {
                 std::unordered_map<ListenerConnection, Listener> &eventListeners = listeners.second;
                 for(auto it = eventListeners.begin(); it != eventListeners.end(); ) {
                     if(it->first == id)
@@ -46,7 +46,7 @@ private:
     }
 
 public:
-    Observator() : _curId(0) {
+    Observator() : m_curId(0) {
 
     }
 
@@ -58,7 +58,7 @@ public:
     ListenerConnection registerObserver(const EventType &event, Observer &&observer) {
         ListenerConnection id = this->getNewId();
 
-        _observers[event].insert(std::pair<ListenerConnection, Listener>(id, std::forward<Observer>(observer)));
+        m_observers[event].insert(std::pair<ListenerConnection, Listener>(id, std::forward<Observer>(observer)));
         return (id);
     }
 
@@ -66,20 +66,20 @@ public:
     ListenerConnection registerObserver(EventType &&event, Observer &&observer) {
         ListenerConnection id = this->getNewId();
 
-        _observers[std::move(event)].insert(
+        m_observers[std::move(event)].insert(
                 std::pair<ListenerConnection, Listener>(id, std::forward<Observer>(observer)));
         return (id);
     }
 
     void unregisterObserver(const EventType &event, ListenerConnection id) {
-        auto result = this->_observers.find(event);
-        if (result != this->_observers.end()) {
+        auto result = this->m_observers.find(event);
+        if (result != this->m_observers.end()) {
             result->second.erase(id);
         }
     }
 
     void unregisterObserver(ListenerConnection id) {
-        for (auto const &eventsObservers : this->_observers) {
+        for (auto const &eventsObservers : this->m_observers) {
             ListenerConnection prevSize = eventsObservers.second.size();
             this->unregisterObserver(eventsObservers.first, id);
             if (prevSize != eventsObservers.second.size()) {
@@ -91,8 +91,8 @@ public:
     void notifyObserver(const EventType &event) {
         std::vector<ListenerConnection> toRemove;
 
-        auto result = this->_observers.find(event);
-        if (result != this->_observers.end()) {
+        auto result = this->m_observers.find(event);
+        if (result != this->m_observers.end()) {
             for (const auto &obs : result->second) {
                 if (obs.second()) {
                     toRemove.emplace_back(obs.first);
@@ -106,7 +106,7 @@ public:
     void notifyAllObserver() {
         std::vector<ListenerConnection> toRemove;
 
-        for (const auto obsEvents : this->_observers) {
+        for (const auto obsEvents : this->m_observers) {
             for (const auto &obs : obsEvents.second) {
                 if (obs.second()) {
                     toRemove.emplace_back(obs.first);

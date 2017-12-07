@@ -13,19 +13,15 @@ namespace bl {
     namespace mvc {
         class IndexController : public IBaseController {
         private:
-            std::weak_ptr<WebCore> _webCore;
-            bool _needToInsertBuilding;
-            bool _needToInsertTechnologies;
-            static const std::string _buildingsUrl;
-            static const std::string _technologiesUrl;
+            WebCore *m_webCore;
+            bool m_needToInsertBuilding;
+            bool m_needToInsertTechnologies;
+            static const std::string m_buildingsUrl;
+            static const std::string m_technologiesUrl;
 
         public:
             IndexController();
-
-            void setModelHandler(
-                    std::shared_ptr<ModelHandler> modelHandler) override;
-
-            void setWebCore(std::weak_ptr<WebCore> webCore) override;
+            void setWebCore(WebCore *webCore) override;
 
             void
             buildings(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,

@@ -11,7 +11,7 @@
 namespace bl {
     class GlfwHandler {
     private:
-        GLFWwindow *_win;
+        GLFWwindow *m_win;
     public:
         GlfwHandler();
 

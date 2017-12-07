@@ -15,9 +15,9 @@ namespace bl {
 // http://www.magpcss.org/ceforum/viewtopic.php?f=17&t=12317 todo check this for improvement
     class MessageHandler : public CefMessageRouterBrowserSide::Handler {
     private:
-        const std::string _mainRoute = "MainRoute";
-        const CefString _startupUrl;
-        WebCore *_webCore; // todo improve
+        const std::string m_mainRoute = "MainRoute";
+        const CefString m_startupUrl;
+        WebCore *m_webCore; // todo improve
 
         // Handle messages in the browser process.
     public:

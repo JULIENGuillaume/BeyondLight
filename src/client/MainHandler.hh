@@ -14,15 +14,14 @@
 namespace bl {
     class MainHandler {
     private:
-        std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-        std::weak_ptr<WebCore> _webCore;
-        WebCoreManager _webCoreManager;
-        std::shared_ptr<mvc::MvcHandler> _mvcHandler;
-        GlfwHandler _glfwHandler;
-        bool _sizeUpdated;
-        uint64 _frame;
-        double _lastTickTime;
-        bool _isInput;
+        std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+        std::weak_ptr<WebCore> m_activeBrowser;
+        WebCoreManager m_webCoreManager;
+        GlfwHandler m_glfwHandler;
+        bool m_sizeUpdated;
+        uint64 m_frame;
+        double m_lastTickTime;
+        bool m_isInput;
     public:
         MainHandler();
 
