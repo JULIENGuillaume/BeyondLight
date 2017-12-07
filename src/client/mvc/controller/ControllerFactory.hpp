@@ -9,19 +9,17 @@
 #include "IControllerFactory.hh"
 
 namespace bl {
-    namespace mvc {
-        template<typename Controller>
-        class ControllerFactory : public IControllerFactory {
-        public:
-            virtual std::shared_ptr<IBaseController>
-            build(WebCore *webCore) override {
-                std::shared_ptr<Controller> controller(new Controller());
-                controller->setWebCore(webCore);
-                return (controller);
-            }
-
-        };
-    }
+	namespace mvc {
+		template<typename Controller>
+		class ControllerFactory : public IControllerFactory {
+		public:
+			virtual std::shared_ptr<IBaseController>
+			build(WebCore *webCore) override {
+				std::shared_ptr<Controller> controller(new Controller());
+				controller->setWebCore(webCore);
+				return (controller);
+			}
+		};
+	}
 }
-
 #endif //MVC_TEST_CONTROLLERFACTORY_HH

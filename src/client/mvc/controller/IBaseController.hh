@@ -14,32 +14,34 @@
 #include "include/wrapper/cef_message_router.h"
 
 namespace bl {
-    class WebCore;
+	class WebCore;
+	namespace mvc {
+		class IBaseController {
+		public:
+			virtual ~IBaseController() {
+			}
 
-    namespace mvc {
-        class IBaseController {
-        public:
-            virtual ~IBaseController() {}
+			IBaseController() {
+			}
 
-            IBaseController() {}
+			IBaseController(const IBaseController &) {
+			}
 
-            IBaseController(const IBaseController &) {}
+			IBaseController &operator=(const IBaseController &) {
+				return (*this);
+			}
 
-            IBaseController &
-            operator=(const IBaseController &) { return (*this); }
-
-            virtual void setWebCore(WebCore *webCore) = 0;
-
-            virtual std::string onQuery(CefRefPtr<CefBrowser> browser,
-                                        CefRefPtr<CefFrame> frame, /* todo improve return type */
-                                        int64 query_id,
-                                        const CefString &request,
-                                        bool persistent,
-                                        CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) = 0;
-
-            virtual void onFrameEnd() = 0;
-        };
-    }
+			virtual void setWebCore(WebCore *webCore) = 0;
+			virtual std::string onQuery(
+					CefRefPtr<CefBrowser> browser,
+					CefRefPtr<CefFrame> frame, /* todo improve return type */
+					int64 query_id,
+					const CefString &request,
+					bool persistent,
+					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+			) = 0;
+			virtual void onFrameEnd() = 0;
+		};
+	}
 }
-
 #endif //MVC_TEST_IBASECONTROLLER_HH
