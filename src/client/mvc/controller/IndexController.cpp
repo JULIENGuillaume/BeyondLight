@@ -5,26 +5,20 @@
 #include <json.hpp>
 #include "IndexController.hh"
 #include "../../../common/Toolbox.hh"
-#include "../../WebCore.hh"
+#include "../MvcHandler.hh"
 
 namespace bl {
 	namespace mvc {
-		const std::string IndexController::_buildingsUrl =
+		const std::string IndexController::m_buildingsUrl =
 				"file:///" + common::Toolbox::getApplicationDir() +
 				"/../resources/html/buildings.html";
-		const std::string IndexController::_technologiesUrl =
+		const std::string IndexController::m_technologiesUrl =
 				"file:///" + common::Toolbox::getApplicationDir() +
 				"/../resources/html/technologies.html";
 
 		IndexController::IndexController() :
-				_needToInsertBuilding(false),
-				_needToInsertTechnologies(false) {
-
-		}
-
-
-		void IndexController::setModelHandler(
-				std::shared_ptr<ModelHandler> modelHandler) {
+				m_needToInsertBuilding(false),
+				m_needToInsertTechnologies(false) {
 
 		}
 
@@ -46,13 +40,13 @@ namespace bl {
 				auto result = message.substr(
 						std::string("index-technology-upgrade-").length());
 
-				auto network = this->_webCore.lock()->getNetworkHandler();
+				auto network = this->m_webCore->getNetworkHandler();
 				callback->Success(std::to_string(++level));
 			} else if (message.find("index-building-upgrade") == 0) {
 				auto result = message.substr(
 						std::string("index-building-upgrade-").length());
 
-				auto network = this->_webCore.lock()->getNetworkHandler();
+				auto network = this->m_webCore->getNetworkHandler();
 				network->send("421356:" + result);
 				auto answers = common::Toolbox::split(network->getLine(), ":");
 				if (answers[0] == "321")
@@ -69,8 +63,8 @@ namespace bl {
 			return (std::string());
 		}
 
-		void IndexController::setWebCore(std::weak_ptr<WebCore> webCore) {
-			this->_webCore = webCore;
+		void IndexController::setWebCore(WebCore *webCore) {
+			this->m_webCore = webCore;
 			overview(nullptr, nullptr, nullptr);
 		}
 
@@ -82,9 +76,9 @@ namespace bl {
 				callback->Success(std::string());
 			}
 
-			this->_needToInsertBuilding = true;
-			this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(
-					_buildingsUrl);
+			this->m_needToInsertBuilding = true;
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
+					m_buildingsUrl);
 		}
 
 		void IndexController::technologies(CefRefPtr<CefBrowser> browser,
@@ -95,9 +89,9 @@ namespace bl {
 				callback->Success(std::string());
 			}
 
-			this->_needToInsertTechnologies = true;
-			this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(
-					_technologiesUrl);
+			this->m_needToInsertTechnologies = true;
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
+					m_technologiesUrl);
 		}
 
 		void IndexController::overview(CefRefPtr<CefBrowser> browser,
@@ -106,14 +100,14 @@ namespace bl {
 			if (callback != nullptr) {
 				callback->Success(std::string());
 			}
-			this->_webCore.lock()->getBrowser()->GetMainFrame()->LoadURL(
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
 					"file:///" + common::Toolbox::getApplicationDir() +
 					"/../resources/html/index.html");
 		}
 
 		void IndexController::onFrameEnd() {
-			if (this->_needToInsertTechnologies) {
-				this->_needToInsertTechnologies = false;
+			if (this->m_needToInsertTechnologies) {
+				this->m_needToInsertTechnologies = false;
 				std::string js = std::string("createTechnologie(")
 								 + std::to_string(1) + ",\""
 								 + "Quantum Technology" + "\","
@@ -122,12 +116,12 @@ namespace bl {
 								 + std::to_string(30000) + ","
 								 + std::to_string(10000) + ","
 								 + std::to_string(5000) + ");";
-				this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-						js, _technologiesUrl, 0);
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_technologiesUrl, 0);
 			}
-			if (this->_needToInsertBuilding) {
-				this->_needToInsertBuilding = false;
-				auto network = this->_webCore.lock()->getNetworkHandler();
+			if (this->m_needToInsertBuilding) {
+				this->m_needToInsertBuilding = false;
+				auto network = this->m_webCore->getNetworkHandler();
 				network->send("4242");
 				std::string jsonReceived = network->getLine();
 				std::cout << jsonReceived << std::endl;
@@ -169,8 +163,8 @@ namespace bl {
 								 + std::to_string(crystal) + ","
 								 + std::to_string(iridium) + ","
 								 + std::to_string(energy) + ");";
-				this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-						js, _buildingsUrl, 0);
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
 				js = std::string("createBuilding(")
 					 + std::to_string(id + 1) + ",\""
 					 + name + "\","
@@ -179,8 +173,8 @@ namespace bl {
 					 + std::to_string(crystal) + ","
 					 + std::to_string(iridium) + ","
 					 + std::to_string(energy) + ");";
-				this->_webCore.lock()->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-						js, _buildingsUrl, 0);
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
 			}
 		}
 	}

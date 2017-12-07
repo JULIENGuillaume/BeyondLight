@@ -14,13 +14,10 @@ namespace bl {
     namespace mvc {
         class LoginController : public IBaseController {
         private:
-            std::weak_ptr<WebCore> _webCore;
-            std::shared_ptr<ModelHandler> _modelHandler;
+            WebCore *m_webCore;
+            std::shared_ptr<ModelHandler> m_modelHandler;
 
         public:
-            void setModelHandler(
-                    std::shared_ptr<ModelHandler> modelHandler) override;
-
             bool handleLogin(CefRefPtr<CefBrowser> browser, std::string message,
                              CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 
@@ -35,7 +32,7 @@ namespace bl {
 
             void onFrameEnd() override;
 
-            void setWebCore(std::weak_ptr<WebCore> webCore) override;
+            void setWebCore(WebCore *webCore) override;
 
         };
     }

@@ -15,11 +15,11 @@
 #include "../common/Toolbox.hh"
 
 namespace bl {
-    MainHandler::MainHandler() : _networkHandler(
+    MainHandler::MainHandler() : m_networkHandler(
             new network::client::NetworkHandler("127.0.0.1", 8080)),
-                                 _webCoreManager(_networkHandler) {
-        this->_sizeUpdated = false;
-        this->_frame = 0;
+                                 m_webCoreManager(m_networkHandler) {
+        this->m_sizeUpdated = false;
+        this->m_frame = 0;
     }
 
     bool initialize_glew_context() // todo to member func
@@ -37,31 +37,31 @@ namespace bl {
         unsigned int width = 1280;
         unsigned int height = 720;
 
-        this->_isInput = true;
+        this->m_isInput = true;
         int exit_code = 0;
-        bool success = this->_webCoreManager.setUp(&exit_code);
+        bool success = this->m_webCoreManager.setUp(&exit_code);
         if (!success) {
             return (true);
         }
 
         // create GL context
-        if (this->_glfwHandler.initGlfwWindow(width, height, "Beyond Light")) {
-            this->_webCoreManager.shutDown();
+        if (this->m_glfwHandler.initGlfwWindow(width, height, "Beyond Light")) {
+            this->m_webCoreManager.shutDown();
             return (true);
         }
 
         // initialize glew context
         bool glew_init_success = initialize_glew_context();
         if (!glew_init_success) {
-            this->_webCoreManager.shutDown();
+            this->m_webCoreManager.shutDown();
             return (true);
         }
 
         // setup glfw
-        this->_glfwHandler.setupGlfw();
-        this->_glfwHandler.setUserPointer(this);
+        this->m_glfwHandler.setupGlfw();
+        this->m_glfwHandler.setUserPointer(this);
 
-        //this->_networkHandler->test = "network is working";
+        //this->m_networkHandler->test = "network is working";
 
         // init opengl & shader
 
@@ -71,55 +71,52 @@ namespace bl {
     void MainHandler::createBrowser() {
         std::string url = "file:///" + common::Toolbox::getApplicationDir() +
                           "/../resources/html/login.html";
-        this->_webCore = this->_webCoreManager.createBrowser(url);
-        this->_mvcHandler = std::shared_ptr<mvc::MvcHandler>(
-                new mvc::MvcHandler(this->_webCore));
-        this->_webCore.lock()->setMvcHandler(this->_mvcHandler);
-        this->_webCore.lock()->reshape(this->_glfwHandler.getWidth(),
-                                       this->_glfwHandler.getHeight());
+        this->m_activeBrowser = this->m_webCoreManager.createBrowser(url);
+        this->m_activeBrowser.lock()->reshape(this->m_glfwHandler.getWidth(),
+                                       this->m_glfwHandler.getHeight());
     }
 
     bool MainHandler::isSizeUpdated() {
-        return (this->_sizeUpdated);
+        return (this->m_sizeUpdated);
     }
 
     void MainHandler::sizeUpdate() {
-        this->_sizeUpdated = true;
+        this->m_sizeUpdated = true;
     }
 
     const GlfwHandler &MainHandler::getGlfwHandler() const {
-        return (this->_glfwHandler);
+        return (this->m_glfwHandler);
     }
 
     bool MainHandler::startMainLoop() {
-        this->_lastTickTime = glfwGetTime();
-        while (!this->_glfwHandler.winShouldClose()) {
-            if (this->_sizeUpdated) {
-                this->_sizeUpdated = false;
-                const std::pair<unsigned int, unsigned int> &size = this->_glfwHandler.getWinSize();
-                this->_webCore.lock()->reshape(size.first, size.second);
+        this->m_lastTickTime = glfwGetTime();
+        while (!this->m_glfwHandler.winShouldClose()) {
+            if (this->m_sizeUpdated) {
+                this->m_sizeUpdated = false;
+                const std::pair<unsigned int, unsigned int> &size = this->m_glfwHandler.getWinSize();
+                this->m_activeBrowser.lock()->reshape(size.first, size.second);
             }
 
             const double currentTime = glfwGetTime();
-            const double delta = currentTime - this->_lastTickTime;
-            ++this->_frame;
+            const double delta = currentTime - this->m_lastTickTime;
+            ++this->m_frame;
             if (delta >= 1.0) {
-                /*std::cout << std::to_string(1000.0 / this->_frame) << " ms/frame"
+                /*std::cout << std::to_string(1000.0 / this->m_frame) << " ms/frame"
                           << std::endl;*/
-                this->_frame = 0;
-                this->_lastTickTime += 1.0;
+                this->m_frame = 0;
+                this->m_lastTickTime += 1.0;
             }
 
             const double begin = glfwGetTime();
-            this->_webCore.lock()->getRenderHandler()->Render();
+            this->m_activeBrowser.lock()->getRenderHandler()->Render();
 
             // render end
-            this->_glfwHandler.swapBuffer();
+            this->m_glfwHandler.swapBuffer();
 
             // update
-            this->_glfwHandler.pollEvents();
+            this->m_glfwHandler.pollEvents();
 
-            this->_webCoreManager.update();
+            this->m_webCoreManager.update();
             const double end = glfwGetTime();
             /*if (delta >= 1.0) {
                 std::cout << "it took: " << std::to_string(end - begin)
@@ -130,36 +127,36 @@ namespace bl {
     }
 
     void MainHandler::destroy() {
-        this->_glfwHandler.shutDownGlfw();
+        this->m_glfwHandler.shutDownGlfw();
 
         // close cef
-        this->_webCoreManager.removeBrowser(this->_webCore);
-        this->_webCoreManager.shutDown();
-        this->_networkHandler = nullptr;
+        this->m_webCoreManager.removeBrowser(this->m_activeBrowser);
+        this->m_webCoreManager.shutDown();
+        this->m_networkHandler = nullptr;
     }
 
     void MainHandler::onKeyEvent(GLFWwindow *window, int key, int scancode,
                                  int action, int mods) {
-        //if (!this->_isInput) // todo if isinput and key = delete -> send it
-        this->_webCore.lock()->keyPress(key, scancode, action, mods);
+        //if (!this->m_isInput) // todo if isinput and key = delete -> send it
+        this->m_activeBrowser.lock()->keyPress(key, scancode, action, mods);
         if (mods == GLFW_MOD_CONTROL) {
             if (key == GLFW_KEY_C) { // todo improve
-                this->_webCore.lock()->copy();
+                this->m_activeBrowser.lock()->copy();
             }
             if (key == GLFW_KEY_V) { // todo improve
-                this->_webCore.lock()->paste();
+                this->m_activeBrowser.lock()->paste();
             }
             if (key == GLFW_KEY_Q) { // todo improve
-                this->_webCore.lock()->selectAll();
+                this->m_activeBrowser.lock()->selectAll();
             }
             if (key == GLFW_KEY_X) { // todo improve
-                this->_webCore.lock()->cut();
+                this->m_activeBrowser.lock()->cut();
             }
             // todo handle tab
             // todo handle enter
         }
         if (key == GLFW_KEY_F5) {
-            this->_webCore.lock()->reload(true); // todo remove debug
+            this->m_activeBrowser.lock()->reload(true); // todo remove debug
         }
     }
 
@@ -171,34 +168,34 @@ namespace bl {
         btn_type_map[GLFW_MOUSE_BUTTON_RIGHT] = MBT_RIGHT;
         CefBrowserHost::MouseButtonType btn_type = btn_type_map[btn];
 
-        this->_webCore.lock()->mouseClick(btn_type, (GLFW_RELEASE == state),
+        this->m_activeBrowser.lock()->mouseClick(btn_type, (GLFW_RELEASE == state),
                                           mods);
     }
 
     void MainHandler::onCursorMotion(GLFWwindow *window, double x, double y) {
-        this->_webCore.lock()->mouseMove(x, y, 1);
+        this->m_activeBrowser.lock()->mouseMove(x, y, 1);
     }
 
     void MainHandler::onWinResize(GLFWwindow *window, int w, int h) {
-        this->_glfwHandler.setWinSize(static_cast<unsigned int>(w),
+        this->m_glfwHandler.setWinSize(static_cast<unsigned int>(w),
                                       static_cast<unsigned int>(h));
         this->sizeUpdate();
     }
 
     void MainHandler::onCharEvent(GLFWwindow *window, unsigned int codepoint) {
-        if (this->_isInput)
-            this->_webCore.lock()->charPress(codepoint);
+        if (this->m_isInput)
+            this->m_activeBrowser.lock()->charPress(codepoint);
     }
 
     void MainHandler::onScroll(GLFWwindow *window, double x, double y) {
-        this->_webCore.lock()->mouseScroll(x, y);
+        this->m_activeBrowser.lock()->mouseScroll(x, y);
     }
 
     void MainHandler::onCursorEnter(GLFWwindow *window, int entered) {
         double x = 0;
         double y = 0;
         glfwGetCursorPos(window, &x, &y);
-        this->_webCore.lock()->mouseMove(x, y, entered);
+        this->m_activeBrowser.lock()->mouseMove(x, y, entered);
     }
 
     MainHandler::~MainHandler() {

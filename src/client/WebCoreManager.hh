@@ -12,9 +12,9 @@
 namespace bl {
 	class WebCoreManager : public CefApp, public CefRenderProcessHandler {
 	private:
-		std::vector<std::shared_ptr<WebCore>> _browsers;
-		CefRefPtr<CefMessageRouterRendererSide> message_router_;
-		std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+		std::vector<std::shared_ptr<WebCore>> m_browsers;
+		CefRefPtr<CefMessageRouterRendererSide> m_message_router;
+		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
 
 	public:
 		explicit WebCoreManager(
@@ -56,10 +56,6 @@ namespace bl {
 		bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
 									  CefProcessId source_process,
 									  CefRefPtr<CefProcessMessage> message) override;
-
-		/* void OnContextInitialized() override; CefBrowserProcessHandler */
-
-		/* CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override; */
 
 		void AddRef() const override; // fixme should use refcounting
 

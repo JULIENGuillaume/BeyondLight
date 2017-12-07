@@ -13,12 +13,12 @@ namespace bl {
     namespace mvc {
         class MvcHandler {
         private:
-            std::shared_ptr<ModelHandler> _modelHandler;
-            std::shared_ptr<ControllerHandler> _controllerHandler;
-            std::weak_ptr<WebCore> _webCore;
+            std::shared_ptr<ModelHandler> m_modelHandler;
+            std::shared_ptr<ControllerHandler> m_controllerHandler;
+            WebCore *m_webCore;
 
         public:
-            MvcHandler(std::weak_ptr<WebCore> webCore);
+            MvcHandler();
 
             std::shared_ptr<const ModelHandler> getModelHandler() const;
 
@@ -28,6 +28,8 @@ namespace bl {
             std::shared_ptr<ModelHandler> getModelHandler();
 
             std::shared_ptr<ControllerHandler> getControllerHandler();
+
+            void setWebCore(WebCore *webCore);
         };
     }
 }

@@ -16,11 +16,11 @@ namespace bl {
         class ControllerHandler
                 : public DataHandler<std::string, std::shared_ptr<IControllerFactory>> {
         private:
-            std::string _curBaseRoute;
-            std::string _curSubRoute;
-            std::shared_ptr<IBaseController> _currentController;
-            std::shared_ptr<ModelHandler> _modelHandler;
-            std::weak_ptr<WebCore> _webCore;
+            std::string m_curBaseRoute;
+            std::string m_curSubRoute;
+            std::shared_ptr<IBaseController> m_currentController;
+            std::shared_ptr<ModelHandler> m_modelHandler;
+            WebCore *m_webCore;
 
             std::shared_ptr<IControllerFactory>
             getRouteControllerFactory(const std::string &route);
@@ -28,17 +28,14 @@ namespace bl {
         public:
             ControllerHandler() = delete;
 
-            explicit ControllerHandler(
-                    std::shared_ptr<ModelHandler> modelHandler,
-                    std::weak_ptr<WebCore> webCore);
+            explicit ControllerHandler(WebCore *webCore);
 
             void
             changeRoute(const std::string &route, const std::string &subRoute);
 
             void onFrameEnd();
 
-            void
-            onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+            void onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
                     int64 query_id, const CefString &request, bool persistent,
                     CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
         };

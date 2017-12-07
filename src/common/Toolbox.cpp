@@ -13,8 +13,6 @@
 #include "windows.h"
 #endif // WIN32
 
-
-
 std::vector<std::string> common::Toolbox::split(const std::string &str, const std::string &sep) {
 	std::vector<std::string> tokens;
 	std::string s = str;

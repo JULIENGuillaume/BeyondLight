@@ -16,8 +16,7 @@ namespace bl {
             virtual ~IControllerFactory() {}
 
             virtual std::shared_ptr<IBaseController>
-            build(std::shared_ptr<ModelHandler> modelHandler,
-                  std::weak_ptr<WebCore> webCore) = 0;
+            build(WebCore *webCore) = 0;
         };
     }
 }

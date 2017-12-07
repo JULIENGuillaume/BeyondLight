@@ -13,7 +13,7 @@ namespace bl {
 								 bool persistent,
 								 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
 		// Only handle messages from the startup URL.
-		this->_webCore->getMvcHandler()->getControllerHandler()->onQuery(
+		this->m_webCore->getMvcHandler()->getControllerHandler()->onQuery(
 				browser, frame, query_id, request, persistent, callback);
 		//const std::string &url = frame->GetURL();
 		//if (url.find(_startupUrl) != 0)
@@ -29,7 +29,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
                              bool persistent,
                              CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
 	// Only handle messages from the startup URL.
-	//std::cout << "networkhandler test value: " << this->_networkHandler->test << std::endl; // todo remove debug
+	//std::cout << "networkhandler test value: " << this->m_networkHandler->test << std::endl; // todo remove debug
 	//auto socket = NetworkWrapper::m_socket;
 	const std::string &url = frame->GetURL();
 	if (url.find(_startupUrl) != 0)
@@ -37,16 +37,16 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 
 	const std::string &message_name = request;
 	std::future<std::string> future;
-	if (message_name.find(_mainRoute) == 0) {
+	if (message_name.find(m_mainRoute) == 0) {
 		// Reverse the string and return.
-		std::string result = message_name.substr(_mainRoute.length());
+		std::string result = message_name.substr(m_mainRoute.length());
 		std::vector<std::string> logInfo = common::Toolbox::split(result, ":");
 		if (logInfo.size() != 6) {
 			if (logInfo.size() != 2) {
 				callback->Failure(0, "Please enter both your login and password");
 			} else {
-				this->_networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
-				future = this->_networkHandler->asyncGetLine();
+				this->m_networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
+				future = this->m_networkHandler->asyncGetLine();
 				future.wait();
 				auto toks = common::Toolbox::split(future.get(), ":");
 				//std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
@@ -60,8 +60,8 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 
 			}
 		} else {
-			this->_networkHandler->send("043:" + logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
-			future = this->_networkHandler->asyncGetLine();
+			this->m_networkHandler->send("043:" + logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
+			future = this->m_networkHandler->asyncGetLine();
 			future.wait();
 			auto toks = common::Toolbox::split(future.get(), ":");
 			//std::cout << "Received " << toks[0] << " " << toks[1] << std::endl;
@@ -83,7 +83,7 @@ bool MessageHandler::OnQuery(CefRefPtr<CefBrowser> browser,
 
 	MessageHandler::MessageHandler(const CefString &startup_url,
 								   WebCore *webCore) :
-			_startupUrl(startup_url),
-			_webCore(webCore) {
+			m_startupUrl(startup_url),
+			m_webCore(webCore) {
 	}
 }

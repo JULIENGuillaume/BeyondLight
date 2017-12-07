@@ -5,6 +5,7 @@
 #include "ControllerFactory.hpp"
 #include "ControllerHandler.hh"
 #include "LoginController.hh"
+#include "../MvcHandler.hh"
 #include "IndexController.hh"
 
 namespace bl {
@@ -25,21 +26,18 @@ namespace bl {
             if (pFactory == nullptr) {
                 std::cerr << "invalid route: " << baseRoute << std::endl;
             }
-            this->_currentController.reset();
-            this->_currentController = nullptr;
-            this->_curBaseRoute = baseRoute;
-            this->_curSubRoute = subRoute;
-            this->_currentController = pFactory->build(_modelHandler,
-                                                       this->_webCore);
+            this->m_currentController.reset();
+            this->m_currentController = nullptr;
+            this->m_curBaseRoute = baseRoute;
+            this->m_curSubRoute = subRoute;
+            this->m_currentController = pFactory->build(this->m_webCore);
         }
 
-        ControllerHandler::ControllerHandler(
-                std::shared_ptr<ModelHandler> modelHandler,
-                std::weak_ptr<WebCore> webCore) {
-            this->_modelHandler = modelHandler;
-            this->_webCore = webCore;
-            this->_currentController = nullptr;
-            this->_data = {
+        ControllerHandler::ControllerHandler(WebCore *webCore) {
+            this->m_webCore = webCore;
+            this->m_modelHandler = webCore->getMvcHandler()->getModelHandler();
+            this->m_currentController = nullptr;
+            this->m_data = {
                     {"/login", std::shared_ptr<ControllerFactory<LoginController>>(
                             new ControllerFactory<LoginController>())},
                     {"/index", std::shared_ptr<ControllerFactory<IndexController>>(
@@ -55,11 +53,11 @@ namespace bl {
                                         bool persistent,
                                         CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
             // todo check message path
-            if (this->_currentController ==
+            if (this->m_currentController ==
                 nullptr /* or is invalid controller */) {
                 callback->Failure(0, "Invalid route");
             } else {
-                auto newRoute = this->_currentController->onQuery(browser,
+                auto newRoute = this->m_currentController->onQuery(browser,
                                                                   frame,
                                                                   query_id,
                                                                   request,
@@ -71,8 +69,8 @@ namespace bl {
         }
 
         void ControllerHandler::onFrameEnd() {
-            if (this->_currentController != nullptr) {
-                this->_currentController->onFrameEnd();
+            if (this->m_currentController != nullptr) {
+                this->m_currentController->onFrameEnd();
             }
         }
     }

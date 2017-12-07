@@ -17,22 +17,20 @@ namespace bl {
 namespace bl {
 	class WebCore {
 	private:
-		int _mouseX;
-		int _mouseY;
-		unsigned int _curMouseMod;
+		int m_mouseX;
+		int m_mouseY;
+		unsigned int m_curMouseMod;
 
-		CefRefPtr<CefBrowser> _browser;
-		CefRefPtr<BrowserClient> _client;
-		CefRefPtr<RenderHandler> _renderHandler; // todo RAII
-		std::shared_ptr<mvc::MvcHandler> _mvcHandler;
-		std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+		CefRefPtr<CefBrowser> m_browser;
+		CefRefPtr<BrowserClient> m_client;
+		CefRefPtr<RenderHandler> m_renderHandler;
+		std::shared_ptr<mvc::MvcHandler> m_mvcHandler;
+		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
 	public:
 		WebCore(const std::string &url,
 				std::shared_ptr<network::client::NetworkHandler> networkHandler);
 
 		~WebCore();
-
-		void setMvcHandler(std::shared_ptr<mvc::MvcHandler> mvcHandler);
 
 		void reshape(int w, int h);
 

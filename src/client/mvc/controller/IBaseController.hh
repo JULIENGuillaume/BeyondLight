@@ -28,10 +28,7 @@ namespace bl {
             IBaseController &
             operator=(const IBaseController &) { return (*this); }
 
-            virtual void setWebCore(std::weak_ptr<WebCore> webCore) = 0;
-
-            virtual void
-            setModelHandler(std::shared_ptr<ModelHandler> modelHandler) = 0;
+            virtual void setWebCore(WebCore *webCore) = 0;
 
             virtual std::string onQuery(CefRefPtr<CefBrowser> browser,
                                         CefRefPtr<CefFrame> frame, /* todo improve return type */
