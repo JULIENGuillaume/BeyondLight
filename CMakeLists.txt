@@ -72,6 +72,7 @@ find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 
 set(SRC_BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(CLIENT_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/client)
+set(CLIENT_TEST_PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/client-test)
 set(NETWORK_SERVER_SRC_DIR "${SRC_BASE_DIR}/network/server")
 set(NETWORK_CLIENT_SRC_DIR "${SRC_BASE_DIR}/network/client")
 set(NETWORK_SOCKET_SRC_DIR "${SRC_BASE_DIR}/network/socket")
@@ -89,7 +90,7 @@ set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh src/common/pattern/I
 ##  Game Client perf test
 ##
 set(PERF_TEST_SRC
-        ${CLIENT_PROJECT_DIR}/performance_test.cpp
+        ${CLIENT_TEST_PROJECT_DIR}/performance_test.cpp
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
         )
@@ -113,8 +114,6 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/MainHandler.hh
         ${CLIENT_PROJECT_DIR}/WebCoreManager.cpp
         ${CLIENT_PROJECT_DIR}/WebCoreManager.hh
-        ${CLIENT_PROJECT_DIR}/KeyHandler.cpp
-        ${CLIENT_PROJECT_DIR}/KeyHandler.hh
         ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
         ${CLIENT_PROJECT_DIR}/MessageHandler.hh
         src/common/NetworkWrapper.hh
@@ -130,7 +129,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/IBaseController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerHandler.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerHandler.hh
-        ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerFactory.hhp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/ControllerFactory.hpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/IControllerFactory.hh
         ${CLIENT_PROJECT_DIR}/mvc/model/ModelHandler.cpp
         ${CLIENT_PROJECT_DIR}/mvc/model/ModelHandler.hh

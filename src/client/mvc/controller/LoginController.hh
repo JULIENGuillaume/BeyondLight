@@ -8,26 +8,37 @@
 
 #include "include/wrapper/cef_message_router.h"
 #include "IBaseController.hh"
+#include "../../WebCore.hh"
 
-class LoginController : public IBaseController {
-private:
-    std::weak_ptr<WebCore> _webCore;
-    std::shared_ptr<ModelHandler> _modelHandler;
+namespace bl {
+    namespace mvc {
+        class LoginController : public IBaseController {
+        private:
+            std::weak_ptr<WebCore> _webCore;
+            std::shared_ptr<ModelHandler> _modelHandler;
 
-public:
-    void setModelHandler(std::shared_ptr<ModelHandler> modelHandler) override;
+        public:
+            void setModelHandler(
+                    std::shared_ptr<ModelHandler> modelHandler) override;
 
-    bool handleLogin(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
-    void handleRegister(CefRefPtr<CefBrowser> browser, std::string message, CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
-    std::string onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-                     int64 query_id, const CefString &request, bool persistent,
-                     CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
+            bool handleLogin(CefRefPtr<CefBrowser> browser, std::string message,
+                             CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 
-    void onFrameEnd() override;
+            void
+            handleRegister(CefRefPtr<CefBrowser> browser, std::string message,
+                           CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 
-    void setWebCore(std::weak_ptr<WebCore> webCore) override;
+            std::string
+            onQuery(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                    int64 query_id, const CefString &request, bool persistent,
+                    CefRefPtr<CefMessageRouterBrowserSide::Callback> callback);
 
-};
+            void onFrameEnd() override;
 
+            void setWebCore(std::weak_ptr<WebCore> webCore) override;
+
+        };
+    }
+}
 
 #endif //BEYONDLIGHT_LOGINCONTROLLER_HH

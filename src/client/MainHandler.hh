@@ -11,36 +11,52 @@
 #include "GlfwHandler.hh"
 #include "mvc/MvcHandler.hh"
 
-class MainHandler {
-private:
-    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
-    std::weak_ptr<WebCore> _webCore;
-    WebCoreManager _webCoreManager;
-    std::shared_ptr<MvcHandler> _mvcHandler;
-    GlfwHandler _glfwHandler;
-    bool _sizeUpdated;
-    uint64 _frame;
-    double _lastTickTime;
-    bool _isInput;
-public:
-    MainHandler();
-    ~MainHandler();
-    bool init();
-    void createBrowser();
-    bool isSizeUpdated();
-    void sizeUpdate();
-    const GlfwHandler &getGlfwHandler() const;
-    bool startMainLoop();
-    void destroy();
-    void onKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods);
-    void onCharEvent(GLFWwindow* window, unsigned int codepoint);
-    void onMouseEvent(GLFWwindow* window, int btn, int state, int mods);
-    void onCursorMotion(GLFWwindow* window, double x, double y);
-    void onWinResize(GLFWwindow* window, int w, int h);
-    void onScroll(GLFWwindow* window, double x, double y);
+namespace bl {
+    class MainHandler {
+    private:
+        std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+        std::weak_ptr<WebCore> _webCore;
+        WebCoreManager _webCoreManager;
+        std::shared_ptr<mvc::MvcHandler> _mvcHandler;
+        GlfwHandler _glfwHandler;
+        bool _sizeUpdated;
+        uint64 _frame;
+        double _lastTickTime;
+        bool _isInput;
+    public:
+        MainHandler();
 
-    void onCursorEnter(GLFWwindow *pWwindow, int i);
-};
+        ~MainHandler();
 
+        bool init();
+
+        void createBrowser();
+
+        bool isSizeUpdated();
+
+        void sizeUpdate();
+
+        const GlfwHandler &getGlfwHandler() const;
+
+        bool startMainLoop();
+
+        void destroy();
+
+        void onKeyEvent(GLFWwindow *window, int key, int scancode, int action,
+                        int mods);
+
+        void onCharEvent(GLFWwindow *window, unsigned int codepoint);
+
+        void onMouseEvent(GLFWwindow *window, int btn, int state, int mods);
+
+        void onCursorMotion(GLFWwindow *window, double x, double y);
+
+        void onWinResize(GLFWwindow *window, int w, int h);
+
+        void onScroll(GLFWwindow *window, double x, double y);
+
+        void onCursorEnter(GLFWwindow *pWwindow, int i);
+    };
+}
 
 #endif //CEFOFFSCREEN_MAINHANDLER_HH

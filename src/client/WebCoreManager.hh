@@ -9,61 +9,68 @@
 #include "include/cef_app.h"
 #include "WebCore.hh"
 
-class WebCoreManager : public CefApp, public CefRenderProcessHandler {
-private:
-    std::vector<std::shared_ptr<WebCore>> _browsers;
-	CefRefPtr<CefMessageRouterRendererSide> message_router_;
-    std::shared_ptr<network::client::NetworkHandler> _networkHandler;
+namespace bl {
+	class WebCoreManager : public CefApp, public CefRenderProcessHandler {
+	private:
+		std::vector<std::shared_ptr<WebCore>> _browsers;
+		CefRefPtr<CefMessageRouterRendererSide> message_router_;
+		std::shared_ptr<network::client::NetworkHandler> _networkHandler;
 
-public:
-	explicit WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler);
-	~WebCoreManager();
+	public:
+		explicit WebCoreManager(
+				std::shared_ptr<network::client::NetworkHandler> networkHandler);
 
-	bool setUp(int *exit_code);
-	bool shutDown();
+		~WebCoreManager();
 
-	void update();
+		bool setUp(int *exit_code);
 
-	std::weak_ptr<WebCore> createBrowser(const std::string &url);
-	void removeBrowser(std::weak_ptr<WebCore> web_core);
+		bool shutDown();
 
-    void OnBeforeCommandLineProcessing(const CefString &process_type,
-                                       CefRefPtr<CefCommandLine> command_line) override;
+		void update();
 
-    CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
+		std::weak_ptr<WebCore> createBrowser(const std::string &url);
 
-    void OnWebKitInitialized() override;
+		void removeBrowser(std::weak_ptr<WebCore> web_core);
 
-    void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-                     CefRefPtr<CefV8Context> context) override;
+		void OnBeforeCommandLineProcessing(const CefString &process_type,
+										   CefRefPtr<CefCommandLine> command_line) override;
 
-    void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-                      CefRefPtr<CefV8Context> context) override;
+		CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
 
-    void OnUncaughtException(CefRefPtr<CefBrowser> browser,
-                             CefRefPtr<CefFrame> frame,
-                             CefRefPtr<CefV8Context> context,
-                             CefRefPtr<CefV8Exception> exception,
-                             CefRefPtr<CefV8StackTrace> stackTrace) override;
+		void OnWebKitInitialized() override;
 
-    bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
-                                  CefProcessId source_process,
-                                  CefRefPtr<CefProcessMessage> message) override;
+		void OnContextCreated(CefRefPtr<CefBrowser> browser,
+							  CefRefPtr<CefFrame> frame,
+							  CefRefPtr<CefV8Context> context) override;
 
-	/* void OnContextInitialized() override; CefBrowserProcessHandler */
+		void OnContextReleased(CefRefPtr<CefBrowser> browser,
+							   CefRefPtr<CefFrame> frame,
+							   CefRefPtr<CefV8Context> context) override;
 
-	/* CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override; */
+		void OnUncaughtException(CefRefPtr<CefBrowser> browser,
+								 CefRefPtr<CefFrame> frame,
+								 CefRefPtr<CefV8Context> context,
+								 CefRefPtr<CefV8Exception> exception,
+								 CefRefPtr<CefV8StackTrace> stackTrace) override;
 
-	void AddRef() const override; // fixme should use refcounting
+		bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+									  CefProcessId source_process,
+									  CefRefPtr<CefProcessMessage> message) override;
 
-	bool Release() const override; // fixme should use refcounting
+		/* void OnContextInitialized() override; CefBrowserProcessHandler */
 
-	bool HasOneRef() const override; // fixme should use refcounting
+		/* CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override; */
 
-private:
-	//IMPLEMENT_REFCOUNTING(WebCoreManager); // fixme crashing me using this
-	DISALLOW_COPY_AND_ASSIGN(WebCoreManager);
-};
+		void AddRef() const override; // fixme should use refcounting
 
+		bool Release() const override; // fixme should use refcounting
+
+		bool HasOneRef() const override; // fixme should use refcounting
+
+	private:
+		//IMPLEMENT_REFCOUNTING(WebCoreManager); // fixme crashing me using this
+		DISALLOW_COPY_AND_ASSIGN(WebCoreManager);
+	};
+}
 
 #endif //CEFOFFSCREEN_WEBCOREMANAGER_HH
