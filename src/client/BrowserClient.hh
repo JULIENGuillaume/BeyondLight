@@ -8,55 +8,71 @@
 
 class RenderHandler;
 
+namespace bl {
 // for manual render handler
-class BrowserClient : public CefClient, public CefKeyboardHandler,
-					  public CefDisplayHandler,
-					  public CefLifeSpanHandler,
-					  public CefRequestHandler,
-					  public CefLoadHandler
-{
-private:
-	CefRefPtr<CefMessageRouterBrowserSide> message_router_;
-	scoped_ptr<CefMessageRouterBrowserSide::Handler> message_handler_;
-	// Track the number of browsers using this Client.
-	int browser_ct_;
-	WebCore *_webCore;
+	class BrowserClient : public CefClient, public CefKeyboardHandler,
+						  public CefDisplayHandler,
+						  public CefLifeSpanHandler,
+						  public CefRequestHandler,
+						  public CefLoadHandler {
+	private:
+		CefRefPtr<CefMessageRouterBrowserSide> message_router_;
+		scoped_ptr<CefMessageRouterBrowserSide::Handler> message_handler_;
+		// Track the number of browsers using this Client.
+		int browser_ct_;
+		WebCore *_webCore;
 
 
-public:
-	explicit BrowserClient(WebCore *webCore);
-	CefRefPtr<CefRenderHandler> GetRenderHandler() override;
-	CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
-	CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
-	CefRefPtr<CefRequestHandler> GetRequestHandler() override;
+	public:
+		explicit BrowserClient(WebCore *webCore);
 
-	bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
-								  CefProcessId source_process,
-								  CefRefPtr<CefProcessMessage> message) override;
+		CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 
-	CefRefPtr<CefResourceHandler> GetResourceHandler(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefRequest> request) override;
+		CefRefPtr<CefDisplayHandler> GetDisplayHandler() override;
 
-	void OnTitleChange(CefRefPtr<CefBrowser> browser,
-					   const CefString &title) override;
-	void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
-	bool DoClose(CefRefPtr<CefBrowser> browser) override;
-	void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
-	bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-				   CefRefPtr<CefRequest> request, bool is_redirect) override;
-	void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
-								   TerminationStatus status) override;
+		CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override;
 
-	void OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-					 TransitionType transition_type) override;
+		CefRefPtr<CefRequestHandler> GetRequestHandler() override;
 
-	CefRefPtr<CefLoadHandler> GetLoadHandler() override;
+		bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+									  CefProcessId source_process,
+									  CefRefPtr<CefProcessMessage> message) override;
 
-	void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
-				   int httpStatusCode) override;
+		CefRefPtr<CefResourceHandler>
+		GetResourceHandler(CefRefPtr<CefBrowser> browser,
+						   CefRefPtr<CefFrame> frame,
+						   CefRefPtr<CefRequest> request) override;
+
+		void OnTitleChange(CefRefPtr<CefBrowser> browser,
+						   const CefString &title) override;
+
+		void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
+
+		bool DoClose(CefRefPtr<CefBrowser> browser) override;
+
+		void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
+
+		bool
+		OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+					   CefRefPtr<CefRequest> request,
+					   bool is_redirect) override;
+
+		void OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser,
+									   TerminationStatus status) override;
+
+		void
+		OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+					TransitionType transition_type) override;
+
+		CefRefPtr<CefLoadHandler> GetLoadHandler() override;
+
+		void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+					   int httpStatusCode) override;
 
 
-private:
+	private:
 	IMPLEMENT_REFCOUNTING(BrowserClient);
-	DISALLOW_COPY_AND_ASSIGN(BrowserClient);
-};
+		DISALLOW_COPY_AND_ASSIGN(BrowserClient);
+	};
+}
 #endif //BROWSER_CLIENT_HH

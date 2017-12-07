@@ -3,3 +3,9 @@
 //
 
 #include "ABaseModel.hh"
+
+namespace bl {
+    namespace mvc {
+
+    }
+}

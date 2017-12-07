@@ -19,7 +19,7 @@ int main() {
 	FactoriesInit();
 
 	try {
-		MainHandler mainHandler;
+		bl::MainHandler mainHandler;
 
 		if (mainHandler.init()) {
 			std::cerr << "initialization failed!" << std::endl;

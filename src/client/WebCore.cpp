@@ -9,224 +9,229 @@
 #include "RenderHandler.hh"
 #include "BrowserClient.hh"
 
-WebCore::WebCore(const std::string &url, std::shared_ptr<network::client::NetworkHandler> networkHandler) :
-        _mouseX(0),
-        _mouseY(0),
-        _networkHandler(networkHandler) {
-	_renderHandler = new RenderHandler();
-	_renderHandler->Initialize();
-	// initial size
-	_renderHandler->resize(1280, 720);
-    _curMouseMod = 0;
+namespace bl {
+    WebCore::WebCore(const std::string &url,
+                     std::shared_ptr<network::client::NetworkHandler> networkHandler)
+            :
+            _mouseX(0),
+            _mouseY(0),
+            _networkHandler(networkHandler) {
+        _renderHandler = new RenderHandler();
+        _renderHandler->Initialize();
+        // initial size
+        _renderHandler->resize(1280, 720);
+        _curMouseMod = 0;
 
-	CefWindowInfo window_info;
-	HWND hwnd = GetConsoleWindow();
-	window_info.SetAsWindowless(hwnd);
+        CefWindowInfo window_info;
+        HWND hwnd = GetConsoleWindow();
+        window_info.SetAsWindowless(hwnd);
 
-    CefBrowserSettings browserSettings;
-    browserSettings.webgl = STATE_DISABLED;
-    browserSettings.plugins = STATE_DISABLED;
-    browserSettings.javascript_close_windows = STATE_DISABLED;
-    browserSettings.javascript_access_clipboard = STATE_DISABLED;
-    browserSettings.javascript_dom_paste = STATE_DISABLED;
-    browserSettings.local_storage = STATE_DISABLED;
-    browserSettings.databases = STATE_DISABLED;
-    browserSettings.universal_access_from_file_urls = STATE_DISABLED;
-    browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
-	browserSettings.windowless_frame_rate = 60; // 30 is default
-	_client = new BrowserClient(this);
-	_browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(), url, browserSettings, nullptr);
-}
-
-WebCore::~WebCore()
-{
-	_browser->GetHost()->CloseBrowser(true);
-	CefDoMessageLoopWork();
-
-	_browser = nullptr;
-	_client = nullptr;
-}
-
-void WebCore::reshape(int w, int h)
-{
-    _renderHandler->resize(w, h);
-    _browser->GetHost()->WasResized();
-}
-
-
-void WebCore::mouseMove(double x, double y, int entered)
-{
-	this->_mouseX = x;
-	this->_mouseY = y;
-
-    CefMouseEvent mouseEvent;
-    mouseEvent.x = x;
-    mouseEvent.y = y;
-    mouseEvent.modifiers = this->_curMouseMod;
-
-    bool mouseLeave = entered == 0;
-
-	_browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
-}
-
-void WebCore::mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up, int mods)
-{
-    static auto before = std::chrono::system_clock::now(); // todo improve
-    static int count = 0;
-
-    this->_curMouseMod = 0;
-    if (btn == CefBrowserHost::MouseButtonType::MBT_LEFT) {
-        this->_curMouseMod = EVENTFLAG_LEFT_MOUSE_BUTTON;
-    } else if (btn == CefBrowserHost::MouseButtonType::MBT_RIGHT) {
-        this->_curMouseMod = EVENTFLAG_RIGHT_MOUSE_BUTTON;
-    } else if (btn == CefBrowserHost::MouseButtonType::MBT_MIDDLE) {
-        this->_curMouseMod = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-    } else {
-        this->_curMouseMod = 0;
+        CefBrowserSettings browserSettings;
+        browserSettings.webgl = STATE_DISABLED;
+        browserSettings.plugins = STATE_DISABLED;
+        browserSettings.javascript_close_windows = STATE_DISABLED;
+        browserSettings.javascript_access_clipboard = STATE_DISABLED;
+        browserSettings.javascript_dom_paste = STATE_DISABLED;
+        browserSettings.local_storage = STATE_DISABLED;
+        browserSettings.databases = STATE_DISABLED;
+        browserSettings.universal_access_from_file_urls = STATE_DISABLED;
+        browserSettings.web_security = STATE_DISABLED; // todo check if better way to solve has been blocked by CORS policy
+        browserSettings.windowless_frame_rate = 60; // 30 is default
+        _client = new BrowserClient(this);
+        _browser = CefBrowserHost::CreateBrowserSync(window_info, _client.get(),
+                                                     url, browserSettings,
+                                                     nullptr);
     }
-	CefMouseEvent evt;
-	evt.x = _mouseX;
-    evt.y = _mouseY;
-    evt.modifiers = this->_curMouseMod;
 
-    if(!mouse_up) {
-        auto now = std::chrono::system_clock::now();
-        double diff_ms = std::chrono::duration <double, std::milli> (now - before).count();
-        before = now;
-            if(diff_ms > 10 && diff_ms < 200) {
-            ++count;
+    WebCore::~WebCore() {
+        _browser->GetHost()->CloseBrowser(true);
+        CefDoMessageLoopWork();
+
+        _browser = nullptr;
+        _client = nullptr;
+    }
+
+    void WebCore::reshape(int w, int h) {
+        _renderHandler->resize(w, h);
+        _browser->GetHost()->WasResized();
+    }
+
+
+    void WebCore::mouseMove(double x, double y, int entered) {
+        this->_mouseX = static_cast<int>(x);
+        this->_mouseY = static_cast<int>(y);
+
+        CefMouseEvent mouseEvent;
+        mouseEvent.x = static_cast<int>(x);
+        mouseEvent.y = static_cast<int>(y);
+        mouseEvent.modifiers = this->_curMouseMod;
+
+        bool mouseLeave = entered == 0;
+
+        _browser->GetHost()->SendMouseMoveEvent(mouseEvent, mouseLeave);
+    }
+
+    void WebCore::mouseClick(CefBrowserHost::MouseButtonType btn, bool mouse_up,
+                             int mods) {
+        static auto before = std::chrono::system_clock::now(); // todo improve
+        static int count = 0;
+
+        this->_curMouseMod = 0;
+        if (btn == CefBrowserHost::MouseButtonType::MBT_LEFT) {
+            this->_curMouseMod = EVENTFLAG_LEFT_MOUSE_BUTTON;
+        } else if (btn == CefBrowserHost::MouseButtonType::MBT_RIGHT) {
+            this->_curMouseMod = EVENTFLAG_RIGHT_MOUSE_BUTTON;
+        } else if (btn == CefBrowserHost::MouseButtonType::MBT_MIDDLE) {
+            this->_curMouseMod = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
         } else {
-            count = 1;
+            this->_curMouseMod = 0;
+        }
+        CefMouseEvent evt;
+        evt.x = _mouseX;
+        evt.y = _mouseY;
+        evt.modifiers = this->_curMouseMod;
+
+        if (!mouse_up) {
+            auto now = std::chrono::system_clock::now();
+            double diff_ms = std::chrono::duration<double, std::milli>(
+                    now - before).count();
+            before = now;
+            if (diff_ms > 10 && diff_ms < 200) {
+                ++count;
+            } else {
+                count = 1;
+            }
+        }
+
+        _browser->GetHost()->SendMouseClickEvent(evt, btn, mouse_up, count);
+    }
+
+    void WebCore::charPress(unsigned int key) {
+        CefKeyEvent evt;
+
+        evt.type = KEYEVENT_CHAR;
+        evt.windows_key_code = key;
+        evt.character = static_cast<short>(key);
+        evt.modifiers = 0;
+        evt.native_key_code = key;
+        evt.unmodified_character = static_cast<short>(key);
+
+        this->_browser->GetHost()->SendKeyEvent(evt);
+    }
+
+    void WebCore::keyPress(int key, int scancode, int action, int mods) {
+        CefKeyEvent event;
+
+        CefRefPtr<CefFrame> frame = this->_browser->GetMainFrame(); // todo remove test
+        unsigned int nativeKey = 0;
+        if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
+            nativeKey = VK_BACK;
+        } else if (key == GLFW_KEY_PAGE_UP) {
+            nativeKey = VK_PRIOR;
+        } else if (key == GLFW_KEY_PAGE_DOWN) {
+            nativeKey = VK_NEXT;
+        } else if (key == GLFW_KEY_TAB) {
+            nativeKey = VK_TAB;
+        } else if (key == GLFW_KEY_ENTER) {
+            nativeKey = VK_RETURN;
+        }
+
+        event.windows_key_code = nativeKey;
+        event.modifiers = 0;
+        event.native_key_code = nativeKey;
+        event.unmodified_character = static_cast<short>(nativeKey);
+
+        if (action == GLFW_PRESS)
+            event.type = KEYEVENT_RAWKEYDOWN;
+        else
+            event.type = KEYEVENT_KEYUP;
+
+        _browser->GetHost()->SendKeyEvent(event);
+    }
+
+    CefRefPtr<RenderHandler> WebCore::getRenderHandler() const {
+        return (this->_renderHandler);
+    }
+
+    void WebCore::mouseScroll(int x, int y) {
+        static const int scrollbarPixelsPerTick = 200;
+        CefMouseEvent mouseEvent;
+
+        mouseEvent.modifiers = this->_curMouseMod;
+        mouseEvent.x = this->_mouseX;
+        mouseEvent.y = this->_mouseY;
+
+        int deltaX = 0;
+        int deltaY = 0;
+        deltaX = (x > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
+        deltaY = (y > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
+
+        _browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
+    }
+
+    void WebCore::changeUrl(const std::string &url) {
+        this->_browser->GetMainFrame()->LoadURL(url);
+    }
+
+    void WebCore::paste() {
+        this->_browser->GetMainFrame()->Paste();
+    }
+
+    void WebCore::copy() {
+        this->_browser->GetMainFrame()->Copy();
+    }
+
+    void WebCore::cut() {
+        this->_browser->GetMainFrame()->Cut();
+    }
+
+    void WebCore::selectAll() {
+        this->_browser->GetMainFrame()->SelectAll();
+    }
+
+    void WebCore::reload(bool ignoreCache) {
+        if (ignoreCache) {
+            this->_browser->ReloadIgnoreCache();
+        } else {
+            this->_browser->Reload();
         }
     }
 
-	_browser->GetHost()->SendMouseClickEvent(evt, btn, mouse_up, count);
-}
-
-void WebCore::charPress(unsigned int key) {
-    CefKeyEvent evt;
-
-    evt.type = KEYEVENT_CHAR;
-    evt.windows_key_code = key;
-    evt.character = key;
-    evt.modifiers = 0;
-    evt.native_key_code = key;
-    evt.unmodified_character = key;
-
-    this->_browser->GetHost()->SendKeyEvent(evt);
-}
-
-void WebCore::keyPress(int key, int scancode, int action, int mods)
-{
-    CefKeyEvent event;
-
-    CefRefPtr<CefFrame> frame = this->_browser->GetMainFrame(); // todo remove test
-    unsigned int nativeKey = 0;
-    if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
-        nativeKey = VK_BACK;
-    } else if (key == GLFW_KEY_PAGE_UP) {
-        nativeKey = VK_PRIOR;
-    } else if (key == GLFW_KEY_PAGE_DOWN) {
-        nativeKey = VK_NEXT;
-    } else if (key == GLFW_KEY_TAB) {
-        nativeKey = VK_TAB;
-    } else if (key == GLFW_KEY_ENTER) {
-        nativeKey = VK_RETURN;
+    CefRefPtr<const CefBrowser> WebCore::getBrowser() const {
+        return _browser;
     }
 
-    event.windows_key_code = nativeKey;
-    event.modifiers = 0;
-    event.native_key_code = nativeKey;
-    event.unmodified_character = nativeKey;
-
-    if (action == GLFW_PRESS)
-        event.type = KEYEVENT_RAWKEYDOWN;
-    else
-        event.type = KEYEVENT_KEYUP;
-
-    _browser->GetHost()->SendKeyEvent(event);
-}
-
-CefRefPtr<RenderHandler> WebCore::getRenderHandler() const {
-    return (this->_renderHandler);
-}
-
-void WebCore::mouseScroll(int x, int y) {
-    static const int scrollbarPixelsPerTick = 200;
-    CefMouseEvent mouseEvent;
-
-    mouseEvent.modifiers = this->_curMouseMod;
-    mouseEvent.x = this->_mouseX;
-    mouseEvent.y = this->_mouseY;
-
-    int deltaX = 0;
-    int deltaY = 0;
-    deltaX = (x > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
-    deltaY = (y > 0) ? (scrollbarPixelsPerTick) : (-scrollbarPixelsPerTick);
-
-    _browser->GetHost()->SendMouseWheelEvent(mouseEvent, deltaX, deltaY);
-}
-
-void WebCore::changeUrl(const std::string &url) {
-    this->_browser->GetMainFrame()->LoadURL(url);
-}
-
-void WebCore::paste() {
-    this->_browser->GetMainFrame()->Paste();
-}
-
-void WebCore::copy() {
-    this->_browser->GetMainFrame()->Copy();
-}
-
-void WebCore::cut() {
-    this->_browser->GetMainFrame()->Cut();
-}
-
-void WebCore::selectAll() {
-    this->_browser->GetMainFrame()->SelectAll();
-}
-
-void WebCore::reload(bool ignoreCache) {
-    if (ignoreCache) {
-        this->_browser->ReloadIgnoreCache();
-    } else {
-        this->_browser->Reload();
+    CefRefPtr<const BrowserClient> WebCore::getClient() const {
+        return _client;
     }
-}
 
-CefRefPtr<const CefBrowser> WebCore::getBrowser() const {
-    return _browser;
-}
+    CefRefPtr<CefBrowser> WebCore::getBrowser() {
+        return _browser;
+    }
 
-CefRefPtr<const BrowserClient> WebCore::getClient() const {
-    return _client;
-}
+    CefRefPtr<BrowserClient> WebCore::getClient() {
+        return _client;
+    }
 
-CefRefPtr<CefBrowser> WebCore::getBrowser() {
-    return _browser;
-}
+    std::shared_ptr<const network::client::NetworkHandler>
+    WebCore::getNetworkHandler() const {
+        return (this->_networkHandler);
+    }
 
-CefRefPtr<BrowserClient> WebCore::getClient() {
-    return _client;
-}
+    std::shared_ptr<const mvc::MvcHandler> WebCore::getMvcHandler() const {
+        return (this->_mvcHandler);
+    }
 
-std::shared_ptr<const network::client::NetworkHandler> WebCore::getNetworkHandler() const {
-    return (this->_networkHandler);
-}
+    std::shared_ptr<network::client::NetworkHandler>
+    WebCore::getNetworkHandler() {
+        return (this->_networkHandler);
+    }
 
-std::shared_ptr<const MvcHandler> WebCore::getMvcHandler() const {
-    return (this->_mvcHandler);
-}
+    std::shared_ptr<mvc::MvcHandler> WebCore::getMvcHandler() {
+        return (this->_mvcHandler);
+    }
 
-std::shared_ptr<network::client::NetworkHandler> WebCore::getNetworkHandler() {
-    return (this->_networkHandler);
-}
-
-std::shared_ptr<MvcHandler> WebCore::getMvcHandler() {
-    return (this->_mvcHandler);
-}
-
-void WebCore::setMvcHandler(std::shared_ptr<MvcHandler> mvcHandler) {
-    this->_mvcHandler = mvcHandler;
+    void WebCore::setMvcHandler(std::shared_ptr<mvc::MvcHandler> mvcHandler) {
+        this->_mvcHandler = mvcHandler;
+    }
 }
