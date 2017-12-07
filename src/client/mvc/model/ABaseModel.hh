@@ -8,12 +8,9 @@
 #include "../../../common/event/EventObserver.hh"
 
 namespace bl {
-    namespace mvc {
-        class ABaseModel : public EventObserver {
-
-        };
-    }
+	namespace mvc {
+		class ABaseModel : public EventObserver {
+		};
+	}
 }
-
-
 #endif //MVC_TEST_ABASEMODEL_HH

@@ -9,25 +9,22 @@
 
 namespace bl {
 	namespace mvc {
-		const std::string IndexController::m_buildingsUrl =
-				"file:///" + common::Toolbox::getApplicationDir() +
-				"/../resources/html/buildings.html";
-		const std::string IndexController::m_technologiesUrl =
-				"file:///" + common::Toolbox::getApplicationDir() +
-				"/../resources/html/technologies.html";
+		const std::string IndexController::m_buildingsUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
+		const std::string IndexController::m_technologiesUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/technologies.html";
 
 		IndexController::IndexController() :
 				m_needToInsertBuilding(false),
 				m_needToInsertTechnologies(false) {
-
 		}
 
-		std::string IndexController::onQuery(CefRefPtr<CefBrowser> browser,
-											 CefRefPtr<CefFrame> frame,
-											 int64 query_id,
-											 const CefString &request,
-											 bool persistent,
-											 CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
+		std::string IndexController::onQuery(
+				CefRefPtr<CefBrowser> browser,
+				CefRefPtr<CefFrame> frame,
+				int64 query_id,
+				const CefString &request,
+				bool persistent,
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+		) {
 			std::string message(request);
 			if (message.find("index-buildings") == 0) {
 				this->buildings(browser, frame, callback);
@@ -39,26 +36,25 @@ namespace bl {
 				static int level = 1;
 				auto result = message.substr(
 						std::string("index-technology-upgrade-").length());
-
 				auto network = this->m_webCore->getNetworkHandler();
 				callback->Success(std::to_string(++level));
 			} else if (message.find("index-building-upgrade") == 0) {
 				auto result = message.substr(
 						std::string("index-building-upgrade-").length());
-
 				auto network = this->m_webCore->getNetworkHandler();
 				network->send("421356:" + result);
 				auto answers = common::Toolbox::split(network->getLine(), ":");
-				if (answers[0] == "321")
+				if (answers[0] == "321") {
 					callback->Failure(404, "MARCHE PAAAAAAAAS");
-				else if (answers[0] == "421357" && answers[1] == result)
+				} else if (answers[0] == "421357" && answers[1] == result) {
 					callback->Success(answers[2]);
-				else
+				} else {
 					callback->Failure(404, "MARCHE PAAAAAAAAS");
-// todo get building level
+				}
+				// todo get building level
 			} else {
 				std::wcout << L"unknown query: " << request.c_str()
-						   << std::endl;
+						<< std::endl;
 			}
 			return (std::string());
 		}
@@ -68,54 +64,53 @@ namespace bl {
 			overview(nullptr, nullptr, nullptr);
 		}
 
-		void IndexController::buildings(CefRefPtr<CefBrowser> browser,
-										CefRefPtr<CefFrame> frame,
-										CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-
+		void IndexController::buildings(
+				CefRefPtr<CefBrowser> browser,
+				CefRefPtr<CefFrame> frame,
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+		) {
 			if (callback != nullptr) {
 				callback->Success(std::string());
 			}
-
 			this->m_needToInsertBuilding = true;
 			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
 					m_buildingsUrl);
 		}
 
-		void IndexController::technologies(CefRefPtr<CefBrowser> browser,
-										   CefRefPtr<CefFrame> frame,
-										   CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
-
+		void IndexController::technologies(
+				CefRefPtr<CefBrowser> browser,
+				CefRefPtr<CefFrame> frame,
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+		) {
 			if (callback != nullptr) {
 				callback->Success(std::string());
 			}
-
 			this->m_needToInsertTechnologies = true;
-			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
-					m_technologiesUrl);
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(m_technologiesUrl);
 		}
 
-		void IndexController::overview(CefRefPtr<CefBrowser> browser,
-									   CefRefPtr<CefFrame> frame,
-									   CefRefPtr<CefMessageRouterBrowserSide::Callback> callback) {
+		void IndexController::overview(
+				CefRefPtr<CefBrowser> browser,
+				CefRefPtr<CefFrame> frame,
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+		) {
 			if (callback != nullptr) {
 				callback->Success(std::string());
 			}
-			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(
-					"file:///" + common::Toolbox::getApplicationDir() +
-					"/../resources/html/index.html");
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
 		}
 
 		void IndexController::onFrameEnd() {
 			if (this->m_needToInsertTechnologies) {
 				this->m_needToInsertTechnologies = false;
 				std::string js = std::string("createTechnologie(")
-								 + std::to_string(1) + ",\""
-								 + "Quantum Technology" + "\","
-								 + std::to_string(1) + ","
-								 + std::to_string(400000) + ","
-								 + std::to_string(30000) + ","
-								 + std::to_string(10000) + ","
-								 + std::to_string(5000) + ");";
+						+ std::to_string(1) + ",\""
+						+ "Quantum Technology" + "\","
+						+ std::to_string(1) + ","
+						+ std::to_string(400000) + ","
+						+ std::to_string(30000) + ","
+						+ std::to_string(10000) + ","
+						+ std::to_string(5000) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_technologiesUrl, 0);
 			}
@@ -156,23 +151,23 @@ namespace bl {
 
 				//std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
 				std::string js = std::string("createBuilding(")
-								 + std::to_string(id) + ",\""
-								 + name + "\","
-								 + std::to_string(level) + ","
-								 + std::to_string(iron) + ","
-								 + std::to_string(crystal) + ","
-								 + std::to_string(iridium) + ","
-								 + std::to_string(energy) + ");";
+						+ std::to_string(id) + ",\""
+						+ name + "\","
+						+ std::to_string(level) + ","
+						+ std::to_string(iron) + ","
+						+ std::to_string(crystal) + ","
+						+ std::to_string(iridium) + ","
+						+ std::to_string(energy) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 				js = std::string("createBuilding(")
-					 + std::to_string(id + 1) + ",\""
-					 + name + "\","
-					 + std::to_string(level) + ","
-					 + std::to_string(iron) + ","
-					 + std::to_string(crystal) + ","
-					 + std::to_string(iridium) + ","
-					 + std::to_string(energy) + ");";
+						+ std::to_string(id + 1) + ",\""
+						+ name + "\","
+						+ std::to_string(level) + ","
+						+ std::to_string(iron) + ","
+						+ std::to_string(crystal) + ","
+						+ std::to_string(iridium) + ","
+						+ std::to_string(energy) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}

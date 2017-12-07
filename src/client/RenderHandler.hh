@@ -6,6 +6,42 @@
 
 namespace bl {
 	class RenderHandler : public CefRenderHandler {
+	public:
+		RenderHandler();
+		~RenderHandler();
+		void resize(
+				int w,
+				int h
+		);
+		// CefRenderHandler interface
+		virtual bool GetViewRect(
+				CefRefPtr<CefBrowser> browser,
+				CefRect &rect
+		) override;
+		virtual void OnPaint(
+				CefRefPtr<CefBrowser> browser,
+				PaintElementType type,
+				const RectList &dirtyRects,
+				const void *buffer,
+				int width,
+				int height
+		) override;
+		void Render();
+		GLuint getTex() const;
+		void Initialize();
+		void Cleanup();
+		void OnPopupShow(
+				CefRefPtr<CefBrowser> browser,
+				bool show
+		);
+		void OnPopupSize(
+				CefRefPtr<CefBrowser> browser,
+				const CefRect &rect
+		);
+		CefRect GetPopupRectInWebView(const CefRect &original_rect);
+		void ClearPopupRects();
+		void loadBgTexture();
+		void loadBgGridTexture();
 	private:
 		bool m_showDirtyRect;
 		bool m_isTransparent;
@@ -23,46 +59,7 @@ namespace bl {
 		unsigned int m_calls;
 		GLuint m_bgTexture;
 		GLuint m_bgGrid;
-
-	public:
-		RenderHandler();
-
-		~RenderHandler();
-
-		void resize(int w, int h);
-
-		// CefRenderHandler interface
-		virtual bool
-		GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect) override;
-
-		virtual void
-		OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type,
-				const RectList &dirtyRects, const void *buffer, int width,
-				int height) override;
-
-		void Render();
-
-		GLuint getTex() const;
-
-		void Initialize();
-
-		void Cleanup();
-
-		void OnPopupShow(CefRefPtr<CefBrowser> browser, bool show);
-
-		void OnPopupSize(CefRefPtr<CefBrowser> browser, const CefRect &rect);
-
-		CefRect GetPopupRectInWebView(const CefRect &original_rect);
-
-		void ClearPopupRects();
-
-		void loadBgTexture();
-
-		void loadBgGridTexture();
-
-		// CefBase interface
 	IMPLEMENT_REFCOUNTING(RenderHandler);
 	};
 }
-
 #endif // RENDER_HANDLER_HH

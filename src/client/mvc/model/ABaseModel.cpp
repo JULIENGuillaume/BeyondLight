@@ -5,7 +5,6 @@
 #include "ABaseModel.hh"
 
 namespace bl {
-    namespace mvc {
-
-    }
+	namespace mvc {
+	}
 }

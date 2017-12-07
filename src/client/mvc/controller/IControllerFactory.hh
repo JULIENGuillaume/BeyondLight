@@ -10,15 +10,14 @@
 #include "../../WebCore.hh"
 
 namespace bl {
-    namespace mvc {
-        class IControllerFactory {
-        public:
-            virtual ~IControllerFactory() {}
+	namespace mvc {
+		class IControllerFactory {
+		public:
+			virtual ~IControllerFactory() {
+			}
 
-            virtual std::shared_ptr<IBaseController>
-            build(WebCore *webCore) = 0;
-        };
-    }
+			virtual std::shared_ptr<IBaseController> build(WebCore *webCore) = 0;
+		};
+	}
 }
-
 #endif //MVC_TEST_ICONTROLLERFACTORY_HH
