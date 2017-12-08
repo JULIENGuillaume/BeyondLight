@@ -13,10 +13,12 @@ namespace bl {
 	public:
 		static CefBrowserHost::MouseButtonType glfwMouseButtonToCef(int glfwMouseButton);
 		static unsigned int cefButtonToEventFlag(CefBrowserHost::MouseButtonType mouseButton);
+		static unsigned int glfwKeyToNative(int glfwKey);
+		static cef_key_event_type_t glfwActionToCef(int action);
 	private:
 		static const std::unordered_map<int, CefBrowserHost::MouseButtonType> m_glfwMouseButtonToCef;
 		static const std::unordered_map<CefBrowserHost::MouseButtonType, unsigned int> m_cefButtonToEventFlag;
+		static const std::unordered_map<int, unsigned int> m_glfwKeyToNative;
 	};
 }
-
 #endif //BEYONDLIGHT_KEYMAPPER_HH

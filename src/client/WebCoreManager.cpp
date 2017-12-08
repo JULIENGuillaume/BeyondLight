@@ -11,17 +11,10 @@
 namespace bl {
 	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
-	}
-
-	WebCoreManager::~WebCoreManager() {
-	}
-
-	bool WebCoreManager::setUp(int *exit_code) {
-		assert(exit_code != nullptr);
 		CefMainArgs args;
-		*exit_code = CefExecuteProcess(args, this, nullptr);
-		if (*exit_code >= 0) {
-			return false;
+		int retCode = CefExecuteProcess(args, this, nullptr);
+		if (retCode >= 0) {
+			throw (std::runtime_error("Error while executing cef process with error code:" + std::to_string(retCode)));
 		}
 		CefSettings settings;
 		settings.multi_threaded_message_loop = false;
@@ -31,22 +24,18 @@ namespace bl {
 		settings.command_line_args_disabled = false;
 		settings.windowless_rendering_enabled = true;
 		std::string rootDir = common::Toolbox::getApplicationDir();
-		rootDir = rootDir.substr(0, rootDir.rfind("\\"));
+		rootDir = rootDir.substr(0, rootDir.rfind("\\")); // todo improve
 		CefString(&settings.resources_dir_path) = rootDir + "\\resources\\cef";
-		CefString(&settings.locales_dir_path) =
-				rootDir + "\\resources\\cef\\locales";
+		CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";
 		bool result = CefInitialize(args, settings, this, nullptr);
 		if (!result) {
-			*exit_code = -1;
-			return false;
+			throw (std::runtime_error("Error while initializing cef with error code:" + std::to_string(retCode)));
 		}
-		return true;
 	}
 
-	bool WebCoreManager::shutDown() {
+	WebCoreManager::~WebCoreManager() {
 		m_browsers.clear();
 		CefShutdown();
-		return true;
 	}
 
 	void WebCoreManager::update() {

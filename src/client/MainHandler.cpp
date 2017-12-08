@@ -3,10 +3,10 @@
 //
 
 #include <iostream>
+#include <iomanip>
 // GL
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
@@ -16,9 +16,27 @@
 namespace bl {
 	MainHandler::MainHandler() :
 			m_networkHandler(new network::client::NetworkHandler("127.0.0.1", 8080)),
-			m_webCoreManager(m_networkHandler) {
+			m_webCoreManager(m_networkHandler),
+			m_winName("BeyondLight") {
 		this->m_sizeUpdated = false;
 		this->m_frame = 0;
+		unsigned int width = 1280;
+		unsigned int height = 720;
+		this->m_isInput = true;
+
+		// create GL context
+		if (this->m_glfwHandler.createGlfwWindow(width, height, m_winName)) {
+			throw (std::runtime_error("Error while setting up glfw handler"));
+		}
+
+		// initialize glew context
+		bool glew_init_success = initializeGlewContext();
+		if (!glew_init_success) {
+			throw (std::runtime_error("Error while setting up glew context"));
+		}
+
+		// setup glfw
+		this->m_glfwHandler.setUserPointer(this);
 	}
 
 	bool MainHandler::initializeGlewContext() {
@@ -29,40 +47,6 @@ namespace bl {
 			return false;
 		}
 		return true;
-	}
-
-	bool MainHandler::init() {
-		unsigned int width = 1280;
-		unsigned int height = 720;
-		this->m_isInput = true;
-		int exit_code = 0;
-		bool success = this->m_webCoreManager.setUp(&exit_code);
-		if (!success) {
-			return (true);
-		}
-
-		// create GL context
-		if (this->m_glfwHandler.initGlfwWindow(width, height, "Beyond Light")) {
-			this->m_webCoreManager.shutDown();
-			return (true);
-		}
-
-		// initialize glew context
-		bool glew_init_success = initializeGlewContext();
-		if (!glew_init_success) {
-			this->m_webCoreManager.shutDown();
-			return (true);
-		}
-
-		// setup glfw
-		this->m_glfwHandler.setupGlfw();
-		this->m_glfwHandler.setUserPointer(this);
-
-		//this->m_networkHandler->test = "network is working";
-
-		// init opengl & shader
-
-		return false;
 	}
 
 	void MainHandler::createBrowser() {
@@ -84,23 +68,13 @@ namespace bl {
 	}
 
 	bool MainHandler::startMainLoop() {
-		this->m_lastTickTime = glfwGetTime();
 		while (!this->m_glfwHandler.winShouldClose()) {
 			if (this->m_sizeUpdated) {
 				this->m_sizeUpdated = false;
 				const std::pair<unsigned int, unsigned int> &size = this->m_glfwHandler.getWinSize();
 				this->m_activeBrowser.lock()->reshape(size.first, size.second);
 			}
-			const double currentTime = glfwGetTime();
-			const double delta = currentTime - this->m_lastTickTime;
 			++this->m_frame;
-			if (delta >= 1.0) {
-				/*std::cout << std::to_string(1000.0 / this->m_frame) << " ms/frame"
-						  << std::endl;*/
-				this->m_frame = 0;
-				this->m_lastTickTime += 1.0;
-			}
-			const double begin = glfwGetTime();
 			this->m_activeBrowser.lock()->getRenderHandler()->Render();
 
 			// render end
@@ -109,25 +83,12 @@ namespace bl {
 			// update
 			this->m_glfwHandler.pollEvents();
 			this->m_webCoreManager.update();
-			const double end = glfwGetTime();
-			/*if (delta >= 1.0) {
-				std::cout << "it took: " << std::to_string(end - begin)
-						  << " to render" << std::endl;
-			}*/
+			this->updateMsFrameWinTitle();
 		}
 		return (false);
 	}
 
-	void MainHandler::destroy() {
-		this->m_glfwHandler.shutDownGlfw();
-
-		// close cef
-		this->m_webCoreManager.removeBrowser(this->m_activeBrowser);
-		this->m_webCoreManager.shutDown();
-		this->m_networkHandler = nullptr;
-	}
-
-	void MainHandler::onKeyEvent(
+	void MainHandler::onKeyEvent( // todo improve
 			GLFWwindow *window,
 			int key,
 			int scancode,
@@ -137,16 +98,16 @@ namespace bl {
 		//if (!this->m_isInput) // todo if isinput and key = delete -> send it
 		this->m_activeBrowser.lock()->keyPress(key, scancode, action, mods);
 		if (mods == GLFW_MOD_CONTROL) {
-			if (key == GLFW_KEY_C) { // todo improve
+			if (key == GLFW_KEY_C) {
 				this->m_activeBrowser.lock()->copy();
 			}
-			if (key == GLFW_KEY_V) { // todo improve
+			if (key == GLFW_KEY_V) {
 				this->m_activeBrowser.lock()->paste();
 			}
-			if (key == GLFW_KEY_Q) { // todo improve
+			if (key == GLFW_KEY_Q) {
 				this->m_activeBrowser.lock()->selectAll();
 			}
-			if (key == GLFW_KEY_X) { // todo improve
+			if (key == GLFW_KEY_X) {
 				this->m_activeBrowser.lock()->cut();
 			}
 		}
@@ -209,6 +170,18 @@ namespace bl {
 	}
 
 	MainHandler::~MainHandler() {
+		// close cef
+		this->m_webCoreManager.removeBrowser(this->m_activeBrowser);
+		this->m_networkHandler = nullptr;
+	}
 
+	void MainHandler::updateMsFrameWinTitle() {
+		double msFrame = this->m_activeBrowser.lock()->getRenderHandler()->getAverageFrameCallTime();
+		if (msFrame != this->m_avgFrameCallTime) {
+			this->m_avgFrameCallTime = msFrame;
+			std::stringstream frameMs;
+			frameMs << std::fixed << std::setprecision(2) << this->m_avgFrameCallTime;
+			this->m_glfwHandler.setWinTitle(this->m_winName + " " + frameMs.str() + " CEF ms/Frame");
+		}
 	}
 }

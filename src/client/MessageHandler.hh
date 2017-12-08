@@ -15,10 +15,7 @@ namespace bl {
 	// Handle messages in the browser process.
 	class MessageHandler : public CefMessageRouterBrowserSide::Handler {
 	public:
-		explicit MessageHandler(
-				const CefString &startup_url,
-				WebCore *webCore
-		);
+		explicit MessageHandler(WebCore *webCore);
 		bool OnQuery(
 				CefRefPtr<CefBrowser> browser,
 				CefRefPtr<CefFrame> frame,
@@ -28,8 +25,6 @@ namespace bl {
 				CefRefPtr<Callback> callback
 		) override;
 	private:
-		const std::string m_mainRoute = "MainRoute";
-		const CefString m_startupUrl;
 		WebCore *m_webCore;
 		DISALLOW_COPY_AND_ASSIGN(MessageHandler);
 	};

@@ -21,8 +21,7 @@ namespace bl {
 			int action,
 			int mods
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onKeyEvent
-				(window, key, scancode, action, mods);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onKeyEvent(window, key, scancode, action, mods);
 	}
 
 	void CallBacks::onMouseEvent(
@@ -31,8 +30,7 @@ namespace bl {
 			int state,
 			int mods
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))
-				->onMouseEvent(window, btn, state, mods);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onMouseEvent(window, btn, state, mods);
 	}
 
 	void CallBacks::onCursorMotion(
@@ -40,8 +38,7 @@ namespace bl {
 			double x,
 			double y
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))
-				->onCursorMotion(window, x, y);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onCursorMotion(window, x, y);
 	}
 
 	void CallBacks::onWinResize(
@@ -49,18 +46,14 @@ namespace bl {
 			int w,
 			int h
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(
-				window))->onWinResize
-				(window, w, h);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onWinResize(window, w, h);
 	}
 
 	void CallBacks::onCharEvent(
 			GLFWwindow *window,
 			unsigned int codepoint
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(
-				window))->onCharEvent
-				(window, codepoint);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onCharEvent(window, codepoint);
 	}
 
 	void CallBacks::onScroll(
@@ -68,16 +61,13 @@ namespace bl {
 			double xoffset,
 			double yoffset
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onScroll
-				(window, xoffset, yoffset);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onScroll(window, xoffset, yoffset);
 	}
 
 	void CallBacks::onCursorEnter(
 			GLFWwindow *window,
 			int entered
 	) {
-		static_cast<MainHandler *>(glfwGetWindowUserPointer(
-				window))->onCursorEnter
-				(window, entered);
+		static_cast<MainHandler *>(glfwGetWindowUserPointer(window))->onCursorEnter(window, entered);
 	}
 }

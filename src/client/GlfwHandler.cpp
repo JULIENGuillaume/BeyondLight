@@ -7,7 +7,15 @@
 #include "CallBacks.hh"
 
 namespace bl {
-	bool GlfwHandler::initGlfwWindow(
+	GlfwHandler::GlfwHandler() {
+	}
+
+	GlfwHandler::~GlfwHandler() {
+		glfwDestroyWindow(this->m_win);
+		glfwTerminate();
+	}
+
+	bool GlfwHandler::createGlfwWindow(
 			int w,
 			int h,
 			const std::string &winName
@@ -16,23 +24,13 @@ namespace bl {
 		if (!glfwInit()) {
 			return (true);
 		}
-		GLFWwindow *window = glfwCreateWindow(w, h, winName.c_str(), nullptr,
-											  nullptr);
+		GLFWwindow *window = glfwCreateWindow(w, h, winName.c_str(), nullptr, nullptr);
 		if (!window) {
 			glfwTerminate();
 			return (true);
 		}
 		glfwMakeContextCurrent(window);
 		this->m_win = window;
-		return (false);
-	}
-
-	void GlfwHandler::shutDownGlfw() {
-		glfwDestroyWindow(this->m_win);
-		glfwTerminate();
-	}
-
-	void GlfwHandler::setupGlfw() {
 		glfwSwapInterval(1);
 		glfwSetKeyCallback(this->m_win, CallBacks::onKeyEvent);
 		glfwSetCharCallback(this->m_win, CallBacks::onCharEvent);
@@ -40,9 +38,7 @@ namespace bl {
 		glfwSetMouseButtonCallback(this->m_win, CallBacks::onMouseEvent);
 		glfwSetFramebufferSizeCallback(this->m_win, CallBacks::onWinResize);
 		glfwSetScrollCallback(this->m_win, CallBacks::onScroll);
-	}
-
-	GlfwHandler::GlfwHandler() {
+		return (false);
 	}
 
 	void GlfwHandler::setWinSize(
@@ -68,19 +64,17 @@ namespace bl {
 
 	unsigned int GlfwHandler::getHeight() const {
 		unsigned int height;
-		glfwGetWindowSize(this->m_win, nullptr,
-						  reinterpret_cast<int *>(&height));
+		glfwGetWindowSize(this->m_win, nullptr, reinterpret_cast<int *>(&height));
 		return (height);
 	}
 
 	bool GlfwHandler::winShouldClose() {
-		return (glfwWindowShouldClose(this->m_win));
+		return (glfwWindowShouldClose(this->m_win) != 0);
 	}
 
 	std::pair<unsigned int, unsigned int> GlfwHandler::getWinSize() const {
 		std::pair<unsigned int, unsigned int> size;
-		glfwGetWindowSize(this->m_win, reinterpret_cast<int *>(&size.first),
-						  reinterpret_cast<int *>(&size.second));
+		glfwGetWindowSize(this->m_win, reinterpret_cast<int *>(&size.first), reinterpret_cast<int *>(&size.second));
 		return (size);
 	}
 
@@ -90,5 +84,9 @@ namespace bl {
 
 	void GlfwHandler::pollEvents() {
 		glfwPollEvents();
+	}
+
+	void GlfwHandler::setWinTitle(const std::string &title) {
+		glfwSetWindowTitle(this->m_win, title.c_str());
 	}
 }

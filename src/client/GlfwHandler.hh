@@ -12,12 +12,12 @@ namespace bl {
 	class GlfwHandler {
 	public:
 		GlfwHandler();
-		bool initGlfwWindow(
+		~GlfwHandler();
+		bool createGlfwWindow(
 				int w,
 				int h,
 				const std::string &winName
 		);
-		void setupGlfw();
 		void setUserPointer(void *pointer);
 		void *getUserPointer();
 		unsigned int getWidth() const;
@@ -26,8 +26,8 @@ namespace bl {
 				unsigned int w,
 				unsigned int h
 		);
+		void setWinTitle(const std::string &title);
 		std::pair<unsigned int, unsigned int> getWinSize() const;
-		void shutDownGlfw();
 		bool winShouldClose();
 		void swapBuffer();
 		void pollEvents();

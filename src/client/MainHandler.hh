@@ -16,13 +16,11 @@ namespace bl {
 	public:
 		MainHandler();
 		~MainHandler();
-		bool init();
 		void createBrowser();
 		bool isSizeUpdated();
 		void sizeUpdate();
 		const GlfwHandler &getGlfwHandler() const;
 		bool startMainLoop();
-		void destroy();
 		void onKeyEvent(
 				GLFWwindow *window,
 				int key,
@@ -66,9 +64,11 @@ namespace bl {
 		GlfwHandler m_glfwHandler;
 		bool m_sizeUpdated;
 		uint64 m_frame;
-		double m_lastTickTime;
 		bool m_isInput;
+		std::string m_winName;
+		double m_avgFrameCallTime;
 		bool initializeGlewContext();
+		void updateMsFrameWinTitle();
 	};
 }
 #endif //CEFOFFSCREEN_MAINHANDLER_HH
