@@ -5,7 +5,7 @@
 #ifndef CEFOFFSCREEN_WEBCOREMANAGER_HH
 #define CEFOFFSCREEN_WEBCOREMANAGER_HH
 
-#include <include/wrapper/cef_message_router.h>
+#include "include/wrapper/cef_message_router.h"
 #include "include/cef_app.h"
 #include "WebCore.hh"
 
@@ -17,9 +17,7 @@ namespace bl {
 		explicit WebCoreManager(
 				std::shared_ptr<network::client::NetworkHandler> networkHandler
 		);
-		~WebCoreManager();
-		bool setUp(int *exit_code);
-		bool shutDown();
+		~WebCoreManager() override; // todo check if we need or not to override
 		void update();
 		std::weak_ptr<WebCore> createBrowser(const std::string &url);
 		void removeBrowser(std::weak_ptr<WebCore> web_core);
@@ -51,15 +49,14 @@ namespace bl {
 				CefProcessId source_process,
 				CefRefPtr<CefProcessMessage> message
 		) override;
-		void AddRef() const override; // fixme should use refcounting
-		bool Release() const override; // fixme should use refcounting
-		bool HasOneRef() const override; // fixme should use refcounting
-
+		void AddRef() const override;
+		bool Release() const override;
+		bool HasOneRef() const override;
 	private:
 		std::vector<std::shared_ptr<WebCore>> m_browsers;
 		CefRefPtr<CefMessageRouterRendererSide> m_message_router;
 		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
-		//IMPLEMENT_REFCOUNTING(WebCoreManager); // fixme crashing me using this
+		//IMPLEMENT_REFCOUNTING(WebCoreManager); // fixme crashing me using this. This line of the define crash -> "delete static_cast<const WebCoreManager*>(this);"
 		DISALLOW_COPY_AND_ASSIGN(WebCoreManager);
 	};
 }

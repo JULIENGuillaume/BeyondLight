@@ -27,9 +27,6 @@ namespace bl {
 				int height
 		) override;
 		void Render();
-		GLuint getTex() const;
-		void Initialize();
-		void Cleanup();
 		void OnPopupShow(
 				CefRefPtr<CefBrowser> browser,
 				bool show
@@ -47,6 +44,7 @@ namespace bl {
 		);
 		void loadBgTexture();
 		void loadBgGridTexture();
+		double getAverageFrameCallTime() const;
 	private:
 		struct s_texture_vertices {
 			float tu, tv;
@@ -70,6 +68,7 @@ namespace bl {
 		unsigned int m_calls;
 		GLuint m_bgTexture;
 		GLuint m_bgGrid;
+		double m_avgFrameCallTime;
 	IMPLEMENT_REFCOUNTING(RenderHandler);
 	};
 }

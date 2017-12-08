@@ -2,11 +2,9 @@
 #include <iostream>
 #include <memory>
 #include "GL/glew.h"
-#include "GLFW/glfw3.h"
 #include "WebCore.hh"
 #include "RenderHandler.hh"
 #include "include/cef_app.h"
-#include "RenderHandler.hh"
 #include "BrowserClient.hh"
 #include "KeyMapper.hh"
 
@@ -21,8 +19,6 @@ namespace bl {
 			m_mvcHandler(new mvc::MvcHandler()),
 			m_networkHandler(networkHandler) {
 		m_renderHandler = new RenderHandler();
-		m_renderHandler->Initialize();
-		// initial size
 		m_renderHandler->resize(1280, 720);
 		m_curMouseMod = 0;
 		CefWindowInfo window_info;
@@ -84,7 +80,6 @@ namespace bl {
 		static auto before = std::chrono::system_clock::now(); // todo unfuck this fucking auto fuck type to declare this shit as a class variable.
 		static int count = 0;
 		this->m_curMouseMod = KeyMapper::cefButtonToEventFlag(btn);
-
 		CefMouseEvent evt;
 		evt.x = m_mouseX;
 		evt.y = m_mouseY;
@@ -121,27 +116,12 @@ namespace bl {
 			int mods
 	) {
 		CefKeyEvent event;
-		unsigned int nativeKey = 0;
-		if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
-			nativeKey = VK_BACK;
-		} else if (key == GLFW_KEY_PAGE_UP) {
-			nativeKey = VK_PRIOR;
-		} else if (key == GLFW_KEY_PAGE_DOWN) {
-			nativeKey = VK_NEXT;
-		} else if (key == GLFW_KEY_TAB) {
-			nativeKey = VK_TAB;
-		} else if (key == GLFW_KEY_ENTER) {
-			nativeKey = VK_RETURN;
-		}
+		unsigned int nativeKey = KeyMapper::glfwKeyToNative(key);
 		event.windows_key_code = nativeKey;
 		event.modifiers = 0;
 		event.native_key_code = nativeKey;
 		event.unmodified_character = static_cast<short>(nativeKey);
-		if (action == GLFW_PRESS) {
-			event.type = KEYEVENT_RAWKEYDOWN;
-		} else {
-			event.type = KEYEVENT_KEYUP;
-		}
+		event.type = KeyMapper::glfwActionToCef(action);
 		m_browser->GetHost()->SendKeyEvent(event);
 	}
 

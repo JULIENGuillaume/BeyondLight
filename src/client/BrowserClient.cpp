@@ -42,8 +42,7 @@ namespace bl {
 			m_message_router = CefMessageRouterBrowserSide::Create(config);
 
 			// Register handlers with the router.
-			m_message_handler.reset(new MessageHandler("",
-													   this->m_webCore)); // todo check startup_url
+			m_message_handler.reset(new MessageHandler(this->m_webCore));
 			m_message_router->AddHandler(m_message_handler.get(), false);
 		}
 		m_browser_ct++;
@@ -96,7 +95,7 @@ namespace bl {
 	}
 
 	CefRefPtr<CefResourceHandler>
-	BrowserClient::GetResourceHandler(
+	BrowserClient::GetResourceHandler( // todo implement res manager to handle our own .pak etc..
 			CefRefPtr<CefBrowser> browser,
 			CefRefPtr<CefFrame> frame,
 			CefRefPtr<CefRequest> request
@@ -109,10 +108,10 @@ namespace bl {
 		// usage (multiple files, zip archives, custom handlers, etc.) you might want
 		// to use CefResourceManager. See the "resource_manager" target for an
 		// example implementation.
-		/*const std::string& resource_path = shared::GetResourcePath(url); todo
-		/*const std::string& resource_path = shared::GetResourcePath(url); todo
+		/*const std::string& resource_path = shared::GetResourcePath(url);
+		/*const std::string& resource_path = shared::GetResourcePath(url);
 		if (!resource_path.empty())
-			return shared::GetResourceHandler(resource_path); todo */
+			return shared::GetResourceHandler(resource_path); */
 
 		return CefRequestHandler::GetResourceHandler(browser, frame, request);
 	}

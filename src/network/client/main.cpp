@@ -21,15 +21,9 @@ int main() {
 	try {
 		bl::MainHandler mainHandler;
 
-		if (mainHandler.init()) {
-			std::cerr << "initialization failed!" << std::endl;
-			return (1);
-		}
-
 		mainHandler.createBrowser();
 		mainHandler.startMainLoop();
 
-		mainHandler.destroy();
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return 1;

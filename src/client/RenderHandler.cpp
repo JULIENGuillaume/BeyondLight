@@ -45,13 +45,6 @@ namespace bl {
 			m_spin_x(0),
 			m_spin_y(0),
 			m_backgroundColor(255) {
-	}
-
-	RenderHandler::~RenderHandler() {
-		Cleanup();
-	}
-
-	void RenderHandler::Initialize() {
 		if (m_initialized) {
 			return;
 		}
@@ -97,6 +90,18 @@ namespace bl {
 		this->m_calls = 0;
 		this->loadBgTexture();
 		this->loadBgGridTexture();
+	}
+
+	RenderHandler::~RenderHandler() {
+		if (m_tex != 0) {
+			glDeleteTextures(1, &m_tex);
+		}
+		if (m_bgTexture != 0) {
+			glDeleteTextures(1, &m_bgTexture);
+		}
+		if (m_bgGrid != 0) {
+			glDeleteTextures(1, &m_bgGrid);
+		}
 	}
 
 	void RenderHandler::resize(
@@ -216,8 +221,7 @@ namespace bl {
 		const double delta = currentTime - this->m_lastTickTime;
 		++this->m_calls;
 		if (delta >= 1.0) {
-			/*std::cout << std::to_string(1000.0 / this->_calls) << " CEF ms/frame"
-					  << std::endl;*/
+			this->m_avgFrameCallTime = 1000.0 / this->m_calls;
 			this->m_calls = 0;
 			this->m_lastTickTime += 1.0;
 		}
@@ -359,16 +363,6 @@ namespace bl {
 		}
 	}
 
-	GLuint RenderHandler::getTex() const {
-		return (this->m_tex);
-	}
-
-	void RenderHandler::Cleanup() {
-		if (m_tex != 0) {
-			glDeleteTextures(1, &m_tex);
-		}
-	}
-
 	void RenderHandler::OnPopupShow(
 			CefRefPtr<CefBrowser> browser,
 			bool show
@@ -468,5 +462,9 @@ namespace bl {
 		}
 		stbi_image_free(data);
 		return (false);
+	}
+
+	double RenderHandler::getAverageFrameCallTime() const {
+		return (this->m_avgFrameCallTime);
 	}
 }

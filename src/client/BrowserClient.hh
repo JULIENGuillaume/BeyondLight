@@ -66,7 +66,6 @@ namespace bl {
 		// Track the number of browsers using this Client.
 		int m_browser_ct;
 		WebCore *m_webCore;
-
 		IMPLEMENT_REFCOUNTING(BrowserClient);
 		DISALLOW_COPY_AND_ASSIGN(BrowserClient);
 	};
