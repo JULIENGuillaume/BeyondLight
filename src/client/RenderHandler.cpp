@@ -25,6 +25,15 @@
 #define VERIFY_NO_ERROR
 #endif
 namespace bl {
+	const RenderHandler::s_texture_vertices RenderHandler::m_bgVertices[] = {{0.0f, 1.0f, -1.0f, -1.0f, 0.0f},
+																			 {1.0f, 1.0f, 1.0f,  -1.0f, 0.0f},
+																			 {1.0f, 0.0f, 1.0f,  1.0f,  0.0f},
+																			 {0.0f, 0.0f, -1.0f, 1.0f,  0.0f}};
+	const RenderHandler::s_texture_vertices RenderHandler::m_bgGridVertices[] = {{0.0f,  10.0f, -1.0f, -1.0f, 0.0f},
+																				 {20.0f, 10.0f, 1.0f,  -1.0f, 0.0f},
+																				 {20.0f, 0.0f,  1.0f,  1.0f,  0.0f},
+																				 {0.0f,  0.0f,  -1.0f, 1.0f,  0.0f}};
+
 	RenderHandler::RenderHandler()
 			:
 			m_showDirtyRect(false),
@@ -218,21 +227,6 @@ namespace bl {
 		if (m_width == 0 || m_height == 0) {
 			return;
 		}
-		struct {
-			float tu, tv;
-			float x, y, z;
-		} static vertices[] = {{0.0f, 1.0f, -1.0f, -1.0f, 0.0f},
-							   {1.0f, 1.0f, 1.0f,  -1.0f, 0.0f},
-							   {1.0f, 0.0f, 1.0f,  1.0f,  0.0f},
-							   {0.0f, 0.0f, -1.0f, 1.0f,  0.0f}}; // todo improve
-
-		struct {
-			float tu, tv;
-			float x, y, z;
-		} static vertices2[] = {{0.0f,  10.0f, -1.0f, -1.0f, 0.0f},
-								{20.0f, 10.0f, 1.0f,  -1.0f, 0.0f},
-								{20.0f, 0.0f,  1.0f,  1.0f,  0.0f},
-								{0.0f,  0.0f,  -1.0f, 1.0f,  0.0f}};
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		VERIFY_NO_ERROR;
 		glMatrixMode(GL_MODELVIEW);
@@ -280,7 +274,7 @@ namespace bl {
 		// draw bg
 		glBindTexture(GL_TEXTURE_2D, this->m_bgTexture);
 		VERIFY_NO_ERROR;
-		glInterleavedArrays(GL_T2F_V3F, 0, vertices);
+		glInterleavedArrays(GL_T2F_V3F, 0, RenderHandler::m_bgVertices);
 		VERIFY_NO_ERROR;
 		glDrawArrays(GL_QUADS, 0, 4);
 		VERIFY_NO_ERROR;
@@ -292,7 +286,7 @@ namespace bl {
 		VERIFY_NO_ERROR;
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		VERIFY_NO_ERROR;
-		glInterleavedArrays(GL_T2F_V3F, 0, vertices2);
+		glInterleavedArrays(GL_T2F_V3F, 0, RenderHandler::m_bgGridVertices);
 		VERIFY_NO_ERROR;
 		glDrawArrays(GL_QUADS, 0, 4);
 		VERIFY_NO_ERROR;
@@ -302,7 +296,7 @@ namespace bl {
 		VERIFY_NO_ERROR;
 		glBindTexture(GL_TEXTURE_2D, m_tex);
 		VERIFY_NO_ERROR;
-		glInterleavedArrays(GL_T2F_V3F, 0, vertices);
+		glInterleavedArrays(GL_T2F_V3F, 0, RenderHandler::m_bgVertices);
 		VERIFY_NO_ERROR;
 		glDrawArrays(GL_QUADS, 0, 4);
 		VERIFY_NO_ERROR;
@@ -437,32 +431,21 @@ namespace bl {
 	}
 
 	void RenderHandler::loadBgTexture() {
-		this->m_bgTexture = 0;
-		glGenTextures(1, &this->m_bgTexture);
-		glBindTexture(GL_TEXTURE_2D, this->m_bgTexture);
-		// set the texture wrapping/filtering options (on the currently bound texture object)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// load and generate the texture
-		int width;
-		int height;
-		int nrChannels;
-		unsigned char *data = stbi_load("../resources/html/img/bg.jpg", &width,
-										&height, &nrChannels, 0);
-		if (data) {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB,
-						 GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
-		} else {
-			std::cout << "Failed to load texture" << std::endl;
-		}
-		stbi_image_free(data);
+		this->loadTexture(this->m_bgTexture, "../resources/html/img/bg.jpg", false);
 	}
 
-	void RenderHandler::loadBgGridTexture() { // todo refactor
-		this->m_bgGrid = 0;
-		glGenTextures(1, &this->m_bgGrid);
-		glBindTexture(GL_TEXTURE_2D, this->m_bgGrid);
+	void RenderHandler::loadBgGridTexture() {
+		this->loadTexture(this->m_bgGrid, "../resources/html/img/gridbg-glow2.png", true);
+	}
+
+	bool RenderHandler::loadTexture(
+			GLuint &res,
+			const std::string &path,
+			bool isAlpha
+	) {
+		res = 0;
+		glGenTextures(1, &res);
+		glBindTexture(GL_TEXTURE_2D, res);
 		// set the texture wrapping/filtering options (on the currently bound texture object)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -470,16 +453,20 @@ namespace bl {
 		int width;
 		int height;
 		int nrChannels;
-		unsigned char *data = stbi_load(
-				"../resources/html/img/gridbg-glow2.png", &width, &height,
-				&nrChannels, 0);
+		unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 		if (data) {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-						 GL_UNSIGNED_BYTE, data);
+			if (isAlpha) {
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			} else {
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			}
 			glGenerateMipmap(GL_TEXTURE_2D);
 		} else {
-			std::cout << "Failed to load texture" << std::endl;
+			std::cerr << "Failed to load texture at: " << path << std::endl;
+			stbi_image_free(data);
+			return (true);
 		}
 		stbi_image_free(data);
+		return (false);
 	}
 }

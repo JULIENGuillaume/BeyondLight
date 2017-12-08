@@ -7,8 +7,7 @@
 
 namespace bl {
 	BrowserClient::BrowserClient(WebCore *webCore) :
-			m_webCore(
-					webCore) { // todo improve
+			m_webCore(webCore) { // todo improve
 		this->m_browser_ct = 0;
 	}
 
@@ -110,6 +109,7 @@ namespace bl {
 		// usage (multiple files, zip archives, custom handlers, etc.) you might want
 		// to use CefResourceManager. See the "resource_manager" target for an
 		// example implementation.
+		/*const std::string& resource_path = shared::GetResourcePath(url); todo
 		/*const std::string& resource_path = shared::GetResourcePath(url); todo
 		if (!resource_path.empty())
 			return shared::GetResourceHandler(resource_path); todo */

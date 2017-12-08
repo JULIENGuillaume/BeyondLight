@@ -116,6 +116,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/WebCoreManager.hh
         ${CLIENT_PROJECT_DIR}/MessageHandler.cpp
         ${CLIENT_PROJECT_DIR}/MessageHandler.hh
+        ${CLIENT_PROJECT_DIR}/KeyMapper.cpp
+        ${CLIENT_PROJECT_DIR}/KeyMapper.hh
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
@@ -141,7 +143,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/IndexController.hh
-        libs/stb/stb_image.h)
+        libs/stb/stb_image.h
+        )
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
