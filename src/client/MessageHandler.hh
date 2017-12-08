@@ -30,7 +30,7 @@ namespace bl {
 	private:
 		const std::string m_mainRoute = "MainRoute";
 		const CefString m_startupUrl;
-		WebCore *m_webCore; // todo improve
+		WebCore *m_webCore;
 		DISALLOW_COPY_AND_ASSIGN(MessageHandler);
 	};
 }

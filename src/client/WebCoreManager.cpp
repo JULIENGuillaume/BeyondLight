@@ -87,7 +87,7 @@ namespace bl {
 		command_line.get()->AppendSwitch("disable-gpu");
 		command_line.get()->AppendSwitch("disable-gpu-compositing");
 		command_line.get()->AppendSwitch("disable-gpu-sandbox");
-		command_line.get()->AppendSwitch("disable-infobars"); // todo check
+		command_line.get()->AppendSwitch("disable-infobars");
 		command_line.get()->AppendSwitch("disable-notifications");
 		command_line.get()->AppendSwitch("disable-pepper-3d");
 		command_line.get()->AppendSwitch("disable-pepper-3d-image-chromium");

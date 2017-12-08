@@ -11,6 +11,7 @@
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
 #include "../common/Toolbox.hh"
+#include "KeyMapper.hh"
 
 namespace bl {
 	MainHandler::MainHandler() :
@@ -20,8 +21,7 @@ namespace bl {
 		this->m_frame = 0;
 	}
 
-	bool initialize_glew_context() // todo to member func
-	{
+	bool MainHandler::initializeGlewContext() {
 		GLenum err = glewInit();
 		if (GLEW_OK != err) {
 			// Problem: glewInit failed, something is seriously wrong
@@ -48,7 +48,7 @@ namespace bl {
 		}
 
 		// initialize glew context
-		bool glew_init_success = initialize_glew_context();
+		bool glew_init_success = initializeGlewContext();
 		if (!glew_init_success) {
 			this->m_webCoreManager.shutDown();
 			return (true);
@@ -149,8 +149,6 @@ namespace bl {
 			if (key == GLFW_KEY_X) { // todo improve
 				this->m_activeBrowser.lock()->cut();
 			}
-			// todo handle tab
-			// todo handle enter
 		}
 		if (key == GLFW_KEY_F5) {
 			this->m_activeBrowser.lock()->reload(true); // todo remove debug
@@ -163,12 +161,7 @@ namespace bl {
 			int state,
 			int mods
 	) {
-		std::map<int, CefBrowserHost::MouseButtonType> btn_type_map; // todo improve
-		btn_type_map[GLFW_MOUSE_BUTTON_LEFT] = MBT_LEFT;
-		btn_type_map[GLFW_MOUSE_BUTTON_MIDDLE] = MBT_MIDDLE;
-		btn_type_map[GLFW_MOUSE_BUTTON_RIGHT] = MBT_RIGHT;
-		CefBrowserHost::MouseButtonType btn_type = btn_type_map[btn];
-		this->m_activeBrowser.lock()->mouseClick(btn_type, (GLFW_RELEASE == state), mods);
+		this->m_activeBrowser.lock()->mouseClick(KeyMapper::glfwMouseButtonToCef(btn), (GLFW_RELEASE == state), mods);
 	}
 
 	void MainHandler::onCursorMotion(
@@ -216,6 +209,6 @@ namespace bl {
 	}
 
 	MainHandler::~MainHandler() {
-		// todo destroy networkhandler ?
+
 	}
 }

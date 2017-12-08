@@ -40,9 +40,20 @@ namespace bl {
 		);
 		CefRect GetPopupRectInWebView(const CefRect &original_rect);
 		void ClearPopupRects();
+		bool loadTexture(
+				GLuint &res,
+				const std::string &path,
+				bool isAlpha
+		);
 		void loadBgTexture();
 		void loadBgGridTexture();
 	private:
+		struct s_texture_vertices {
+			float tu, tv;
+			float x, y, z;
+		};
+		static const s_texture_vertices m_bgVertices[];
+		static const s_texture_vertices m_bgGridVertices[];
 		bool m_showDirtyRect;
 		bool m_isTransparent;
 		bool m_initialized;

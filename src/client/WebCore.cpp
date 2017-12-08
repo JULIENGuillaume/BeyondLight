@@ -8,6 +8,7 @@
 #include "include/cef_app.h"
 #include "RenderHandler.hh"
 #include "BrowserClient.hh"
+#include "KeyMapper.hh"
 
 namespace bl {
 	WebCore::WebCore(
@@ -80,18 +81,10 @@ namespace bl {
 			bool mouse_up,
 			int mods
 	) {
-		static auto before = std::chrono::system_clock::now(); // todo improve
+		static auto before = std::chrono::system_clock::now(); // todo unfuck this fucking auto fuck type to declare this shit as a class variable.
 		static int count = 0;
-		this->m_curMouseMod = 0;
-		if (btn == CefBrowserHost::MouseButtonType::MBT_LEFT) {
-			this->m_curMouseMod = EVENTFLAG_LEFT_MOUSE_BUTTON;
-		} else if (btn == CefBrowserHost::MouseButtonType::MBT_RIGHT) {
-			this->m_curMouseMod = EVENTFLAG_RIGHT_MOUSE_BUTTON;
-		} else if (btn == CefBrowserHost::MouseButtonType::MBT_MIDDLE) {
-			this->m_curMouseMod = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-		} else {
-			this->m_curMouseMod = 0;
-		}
+		this->m_curMouseMod = KeyMapper::cefButtonToEventFlag(btn);
+
 		CefMouseEvent evt;
 		evt.x = m_mouseX;
 		evt.y = m_mouseY;
@@ -128,7 +121,6 @@ namespace bl {
 			int mods
 	) {
 		CefKeyEvent event;
-		CefRefPtr<CefFrame> frame = this->m_browser->GetMainFrame(); // todo remove test
 		unsigned int nativeKey = 0;
 		if (key == GLFW_KEY_BACKSPACE) { // todo convert all keys
 			nativeKey = VK_BACK;

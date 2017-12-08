@@ -68,7 +68,7 @@ namespace bl {
 		uint64 m_frame;
 		double m_lastTickTime;
 		bool m_isInput;
-
+		bool initializeGlewContext();
 	};
 }
 #endif //CEFOFFSCREEN_MAINHANDLER_HH
