@@ -30,7 +30,7 @@
         function onUpgradeClick(e) {
             var id = e.target.id.split('-').reverse()[0];
             var request_id = window.cefQuery({
-                request: 'index-technology-upgrade-' + id,
+                request: 'index-technology-upgrade:' + id,
                 persistent: false,
                 onSuccess: function(response) {
                     document.getElementById("entity-level-" + id).innerText = "Level " + response;
