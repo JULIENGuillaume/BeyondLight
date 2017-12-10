@@ -15,28 +15,26 @@ namespace bl {
 
 		}
 
-		std::string OverviewController::onQuery(
+		bool OverviewController::onQuery(
 				CefRefPtr<CefBrowser> browser,
 				CefRefPtr<CefFrame> frame,
 				int64 query_id,
 				const CefString &request,
 				bool persistent,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+				std::string &newRoute
 		) {
 			std::vector<std::string> requestArgs = common::Toolbox::split(request, ":");
 
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
-				if (controllerRoute.empty()) {
-
-				} else {
+				if (!controllerRoute.empty()) {
 					callback->Success("OK");
-					return (controllerRoute);
+					newRoute = controllerRoute;
+					return (true);
 				}
-			} else {
-				callback->Failure(0, "Empty query");
 			}
-			return (std::string());
+			return (false);
 		}
 
 		void OverviewController::setWebCore(WebCore *webCore) {

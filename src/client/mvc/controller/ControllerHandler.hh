@@ -17,13 +17,9 @@ namespace bl {
 		public:
 			ControllerHandler() = delete;
 			explicit ControllerHandler(WebCore *webCore);
-			void
-			changeRoute(
-					const std::string &route,
-					const std::string &subRoute
-			);
+			void changeRoute(const std::string &route);
 			void onFrameEnd();
-			void onQuery(
+			bool onQuery(
 					CefRefPtr<CefBrowser> browser,
 					CefRefPtr<CefFrame> frame,
 					int64 query_id,
@@ -33,7 +29,6 @@ namespace bl {
 			);
 		private:
 			std::string m_curBaseRoute;
-			std::string m_curSubRoute;
 			std::shared_ptr<IBaseController> m_currentController;
 			std::shared_ptr<ModelHandler> m_modelHandler;
 			WebCore *m_webCore;

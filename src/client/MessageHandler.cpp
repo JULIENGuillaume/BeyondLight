@@ -14,9 +14,7 @@ namespace bl {
 			bool persistent,
 			CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
 	) {
-		this->m_webCore->getMvcHandler()->getControllerHandler()->onQuery(
-				browser, frame, query_id, request, persistent, callback);
-		return (true); // todo check the diff between true & false
+		return (this->m_webCore->getMvcHandler()->getControllerHandler()->onQuery(browser, frame, query_id, request, persistent, callback));
 	}
 
 	MessageHandler::MessageHandler(WebCore *webCore) :

@@ -15,13 +15,14 @@ namespace bl {
 		public:
 			OverviewController();
 			void setWebCore(WebCore *webCore) override;
-			std::string onQuery(
+			bool onQuery(
 					CefRefPtr<CefBrowser> browser,
 					CefRefPtr<CefFrame> frame,
 					int64 query_id,
 					const CefString &request,
 					bool persistent,
-					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+					std::string &newRoute
 			) override;
 			void onFrameEnd() override;
 		private:

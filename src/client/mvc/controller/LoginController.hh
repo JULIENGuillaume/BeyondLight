@@ -24,14 +24,14 @@ namespace bl {
 					std::string message,
 					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
 			);
-			std::string
-			onQuery(
+			bool onQuery(
 					CefRefPtr<CefBrowser> browser,
 					CefRefPtr<CefFrame> frame,
 					int64 query_id,
 					const CefString &request,
 					bool persistent,
-					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+					std::string &newRoute
 			);
 			void onFrameEnd() override;
 			void setWebCore(WebCore *webCore) override;

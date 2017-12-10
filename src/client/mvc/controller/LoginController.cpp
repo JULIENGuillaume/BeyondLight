@@ -8,29 +8,27 @@
 
 namespace bl {
 	namespace mvc {
-		std::string LoginController::onQuery(
+		bool LoginController::onQuery(
 				CefRefPtr<CefBrowser> browser,
 				CefRefPtr<CefFrame> frame,
 				int64 query_id,
 				const CefString &request,
 				bool persistent,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+				std::string &newRoute
 		) {
 			std::string message(request);
 			if (message.find("login-connect") == 0) {
-				if (this->handleLogin(browser, message.substr(
-						std::string("login-connect").length()), callback)) {
-					return ("/overview");
+				if (this->handleLogin(browser, message.substr(std::string("login-connect").length()), callback)) {
+					newRoute = "/overview";
+					return (true);
 				}
 			} else if (message.find("login-register") == 0) {
-				this->handleRegister(browser, message.substr(
-						std::string("login-register").length()), callback);
+				this->handleRegister(browser, message.substr(std::string("login-register").length()), callback);
 				browser->ReloadIgnoreCache();
-				//frame->ExecuteJavaScript();
-			} else {
-				callback->Failure(0, "Unknown route");
+				return (true);
 			}
-			return (std::string());
+			return (false);
 		}
 
 		bool LoginController::handleLogin(

@@ -16,13 +16,14 @@ namespace bl {
 			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL(m_buildingsUrl);
 		}
 
-		std::string BuildingsController::onQuery(
+		bool BuildingsController::onQuery(
 				CefRefPtr<CefBrowser> browser,
 				CefRefPtr<CefFrame> frame,
 				int64 query_id,
 				const CefString &request,
 				bool persistent,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+				std::string &newRoute
 		) {
 			std::vector<std::string> requestArgs = common::Toolbox::split(request, ":");
 			
@@ -42,17 +43,15 @@ namespace bl {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
 						}
 						// todo get building level
-					} else {
-						std::wcout << L"unknown/invalid query: " << request.c_str() << std::endl;
+						return (true);
 					}
 				} else {
 					callback->Success("OK");
-					return (controllerRoute);
+					newRoute = controllerRoute;
+					return (true);
 				}
-			} else {
-				callback->Failure(0, "Empty query");
 			}
-			return (std::string());
+			return (false);
 		}
 
 		void BuildingsController::onFrameEnd() {
