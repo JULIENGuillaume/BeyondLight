@@ -1,9 +1,4 @@
-body {
-
-}
-
 .scrollbar {
-	/*margin-left: 22px;*/
 	float: left;
 	height: 300px;
 	width: 65px;
@@ -19,15 +14,11 @@ body {
 
 #alpha-scrollbar::-webkit-scrollbar {
 	width: 20px;
-	/*background-color: rgb(10, 85, 134);*/
 	box-shadow: inset 0 0 1px rgba(64,228,240,1);
-	/*background-color: #F5F5F5;*/
 }
 
 #alpha-scrollbar::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 1px rgba(64,228,240,1);
-	/*background-color: #F5F5F5;*/
-	/*border-radius: 10px;*/
 }
 
 #alpha-scrollbar::-webkit-scrollbar-thumb {
@@ -37,15 +28,11 @@ body {
 
 #solid-scrollbar::-webkit-scrollbar {
 	width: 20px;
-	/*background-color: rgb(10, 85, 134);*/
 	box-shadow: inset 0 0 1px rgba(64,228,240,1);
-	/*background-color: #F5F5F5;*/
 }
 
 #solid-scrollbar::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 1px rgba(64,228,240,1);
-	/*background-color: #F5F5F5;*/
-	/*border-radius: 10px;*/
 	background-color: #294471;
 }
 
@@ -72,9 +59,7 @@ body {
     background-repeat:repeat;
     background-attachment: scroll;
     background-position: 2.7% 0;
-    /*padding-right: 2.7%;*/
     background-size: 5% auto;
-    /*background-origin: todo fix ?*/
     height: 100%;
     left: 0%;
     top: 0%;
@@ -99,7 +84,6 @@ body {
     background-image: url("../img/menu.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    /*height: 851px;*/ /* todo fix hard coded */
     padding-top: 2%;
     padding-bottom: 2%;
     width: 17.8646%;
@@ -127,7 +111,6 @@ body {
     width: 48.9062%;
     z-index: -1;
     float: left;
-    /*overflow-y: scroll;*/
     background-color:rgba(17, 33, 90, 0.7);
     border-left: 1px solid #0a5586;
     border-right: 1px solid #0a5586;
@@ -150,8 +133,6 @@ body {
 .game-header-table {
     position:relative;
     text-align:center;
-    /*table-layout: fixed;*/
-    /*display:block;*/
     overflow-y: auto;
     overflow-x: auto;
     margin: auto;
@@ -166,7 +147,6 @@ body {
     display: inline-block;
     overflow:hidden;
     left: 18.25%;
-    /*top: 15.5172%;*/
     top: 17.5%;
     width: 63.5%;
     height: 81.8965%;
@@ -174,7 +154,6 @@ body {
 
 .game-header-res-pane {
     position: relative;
-    /*display: table;*/
     overflow-y: auto;
     float: left;
     left: 10.5%;
@@ -203,7 +182,6 @@ body {
 .game-header-logo-pane {
     float: left;
     position: relative;
-    /*display: inline-table;*/
     overflow:visible;
     max-width: 18%;
     top: 50%;
@@ -224,13 +202,13 @@ body {
 .vertical-menu {
     text-align: left;
     font-family: Raleway;
-    width: 100%; /* Set a width if you like */
+    width: 100%;
 }
 
 .vertical-menu a {
-    color: white; /* Black text color */
-    display: block; /* Make the links appear below each other */
-    text-decoration: none; /* Remove underline from links */
+    color: white;
+    display: block;
+    text-decoration: none;
     transition: 0.3s ease;
     border-left: solid #00000000 4px;
     padding: 10px 0;
@@ -239,13 +217,13 @@ body {
 }
 
 .vertical-menu a:hover {
-    background-color: #42edf818; /* Dark grey background on mouse-over */
+    background-color: #42edf818;
     border-left: 4px solid #ffffff;
 }
 
 .vertical-menu a.active {
     color: white;
-    background-color: #42edf822; /* Dark grey background on mouse-over */
+    background-color: #42edf822;
     border-left: 4px solid #40e4f0;
 }
 
@@ -277,14 +255,11 @@ body {
 
 .game-entity {
     position: relative;
-    /*width: auto;
-    height: auto;*/
     padding: 3%;
     overflow: auto;
     border-top: 1px solid #0a5586;
     border-bottom: 1px solid #0a5586;
     color: white;
-    /*height: 200px;*/
     overflow: hidden;
     font-family: Lato;
     
@@ -331,10 +306,6 @@ body {
     float: left;
     color: lightgrey;
     margin-left: 1%;
-
-    /*max-width: 60%;*/
-    /*margin-top: auto;*/
-
 }
 
 .game-entity-desc-right {
@@ -357,8 +328,6 @@ body {
     overflow: hidden;
     float: left;
     color: lightgrey;
-    /*width: 80%;*/
-    /*max-width: 60%;*/
     margin-top: auto;
 }
 
@@ -377,9 +346,6 @@ body {
 	margin-left: auto;
 	margin-right: auto;
     height: 20px;
-
-    /*width: 40%;*/
-    /*width: 50%;*/
 }
 
 .upgrade-button {
@@ -388,7 +354,6 @@ body {
   box-sizing: content-box;
   cursor: pointer;
   border: 1px solid #0f9b0f;
-  /*border-radius: 3px;*/
   font: 100% "Questrial", Helvetica, sans-serif;
   color: rgb(255, 255, 255);
   text-overflow: clip;
@@ -396,8 +361,6 @@ body {
   background-origin: padding-box;
   background-clip: border-box;
   background-size: auto auto;
-  /*box-shadow: 0 2px 1px 0 rgba(0,0,0,0.3);
-  text-shadow: 0 1px 2px rgb(50,114,40);*/
   font-size: 200%;
 
 }
@@ -463,13 +426,11 @@ input {
     max-width: 90%;
 }
 
-/* Style the tab */
 div.tab {
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.26);
 }
 
-/* Style the buttons inside the tab */
 div.tab button {
     background-color: transparent;
     border: none;
@@ -481,19 +442,16 @@ div.tab button {
     border-bottom: 2px solid rgba(255, 255, 255, 0.26);
 }
 
-/* Change background color of buttons on hover */
 div.tab button:hover {
     border-bottom: 2px solid rgba(255,255,255,1);
     background-color: rgba(255, 255, 255, 0.02);
 }
 
-/* Create an active/current tablink class */
 div.tab button.active {
     background-color: rgba(255, 255, 255, 0.05);
     border-bottom: 2px solid rgba(64,228,240,1);
 }
 
-/* Style the tab content */
 .tabcontent {
     display: none;
     margin-top: 10px;
