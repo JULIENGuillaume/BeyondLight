@@ -113,6 +113,26 @@
             pw = document.getElementById("login-pw").value;
             sendLoginMessage();
         }
+
+        var loginButton = document.getElementById("login-submit");
+        var loginDiv = document.getElementById("login");
+
+        loginDiv.addEventListener("keypress", function(event) {
+            if (event.keyCode == 13) { // enter key
+                event.preventDefault();
+                loginButton.click();
+            }
+        });
+
+        var registerButton = document.getElementById("register-submit");
+        var registerDiv = document.getElementById("register");
+
+        registerDiv.addEventListener("keypress", function(event) {
+            if (event.keyCode == 13) { // enter key
+                event.preventDefault();
+                registerButton.click();
+            }
+        });
     </script>
     <script>
         var firstname;

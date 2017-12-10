@@ -109,6 +109,9 @@ namespace bl {
 				this->m_activeBrowser.lock()->cut();
 			}
 		}
+		if (key == GLFW_KEY_ENTER) {
+			this->onCharEvent(window, KeyMapper::glfwKeyToNative(key));
+		}
 		if (key == GLFW_KEY_F5) {
 			this->m_activeBrowser.lock()->reload(true); // todo remove debug
 		}
