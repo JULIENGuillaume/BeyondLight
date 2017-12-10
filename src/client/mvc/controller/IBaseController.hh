@@ -32,13 +32,14 @@ namespace bl {
 			}
 
 			virtual void setWebCore(WebCore *webCore) = 0;
-			virtual std::string onQuery(
+			virtual bool onQuery(
 					CefRefPtr<CefBrowser> browser,
-					CefRefPtr<CefFrame> frame, /* todo improve return type */
+					CefRefPtr<CefFrame> frame,
 					int64 query_id,
 					const CefString &request,
 					bool persistent,
-					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+					CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+					std::string &newRoute
 			) = 0;
 			virtual void onFrameEnd() = 0;
 		};
