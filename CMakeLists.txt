@@ -118,7 +118,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/MessageHandler.hh
         ${CLIENT_PROJECT_DIR}/KeyMapper.cpp
         ${CLIENT_PROJECT_DIR}/KeyMapper.hh
-        ${CLIENT_PROJECT_DIR}/ImageLoader.
+        ${CLIENT_PROJECT_DIR}/ImageLoader.cpp
         ${CLIENT_PROJECT_DIR}/ImageLoader.hh
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp

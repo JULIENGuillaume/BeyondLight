@@ -39,7 +39,7 @@ namespace bl {
 
 		void OverviewController::setWebCore(WebCore *webCore) {
 			this->m_webCore = webCore;
-			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/index.html");
+			this->m_webCore->getBrowser()->GetMainFrame()->LoadURL("file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/overview.html");
 		}
 
 		void OverviewController::onFrameEnd() {
