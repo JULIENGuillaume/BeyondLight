@@ -6,7 +6,9 @@
 #include "ControllerHandler.hh"
 #include "LoginController.hh"
 #include "../MvcHandler.hh"
-#include "IndexController.hh"
+#include "game/OverviewController.hh"
+#include "game/BuildingsController.hh"
+#include "game/TechnologiesController.hh"
 
 namespace bl {
 	namespace mvc {
@@ -41,7 +43,10 @@ namespace bl {
 			this->m_currentController = nullptr;
 			this->m_data = {
 					{"/login", std::shared_ptr<ControllerFactory<LoginController>>(new ControllerFactory<LoginController>())},
-					{"/index", std::shared_ptr<ControllerFactory<IndexController>>(new ControllerFactory<IndexController>())}
+					{"/overview", std::shared_ptr<ControllerFactory<OverviewController>>(new ControllerFactory<OverviewController>())},
+					{"/buildings", std::shared_ptr<ControllerFactory<BuildingsController>>(new ControllerFactory<BuildingsController>())},
+					{"/technologies", std::shared_ptr<ControllerFactory<TechnologiesController>>(new ControllerFactory<TechnologiesController>())}
+
 			};
 			this->changeRoute("/login", "");
 		}

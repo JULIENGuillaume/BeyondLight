@@ -20,7 +20,7 @@ namespace bl {
 			if (message.find("login-connect") == 0) {
 				if (this->handleLogin(browser, message.substr(
 						std::string("login-connect").length()), callback)) {
-					return ("/index");
+					return ("/overview");
 				}
 			} else if (message.find("login-register") == 0) {
 				this->handleRegister(browser, message.substr(
@@ -87,6 +87,8 @@ namespace bl {
 		void LoginController::setWebCore(WebCore *webCore) {
 			this->m_webCore = webCore;
 			this->m_modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+			std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/login.html";
+			this->m_webCore->changeUrl(url);
 		}
 
 		void LoginController::onFrameEnd() {

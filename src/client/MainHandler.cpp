@@ -10,7 +10,6 @@
 #include "glm/ext.hpp"
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
-#include "../common/Toolbox.hh"
 #include "KeyMapper.hh"
 
 namespace bl {
@@ -50,8 +49,7 @@ namespace bl {
 	}
 
 	void MainHandler::createBrowser() {
-		std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/login.html";
-		this->m_activeBrowser = this->m_webCoreManager.createBrowser(url);
+		this->m_activeBrowser = this->m_webCoreManager.createBrowser(std::string());
 		this->m_activeBrowser.lock()->reshape(this->m_glfwHandler.getWidth(), this->m_glfwHandler.getHeight());
 	}
 
