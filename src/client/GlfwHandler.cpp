@@ -3,6 +3,7 @@
 //
 
 #include <string>
+#include "ImageLoader.hh"
 #include "GlfwHandler.hh"
 #include "CallBacks.hh"
 
@@ -38,6 +39,7 @@ namespace bl {
 		glfwSetMouseButtonCallback(this->m_win, CallBacks::onMouseEvent);
 		glfwSetFramebufferSizeCallback(this->m_win, CallBacks::onWinResize);
 		glfwSetScrollCallback(this->m_win, CallBacks::onScroll);
+		this->setPointerIcon();
 		return (false);
 	}
 
@@ -88,5 +90,13 @@ namespace bl {
 
 	void GlfwHandler::setWinTitle(const std::string &title) {
 		glfwSetWindowTitle(this->m_win, title.c_str());
+	}
+
+	void GlfwHandler::setPointerIcon() {
+		ImageLoader::loadGlfwImage(&this->m_cursorImage, "../resources/html/img/cursor.png");
+		this->m_cursor = glfwCreateCursor(&this->m_cursorImage, 0, 0);
+
+		// Set the cursor on a window
+		glfwSetCursor(this->m_win, this->m_cursor);
 	}
 }

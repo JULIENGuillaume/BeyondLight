@@ -33,6 +33,9 @@ namespace bl {
 		void pollEvents();
 	private:
 		GLFWwindow *m_win;
+		GLFWimage m_cursorImage; // todo check if freed
+		GLFWcursor *m_cursor; // todo check if freed
+		void setPointerIcon();
 	};
 }
 #endif //CEFOFFSCREEN_GLFW_HANDLER_HH

@@ -1,8 +1,8 @@
 ﻿#include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 #include "RenderHandler.hh"
-#include "../../libs/stb/stb_image.h"
+#include "ImageLoader.hh"
 
 #ifndef GL_BGR
 #define GL_BGR 0x80E0
@@ -425,43 +425,11 @@ namespace bl {
 	}
 
 	void RenderHandler::loadBgTexture() {
-		this->loadTexture(this->m_bgTexture, "../resources/html/img/bg.jpg", false);
+		ImageLoader::loadTexture(this->m_bgTexture, "../resources/html/img/bg.jpg", false);
 	}
 
 	void RenderHandler::loadBgGridTexture() {
-		this->loadTexture(this->m_bgGrid, "../resources/html/img/gridbg-glow2.png", true);
-	}
-
-	bool RenderHandler::loadTexture(
-			GLuint &res,
-			const std::string &path,
-			bool isAlpha
-	) {
-		res = 0;
-		glGenTextures(1, &res);
-		glBindTexture(GL_TEXTURE_2D, res);
-		// set the texture wrapping/filtering options (on the currently bound texture object)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// load and generate the texture
-		int width;
-		int height;
-		int nrChannels;
-		unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
-		if (data) {
-			if (isAlpha) {
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-			} else {
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-			}
-			glGenerateMipmap(GL_TEXTURE_2D);
-		} else {
-			std::cerr << "Failed to load texture at: " << path << std::endl;
-			stbi_image_free(data);
-			return (true);
-		}
-		stbi_image_free(data);
-		return (false);
+		ImageLoader::loadTexture(this->m_bgGrid, "../resources/html/img/gridbg-glow2.png", true);
 	}
 
 	double RenderHandler::getAverageFrameCallTime() const {
