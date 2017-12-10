@@ -118,6 +118,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/MessageHandler.hh
         ${CLIENT_PROJECT_DIR}/KeyMapper.cpp
         ${CLIENT_PROJECT_DIR}/KeyMapper.hh
+        ${CLIENT_PROJECT_DIR}/ImageLoader.
+        ${CLIENT_PROJECT_DIR}/ImageLoader.hh
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
@@ -150,7 +152,6 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
         libs/stb/stb_image.h
-
         )
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")

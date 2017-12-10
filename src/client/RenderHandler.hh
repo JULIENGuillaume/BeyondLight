@@ -37,11 +37,6 @@ namespace bl {
 		);
 		CefRect GetPopupRectInWebView(const CefRect &original_rect);
 		void ClearPopupRects();
-		bool loadTexture(
-				GLuint &res,
-				const std::string &path,
-				bool isAlpha
-		);
 		void loadBgTexture();
 		void loadBgGridTexture();
 		double getAverageFrameCallTime() const;
@@ -66,8 +61,8 @@ namespace bl {
 		cef_color_t m_backgroundColor;
 		double m_lastTickTime;
 		unsigned int m_calls;
-		GLuint m_bgTexture;
-		GLuint m_bgGrid;
+		GLuint m_bgTexture; // todo check if freed
+		GLuint m_bgGrid; // todo check if freed
 		double m_avgFrameCallTime;
 	IMPLEMENT_REFCOUNTING(RenderHandler);
 	};
