@@ -50,7 +50,6 @@ endif(NOT MSVC)
 
 # Definition of Macros
 add_definitions(
-        -DSTB_IMAGE_IMPLEMENTATION
         -DDEBUG
 #        -DUNICODE
 #        -D_UNICODE
@@ -169,7 +168,7 @@ set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
 set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
 set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
-
+set(USE_SANDBOX OFF)
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glew REQUIRED) # todo release version for both release & debug
