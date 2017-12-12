@@ -1,3 +1,7 @@
+# to build on visual studio
+#cmake .. -G "Visual Studio 15"
+#cmake .. -G "Visual Studio 15" -DCMAKE_BUILD_TYPE="Release"
+
 cmake_minimum_required(VERSION 3.9)
 project(BeyondLight)
 
@@ -161,9 +165,17 @@ list(APPEND CMAKE_MODULE_PATH ${CLIENT_PROJECT_DIR}/cmake)
 
 set(CMAKE_PREFIX_PATH ${CEF_ROOT})
 set(CEF_INCLUDE_DIR ${CEF_ROOT})
-set(CEF_LIBRARY ${CEF_ROOT}/Release) #todo handle release and debug
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CEF_LIBRARY ${CEF_ROOT}/Debug)
+    set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32) #todo add debug for glew
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CEF_LIBRARY ${CEF_ROOT}/Release)
+    set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32)
+else()
+    set(CEF_LIBRARY ${CEF_ROOT}/Release)
+    set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32)
+endif()
 set(GLEW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include)
-set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32) #todo handle release and debug
 set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
 set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
@@ -171,8 +183,8 @@ set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
 set(USE_SANDBOX OFF)
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(glew REQUIRED) # todo release version for both release & debug
-#find_package(glfw REQUIRED) # todo release version for both release & debug
+find_package(glew REQUIRED)
+#find_package(glfw REQUIRED)
 find_package(glm REQUIRED)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -180,6 +192,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     link_directories(${CEF_ROOT}/Release/ ${GLEW_LIBRARY})
 else()
+    link_directories(${CEF_ROOT}/Release/ ${GLEW_LIBRARY})
     message("Unknown build type")
 endif()
 
@@ -271,10 +284,22 @@ ENDIF (GTEST_FOUND)
 ##  Copy static elements in the target root directory
 ##
 
-add_custom_command(TARGET BeyondLightClient PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release # todo fix hard path
-        $<TARGET_FILE_DIR:BeyondLightClient>)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(TARGET BeyondLightClient PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/debug
+            $<TARGET_FILE_DIR:BeyondLightClient>)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_custom_command(TARGET BeyondLightClient PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release
+            $<TARGET_FILE_DIR:BeyondLightClient>)
+else()
+    add_custom_command(TARGET BeyondLightClient PRE_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release
+            $<TARGET_FILE_DIR:BeyondLightClient>)
+endif()
 
 add_custom_command(TARGET BeyondLightClient PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
