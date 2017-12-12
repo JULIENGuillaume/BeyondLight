@@ -26,7 +26,6 @@ namespace bl {
 				std::string &newRoute
 		) {
 			std::vector<std::string> requestArgs = common::Toolbox::split(request, ":");
-			
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
@@ -61,54 +60,54 @@ namespace bl {
 			std::cout << jsonReceived << std::endl;
 			auto toks = common::Toolbox::splitAtMax(jsonReceived, ":", 1);
 			nlohmann::json building;
-			if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
-				try {
+			try {
+				if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
 					building = nlohmann::json::parse(toks[1]);
-				} catch (...) {
-					std::cerr << "json parse error" << std::endl;
+				} else {
+					std::cerr << "Invalid reply" << std::endl;
 					return;
 				}
-			} else {
-				std::cerr << "Invalid reply" << std::endl;
+				auto id = building.at("id").get<unsigned int>();
+				auto level = building.at("id").get<unsigned int>();
+				std::string name = building.at("name").get<std::string>();
+				auto iron = building.at(
+						"resourcesRequired").get<nlohmann::json>().at(
+						"iron").get<unsigned int>();
+				auto crystal = building.at(
+						"resourcesRequired").get<nlohmann::json>().at(
+						"crystal").get<unsigned int>();
+				auto iridium = building.at(
+						"resourcesRequired").get<nlohmann::json>().at(
+						"iridium").get<unsigned int>();
+				auto energy = building.at(
+						"resourcesRequired").get<nlohmann::json>().at(
+						"energy").get<unsigned int>();
+
+				//std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
+				std::string js = std::string("createBuilding(")
+						+ std::to_string(id) + ",\""
+						+ name + "\","
+						+ std::to_string(level) + ","
+						+ std::to_string(iron) + ","
+						+ std::to_string(crystal) + ","
+						+ std::to_string(iridium) + ","
+						+ std::to_string(energy) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+				js = std::string("createBuilding(")
+						+ std::to_string(id + 1) + ",\""
+						+ name + "\","
+						+ std::to_string(level) + ","
+						+ std::to_string(iron) + ","
+						+ std::to_string(crystal) + ","
+						+ std::to_string(iridium) + ","
+						+ std::to_string(energy) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			} catch (...) {
+				std::cerr << "json parse error" << std::endl;
 				return;
 			}
-			auto id = building.at("id").get<unsigned int>();
-			auto level = building.at("id").get<unsigned int>();
-			std::string name = building.at("name").get<std::string>();
-			auto iron = building.at(
-					"resourcesRequired").get<nlohmann::json>().at(
-					"iron").get<unsigned int>();
-			auto crystal = building.at(
-					"resourcesRequired").get<nlohmann::json>().at(
-					"crystal").get<unsigned int>();
-			auto iridium = building.at(
-					"resourcesRequired").get<nlohmann::json>().at(
-					"iridium").get<unsigned int>();
-			auto energy = building.at(
-					"resourcesRequired").get<nlohmann::json>().at(
-					"energy").get<unsigned int>();
-
-			//std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
-			std::string js = std::string("createBuilding(")
-					+ std::to_string(id) + ",\""
-					+ name + "\","
-					+ std::to_string(level) + ","
-					+ std::to_string(iron) + ","
-					+ std::to_string(crystal) + ","
-					+ std::to_string(iridium) + ","
-					+ std::to_string(energy) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);
-			js = std::string("createBuilding(")
-					+ std::to_string(id + 1) + ",\""
-					+ name + "\","
-					+ std::to_string(level) + ","
-					+ std::to_string(iron) + ","
-					+ std::to_string(crystal) + ","
-					+ std::to_string(iridium) + ","
-					+ std::to_string(energy) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);
 		}
 	}
 }
