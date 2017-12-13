@@ -13,51 +13,55 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(CLIENT_PERF_EXECUTABLE_NAME BeyondLightClientPerfTest)
 
+if (WIN32)
+    add_definitions(-D_WIN32_WINNT=0x0A00)
+endif ()
+
 # Determine the project architecture.
-if(NOT DEFINED PROJECT_ARCH)
-    if(CMAKE_SIZEOF_VOID_P MATCHES 8)
+if (NOT DEFINED PROJECT_ARCH)
+    if (CMAKE_SIZEOF_VOID_P MATCHES 8)
         set(PROJECT_ARCH "x86_64")
-    else()
+    else ()
         set(PROJECT_ARCH "x86")
-    endif()
-    if(NOT MSVC)
+    endif ()
+    if (NOT MSVC)
         set(CMAKE_CXX_FLAGS "-m32")
-    endif()
-    if(OS_MACOSX)
+    endif ()
+    if (OS_MACOSX)
         # PROJECT_ARCH should be specified on Mac OS X.
         message(WARNING "No PROJECT_ARCH value specified, using ${PROJECT_ARCH}")
-    endif()
-endif()
+    endif ()
+endif ()
 
-if(${MINGW})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
+if (${MINGW})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -Wfloat-equal -Wshadow -Wpointer-arith \
                                         -Wcast-align -Wswitch-enum -Wconversion -Wunreachable-code \
                                         -Wwrite-strings -fstack-check -pipe -ftrapv --std=c++11")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -Og")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
-endif()
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -Og")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -Ofast -s")
+endif ()
 
 ################# Flags ################
 # Defines Flags for Windows and Linux. #
 ########################################
 
-if(MSVC)
+if (MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
-endif(MSVC)
-if(NOT MSVC)
+endif (MSVC)
+if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # todo remove overwriting flags
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-    endif()
-endif(NOT MSVC)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    endif ()
+endif (NOT MSVC)
 
 # Definition of Macros
 add_definitions(
         -DDEBUG
-#        -DUNICODE
-#        -D_UNICODE
-#        -DGLFW_DLL
+        #        -DUNICODE
+        #        -D_UNICODE
+        #        -DGLFW_DLL
 )
 
 ##
@@ -168,13 +172,13 @@ set(CEF_INCLUDE_DIR ${CEF_ROOT})
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CEF_LIBRARY ${CEF_ROOT}/Debug)
     set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32) #todo add debug for glew
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CEF_LIBRARY ${CEF_ROOT}/Release)
     set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32)
-else()
+else ()
     set(CEF_LIBRARY ${CEF_ROOT}/Release)
     set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32)
-endif()
+endif ()
 set(GLEW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include)
 set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
 set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
@@ -189,12 +193,12 @@ find_package(glm REQUIRED)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     link_directories(${CEF_ROOT}/Debug/ ${GLEW_LIBRARY})
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
     link_directories(${CEF_ROOT}/Release/ ${GLEW_LIBRARY})
-else()
+else ()
     link_directories(${CEF_ROOT}/Release/ ${GLEW_LIBRARY})
     message("Unknown build type")
-endif()
+endif ()
 
 include_directories(${CEF_ROOT}
         ${GLM_INCLUDE_DIR}
@@ -258,8 +262,8 @@ ELSE ()
 
     #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
-  target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
-  target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
+    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 ENDIF (UNIX)
 
 ##
@@ -269,7 +273,7 @@ ENDIF (UNIX)
 find_package(GTest)
 IF (GTEST_FOUND)
     message("-- Google test has been found, setting up test environment")
-    set(UNIT_TEST_SRCS test/unittest.cpp  ${NETWORK_SERVER_SRC} ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC})
+    set(UNIT_TEST_SRCS test/unittest.cpp ${NETWORK_SERVER_SRC} ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC})
     add_executable(TestSuit ${UNIT_TEST_SRCS} ${COMMON_SRC})
 
     target_include_directories(TestSuit PRIVATE ${GTEST_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS})
@@ -289,17 +293,17 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/debug
             $<TARGET_FILE_DIR:BeyondLightClient>)
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
     add_custom_command(TARGET BeyondLightClient PRE_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release
             $<TARGET_FILE_DIR:BeyondLightClient>)
-else()
+else ()
     add_custom_command(TARGET BeyondLightClient PRE_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_CURRENT_SOURCE_DIR}/libs/static/win32/release
             $<TARGET_FILE_DIR:BeyondLightClient>)
-endif()
+endif ()
 
 add_custom_command(TARGET BeyondLightClient PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

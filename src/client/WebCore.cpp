@@ -17,7 +17,8 @@ namespace bl {
 			m_mouseX(0),
 			m_mouseY(0),
 			m_mvcHandler(new mvc::MvcHandler()),
-			m_networkHandler(networkHandler) {
+			m_networkHandler(networkHandler),
+			m_chrono(std::chrono::system_clock::now()) {
 		m_renderHandler = new RenderHandler();
 		m_renderHandler->resize(1280, 720);
 		m_curMouseMod = 0;
@@ -77,7 +78,6 @@ namespace bl {
 			bool mouse_up,
 			int mods
 	) {
-		static auto before = std::chrono::system_clock::now(); // todo unfuck this fucking auto fuck type to declare this shit as a class variable.
 		static int count = 0;
 		this->m_curMouseMod = KeyMapper::cefButtonToEventFlag(btn);
 		CefMouseEvent evt;
@@ -87,8 +87,8 @@ namespace bl {
 		if (!mouse_up) {
 			auto now = std::chrono::system_clock::now();
 			double diff_ms = std::chrono::duration<double, std::milli>(
-					now - before).count();
-			before = now;
+					now - m_chrono).count();
+			m_chrono = now;
 			if (diff_ms > 10 && diff_ms < 200) {
 				++count;
 			} else {
