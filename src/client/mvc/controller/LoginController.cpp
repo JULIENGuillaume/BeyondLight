@@ -63,14 +63,18 @@ namespace bl {
 			std::vector<std::string> logInfo = common::Toolbox::split(message,
 																	  ":");
 			if (logInfo.size() == 6) {
-				networkHandler->send(
-						"043:" + logInfo[0] + ":" + logInfo[1] + ":" +
-								logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" +
-								logInfo[5]);
-				auto future = networkHandler->asyncGetLine();
-				future.wait();
-				auto toks = common::Toolbox::split(future.get(), ":");
-				browser->Reload();
+				if (logInfo[4] != logInfo[5]) {
+					callback->Failure(0, "Password must be the sames !");
+				} else {
+					networkHandler->send(
+							"043:" + logInfo[0] + ":" + logInfo[1] + ":" +
+									logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" +
+									logInfo[5]);
+					auto future = networkHandler->asyncGetLine();
+					future.wait();
+					auto toks = common::Toolbox::split(future.get(), ":");
+					browser->Reload();
+				}
 			} else {
 				callback->Failure(0, "Please fill all the fields!");
 			}

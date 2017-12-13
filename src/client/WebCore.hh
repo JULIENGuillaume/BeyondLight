@@ -72,6 +72,7 @@ namespace bl {
 		CefRefPtr<RenderHandler> m_renderHandler;
 		std::shared_ptr<mvc::MvcHandler> m_mvcHandler;
 		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+		std::chrono::time_point<std::chrono::system_clock> m_chrono;
 	};
 }
 #endif // WEB_CORE_HH
