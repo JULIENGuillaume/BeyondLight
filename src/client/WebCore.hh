@@ -15,7 +15,7 @@ namespace bl {
 	}
 }
 namespace bl {
-	class WebCore {
+	class WebCore { // fixme this can be null and cause a crash, for example in onClick func, investigate wth this class isn't deleted correctly
 	public:
 		WebCore(
 				const std::string &url,
