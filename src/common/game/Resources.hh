@@ -1,0 +1,42 @@
+//
+// Created by diguie_t on 12/14/2017.
+//
+
+#ifndef BEYONDLIGHT_RESOURCES_HH
+#define BEYONDLIGHT_RESOURCES_HH
+
+#include "../pattern/ISerializable.hh"
+
+namespace bl {
+	namespace common {
+		namespace game {
+			class Resources : ::common::pattern::ISerializable {
+			public:
+				Resources(
+						uint64_t iron = 0,
+						uint64_t crystal = 0,
+						uint64_t iridium = 0,
+						uint64_t antiMatter = 0,
+						uint64_t energy = 0
+				);
+				uint64_t getIron() const;
+				void setIron(uint64_t iron);
+				uint64_t getCrystal() const;
+				void setCrystal(uint64_t crystal);
+				uint64_t getIridium() const;
+				void setIridium(uint64_t iridium);
+				uint64_t getAntiMatter() const;
+				void setAntiMatter(uint64_t antiMatter);
+				uint64_t getEnergy() const;
+				void setEnergy(uint64_t energy);
+			private:
+				uint64_t m_iron;
+				uint64_t m_crystal;
+				uint64_t m_iridium;
+				uint64_t m_antiMatter;
+				uint64_t m_energy;
+			};
+		}
+	}
+}
+#endif //BEYONDLIGHT_RESOURCES_HH

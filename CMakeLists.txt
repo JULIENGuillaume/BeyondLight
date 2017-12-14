@@ -130,6 +130,8 @@ set(CLIENT_SRC
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
+        src/common/game/Resources.cpp
+        src/common/game/Resources.hh
         src/network/client/NetworkHandler.cpp
         src/network/client/NetworkHandler.hh
         src/common/event/IEventObserver.hh
