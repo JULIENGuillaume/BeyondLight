@@ -6,5 +6,9 @@
 
 namespace bl {
 	namespace mvc {
+
+		ABaseModel::ABaseModel(std::shared_ptr<network::client::NetworkHandler> networkHandler) {
+			this->m_networkHandler = networkHandler;
+		}
 	}
 }

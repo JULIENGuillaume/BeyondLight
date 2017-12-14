@@ -3,12 +3,14 @@
 //
 
 #include "ModelHandler.hh"
+#include "BuildingModel.hh"
 
 namespace bl {
 	namespace mvc {
-		ModelHandler::ModelHandler() { // todo pass network handler so models can query for updates or send changes
+		ModelHandler::ModelHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler) {
+			this->m_networkHandler = networkHandler;
 			this->m_data = {
-					//{"student", std::shared_ptr<ABaseModel>(new StudentModel())}
+					{"building-iron-mine", std::shared_ptr<ABaseModel>(new BuildingModel(networkHandler, 1))} // todo "buidling-id" instead ?
 			};
 		}
 	}
