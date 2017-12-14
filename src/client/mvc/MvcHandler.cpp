@@ -31,7 +31,7 @@ namespace bl {
 
 		void MvcHandler::setWebCore(WebCore *webCore) {
 			this->m_webCore = webCore;
-			this->m_modelHandler = std::shared_ptr<ModelHandler>(new ModelHandler());
+			this->m_modelHandler = std::shared_ptr<ModelHandler>(new ModelHandler(this->m_webCore->getNetworkHandler()));
 			this->m_controllerHandler = std::shared_ptr<ControllerHandler>(new ControllerHandler(this->m_webCore));
 		}
 	}

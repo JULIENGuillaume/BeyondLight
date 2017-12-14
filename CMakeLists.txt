@@ -146,6 +146,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/model/ModelHandler.hh
         ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.cpp
         ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/BuildingModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/BuildingModel.hh
         ${CLIENT_PROJECT_DIR}/mvc/MvcHandler.cpp
         ${CLIENT_PROJECT_DIR}/mvc/MvcHandler.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.cpp

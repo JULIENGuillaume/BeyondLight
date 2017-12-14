@@ -3,9 +3,11 @@
 //
 
 #include "json.hpp"
+#include "../../MvcHandler.hh"
 #include "BuildingsController.hh"
 #include "../../../../common/Toolbox.hh"
 #include "LeftMenu.hh"
+#include "../../model/BuildingModel.hh"
 
 namespace bl {
 	namespace mvc {
@@ -30,18 +32,15 @@ namespace bl {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
-						const std::string &buildingId = requestArgs[1];
-						auto network = this->m_webCore->getNetworkHandler();
-						network->send("421356:" + buildingId);
-						auto answers = common::Toolbox::split(network->getLine(), ":");
-						if (answers[0] == "321") {
-							callback->Failure(404, "MARCHE PAAAAAAAAS");
-						} else if (answers[0] == "421357" && answers[1] == buildingId) {
-							callback->Success(answers[2]);
+						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+						auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
+
+						//const std::string &buildingId = requestArgs[1];
+						if (ironMine->incrLevel()) {
+							callback->Success(std::to_string(ironMine->getLevel()));
 						} else {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
 						}
-						// todo get building level
 						return (true);
 					}
 				} else {
@@ -54,60 +53,28 @@ namespace bl {
 		}
 
 		void BuildingsController::onFrameEnd() {
-			auto network = this->m_webCore->getNetworkHandler();
-			network->send("4242");
-			std::string jsonReceived = network->getLine();
-			std::cout << jsonReceived << std::endl;
-			auto toks = common::Toolbox::splitAtMax(jsonReceived, ":", 1);
-			nlohmann::json building;
-			try {
-				if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
-					building = nlohmann::json::parse(toks[1]);
-				} else {
-					std::cerr << "Invalid reply" << std::endl;
-					return;
-				}
-				auto id = building.at("id").get<unsigned int>();
-				auto level = building.at("id").get<unsigned int>();
-				std::string name = building.at("name").get<std::string>();
-				auto iron = building.at(
-						"resourcesRequired").get<nlohmann::json>().at(
-						"iron").get<unsigned int>();
-				auto crystal = building.at(
-						"resourcesRequired").get<nlohmann::json>().at(
-						"crystal").get<unsigned int>();
-				auto iridium = building.at(
-						"resourcesRequired").get<nlohmann::json>().at(
-						"iridium").get<unsigned int>();
-				auto energy = building.at(
-						"resourcesRequired").get<nlohmann::json>().at(
-						"energy").get<unsigned int>();
-
-				//std::cout << "After asking for buildings, got: " << network->getLine() << std::endl;
-				std::string js = std::string("createBuilding(")
-						+ std::to_string(id) + ",\""
-						+ name + "\","
-						+ std::to_string(level) + ","
-						+ std::to_string(iron) + ","
-						+ std::to_string(crystal) + ","
-						+ std::to_string(iridium) + ","
-						+ std::to_string(energy) + ");";
-				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-						js, m_buildingsUrl, 0);
-				js = std::string("createBuilding(")
-						+ std::to_string(id + 1) + ",\""
-						+ name + "\","
-						+ std::to_string(level) + ","
-						+ std::to_string(iron) + ","
-						+ std::to_string(crystal) + ","
-						+ std::to_string(iridium) + ","
-						+ std::to_string(energy) + ");";
-				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-						js, m_buildingsUrl, 0);
-			} catch (...) {
-				std::cerr << "json parse error" << std::endl;
-				return;
-			}
+			auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+			auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
+			std::string js = std::string("createBuilding(")
+					+ std::to_string(ironMine->getId()) + ",\""
+					+ ironMine->getName() + "\","
+					+ std::to_string(ironMine->getLevel()) + ","
+					+ std::to_string(ironMine->getIronNeeded()) + ","
+					+ std::to_string(ironMine->getCrystalNeeded()) + ","
+					+ std::to_string(ironMine->getIridiumNeeded()) + ","
+					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+					js, m_buildingsUrl, 0);
+			js = std::string("createBuilding(")
+					+ std::to_string(ironMine->getId() + 1) + ",\""
+					+ ironMine->getName() + "\","
+					+ std::to_string(ironMine->getLevel()) + ","
+					+ std::to_string(ironMine->getIronNeeded()) + ","
+					+ std::to_string(ironMine->getCrystalNeeded()) + ","
+					+ std::to_string(ironMine->getIridiumNeeded()) + ","
+					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+					js, m_buildingsUrl, 0);
 		}
 	}
 }
