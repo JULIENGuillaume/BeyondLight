@@ -4,26 +4,30 @@
 
 #include "ABuilding.hh"
 
-bl::server::game::building::ABuilding::ABuilding(int id,
-                                             std::string const &name,
-                                             std::string const &desc,
-                                             std::vector<bl::server::game::resource::UpgradeCost> const &upgrades) : m_id(id),
-                                                                                                                 m_name(name),
-                                                                                                                 m_desc(desc),
-                                                                                                                 m_upgrades(upgrades) {}
+bl::server::game::building::ABuilding::ABuilding(
+		int id,
+		std::string const &name,
+		std::string const &desc,
+		std::vector<resource::UpgradeCost> const &upgrades,
+		planet::Planet &planet
+) :
+		m_id(id),
+		m_name(name),
+		m_desc(desc),
+		m_upgrades(upgrades),
+		m_planet(planet) {}
 
 nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 	nlohmann::json json;
-
 	json["id"] = m_id;
 	json["level"] = m_level;
-	if (this->getResources().isValid())
+	if (this->getResources().isValid()) {
 		json["resourcesRequired"] = this->getResources().serialize();
+	}
 	json["isUpgrading"] = m_upgrading;
 	json["timeLeft"] = m_upgradeTimeLeft;
 	json["name"] = m_name;
 	json["description"] = m_desc;
-
 	return json;
 }
 
@@ -41,9 +45,9 @@ const std::string &bl::server::game::building::ABuilding::getDescription() const
 
 const bl::server::game::resource::UpgradeCost &bl::server::game::building::ABuilding::getResources() const {
 	static auto noUpgradeAvailable = bl::server::game::resource::UpgradeCost(false);
-
-	if (this->m_level >= (int) this->m_upgrades.size())
+	if (this->m_level >= (int) this->m_upgrades.size()) {
 		return noUpgradeAvailable;
+	}
 	return this->m_upgrades[this->m_level];
 }
 
@@ -71,8 +75,9 @@ bool bl::server::game::building::ABuilding::upgrade() {
 	auto res = this->getResources();
 	if (res.isValid()) {
 		auto ret = res.launchUpgrade();
-		if (ret)
+		if (ret) {
 			this->m_level++;
+		}
 		return ret;
 	}
 	return false;

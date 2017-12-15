@@ -58,3 +58,44 @@ uint64_t bl::common::game::Resources::getEnergy() const {
 void bl::common::game::Resources::setEnergy(uint64_t energy) {
 	this->m_energy = energy;
 }
+
+void bl::common::game::Resources::addIron(uint64_t iron) {
+	this->m_iron += iron;
+}
+
+void bl::common::game::Resources::addCrystal(uint64_t crystal) {
+	this->m_crystal += crystal;
+}
+
+void bl::common::game::Resources::addIridium(uint64_t iridium) {
+	this->m_iridium += iridium;
+}
+
+void bl::common::game::Resources::addAntiMatter(uint64_t antiMatter) {
+	this->m_antiMatter += antiMatter;
+}
+
+void bl::common::game::Resources::addEnergy(uint64_t energy) {
+	this->m_energy += energy;
+}
+
+void bl::common::game::Resources::removeIron(uint64_t iron) {
+	this->m_iron -= iron > this->m_iron ? this->m_iron : iron;
+}
+
+void bl::common::game::Resources::removeCrystal(uint64_t crystal) {
+	this->m_crystal -= crystal > this->m_crystal ? this->m_crystal : crystal;
+}
+
+void bl::common::game::Resources::removeIridium(uint64_t iridium) {
+	this->m_iridium -= iridium > this->m_iridium ? this->m_iridium : iridium;
+}
+
+void bl::common::game::Resources::removeAntiMatter(uint64_t antiMatter) {
+	this->m_antiMatter -= antiMatter > this->m_antiMatter ? this->m_antiMatter : antiMatter;
+}
+
+void bl::common::game::Resources::removeEnergy(uint64_t energy) {
+	this->m_energy -= energy > this->m_energy ? this->m_energy : energy;
+}
+
