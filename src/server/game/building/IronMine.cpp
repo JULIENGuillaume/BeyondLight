@@ -4,7 +4,7 @@
 
 #include "IronMine.hh"
 
-server::game::building::IronMine::IronMine() : ABuilding(1,
+bl::server::game::building::IronMine::IronMine() : ABuilding(1,
                                                          "Iron mine",
                                                          "A mine to retrieve iron from the depth of the earth",
                                                          {

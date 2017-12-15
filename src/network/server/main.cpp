@@ -1,10 +1,10 @@
 #include <iostream>
 #include <memory>
+#include <boost/uuid/uuid_io.hpp>
 #include "IServer.hh"
 #include "BeyondLightServer.hh"
 #include "SocketFactory.hh"
 #include "UdpSslAsyncBoostSocket.hh"
-
 
 void FactoriesInit() {
 	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,

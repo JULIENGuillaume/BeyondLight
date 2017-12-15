@@ -4,15 +4,15 @@
 
 #include "ABuilding.hh"
 
-server::game::building::ABuilding::ABuilding(int id,
+bl::server::game::building::ABuilding::ABuilding(int id,
                                              std::string const &name,
                                              std::string const &desc,
-                                             std::vector<server::game::resource::UpgradeCost> const &upgrades) : m_id(id),
+                                             std::vector<bl::server::game::resource::UpgradeCost> const &upgrades) : m_id(id),
                                                                                                                  m_name(name),
                                                                                                                  m_desc(desc),
                                                                                                                  m_upgrades(upgrades) {}
 
-nlohmann::json server::game::building::ABuilding::serialize() const {
+nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 	nlohmann::json json;
 
 	json["id"] = m_id;
@@ -27,47 +27,47 @@ nlohmann::json server::game::building::ABuilding::serialize() const {
 	return json;
 }
 
-common::pattern::ISerializable *server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
+common::pattern::ISerializable *bl::server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
 	return this;
 }
 
-const std::string &server::game::building::ABuilding::getName() const {
+const std::string &bl::server::game::building::ABuilding::getName() const {
 	return this->m_name;
 }
 
-const std::string &server::game::building::ABuilding::getDescription() const {
+const std::string &bl::server::game::building::ABuilding::getDescription() const {
 	return this->m_desc;
 }
 
-const server::game::resource::UpgradeCost &server::game::building::ABuilding::getResources() const {
-	static auto noUpgradeAvailable = server::game::resource::UpgradeCost(false);
+const bl::server::game::resource::UpgradeCost &bl::server::game::building::ABuilding::getResources() const {
+	static auto noUpgradeAvailable = bl::server::game::resource::UpgradeCost(false);
 
-	if (this->m_level >= this->m_upgrades.size())
+	if (this->m_level >= (int) this->m_upgrades.size())
 		return noUpgradeAvailable;
 	return this->m_upgrades[this->m_level];
 }
 
-int server::game::building::ABuilding::getId() const {
+int bl::server::game::building::ABuilding::getId() const {
 	return this->m_id;
 }
 
-int server::game::building::ABuilding::getLevel() const {
+int bl::server::game::building::ABuilding::getLevel() const {
 	return this->m_level;
 }
 
-bool server::game::building::ABuilding::isUpgrading() const {
+bool bl::server::game::building::ABuilding::isUpgrading() const {
 	return this->m_upgrading;
 }
 
-int server::game::building::ABuilding::getFullUpgradeTime() const {
+int bl::server::game::building::ABuilding::getFullUpgradeTime() const {
 	return 60;
 }
 
-int server::game::building::ABuilding::getTimeLeft() const {
+int bl::server::game::building::ABuilding::getTimeLeft() const {
 	return this->m_upgradeTimeLeft;
 }
 
-bool server::game::building::ABuilding::upgrade() {
+bool bl::server::game::building::ABuilding::upgrade() {
 	auto res = this->getResources();
 	if (res.isValid()) {
 		auto ret = res.launchUpgrade();

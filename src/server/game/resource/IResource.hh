@@ -5,12 +5,13 @@
 #ifndef BEYONDLIGHT_IRESOURCE_HH
 #define BEYONDLIGHT_IRESOURCE_HH
 
-namespace server {
-	namespace game {
-		namespace resource {
-			class IResource {
-
-			};
+namespace bl {
+	namespace server {
+		namespace game {
+			namespace resource {
+				class IResource {
+				};
+			}
 		}
 	}
 }

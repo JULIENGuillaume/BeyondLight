@@ -7,14 +7,15 @@
 
 #include "ABuilding.hh"
 
-namespace server {
-	namespace game {
-		namespace building {
-			class IronMine : public ABuilding {
-			public:
-				IronMine();
-
-			};
+namespace bl {
+	namespace server {
+		namespace game {
+			namespace building {
+				class IronMine : public ABuilding {
+				public:
+					IronMine();
+				};
+			}
 		}
 	}
 }
