@@ -21,7 +21,7 @@ network::server::BeyondLightServer::BeyondLightServer(unsigned short port) : ASe
 
 void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socket::ISocket> socket) {
 	auto users = ::server::user::RegisteredUsers::getInstance();
-	::server::game::building::IBuilding *build = new ::server::game::building::IronMine;
+	::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine;
 	std::cout << "Main loop reached" << std::endl;
 	bool loggedIn = false;
 	while (m_running) {

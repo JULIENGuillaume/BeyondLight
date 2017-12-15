@@ -6,11 +6,11 @@
 #include "UpgradeCost.hh"
 
 
-server::game::resource::UpgradeCost::UpgradeCost(bool valid) {
+bl::server::game::resource::UpgradeCost::UpgradeCost(bool valid) {
 	this->m_validity = valid;
 }
 
-nlohmann::json server::game::resource::UpgradeCost::serialize() const {
+nlohmann::json bl::server::game::resource::UpgradeCost::serialize() const {
 	nlohmann::json json;
 	json["iron"] = 8007;
 	json["crystal"] = 42;
@@ -21,7 +21,7 @@ nlohmann::json server::game::resource::UpgradeCost::serialize() const {
 	return json;
 }
 
-common::pattern::ISerializable *server::game::resource::UpgradeCost::deserialize(nlohmann::json const &json) {
+common::pattern::ISerializable *bl::server::game::resource::UpgradeCost::deserialize(nlohmann::json const &json) {
 	std::cout << "Got following resources: " << std::endl;
 	std::cout << "\t-Iron: " << json["iron"] << std::endl;
 	std::cout << "\t-Crystal: " << json["crystal"] << std::endl;
@@ -31,10 +31,10 @@ common::pattern::ISerializable *server::game::resource::UpgradeCost::deserialize
 	return this;
 }
 
-bool server::game::resource::UpgradeCost::isValid() const {
+bool bl::server::game::resource::UpgradeCost::isValid() const {
 	return m_validity;
 }
 
-bool server::game::resource::UpgradeCost::launchUpgrade() const {
+bool bl::server::game::resource::UpgradeCost::launchUpgrade() const {
 	return true;
 }

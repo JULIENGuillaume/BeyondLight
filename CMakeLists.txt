@@ -247,7 +247,7 @@ set(GAME_SRC
         src/server/game/resource/UpgradeCost.hh
         src/server/game/building/IronMine.cpp
         src/server/game/building/IronMine.hh
-        )
+        src/server/game/planet/Planet.cpp src/server/game/planet/Planet.hh src/server/UniqueObject.cpp src/server/UniqueObject.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
