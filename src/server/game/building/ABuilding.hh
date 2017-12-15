@@ -9,16 +9,21 @@
 
 namespace bl {
 	namespace server {
+		namespace planet {
+			class Planet;
+		}
+
 		namespace game {
 			namespace building {
 				class ABuilding : public IBuilding {
 				public:
 					ABuilding(
-							int id,
-							std::string const &name,
-							std::string const &desc,
-							std::vector<resource::UpgradeCost> const &upgrades
-					);
+								int id,
+								std::string const &name,
+								std::string const &desc,
+								std::vector<resource::UpgradeCost> const &upgrades,
+								planet::Planet &planet
+						);
 					~ABuilding() override = default;
 				public:
 					nlohmann::json serialize() const override;
@@ -40,6 +45,7 @@ namespace bl {
 					std::string m_name = "";
 					std::string m_desc = "";
 					std::vector<resource::UpgradeCost> m_upgrades = {};
+					planet::Planet &m_planet;
 				};
 			}
 		}

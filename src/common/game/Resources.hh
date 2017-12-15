@@ -21,14 +21,24 @@ namespace bl {
 				);
 				uint64_t getIron() const;
 				void setIron(uint64_t iron);
+				void addIron(uint64_t iron);
+				void removeIron(uint64_t iron);
 				uint64_t getCrystal() const;
 				void setCrystal(uint64_t crystal);
+				void addCrystal(uint64_t crystal);
+				void removeCrystal(uint64_t crystal);
 				uint64_t getIridium() const;
 				void setIridium(uint64_t iridium);
+				void addIridium(uint64_t iridium);
+				void removeIridium(uint64_t iridium);
 				uint64_t getAntiMatter() const;
 				void setAntiMatter(uint64_t antiMatter);
+				void addAntiMatter(uint64_t antiMatter);
+				void removeAntiMatter(uint64_t antiMatter);
 				uint64_t getEnergy() const;
 				void setEnergy(uint64_t energy);
+				void addEnergy(uint64_t energy);
+				void removeEnergy(uint64_t energy);
 			private:
 				uint64_t m_iron;
 				uint64_t m_crystal;

@@ -91,7 +91,7 @@ set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 ##  Common sources
 ##
 
-set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh src/common/pattern/ISerializable.hh)
+set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh src/common/pattern/ISerializable.hh src/common/event/Chrono.cpp src/common/event/Chrono.hh)
 
 ##
 ##  Game Client perf test
@@ -162,8 +162,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/TechnologiesController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
-        libs/stb/stb_image.h
-        )
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -249,7 +248,11 @@ set(GAME_SRC
         src/server/game/resource/UpgradeCost.hh
         src/server/game/building/IronMine.cpp
         src/server/game/building/IronMine.hh
-        src/server/game/planet/Planet.cpp src/server/game/planet/Planet.hh src/server/UniqueObject.cpp src/server/UniqueObject.hh)
+        src/server/game/planet/Planet.cpp
+        src/server/game/planet/Planet.hh
+        src/server/UniqueObject.cpp
+        src/server/UniqueObject.hh
+        src/server/game/building/specialities/IResourceProductionBuilding.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build

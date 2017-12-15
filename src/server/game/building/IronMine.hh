@@ -6,14 +6,20 @@
 #define BEYONDLIGHT_IRONMINE_HH
 
 #include "ABuilding.hh"
+#include "specialities/IResourceProductionBuilding.hh"
+#include "../../../common/event/Chrono.hh"
 
 namespace bl {
 	namespace server {
 		namespace game {
 			namespace building {
-				class IronMine : public ABuilding {
+				class IronMine : public ABuilding, specialities::IResourceProductionBuilding {
 				public:
-					IronMine();
+					IronMine(planet::Planet &planet);
+				private:
+					void updateResource() override;
+				private:
+					common::event::Chrono m_chrono;
 				};
 			}
 		}
