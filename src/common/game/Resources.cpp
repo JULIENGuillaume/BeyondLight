@@ -99,3 +99,10 @@ void bl::common::game::Resources::removeEnergy(uint64_t energy) {
 	this->m_energy -= energy > this->m_energy ? this->m_energy : energy;
 }
 
+nlohmann::json bl::common::game::Resources::serialize() const {
+	return nullptr;
+}
+
+common::pattern::ISerializable *bl::common::game::Resources::deserialize(nlohmann::json const &json) {
+	return nullptr;
+}

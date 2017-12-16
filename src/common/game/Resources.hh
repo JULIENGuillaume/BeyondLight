@@ -40,6 +40,9 @@ namespace bl {
 				void addEnergy(uint64_t energy);
 				void removeEnergy(uint64_t energy);
 			private:
+				nlohmann::json serialize() const override;
+				ISerializable *deserialize(nlohmann::json const &json) override;
+			private:
 				uint64_t m_iron;
 				uint64_t m_crystal;
 				uint64_t m_iridium;

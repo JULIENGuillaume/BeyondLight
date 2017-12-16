@@ -13,13 +13,15 @@ namespace bl {
 	namespace server {
 		namespace game {
 			namespace building {
-				class IronMine : public ABuilding, specialities::IResourceProductionBuilding {
+				class IronMine : public ABuilding, public specialities::IResourceProductionBuilding {
 				public:
 					IronMine(planet::Planet &planet);
-				private:
+				public:
 					void updateResource() override;
 				private:
 					common::event::Chrono m_chrono;
+					uint64_t m_timeLeftFromLastProd;
+					const uint64_t m_secondsForProduction = 5;
 				};
 			}
 		}
