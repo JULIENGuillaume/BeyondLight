@@ -26,7 +26,7 @@ const bl::common::game::Resources &bl::server::game::planet::Planet::getStockRes
 void bl::server::game::planet::Planet::addBuilding(const std::shared_ptr<building::IBuilding> &building) {
 	this->m_buildings.push_back(building);
 	if (std::dynamic_pointer_cast<building::specialities::IResourceProductionBuilding>(building) != nullptr) {
-		this->m_resourceProductionBuildings.push_back(building);
+		this->m_resourceProductionBuildings.push_back(std::dynamic_pointer_cast<building::specialities::IResourceProductionBuilding>(building));
 	}
 }
 

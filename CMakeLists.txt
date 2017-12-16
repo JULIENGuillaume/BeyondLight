@@ -2,7 +2,7 @@
 #cmake .. -G "Visual Studio 15"
 #cmake .. -G "Visual Studio 15" -DCMAKE_BUILD_TYPE="Release"
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.5)
 project(BeyondLight)
 
 ##
@@ -91,7 +91,14 @@ set(COMMON_SRC_DIR "${SRC_BASE_DIR}/common")
 ##  Common sources
 ##
 
-set(COMMON_SRC src/common/Toolbox.cpp src/common/Toolbox.hh src/common/pattern/ISerializable.hh src/common/event/Chrono.cpp src/common/event/Chrono.hh)
+set(COMMON_SRC
+        src/common/Toolbox.cpp
+        src/common/Toolbox.hh
+        src/common/pattern/ISerializable.hh
+        src/common/event/Chrono.cpp
+        src/common/event/Chrono.hh
+        src/common/game/Resources.cpp
+        src/common/game/Resources.hh)
 
 ##
 ##  Game Client perf test
@@ -130,8 +137,6 @@ set(CLIENT_SRC
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
-        src/common/game/Resources.cpp
-        src/common/game/Resources.hh
         src/network/client/NetworkHandler.cpp
         src/network/client/NetworkHandler.hh
         src/common/event/IEventObserver.hh

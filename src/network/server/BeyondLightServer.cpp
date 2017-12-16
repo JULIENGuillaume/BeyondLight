@@ -21,7 +21,7 @@ network::server::BeyondLightServer::BeyondLightServer(unsigned short port) : ASe
 
 void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socket::ISocket> socket) {
 	auto users = ::server::user::RegisteredUsers::getInstance();
-	::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>);
+	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
 	std::cout << "Main loop reached" << std::endl;
 	bool loggedIn = false;
 	while (m_running) {
@@ -51,7 +51,7 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 					break;
 				case 4242:
 					if (toks.size() == 1 && loggedIn) {
-						socket->send("14242:" + build->serialize().dump());
+						//socket->send("14242:" + build->serialize().dump()); TODO: serialize planet buildings
 					} else {
 						socket->send("321:KO");
 					}
@@ -59,14 +59,15 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 				case 421356:
 					if (toks.size() == 2 && loggedIn) {
 						int buildingId = std::atoi(toks[1].c_str());
-						if (buildingId != build->getId())
+						/* TODO: check on planet
+						 * if (buildingId != build->getId())
 							socket->send("321:KO");
 						else {
 							if (!build->upgrade())
 								socket->send("321:KO");
 							else
 								socket->send("421357:" + toks[1] + ":" + std::to_string(build->getLevel()));
-						}
+						}*/
 					} else {
 						socket->send("321:KO");
 					}
