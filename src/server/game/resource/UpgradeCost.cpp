@@ -43,9 +43,13 @@ bool bl::server::game::resource::UpgradeCost::isValid() const {
 }
 
 bool bl::server::game::resource::UpgradeCost::launchUpgrade(bl::common::game::Resources &stock) const {
-	if (stock > this->m_resources) {
+	std::cout << "Iron stock is " << stock.getIron() << std::endl;
+	std::cout << "Iron needed is " << this->m_resources.getIron() << std::endl;
+	if (stock >= this->m_resources) {
 		stock = stock - this->m_resources;
+		std::cout << "Launch upgrades" << std::endl;
 		return true;
 	}
+	std::cout << "Do not launch upgrade" << std::endl;
 	return false;
 }

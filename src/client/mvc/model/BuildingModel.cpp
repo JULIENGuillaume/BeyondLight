@@ -5,6 +5,7 @@
 #include "json.hpp"
 #include "BuildingModel.hh"
 #include "../../../common/Toolbox.hh"
+#include "../../../common/game/Resources.hh"
 
 namespace bl {
 	namespace mvc {
@@ -67,18 +68,40 @@ namespace bl {
 				try {
 					this->m_networkHandler->send("4242");
 					std::string jsonReceived = this->m_networkHandler->getLine();
-					auto toks = common::Toolbox::splitAtMax(jsonReceived, ":", 1);
-					nlohmann::json building;
+					std::cout << "Received " << jsonReceived << std::endl;
+					auto toks = ::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
+					nlohmann::json buildings;
 					if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
-						building = nlohmann::json::parse(toks[1]);
+						buildings = ((nlohmann::json::parse(toks[1]))["buildings"]);
+						std::cout << "Buildings is " << buildings.dump() << std::endl;
 					} else {
 						std::cerr << "Invalid reply" << std::endl;
 						return;
 					}
-					auto id = building.at("id").get<unsigned int>();
-					auto level = building.at("id").get<unsigned int>();
-					std::string name = building.at("name").get<std::string>();
-					auto iron = building.at(
+					nlohmann::json building;
+					for (const auto& build : buildings) {
+						building = build;
+						std::cout << "building = " << building.dump() << std::endl;
+						if (building.at("id") == 1)
+							break;
+					}
+
+					m_id = building["id"];
+					std::cout << "Id is " << m_id << std::endl;
+					m_level = building["level"];
+					std::cout << "Level is " << m_level << std::endl;
+					m_name = building["name"];
+					std::cout << "Name is " << m_name << std::endl;
+					common::game::Resources resourcesRequired;
+					resourcesRequired.deserialize(building["resourcesRequired"]["resources"]);
+
+					//TODO: use Resources class instead
+					m_ironNeeded = resourcesRequired.getIron();
+					m_crystalNeeded = resourcesRequired.getCrystal();
+					m_energyNeeded = resourcesRequired.getEnergy();
+					m_iridiumNeeded = resourcesRequired.getIridium();
+
+					/*auto iron = building.at(
 							"resourcesRequired").get<nlohmann::json>().at(
 							"iron").get<unsigned int>();
 					auto crystal = building.at(
@@ -89,7 +112,7 @@ namespace bl {
 							"iridium").get<unsigned int>();
 					auto energy = building.at(
 							"resourcesRequired").get<nlohmann::json>().at(
-							"energy").get<unsigned int>();
+							"energy").get<unsigned int>();*/
 				} catch (...) {
 					std::cerr << "json parse error" << std::endl;
 					return;
@@ -99,7 +122,7 @@ namespace bl {
 
 		bool BuildingModel::incrLevel() {
 			this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
-			auto answers = common::Toolbox::split(this->m_networkHandler->getLine(), ":");
+			auto answers = ::common::Toolbox::split(this->m_networkHandler->getLine(), ":");
 			if (answers[0] == "321") {
 				return (false);
 			} else if (answers[0] == "421357" && answers[1] == std::to_string(this->m_id)) {

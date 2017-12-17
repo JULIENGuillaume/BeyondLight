@@ -14,14 +14,16 @@
 #include "../../server/user/RegisteredUsers.hh"
 #include "../../server/game/building/IBuilding.hh"
 #include "../../server/game/building/IronMine.hh"
+#include "../../server/game/planet/Planet.hh"
 
-network::server::BeyondLightServer::BeyondLightServer(unsigned short port) : AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port) {
-
+network::server::BeyondLightServer::BeyondLightServer(unsigned short port) :
+		AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port) {
 }
 
 void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socket::ISocket> socket) {
 	auto users = ::server::user::RegisteredUsers::getInstance();
 	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
+	::bl::server::game::planet::Planet planet;
 	std::cout << "Main loop reached" << std::endl;
 	bool loggedIn = false;
 	while (m_running) {
@@ -31,14 +33,16 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 		}
 		msg = msg.substr(0, msg.find("\r\n"));
 		auto toks = common::Toolbox::split(msg, ":");
+		std::cout << "Received " << msg << std::endl;
 		if (!toks.empty()) {
 			switch (std::atoi(toks[0].c_str())) {
 				case 42:
 					if (toks.size() == 3 && users->users.find(toks[1]) != users->users.end() && toks[2] == users->users[toks[1]]) {
 						loggedIn = true;
 						socket->send("123:OK");
-					} else
+					} else {
 						socket->send("321:KO");
+					}
 					break;
 				case 43:
 					if (toks.size() == 7) {
@@ -51,6 +55,11 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 					break;
 				case 4242:
 					if (toks.size() == 1 && loggedIn) {
+						nlohmann::json sendingJson;
+						sendingJson["buildings"] = (planet.serialize())["buildings"];
+						std::string toSend = sendingJson.dump();
+						std::cout << "Sending " << toSend << std::endl;
+						socket->send("14242:" + toSend);
 						//socket->send("14242:" + build->serialize().dump()); TODO: serialize planet buildings
 					} else {
 						socket->send("321:KO");
@@ -59,15 +68,12 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 				case 421356:
 					if (toks.size() == 2 && loggedIn) {
 						int buildingId = std::atoi(toks[1].c_str());
-						/* TODO: check on planet
-						 * if (buildingId != build->getId())
+						// TODO: check on planet
+						if (!planet.tryToUpdateBuilding(buildingId)) {
 							socket->send("321:KO");
-						else {
-							if (!build->upgrade())
-								socket->send("321:KO");
-							else
-								socket->send("421357:" + toks[1] + ":" + std::to_string(build->getLevel()));
-						}*/
+						} else {
+							socket->send("421357:" + toks[1] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()));
+						}
 					} else {
 						socket->send("321:KO");
 					}
