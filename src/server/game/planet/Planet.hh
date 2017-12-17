@@ -15,7 +15,7 @@ namespace bl {
 	namespace server {
 		namespace game {
 			namespace planet {
-				class Planet : public UniqueObject {
+				class Planet : public UniqueObject, public common::pattern::ISerializable {
 				public:
 					Planet();
 					Planet(Planet const &src);
@@ -23,7 +23,11 @@ namespace bl {
 					common::game::Resources &getStockResources();
 					common::game::Resources const &getStockResources() const;
 					void updateResources();
-
+					nlohmann::json serialize() const override;
+					ISerializable *deserialize(nlohmann::json const &json) override;
+				public:
+					bool tryToUpdateBuilding(int id);
+					const std::shared_ptr<building::IBuilding>& getBuildingInfo(int id) const;
 				private:
 					void addBuilding(std::shared_ptr<building::IBuilding> const &building);
 				private:

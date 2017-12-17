@@ -54,7 +54,9 @@ namespace bl {
 
 		void BuildingsController::onFrameEnd() {
 			auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+			//TODO: retrieve and use the list of buildings send by server, not by calling update on models one by one
 			auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
+			ironMine->markForUpdate();
 			std::string js = std::string("createBuilding(")
 					+ std::to_string(ironMine->getId()) + ",\""
 					+ ironMine->getName() + "\","
@@ -65,7 +67,7 @@ namespace bl {
 					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
 			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 					js, m_buildingsUrl, 0);
-			js = std::string("createBuilding(")
+			/*js = std::string("createBuilding(")
 					+ std::to_string(ironMine->getId() + 1) + ",\""
 					+ ironMine->getName() + "\","
 					+ std::to_string(ironMine->getLevel()) + ","
@@ -74,7 +76,7 @@ namespace bl {
 					+ std::to_string(ironMine->getIridiumNeeded()) + ","
 					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
 			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);
+					js, m_buildingsUrl, 0);*/
 		}
 	}
 }
