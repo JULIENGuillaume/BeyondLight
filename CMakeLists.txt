@@ -247,7 +247,6 @@ set(GAME_SRC
         src/server/game/building/ABuilding.cpp
         src/server/game/building/ABuilding.hh
         src/server/game/building/IBuilding.hh
-        src/server/game/resource/IResource.hh
         src/server/game/technology/ITechnology.hh
         src/server/game/resource/UpgradeCost.cpp
         src/server/game/resource/UpgradeCost.hh

@@ -32,7 +32,7 @@ nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 	return json;
 }
 
-common::pattern::ISerializable *bl::server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
+bl::common::pattern::ISerializable *bl::server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
 	return this;
 }
 
@@ -75,7 +75,7 @@ int bl::server::game::building::ABuilding::getTimeLeft() const {
 bool bl::server::game::building::ABuilding::upgrade() {
 	auto res = this->getResources();
 	if (res.isValid()) {
-		auto ret = res.launchUpgrade();
+		auto ret = res.launchUpgrade(this->m_planet.getStockResources());
 		if (ret) {
 			this->m_level++;
 		}
