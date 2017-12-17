@@ -10,15 +10,16 @@
 namespace bl {
 	namespace common {
 		namespace game {
-			class Resources : ::common::pattern::ISerializable {
+			class Resources : public pattern::ISerializable {
 			public:
-				Resources(
+				explicit Resources(
 						uint64_t iron = 0,
 						uint64_t crystal = 0,
 						uint64_t iridium = 0,
 						uint64_t antiMatter = 0,
 						uint64_t energy = 0
 				);
+			public:
 				uint64_t getIron() const;
 				void setIron(uint64_t iron);
 				void addIron(uint64_t iron);
@@ -39,9 +40,19 @@ namespace bl {
 				void setEnergy(uint64_t energy);
 				void addEnergy(uint64_t energy);
 				void removeEnergy(uint64_t energy);
-			private:
+			public:
 				nlohmann::json serialize() const override;
 				ISerializable *deserialize(nlohmann::json const &json) override;
+			public:
+				bool operator<(const Resources &rhs) const;
+				bool operator>(const Resources &rhs) const;
+				bool operator<=(const Resources &rhs) const;
+				bool operator>=(const Resources &rhs) const;
+			public:
+				Resources& operator-(const Resources &rhs);
+				Resources& operator+(const Resources &rhs);
+				Resources& operator*(uint64_t fac);
+				Resources& operator/(uint64_t fac);
 			private:
 				uint64_t m_iron;
 				uint64_t m_crystal;

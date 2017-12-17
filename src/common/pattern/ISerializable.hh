@@ -7,13 +7,15 @@
 
 #include <json.hpp>
 
-namespace common {
-	namespace pattern {
-		class ISerializable {
-		public:
-			virtual nlohmann::json serialize() const = 0;
-			virtual common::pattern::ISerializable *deserialize(nlohmann::json const &json) = 0;
-		};
+namespace bl {
+	namespace common {
+		namespace pattern {
+			class ISerializable {
+			public:
+				virtual nlohmann::json serialize() const = 0;
+				virtual common::pattern::ISerializable *deserialize(nlohmann::json const &json) = 0;
+			};
+		}
 	}
 }
 
