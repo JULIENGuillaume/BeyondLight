@@ -381,9 +381,9 @@
 
 .login-background {
     position: fixed;
-    background-image: url("../img/background.jpg");
+    background-image: url("../img/login-bay2.jpg");
     background-repeat:no-repeat;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     background-color: black;
     width: 100%;
