@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <bsoncxx/builder/stream/document.hpp>
-#include <bsoncxx/json.hpp>
+#include "../../server/storage/include/json.hpp"
 
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
@@ -21,16 +21,21 @@ void FactoriesInit() {
 int main() {
 	mongocxx::instance inst{};
 
-	std::srand(time(nullptr));
+    nlohmann::json j;
 
-	server::storage::Database::getDbInstance()->insertUser(server::user::User(std::rand(), "Daniel"));
-	server::storage::Database::getDbInstance()->insertMultipleUsers({server::user::User(std::rand(), "Daniel")});
+    j["name"] = "Daniel";
+    j["age"] = 42;
+    j["lastName"] = "Daniel";
 
-	server::user::User *daniel = server::storage::Database::getDbInstance()->getUserByLogin("Daniel");
+	server::storage::Database::getDbInstance()->insert("myCollection", j);
 
-	std::cout << daniel->getId() << " - " << daniel->getLogin() << std::endl;
+	nlohmann::json daniel = server::storage::Database::getDbInstance()->getByKey("myCollection", "name", "Daniel");
 
-	auto delCount = server::storage::Database::getDbInstance()->removeUserByLogin("Daniel");
+    for (auto it = daniel.begin(); it != daniel.end(); ++it) {
+        std::cout << it.key() << " : " << it.value() << std::endl;
+    }
+
+	auto delCount = server::storage::Database::getDbInstance()->removeByKey("myCollection", "name", "Daniel");
 
 	std::cout << "deleted : " << delCount << " Daniels." << std::endl;
 

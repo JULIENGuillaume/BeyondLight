@@ -10,6 +10,7 @@
 #include <mongocxx/uri.hpp>
 #include <mongocxx/instance.hpp>
 #include "../user/User.hh"
+#include "include/json.hpp"
 
 #ifndef BEYONDLIGHT_DATABASE_HH
 #define BEYONDLIGHT_DATABASE_HH
@@ -24,7 +25,7 @@ namespace server {
         protected:
             mongocxx::client client;
             mongocxx::database db;
-            mongocxx::collection users;
+            std::unordered_map<std::string, mongocxx::collection> collections;
 
         public:
             ~Database() = default;
@@ -33,10 +34,13 @@ namespace server {
                     dbInstance = new Database();
                 return dbInstance;
             }
-            bsoncxx::stdx::optional<mongocxx::result::insert_one> insertUser(const server::user::User &);
-            bsoncxx::stdx::optional<mongocxx::result::insert_many> insertMultipleUsers(const std::vector<server::user::User> &);
-            server::user::User *getUserByLogin(const std::string &);
-            int32_t removeUserByLogin(const std::string &);
+
+            void createCollection(const std::string &);
+
+            bsoncxx::stdx::optional<mongocxx::result::insert_one> insert(const std::string &, nlohmann::json &);
+            bsoncxx::stdx::optional<mongocxx::result::insert_many> insertMultiple(const std::string &, std::vector<nlohmann::json> &);
+            nlohmann::json getByKey(const std::string &, const std::string &, const std::string &);
+            int32_t removeByKey(const std::string &, const std::string &, const std::string &);
         };
     }
 }

@@ -13,109 +13,80 @@ server::storage::Database::Database() {
 	mongocxx::uri uri("mongodb://localhost:12345");
 	client = mongocxx::client(uri);
 
-    db = client["users"];
-    users = db["users"];
+    db = client["storage"];
 }
 
-bsoncxx::stdx::optional<mongocxx::result::insert_one> server::storage::Database::insertUser(const server::user::User &usr) {
-    bsoncxx::builder::stream::document builder {};
-
-	std::cout << db.name() << std::endl;
-
-	for (auto col : db.list_collections()) {
-		std::cout << col.data() << std::endl;
-	}
-
-	bsoncxx::document::value tmp = builder
-		<< "_id" << bsoncxx::types::b_utf8{std::to_string(usr.getId())}
-		<< "login" << usr.getLogin()
-		<< "password" << usr.getPassword()
-		<< "firstName" << usr.getFirstName()
-        << "lastName" << usr.getLastName()
-        << "email" << usr.getEmail()
-        << bsoncxx::builder::stream::finalize;
-
-
-	try {
-		bsoncxx::document::view_or_value test{tmp};
-		return users.insert_one(test);
-	} catch (mongocxx::bulk_write_exception &e) {
-		std::cerr << e.what() << std::endl;
-		std::cerr << e.code() << std::endl;
-		std::string buf;
-		buf.resize(e.raw_server_error().value().view().length());
-		std::memcpy((char *)buf.data(), e.raw_server_error().value().view().data(), e.raw_server_error().value().view().length());
-		std::cerr << buf << std::endl;
-		return bsoncxx::stdx::optional<mongocxx::result::insert_one>();
-	}
+void server::storage::Database::createCollection(const std::string &collName) {
+    collections[collName] = db[collName];
 }
 
-bsoncxx::stdx::optional<mongocxx::result::insert_many> server::storage::Database::insertMultipleUsers(const std::vector<server::user::User> &usrs) {
+bsoncxx::stdx::optional<mongocxx::result::insert_one>
+server::storage::Database::insert(const std::string &collName, nlohmann::json &toInsert) {
+    bsoncxx::builder::basic::document builder {};
+
+    for (auto it = toInsert.begin(); it != toInsert.end(); ++it) {
+        //auto tmp = bsoncxx::builder::basic::kvp(it.key(), it.value().dump());
+        builder.append(bsoncxx::builder::basic::kvp(it.key(), it.value().dump()));
+    }
+
+    if (collections.find(collName) == collections.end())
+        createCollection(collName);
+
+    return collections[collName].insert_one(builder.extract());
+}
+
+bsoncxx::stdx::optional<mongocxx::result::insert_many>
+server::storage::Database::insertMultiple(const std::string &collName, std::vector<nlohmann::json> &elements) {
     std::vector<bsoncxx::document::value> docs;
 
-    for (const auto &usr : usrs) {
+    for (auto &element : elements) {
         bsoncxx::builder::basic::document builder {};
 
-        builder.append(bsoncxx::builder::basic::kvp("_id", bsoncxx::types::b_utf8{std::to_string(usr.getId())}),
-                       bsoncxx::builder::basic::kvp("login", usr.getLogin()),
-                       bsoncxx::builder::basic::kvp("password", usr.getPassword()),
-                       bsoncxx::builder::basic::kvp("firstName", usr.getFirstName()),
-                       bsoncxx::builder::basic::kvp("lastName", usr.getLastName()),
-                       bsoncxx::builder::basic::kvp("email", usr.getEmail()));
+        for (auto it = element.begin(); it != element.end(); ++it) {
+            builder.append(bsoncxx::builder::basic::kvp(it.key(), it.value().dump()));
+        }
 
         docs.push_back(builder.extract());
     }
 
-    return users.insert_many(docs);
+    if (collections.find(collName) == collections.end())
+        createCollection(collName);
+
+    return collections[collName].insert_many(docs);
 }
 
-server::user::User *server::storage::Database::getUserByLogin(const std::string &l) {
+nlohmann::json server::storage::Database::getByKey(const std::string &collName, const std::string &key, const std::string &value) {
+    if (collections.find(collName) == collections.end())
+        return nullptr;
+
     bsoncxx::builder::basic::document builder {};
 
-    builder.append(bsoncxx::builder::basic::kvp("login", l));
+    builder.append(bsoncxx::builder::basic::kvp(key, value));
 
-    bsoncxx::stdx::optional<bsoncxx::document::value> usrDoc = users.find_one(builder.extract());
-
-    server::user::User *usr = new server::user::User(0, "tmp");
+    bsoncxx::stdx::optional<bsoncxx::document::value> usrDoc = collections[collName].find_one(builder.extract());
 
     if (usrDoc) {
-        std::stringstream ss;
+        nlohmann::json j;
 
-        unsigned long int usrId;
-        std::string usrLogin;
+        for (auto field : usrDoc.value().view()) {
+            j[field.key().to_string()] = field.get_utf8().value.to_string();
+        }
 
-        for (auto it : usrDoc.value().view()) {
-            if (it.key().to_string() == "_id") {
-                ss << it.get_utf8().value.to_string();
-                ss >> usrId;
-            } else if (it.key().to_string() == "login") {
-                usrLogin = it.get_utf8().value.to_string();
-            } else if (it.key().to_string() == "firstName") {
-                usr->setFirstName(it.get_utf8().value.to_string());
-            } else if (it.key().to_string() == "lastName") {
-                usr->setLastName(it.get_utf8().value.to_string());
-            } else if (it.key().to_string() == "email") {
-                usr->setEmail(it.get_utf8().value.to_string());
-            } else if (it.key().to_string() == "password") {
-                usr->setPassword(it.get_utf8().value.to_string());
-            }
-        }
-        if (usrId && !usrLogin.empty()) {
-            usr->setId(usrId);
-            usr->setLogin(usrLogin);
-            return usr;
-        }
+        return j;
     }
+
     return nullptr;
 }
 
-int32_t server::storage::Database::removeUserByLogin(const std::string &l) {
-    bsoncxx::builder::basic::document builder {};
+int32_t server::storage::Database::removeByKey(const std::string &collName, const std::string &key, const std::string &value) {
+    if (collections.find(collName) == collections.end())
+        return 0;
 
-    builder.append(bsoncxx::builder::basic::kvp("login", l));
+    bsoncxx::builder::basic::document builder{};
 
-    auto res = users.delete_one(builder.extract());
+    builder.append(bsoncxx::builder::basic::kvp(key, value));
+
+    auto res = collections[collName].delete_one(builder.extract());
 
     return res.value().deleted_count();
 }
-
