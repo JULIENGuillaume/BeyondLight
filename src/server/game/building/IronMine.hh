@@ -20,8 +20,8 @@ namespace bl {
 					void updateResource() override;
 				private:
 					common::event::Chrono m_chrono;
-					uint64_t m_timeLeftFromLastProd;
-					const uint64_t m_secondsForProduction = 5;
+					uint64_t m_timeLeftFromLastProd = 0;
+					const uint64_t m_secondsForProduction = 1;
 				};
 			}
 		}

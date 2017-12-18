@@ -32,6 +32,7 @@ void bl::server::game::planet::Planet::addBuilding(const std::shared_ptr<buildin
 }
 
 bool bl::server::game::planet::Planet::tryToUpdateBuilding(int id) {
+	this->updateResources();
 	for (const auto& building : this->m_buildings) {
 		if (building->getId() == id)
 			return building->upgrade();

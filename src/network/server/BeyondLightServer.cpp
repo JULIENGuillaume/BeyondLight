@@ -60,7 +60,6 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 						std::string toSend = sendingJson.dump();
 						std::cout << "Sending " << toSend << std::endl;
 						socket->send("14242:" + toSend);
-						//socket->send("14242:" + build->serialize().dump()); TODO: serialize planet buildings
 					} else {
 						socket->send("321:KO");
 					}
@@ -68,7 +67,6 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 				case 421356:
 					if (toks.size() == 2 && loggedIn) {
 						int buildingId = std::atoi(toks[1].c_str());
-						// TODO: check on planet
 						if (!planet.tryToUpdateBuilding(buildingId)) {
 							socket->send("321:KO");
 						} else {
