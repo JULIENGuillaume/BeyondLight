@@ -51,6 +51,8 @@ namespace bl {
 				GLFWwindow *window,
 				int entered
 		);
+
+		// glfwSetWindowRefreshCallback(m_handle, window_refresh_callback); todo
 	};
 }
 #endif //CEFOFFSCREEN_CALLBACKS_HH
