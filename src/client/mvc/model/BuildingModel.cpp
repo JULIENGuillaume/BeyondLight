@@ -9,30 +9,14 @@
 
 namespace bl {
 	namespace mvc {
-		void BuildingModel::markForUpdate() {
-			update();
-		}
-
-		bool BuildingModel::needUpdate() {
-			return false;
-		}
-
-		void BuildingModel::markToCommitChange() {
-		}
-
-		bool BuildingModel::hasChange() {
-			return false;
-		}
 
 		BuildingModel::BuildingModel(
 				std::shared_ptr<network::client::NetworkHandler> networkHandler,
 				unsigned int id
 		) :
 				ABaseModel::ABaseModel(networkHandler),
-				m_hasChange(false),
-				m_needUpdate(true),
 				m_id(id) {
-			this->markForUpdate();
+			this->update();
 		}
 
 		unsigned int BuildingModel::getId() const {
@@ -45,22 +29,6 @@ namespace bl {
 
 		unsigned int BuildingModel::getLevel() const {
 			return m_level;
-		}
-
-		unsigned int BuildingModel::getIronNeeded() const {
-			return m_ironNeeded;
-		}
-
-		unsigned int BuildingModel::getCrystalNeeded() const {
-			return m_crystalNeeded;
-		}
-
-		unsigned int BuildingModel::getIridiumNeeded() const {
-			return m_iridiumNeeded;
-		}
-
-		unsigned int BuildingModel::getEnergyNeeded() const {
-			return m_energyNeeded;
 		}
 
 		void BuildingModel::update() {
@@ -92,27 +60,7 @@ namespace bl {
 					std::cout << "Level is " << m_level << std::endl;
 					m_name = building["name"];
 					std::cout << "Name is " << m_name << std::endl;
-					common::game::Resources resourcesRequired;
-					resourcesRequired.deserialize(building["resourcesRequired"]["resources"]);
-
-					//TODO: use Resources class instead
-					m_ironNeeded = resourcesRequired.getIron();
-					m_crystalNeeded = resourcesRequired.getCrystal();
-					m_energyNeeded = resourcesRequired.getEnergy();
-					m_iridiumNeeded = resourcesRequired.getIridium();
-
-					/*auto iron = building.at(
-							"resourcesRequired").get<nlohmann::json>().at(
-							"iron").get<unsigned int>();
-					auto crystal = building.at(
-							"resourcesRequired").get<nlohmann::json>().at(
-							"crystal").get<unsigned int>();
-					auto iridium = building.at(
-							"resourcesRequired").get<nlohmann::json>().at(
-							"iridium").get<unsigned int>();
-					auto energy = building.at(
-							"resourcesRequired").get<nlohmann::json>().at(
-							"energy").get<unsigned int>();*/
+					this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
 				} catch (...) {
 					std::cerr << "json parse error" << std::endl;
 					return;
@@ -131,6 +79,10 @@ namespace bl {
 			} else {
 				return (false);
 			}
+		}
+
+		const common::game::Resources &BuildingModel::getResourcesNeeded() const {
+			return (this->m_resourcesNeeded);
 		}
 	}
 }

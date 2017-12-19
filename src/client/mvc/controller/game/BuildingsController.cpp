@@ -11,7 +11,7 @@
 
 namespace bl {
 	namespace mvc {
-		const std::string BuildingsController::m_buildingsUrl = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
+		const std::string BuildingsController::m_buildingsUrl = "file:///" + ::common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
 
 		void BuildingsController::setWebCore(bl::WebCore *webCore) {
 			this->m_webCore = webCore;
@@ -27,7 +27,7 @@ namespace bl {
 				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
 				std::string &newRoute
 		) {
-			std::vector<std::string> requestArgs = common::Toolbox::split(request, ":");
+			std::vector<std::string> requestArgs = ::common::Toolbox::split(request, ":");
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
@@ -37,7 +37,7 @@ namespace bl {
 
 						//const std::string &buildingId = requestArgs[1];
 						if (ironMine->incrLevel()) {
-							this->m_webCore->reload(false);
+							this->m_webCore->reload(false); // fixme remove hack
 							callback->Success(std::to_string(ironMine->getLevel()));
 						} else {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
@@ -57,15 +57,17 @@ namespace bl {
 			auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 			//TODO: retrieve and use the list of buildings send by server, not by calling update on models one by one
 			auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
-			ironMine->markForUpdate();
+			
+			ironMine->update();
+			const auto resourcesNeeded = ironMine->getResourcesNeeded();
 			std::string js = std::string("createBuilding(")
 					+ std::to_string(ironMine->getId()) + ",\""
 					+ ironMine->getName() + "\","
 					+ std::to_string(ironMine->getLevel()) + ","
-					+ std::to_string(ironMine->getIronNeeded()) + ","
-					+ std::to_string(ironMine->getCrystalNeeded()) + ","
-					+ std::to_string(ironMine->getIridiumNeeded()) + ","
-					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
+					+ std::to_string(resourcesNeeded.getIron()) + ","
+					+ std::to_string(resourcesNeeded.getCrystal()) + ","
+					+ std::to_string(resourcesNeeded.getIridium()) + ","
+					+ std::to_string(resourcesNeeded.getEnergy()) + ");";
 			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 					js, m_buildingsUrl, 0);
 			/*js = std::string("createBuilding(")

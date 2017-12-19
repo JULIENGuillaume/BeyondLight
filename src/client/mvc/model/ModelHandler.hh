@@ -27,6 +27,11 @@ namespace bl {
 				return (std::shared_ptr<Model>(nullptr));
 			}
 
+			template<typename IdType, typename ModelType>
+			void addModel(const std::string &modelName, const IdType &id) {
+				this->m_data.insert({modelName, std::shared_ptr<ABaseModel>(new ModelType(this->m_networkHandler, id))});
+			}
+
 		private:
 			std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
 		};
