@@ -22,7 +22,7 @@ namespace bl {
 						std::cerr << "Invalid reply" << std::endl;
 						return;
 					}
-					this->m_resources.deserialize(resources);
+					this->m_resources.deserialize(resources["resources"]);
 				} catch (...) {
 					std::cerr << "json parse error" << std::endl;
 					return;
@@ -36,6 +36,10 @@ namespace bl {
 		) :
 				ABaseModel::ABaseModel(networkHandler),
 				m_uuid(uuid) {
+		}
+
+		const common::game::Resources &ResourcesModel::getResources() const {
+			return (this->m_resources);
 		}
 	}
 }

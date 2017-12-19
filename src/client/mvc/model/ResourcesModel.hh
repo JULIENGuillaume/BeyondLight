@@ -15,6 +15,7 @@ namespace bl {
 		public:
 			ResourcesModel(std::shared_ptr<network::client::NetworkHandler> networkHandler, const boost::uuids::uuid &uuid);
 			void update() override;
+			const common::game::Resources &getResources() const;
 		private:
 			common::game::Resources m_resources;
 			boost::uuids::uuid m_uuid;

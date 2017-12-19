@@ -1,4 +1,4 @@
-var i = 0;
+/*var i = 0;
 window.setInterval(oneSecondFunction, 500);
 
 function oneSecondFunction() {
@@ -13,4 +13,12 @@ function oneSecondFunction() {
     antimatter.innerHTML = Math.round((i) / (Math.sqrt(i) + 1));
     energy.innerHTML = "42/" + i;
     i += 10;
+}*/
+
+function updateResources(iron, crystal, iridium, antimatter, energy) {
+    document.getElementById("metal-value").innerText = iron;
+    document.getElementById("crystal-value").innerText = crystal;
+    document.getElementById("deuterium-value").innerText = iridium; // todo rename to iridium
+    document.getElementById("antimatter-value").innerText = antimatter;
+    document.getElementById("energy-value").innerText = energy;
 }
