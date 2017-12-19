@@ -5,10 +5,12 @@
 #include <boost/uuid/uuid_io.hpp>
 #include "Planet.hh"
 #include "../building/IronMine.hh"
+#include "../building/CrystalExtractor.hh"
 
 bl::server::game::planet::Planet::Planet() :
 		UniqueObject() {
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::IronMine(*this)));
+	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::CrystalExtractor(*this)));
 }
 
 bl::server::game::planet::Planet::Planet(const bl::server::game::planet::Planet &src) :
