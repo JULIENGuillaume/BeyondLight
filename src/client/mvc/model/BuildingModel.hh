@@ -6,35 +6,24 @@
 #define BEYONDLIGHT_BUILDINGMODEL_HH
 
 #include "ABaseModel.hh"
+#include "../../../common/game/Resources.hh"
 
 namespace bl {
 	namespace mvc {
 		class BuildingModel : public ABaseModel {
 		public:
 			BuildingModel(std::shared_ptr<network::client::NetworkHandler> networkHandler, unsigned int id);
-			void markForUpdate() override;
-			bool needUpdate() override;
-			void markToCommitChange() override;
-			bool hasChange() override;
+			void update() override;
 			unsigned int getId() const;
 			const std::string &getName() const;
 			unsigned int getLevel() const;
-			unsigned int getIronNeeded() const;
-			unsigned int getCrystalNeeded() const;
-			unsigned int getIridiumNeeded() const;
-			unsigned int getEnergyNeeded() const;
+			const common::game::Resources &getResourcesNeeded() const;
 			bool incrLevel();
 		private:
-			void update();
-			bool m_hasChange;
-			bool m_needUpdate;
 			unsigned int m_id;
 			std::string m_name;
 			unsigned int m_level;
-			unsigned int m_ironNeeded;
-			unsigned int m_crystalNeeded;
-			unsigned int m_iridiumNeeded;
-			unsigned int m_energyNeeded;
+			common::game::Resources m_resourcesNeeded;
 		};
 	}
 }

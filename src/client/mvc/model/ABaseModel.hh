@@ -13,10 +13,7 @@ namespace bl {
 		class ABaseModel : public EventObserver {
 		public:
 			ABaseModel(std::shared_ptr<network::client::NetworkHandler> networkHandler);
-			virtual void markForUpdate() = 0;
-			virtual bool needUpdate() = 0;
-			virtual void markToCommitChange() = 0;
-			virtual bool hasChange() = 0;
+			virtual void update() = 0;
 			// todo add getter & setter for uuid ?
 		protected:
 			std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
