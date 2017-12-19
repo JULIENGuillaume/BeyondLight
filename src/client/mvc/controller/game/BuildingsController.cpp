@@ -34,7 +34,7 @@ namespace bl {
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
 						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 						auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
-
+						//TODO: check which upgrade button has been hit
 						//const std::string &buildingId = requestArgs[1];
 						if (ironMine->incrLevel()) {
 							this->m_webCore->reload(false);
@@ -66,6 +66,18 @@ namespace bl {
 					+ std::to_string(ironMine->getCrystalNeeded()) + ","
 					+ std::to_string(ironMine->getIridiumNeeded()) + ","
 					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+					js, m_buildingsUrl, 0);
+			auto crystalExtractor = modelHandler->getModel<BuildingModel>("building-crystal-extractor");
+			crystalExtractor->markForUpdate();
+			js = std::string("createBuilding(")
+					+ std::to_string(crystalExtractor->getId()) + ",\""
+					+ crystalExtractor->getName() + "\","
+					+ std::to_string(crystalExtractor->getLevel()) + ","
+					+ std::to_string(crystalExtractor->getIronNeeded()) + ","
+					+ std::to_string(crystalExtractor->getCrystalNeeded()) + ","
+					+ std::to_string(crystalExtractor->getIridiumNeeded()) + ","
+					+ std::to_string(crystalExtractor->getEnergyNeeded()) + ");";
 			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 					js, m_buildingsUrl, 0);
 			/*js = std::string("createBuilding(")

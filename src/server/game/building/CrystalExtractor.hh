@@ -12,10 +12,13 @@
 namespace bl {
 	namespace server {
 		namespace game {
+			namespace planet {
+				class Planet;
+			}
 			namespace building {
 				class CrystalExtractor : public ABuilding, public specialities::IResourceProductionBuilding {
 				public:
-					CrystalExtractor(planet::Planet &planet);
+					explicit CrystalExtractor(planet::Planet &planet);
 					void updateResource() override;
 				private:
 					common::event::Chrono m_chrono;
