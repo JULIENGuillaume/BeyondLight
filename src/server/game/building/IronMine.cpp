@@ -16,6 +16,10 @@ bl::server::game::building::IronMine::IronMine(planet::Planet &planet) :
 }
 
 void bl::server::game::building::IronMine::updateResource() {
+	if (this->m_level < 1) {
+		this->m_chrono.reset();
+		return;
+	}
 	auto actualTime = this->m_chrono.getElapsedSeconds() + this->m_timeLeftFromLastProd;
 	if (actualTime >= this->m_secondsForProduction) {
 		this->m_planet.getStockResources().addIron((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(10 * std::pow(1.42, this->m_level))));
