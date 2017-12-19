@@ -15,6 +15,10 @@ bl::server::game::building::CrystalExtractor::CrystalExtractor(planet::Planet &p
 }
 
 void bl::server::game::building::CrystalExtractor::updateResource() {
+	if (this->m_level < 1) {
+		this->m_chrono.reset();
+		return;
+	}
 	auto actualTime = this->m_chrono.getElapsedSeconds() + this->m_timeLeftFromLastProd;
 	if (actualTime >= this->m_secondsForProduction) {
 		this->m_planet.getStockResources().addCrystal((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(5 * std::pow(1.20, this->m_level))));

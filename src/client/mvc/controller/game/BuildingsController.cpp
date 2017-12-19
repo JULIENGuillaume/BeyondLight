@@ -33,13 +33,13 @@ namespace bl {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
+						std::cout << requestArgs[1] << std::endl;
 						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
-						auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
-						//TODO: check which upgrade button has been hit
+						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor");
 						//const std::string &buildingId = requestArgs[1];
-						if (ironMine->incrLevel()) {
+						if (building->incrLevel()) {
 							this->m_webCore->reload(false); // fixme remove hack
-							callback->Success(std::to_string(ironMine->getLevel()));
+							callback->Success(std::to_string(building->getLevel()));
 						} else {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
 						}
