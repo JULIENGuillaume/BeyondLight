@@ -23,7 +23,7 @@
     </body>
     <script src="js/utils.js"></script>
     <script src="js/page-template.js"></script>
-    <script src="js/header-ressources.js"></script>
+    <script src="js/header-resources.js"></script>
     <script src="js/left-menu.js"></script>
     <script src="js/document-ready.js"></script>
     <script>
@@ -42,7 +42,7 @@
             });
         }
 
-        function createBuilding(id, name, level, iron, crystal, iridium, energy) {
+        function createBuilding(id, name, level, iron, crystal, iridium, energy) { // todo move to createEntity
             var elements = document.querySelectorAll('link[rel=import]');
             for (var i = 0; i < elements.length; i++) {
                 if (elements[i].getAttribute("href") === "entity-template.html") {

@@ -26,6 +26,7 @@ namespace bl {
 			) override;
 			void onFrameEnd() override;
 		private:
+			static const std::string m_overviewUrl;
 			WebCore *m_webCore;
 		};
 	}

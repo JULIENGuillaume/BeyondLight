@@ -8,6 +8,7 @@
 #include "../../../../common/Toolbox.hh"
 #include "LeftMenu.hh"
 #include "../../model/BuildingModel.hh"
+#include "../../model/ResourcesModel.hh"
 
 namespace bl {
 	namespace mvc {
@@ -55,43 +56,51 @@ namespace bl {
 
 		void BuildingsController::onFrameEnd() {
 			auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+			{
+				auto playerResources = modelHandler->getModel<ResourcesModel>("player-resources");
+				playerResources->update();
+				const auto resources = playerResources->getResources();
+				std::string js = std::string("updateResources(")
+						+ std::to_string(resources.getIron()) + ","
+						+ std::to_string(resources.getCrystal()) + ","
+						+ std::to_string(resources.getIridium()) + ","
+						+ std::to_string(resources.getAntiMatter()) + ","
+						+ std::to_string(resources.getEnergy()) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			}
+
 			//TODO: retrieve and use the list of buildings send by server, not by calling update on models one by one
-			auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
-			
-			ironMine->update();
-			const auto resourcesNeeded = ironMine->getResourcesNeeded();
-			std::string js = std::string("createBuilding(")
-					+ std::to_string(ironMine->getId()) + ",\""
-					+ ironMine->getName() + "\","
-					+ std::to_string(ironMine->getLevel()) + ","
-					+ std::to_string(resourcesNeeded.getIron()) + ","
-					+ std::to_string(resourcesNeeded.getCrystal()) + ","
-					+ std::to_string(resourcesNeeded.getIridium()) + ","
-					+ std::to_string(resourcesNeeded.getEnergy()) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);
-			auto crystalExtractor = modelHandler->getModel<BuildingModel>("building-crystal-extractor");
-			crystalExtractor->markForUpdate();
-			js = std::string("createBuilding(")
-					+ std::to_string(crystalExtractor->getId()) + ",\""
-					+ crystalExtractor->getName() + "\","
-					+ std::to_string(crystalExtractor->getLevel()) + ","
-					+ std::to_string(crystalExtractor->getIronNeeded()) + ","
-					+ std::to_string(crystalExtractor->getCrystalNeeded()) + ","
-					+ std::to_string(crystalExtractor->getIridiumNeeded()) + ","
-					+ std::to_string(crystalExtractor->getEnergyNeeded()) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);
-			/*js = std::string("createBuilding(")
-					+ std::to_string(ironMine->getId() + 1) + ",\""
-					+ ironMine->getName() + "\","
-					+ std::to_string(ironMine->getLevel()) + ","
-					+ std::to_string(ironMine->getIronNeeded()) + ","
-					+ std::to_string(ironMine->getCrystalNeeded()) + ","
-					+ std::to_string(ironMine->getIridiumNeeded()) + ","
-					+ std::to_string(ironMine->getEnergyNeeded()) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
-					js, m_buildingsUrl, 0);*/
+			{
+				auto ironMine = modelHandler->getModel<BuildingModel>("building-iron-mine");
+				ironMine->update();
+				const auto resourcesNeeded = ironMine->getResourcesNeeded();
+				std::string js = std::string("createBuilding(")
+						+ std::to_string(ironMine->getId()) + ",\""
+						+ ironMine->getName() + "\","
+						+ std::to_string(ironMine->getLevel()) + ","
+						+ std::to_string(resourcesNeeded.getIron()) + ","
+						+ std::to_string(resourcesNeeded.getCrystal()) + ","
+						+ std::to_string(resourcesNeeded.getIridium()) + ","
+						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			}
+			{
+				auto crystalExtractor = modelHandler->getModel<BuildingModel>("building-crystal-extractor");
+				crystalExtractor->update();
+				const auto resourcesNeeded = crystalExtractor->getResourcesNeeded();
+				std::string js = std::string("createBuilding(")
+						+ std::to_string(crystalExtractor->getId()) + ",\""
+						+ crystalExtractor->getName() + "\","
+						+ std::to_string(crystalExtractor->getLevel()) + ","
+						+ std::to_string(resourcesNeeded.getIron()) + ","
+						+ std::to_string(resourcesNeeded.getCrystal()) + ","
+						+ std::to_string(resourcesNeeded.getIridium()) + ","
+						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			}
 		}
 	}
 }
