@@ -37,6 +37,7 @@ namespace bl {
 
 						//const std::string &buildingId = requestArgs[1];
 						if (ironMine->incrLevel()) {
+							this->m_webCore->reload(false);
 							callback->Success(std::to_string(ironMine->getLevel()));
 						} else {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
