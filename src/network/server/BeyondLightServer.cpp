@@ -64,6 +64,17 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 						socket->send("321:KO");
 					}
 					break;
+				case 3242:
+					if (toks.size() == 1 && loggedIn) {
+						nlohmann::json sendingJson;
+						sendingJson["resources"] = (planet.serialize())["resources"];
+						std::string toSend = sendingJson.dump();
+						std::cout << "Sending " << toSend << std::endl;
+						socket->send("324201:" + toSend);
+					} else {
+						socket->send("321:KO");
+					}
+					break;
 				case 421356:
 					if (toks.size() == 2 && loggedIn) {
 						int buildingId = std::atoi(toks[1].c_str());
