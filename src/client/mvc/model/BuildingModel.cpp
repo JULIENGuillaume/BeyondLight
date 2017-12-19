@@ -82,12 +82,10 @@ namespace bl {
 					for (const auto& build : buildings) {
 						building = build;
 						std::cout << "building = " << building.dump() << std::endl;
-						if (building.at("id") == 1)
+						if (building.at("id") == m_id)
 							break;
 					}
 
-					m_id = building["id"];
-					std::cout << "Id is " << m_id << std::endl;
 					m_level = building["level"];
 					std::cout << "Level is " << m_level << std::endl;
 					m_name = building["name"];

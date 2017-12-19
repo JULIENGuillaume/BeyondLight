@@ -6,7 +6,7 @@
 #include "CrystalExtractor.hh"
 
 bl::server::game::building::CrystalExtractor::CrystalExtractor(planet::Planet &planet) :
-	ABuilding(1, "Iron mine", "A mine to retrieve iron from the depth of the earth", {
+	ABuilding(2, "Crystal extractor", "Retrieve powerful crystals", {
 		resource::UpgradeCost(common::game::Resources(200), 60),
 		resource::UpgradeCost(common::game::Resources(1500, 200), 200),
 		resource::UpgradeCost(common::game::Resources(4000, 1200), 800),
