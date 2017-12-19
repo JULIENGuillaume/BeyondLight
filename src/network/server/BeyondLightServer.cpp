@@ -66,6 +66,7 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 					break;
 				case 3242:
 					if (toks.size() == 1 && loggedIn) {
+						planet.updateResources();
 						nlohmann::json sendingJson;
 						sendingJson["resources"] = (planet.serialize())["resources"];
 						std::string toSend = sendingJson.dump();
