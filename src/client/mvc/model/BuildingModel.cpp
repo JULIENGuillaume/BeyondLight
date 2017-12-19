@@ -66,6 +66,9 @@ namespace bl {
 		void BuildingModel::update() {
 			if (this->m_networkHandler.get()) {
 				try {
+					/*this->m_networkHandler->send("3242");
+					std::string jsonReceived1 = this->m_networkHandler->getLine();
+					std::cout << "Received " << jsonReceived1 << std::endl;*/
 					this->m_networkHandler->send("4242");
 					std::string jsonReceived = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived << std::endl;
