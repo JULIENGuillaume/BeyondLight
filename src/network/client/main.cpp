@@ -1,7 +1,7 @@
 #include <iostream>
 #include <memory>
 #include "../socket/SocketFactory.hh"
-#include "UdpSslAsyncBoostSocket.hh"
+#include "UdpAsyncBoostSocket.hh"
 #include "IClient.hh"
 #include "BeyondLightClient.hh"
 #include "../../common/NetworkWrapper.hh"
@@ -12,7 +12,7 @@ std::shared_ptr<bl::network::socket::ISocket> NetworkWrapper::m_socket = nullptr
 void FactoriesInit() {
 	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::clientKeyUdpSslAsyncBoostSocket,
 	                                                             std::shared_ptr<bl::network::socket::ISocket>(
-			                                                             new bl::network::socket::UdpSslAsyncBoostSocket()));
+			                                                             new bl::network::socket::UdpAsyncBoostSocket()));
 }
 
 int main() {

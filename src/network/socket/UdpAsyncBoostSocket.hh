@@ -17,10 +17,10 @@
 namespace bl {
 	namespace network {
 		namespace socket {
-			class UdpSslAsyncBoostSocket : public ISocket {
+			class UdpAsyncBoostSocket : public ISocket {
 			public:
-				explicit UdpSslAsyncBoostSocket();
-				~UdpSslAsyncBoostSocket() override = default;
+				explicit UdpAsyncBoostSocket();
+				~UdpAsyncBoostSocket() override = default;
 			public:
 				std::shared_ptr<ISocket> clone() const override;
 				bool connect(

@@ -10,7 +10,7 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include <UdpSslAsyncBoostSocket.hh>
+#include <UdpAsyncBoostSocket.hh>
 #include <SocketFactory.hh>
 #include "../src/network/server/BeyondLightServer.hh"
 #include "../src/network/client/BeyondLightClient.hh"

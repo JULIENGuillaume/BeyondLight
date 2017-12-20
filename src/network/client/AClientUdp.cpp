@@ -4,7 +4,7 @@
 
 #include <SocketFactory.hh>
 #include <fstream>
-#include <UdpSslAsyncBoostSocket.hh>
+#include <UdpAsyncBoostSocket.hh>
 #include "AClientUdp.hh"
 #include "../../common/NetworkWrapper.hh"
 
@@ -17,8 +17,8 @@ bool bl::network::client::AClientUdp::connectTo(const std::string &address, unsi
 	if (!this->m_socket->connect(address, port))
 		return false;
 	this->m_socket->receive();
-	dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
-			dynamic_cast<socket::UdpSslAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
+	dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
+			dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
 	NetworkWrapper::m_socket = this->m_socket;
 	m_running = true;
 	return true;

@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "UdpSslAsyncBoostSocket.hh"
+#include "UdpAsyncBoostSocket.hh"
 #include "SocketFactory.hh"
 #include "AServerUdp.hh"
 
@@ -27,7 +27,7 @@ void bl::network::server::AServerUdp::run() {
 			this->stop();
 			return;
 		}
-		auto newClient = dynamic_cast<socket::UdpSslAsyncBoostSocket*>(serverSocket.get())->getLastSenderEndpoint();
+		auto newClient = dynamic_cast<socket::UdpAsyncBoostSocket*>(serverSocket.get())->getLastSenderEndpoint();
 		newSocket->connect(newClient.address().to_string(), newClient.port());
 		this->m_clients.emplace_back(&AServerUdp::mainLoop, this, newSocket);
 	}

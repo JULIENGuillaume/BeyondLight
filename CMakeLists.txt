@@ -102,7 +102,7 @@ set(COMMON_SRC
         src/common/event/Chrono.cpp
         src/common/event/Chrono.hh
         src/common/game/Resources.cpp
-        src/common/game/Resources.hh)
+        src/common/game/Resources.hh src/common/pattern/IBinarizable.hh)
 
 ##
 ##  Game Client perf test
@@ -225,7 +225,7 @@ include_directories(${CEF_ROOT}
 ##
 
 set(NETWORK_SOCKET_SRC
-        ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp
+        ${NETWORK_SOCKET_SRC_DIR}/UdpAsyncBoostSocket.cpp
         ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
         ${NETWORK_SOCKET_SRC_DIR}/ISocketMessage.hh)
 set(NETWORK_SERVER_SRC
