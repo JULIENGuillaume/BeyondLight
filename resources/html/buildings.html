@@ -11,13 +11,11 @@
     </head>
     <!-- <body class="scrollbar" id="solid-scrollbar"> -->
     <body style="overflow-y:hidden; height:100%;">
-        <div id="snow">
-            <header></header>
-            <left-menu></left-menu>
-            <div id="main-content-template">
-                <div class="game-main scrollbar" id="alpha-scrollbar">
-                    <entities></entities>
-                </div>
+        <header></header>
+        <left-menu></left-menu>
+        <div id="main-content-template">
+            <div class="game-main scrollbar" id="alpha-scrollbar">
+                <entities></entities>
             </div>
         </div>
     </body>
@@ -42,7 +40,7 @@
             });
         }
 
-        function createBuilding(id, name, level, iron, crystal, iridium, energy) { // todo move to createEntity
+        function createBuilding(id, name, description, level, iron, crystal, iridium, energy) { // todo move to createEntity
             var elements = document.querySelectorAll('link[rel=import]');
             for (var i = 0; i < elements.length; i++) {
                 if (elements[i].getAttribute("href") === "entity-template.html") {
@@ -52,6 +50,8 @@
                     Utils.findChildById(template, "entity-name", true).innerText = name;
                     Utils.findChildById(template, "entity-level", true).innerText = "Level " + level;
                     Utils.findChildById(template, "entity-level", true).id += "-" + id;
+                    Utils.findChildById(template, "desc-text", true).innerText = description;
+                    Utils.findChildById(template, "upgrade-text", true).innerText = "Upgrade cost for level " + level;
                     Utils.findChildById(template, "iron-value", true).innerText = iron;
                     Utils.findChildById(template, "crystal-value", true).innerText = crystal;
                     Utils.findChildById(template, "iridium-value", true).innerText = iridium;

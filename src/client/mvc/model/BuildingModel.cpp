@@ -60,6 +60,7 @@ namespace bl {
 					m_level = building["level"];
 					std::cout << "Level is " << m_level << std::endl;
 					m_name = building["name"];
+					m_desc = building["description"];
 					std::cout << "Name is " << m_name << std::endl;
 					this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
 				} catch (...) {
@@ -84,6 +85,10 @@ namespace bl {
 
 		const common::game::Resources &BuildingModel::getResourcesNeeded() const {
 			return (this->m_resourcesNeeded);
+		}
+
+		const std::string &BuildingModel::getDesc() const {
+			return (this->m_desc);
 		}
 	}
 }

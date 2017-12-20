@@ -37,6 +37,17 @@ namespace bl {
 						auto network = this->m_webCore->getNetworkHandler();
 						callback->Success(std::to_string(++level));
 						return (true);
+					} else if (requestArgs[0].find("update-player-resources") == 0 && requestArgs.size() == 1) {
+						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
+						auto playerResources = modelHandler->getModel<ResourcesModel>("player-resources");
+						playerResources->update();
+						const auto resources = playerResources->getResources();
+						callback->Success(std::to_string(resources.getIron())
+												  + ":" + std::to_string(resources.getCrystal())
+												  + ":" + std::to_string(resources.getIridium())
+												  + ":" + std::to_string(resources.getAntiMatter())
+												  + ":" + std::to_string(resources.getEnergy()));
+						return (true);
 					}
 				} else {
 					callback->Success("OK");
@@ -64,7 +75,8 @@ namespace bl {
 			}
 			std::string js = std::string("createTechnologie(")
 					+ std::to_string(1) + ",\""
-					+ "Quantum Technology" + "\","
+					+ "Quantum Technology" + "\",\""
+					+ "If you understand quantum physics, then you don't." + "\","
 					+ std::to_string(1) + ","
 					+ std::to_string(400000) + ","
 					+ std::to_string(30000) + ","

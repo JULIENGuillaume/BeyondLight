@@ -32,9 +32,9 @@ namespace bl {
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
+					auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
 						std::cout << requestArgs[1] << std::endl;
-						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor");
 						//const std::string &buildingId = requestArgs[1];
 						if (building->incrLevel()) {
@@ -43,6 +43,16 @@ namespace bl {
 						} else {
 							callback->Failure(404, "MARCHE PAAAAAAAAS");
 						}
+						return (true);
+					} else if (requestArgs[0].find("update-player-resources") == 0 && requestArgs.size() == 1) {
+						auto playerResources = modelHandler->getModel<ResourcesModel>("player-resources");
+						playerResources->update();
+						const auto resources = playerResources->getResources();
+						callback->Success(std::to_string(resources.getIron())
+												  + ":" + std::to_string(resources.getCrystal())
+												  + ":" + std::to_string(resources.getIridium())
+												  + ":" + std::to_string(resources.getAntiMatter())
+												  + ":" + std::to_string(resources.getEnergy()));
 						return (true);
 					}
 				} else {
@@ -77,7 +87,8 @@ namespace bl {
 				const auto resourcesNeeded = ironMine->getResourcesNeeded();
 				std::string js = std::string("createBuilding(")
 						+ std::to_string(ironMine->getId()) + ",\""
-						+ ironMine->getName() + "\","
+						+ ironMine->getName() + "\",\""
+						+ ironMine->getDesc() + "\","
 						+ std::to_string(ironMine->getLevel()) + ","
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
@@ -92,7 +103,8 @@ namespace bl {
 				const auto resourcesNeeded = crystalExtractor->getResourcesNeeded();
 				std::string js = std::string("createBuilding(")
 						+ std::to_string(crystalExtractor->getId()) + ",\""
-						+ crystalExtractor->getName() + "\","
+						+ crystalExtractor->getName() + "\",\""
+						+ crystalExtractor->getDesc() + "\","
 						+ std::to_string(crystalExtractor->getLevel()) + ","
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
