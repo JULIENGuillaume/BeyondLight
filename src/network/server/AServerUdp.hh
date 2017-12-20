@@ -8,29 +8,30 @@
 #include <memory>
 #include <vector>
 #include <thread>
-#include "ISocket.hh"
 #include "IServer.hh"
 
-namespace network {
-	namespace server {
-		class AServerUdp : public IServer {
-		public:
-			explicit AServerUdp(std::string const &factoryKey, unsigned short port);
-			~AServerUdp() override = default;
-
-		public:
-			void run() override;
-			void stop() override;
-			void restart() override;
-
-		private:
-			std::string const m_factoryKey;
-			unsigned short m_port;
-
-		private:
-			std::vector<std::thread> m_clients;
-			bool running = false;
-		};
+namespace bl {
+	namespace network {
+		namespace server {
+			class AServerUdp : public IServer {
+			public:
+				explicit AServerUdp(
+						std::string const &factoryKey,
+						unsigned short port
+				);
+				~AServerUdp() override = default;
+			public:
+				void run() override;
+				void stop() override;
+				void restart() override;
+			private:
+				std::string const m_factoryKey;
+				unsigned short m_port;
+			private:
+				std::vector<std::thread> m_clients;
+				bool running = false;
+			};
+		}
 	}
 }
 

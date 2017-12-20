@@ -13,18 +13,18 @@
 
 #include "AServerUdp.hh"
 
-namespace network {
-	namespace server {
-		class BeyondLightServer : public AServerUdp {
-		public:
-			BeyondLightServer(unsigned short port);
-		protected:
-			void mainLoop(std::shared_ptr<socket::ISocket> socket) override;
-
-		private:
-			bool m_running = true;
-		};
+namespace bl {
+	namespace network {
+		namespace server {
+			class BeyondLightServer : public AServerUdp {
+			public:
+				BeyondLightServer(unsigned short port);
+			protected:
+				void mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) override;
+			private:
+				bool m_running = true;
+			};
+		}
 	}
 }
-
 #endif //BEYONDLIGHT_BEYONDLIGHTSERVER_HH

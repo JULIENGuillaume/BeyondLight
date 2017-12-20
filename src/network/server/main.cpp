@@ -1,22 +1,22 @@
 #include <iostream>
 #include <memory>
-#include <boost/uuid/uuid_io.hpp>
+#include "UdpSslAsyncBoostSocket.hh"
+#include "../socket/SocketFactory.hh"
 #include "IServer.hh"
 #include "BeyondLightServer.hh"
-#include "SocketFactory.hh"
-#include "UdpSslAsyncBoostSocket.hh"
 
 void FactoriesInit() {
-	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,
-	                                                             std::shared_ptr<network::socket::ISocket>(
-			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::serverKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<bl::network::socket::ISocket>(
+			                                                             new bl::network::socket::UdpSslAsyncBoostSocket()));
 }
 
 int main() {
 	FactoriesInit();
+	//TODO: move the main to a more coherent place
 
 	try {
-		std::shared_ptr<network::server::IServer> server(new network::server::BeyondLightServer(8080));
+		std::shared_ptr<bl::network::server::IServer> server(new bl::network::server::BeyondLightServer(8080));
 		server->run();
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;

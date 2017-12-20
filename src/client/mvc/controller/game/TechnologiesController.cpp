@@ -10,7 +10,7 @@
 
 namespace bl {
 	namespace mvc {
-		const std::string TechnologiesController::m_technologiesUrl = "file:///" + ::common::Toolbox::getApplicationDir() + "/../resources/html/technologies.html";
+		const std::string TechnologiesController::m_technologiesUrl = "file:///" + bl::common::Toolbox::getApplicationDir() + "/../resources/html/technologies.html";
 
 		void TechnologiesController::setWebCore(bl::WebCore *webCore) {
 			this->m_webCore = webCore;
@@ -26,7 +26,7 @@ namespace bl {
 				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
 				std::string &newRoute
 		) {
-			std::vector<std::string> requestArgs = ::common::Toolbox::split(request, ":");
+			std::vector<std::string> requestArgs = bl::common::Toolbox::split(request, ":");
 
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);

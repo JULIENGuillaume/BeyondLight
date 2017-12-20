@@ -1,18 +1,18 @@
 #include <iostream>
 #include <memory>
+#include "../socket/SocketFactory.hh"
+#include "UdpSslAsyncBoostSocket.hh"
 #include "IClient.hh"
 #include "BeyondLightClient.hh"
-#include "SocketFactory.hh"
-#include "UdpSslAsyncBoostSocket.hh"
 #include "../../common/NetworkWrapper.hh"
 #include "../../client/MainHandler.hh"
 
-std::shared_ptr<network::socket::ISocket> NetworkWrapper::m_socket = nullptr;
+std::shared_ptr<bl::network::socket::ISocket> NetworkWrapper::m_socket = nullptr;
 
 void FactoriesInit() {
-	network::socket::SocketFactory::getInstance()->registerModel(network::socket::clientKeyUdpSslAsyncBoostSocket,
-	                                                             std::shared_ptr<network::socket::ISocket>(
-			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::clientKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<bl::network::socket::ISocket>(
+			                                                             new bl::network::socket::UdpSslAsyncBoostSocket()));
 }
 
 int main() {

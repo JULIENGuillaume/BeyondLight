@@ -13,19 +13,19 @@
 #include "BeyondLightClient.hh"
 #include "../../client/MainHandler.hh"
 
-network::client::BeyondLightClient::BeyondLightClient(NetworkHandler *handler) : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
+bl::network::client::BeyondLightClient::BeyondLightClient(NetworkHandler *handler) : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
 
-void network::client::BeyondLightClient::mainLoop() {
+void bl::network::client::BeyondLightClient::mainLoop() {
 	//std::cout << "Client is in the main loop" << std::endl;
-	this->m_activeThreads.emplace_back(&network::client::BeyondLightClient::readingThread, this);
-	this->m_activeThreads.emplace_back(&network::client::BeyondLightClient::sendingThread, this);
+	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
+	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
 	while (this->m_running) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 }
 
-void network::client::BeyondLightClient::disconnect() {
+void bl::network::client::BeyondLightClient::disconnect() {
 	AClientUdp::disconnect();
 	this->m_socket->close();
 	for (auto &thread : this->m_activeThreads) {
@@ -34,7 +34,7 @@ void network::client::BeyondLightClient::disconnect() {
 	this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
 }
 
-void network::client::BeyondLightClient::readingThread() {
+void bl::network::client::BeyondLightClient::readingThread() {
 	std::string data;
 	bool isOpen = true;
 
@@ -57,7 +57,7 @@ void network::client::BeyondLightClient::readingThread() {
 	}
 }
 
-void network::client::BeyondLightClient::sendingThread() {
+void bl::network::client::BeyondLightClient::sendingThread() {
 	bool isOpen = true;
 
 	while (isOpen && m_running) {
@@ -78,19 +78,19 @@ void network::client::BeyondLightClient::sendingThread() {
 	}
 }
 
-std::string const &network::client::BeyondLightClient::getLine() const {
+std::string const &bl::network::client::BeyondLightClient::getLine() const {
 	return this->m_lines.front();
 }
 
-void network::client::BeyondLightClient::addToSend(std::string const &cmd) {
+void bl::network::client::BeyondLightClient::addToSend(std::string const &cmd) {
 	this->m_toSend.push(cmd);
 }
 
-void network::client::BeyondLightClient::setLineToRead() {
+void bl::network::client::BeyondLightClient::setLineToRead() {
 	this->m_lines.pop();
 }
 
-std::string network::client::BeyondLightClient::getAndEraseLine() {
+std::string bl::network::client::BeyondLightClient::getAndEraseLine() {
 	std::string line = this->getLine();
 	this->setLineToRead();
 	while (line.empty()) {

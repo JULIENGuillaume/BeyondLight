@@ -16,7 +16,7 @@
 
 namespace server {
 	namespace user {
-		struct RegisteredUsers : public pattern::PSingleton<RegisteredUsers> {
+		struct RegisteredUsers : public bl::common::pattern::PSingleton<RegisteredUsers> {
 			std::unordered_map<std::string, std::string> users = {std::make_pair("root", "root")};
 		};
 

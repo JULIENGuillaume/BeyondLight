@@ -95,6 +95,10 @@ set(COMMON_SRC
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
         src/common/pattern/ISerializable.hh
+        src/common/pattern/PClonable.hpp
+        src/common/pattern/PFactory.hpp
+        src/common/pattern/PSingleton.hpp
+        src/network/socket/SocketFactory.hh
         src/common/event/Chrono.cpp
         src/common/event/Chrono.hh
         src/common/game/Resources.cpp
@@ -169,8 +173,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/TechnologiesController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
-        libs/stb/stb_image.h
-        )
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -221,12 +224,27 @@ include_directories(${CEF_ROOT}
 ##  Network sources
 ##
 
-set(NETWORK_SOCKET_SRC ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp)
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh)
-set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh)
+set(NETWORK_SOCKET_SRC
+        ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp
+        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
+        ${NETWORK_SOCKET_SRC_DIR}/ISocketMessage.hh)
+set(NETWORK_SERVER_SRC
+        ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp
+        ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp
+        ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
+        ${NETWORK_SERVER_SRC_DIR}/IServer.hh
+        src/network/server/ServerMessage.cpp
+        src/network/server/ServerMessage.hh)
+set(NETWORK_CLIENT_SRC
+        ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp
+        ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp
+        ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh
+        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh
+        src/network/client/ClientMessage.cpp
+        src/network/client/ClientMessage.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
-        ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server)
+        ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server ${SRC_BASE_DIR}/common/pattern)
 
 ##
 ##  User sources
@@ -239,8 +257,7 @@ set(USER_SRC
         src/server/user/AuthSystem.hh
         src/server/user/RegisteredUsers.cpp
         src/server/user/RegisteredUsers.hh
-        src/network/socket/SocketMessage.cpp
-        src/network/socket/SocketMessage.hh)
+        )
 
 ##
 ##  Game sources

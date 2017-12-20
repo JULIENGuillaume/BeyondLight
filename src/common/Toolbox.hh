@@ -14,19 +14,32 @@
 #include <string>
 #include <vector>
 
-namespace common {
-	class Toolbox {
-	public:
-		static std::vector<std::string> split(const std::string &str, const std::string &separator);
-		static std::vector<std::string> splitAtMax(const std::string &str, const std::string &separator, int max);
-		static std::string getApplicationDir();
-		static std::u16string to16string(const std::string &str);
-		static std::u16string to16string(const std::wstring &str);
-		static std::wstring toWstring(const std::u16string &str);
-		static std::wstring toWstring(const std::string &str);
-		static std::string toString(const std::wstring &str);
-		static const std::u16string &escapeChar(std::u16string &str, const std::vector<char> &toEscape, char16_t eschapeChar);
-	};
+namespace bl {
+	namespace common {
+		class Toolbox {
+		public:
+			static std::vector<std::string> split(
+					const std::string &str,
+					const std::string &separator
+			);
+			static std::vector<std::string> splitAtMax(
+					const std::string &str,
+					const std::string &separator,
+					int max
+			);
+			static std::string getApplicationDir();
+			static std::u16string to16string(const std::string &str);
+			static std::u16string to16string(const std::wstring &str);
+			static std::wstring toWstring(const std::u16string &str);
+			static std::wstring toWstring(const std::string &str);
+			static std::string toString(const std::wstring &str);
+			static const std::u16string &escapeChar(
+					std::u16string &str,
+					const std::vector<char> &toEscape,
+					char16_t eschapeChar
+			);
+		};
+	}
 }
 
 #endif //BEYONDLIGHT_TOOLBOX_HH

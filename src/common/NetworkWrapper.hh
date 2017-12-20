@@ -11,7 +11,7 @@
 
 class NetworkWrapper {
 public:
-	static std::shared_ptr<network::socket::ISocket> m_socket;
+	static std::shared_ptr<bl::network::socket::ISocket> m_socket;
 };
 
 //std::shared_ptr<network::socket::ISocket> NetworkWrapper::m_socket = nullptr;

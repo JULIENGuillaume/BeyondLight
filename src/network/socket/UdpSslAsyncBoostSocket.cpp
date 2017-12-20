@@ -14,14 +14,14 @@
 #include <utility>
 #include "UdpSslAsyncBoostSocket.hh"
 
-network::socket::UdpSslAsyncBoostSocket::UdpSslAsyncBoostSocket() : m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
+bl::network::socket::UdpSslAsyncBoostSocket::UdpSslAsyncBoostSocket() : m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
 }
 
-void network::socket::UdpSslAsyncBoostSocket::close() {
+void bl::network::socket::UdpSslAsyncBoostSocket::close() {
 	m_socket->close();
 }
 
-bool network::socket::UdpSslAsyncBoostSocket::connect(std::string const &address, unsigned short port) {
+bool bl::network::socket::UdpSslAsyncBoostSocket::connect(std::string const &address, unsigned short port) {
 	try {
 		if (m_socket->is_open()) {
 			m_socket->close();
@@ -38,7 +38,7 @@ bool network::socket::UdpSslAsyncBoostSocket::connect(std::string const &address
 	return true;
 }
 
-bool network::socket::UdpSslAsyncBoostSocket::openConnection(unsigned short port) {
+bool bl::network::socket::UdpSslAsyncBoostSocket::openConnection(unsigned short port) {
 	try {
 		if (m_socket->is_open()) {
 			m_socket->close();
@@ -52,46 +52,46 @@ bool network::socket::UdpSslAsyncBoostSocket::openConnection(unsigned short port
 	return true;
 }
 
-void network::socket::UdpSslAsyncBoostSocket::send(char const *msg) {
+void bl::network::socket::UdpSslAsyncBoostSocket::send(char const *msg) {
 	m_socket->send_to(boost::asio::buffer(std::string(msg) + "\r\n"), m_targetEndpoint);
 }
 
-void network::socket::UdpSslAsyncBoostSocket::send(std::string const &msg) {
+void bl::network::socket::UdpSslAsyncBoostSocket::send(std::string const &msg) {
 	m_socket->send_to(boost::asio::buffer(msg + "\r\n"), m_targetEndpoint);
 }
 
-char *network::socket::UdpSslAsyncBoostSocket::receive(char *buf, size_t bufSize) {
+char *bl::network::socket::UdpSslAsyncBoostSocket::receive(char *buf, size_t bufSize) {
 	auto received = receive();
 	std::strncpy(buf, received.data(), bufSize > received.size() ? received.size() : bufSize);
 	return buf;
 }
 
-std::string network::socket::UdpSslAsyncBoostSocket::receive() {
+std::string bl::network::socket::UdpSslAsyncBoostSocket::receive() {
 	boost::array<char, m_bufferSize> recv_buf{};
 	boost::asio::ip::udp::endpoint sender_endpoint;
 	m_socket->receive_from(boost::asio::buffer(recv_buf), m_lastSenderEndpoint, 0);
 	return std::string(recv_buf.data());
 }
 
-void network::socket::UdpSslAsyncBoostSocket::setAutoDataEncrypt(bool encrypt) {
+void bl::network::socket::UdpSslAsyncBoostSocket::setAutoDataEncrypt(bool encrypt) {
 	m_autoEncrypt = encrypt;
 }
 
-void network::socket::UdpSslAsyncBoostSocket::setAutoDataDecrypt(bool decrypt) {
+void bl::network::socket::UdpSslAsyncBoostSocket::setAutoDataDecrypt(bool decrypt) {
 	m_autoDecrypt = decrypt;
 }
 
-std::shared_ptr<network::socket::ISocket> network::socket::UdpSslAsyncBoostSocket::clone() const {
+std::shared_ptr<bl::network::socket::ISocket> bl::network::socket::UdpSslAsyncBoostSocket::clone() const {
 	std::shared_ptr<ISocket> ret(new UdpSslAsyncBoostSocket());
 	ret->setAutoDataDecrypt(m_autoDecrypt);
 	ret->setAutoDataEncrypt(m_autoEncrypt);
 	return ret;
 }
 
-boost::asio::ip::udp::endpoint network::socket::UdpSslAsyncBoostSocket::getLastSenderEndpoint() {
+boost::asio::ip::udp::endpoint bl::network::socket::UdpSslAsyncBoostSocket::getLastSenderEndpoint() {
 	return m_lastSenderEndpoint;
 }
 
-void network::socket::UdpSslAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
+void bl::network::socket::UdpSslAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
 	m_targetEndpoint = std::move(endpoint);
 }

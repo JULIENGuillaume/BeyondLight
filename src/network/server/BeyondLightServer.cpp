@@ -10,17 +10,18 @@
 
 #include <SocketFactory.hh>
 #include "BeyondLightServer.hh"
+#include "ISocket.hh"
 #include "../../common/Toolbox.hh"
 #include "../../server/user/RegisteredUsers.hh"
 #include "../../server/game/building/IBuilding.hh"
 #include "../../server/game/building/IronMine.hh"
 #include "../../server/game/planet/Planet.hh"
 
-network::server::BeyondLightServer::BeyondLightServer(unsigned short port) :
+bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port) :
 		AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port) {
 }
 
-void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socket::ISocket> socket) {
+void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	auto users = ::server::user::RegisteredUsers::getInstance();
 	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
 	::bl::server::game::planet::Planet planet;
@@ -32,7 +33,7 @@ void network::server::BeyondLightServer::mainLoop(std::shared_ptr<network::socke
 			msg += socket->receive();
 		}
 		msg = msg.substr(0, msg.find("\r\n"));
-		auto toks = common::Toolbox::split(msg, ":");
+		auto toks = bl::common::Toolbox::split(msg, ":");
 		std::cout << "Received " << msg << std::endl;
 		if (!toks.empty()) {
 			switch (std::atoi(toks[0].c_str())) {

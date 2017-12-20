@@ -13,7 +13,7 @@ namespace bl {
 					this->m_networkHandler->send("3242");
 					std::string jsonReceived = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived << std::endl;
-					auto toks = ::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
+					auto toks = bl::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
 					nlohmann::json resources;
 					if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 324201) {
 						resources = nlohmann::json::parse(toks[1]);

@@ -7,9 +7,9 @@
 #include "SocketFactory.hh"
 #include "AServerUdp.hh"
 
-network::server::AServerUdp::AServerUdp(std::string const &factoryKey, unsigned short port) : m_factoryKey(factoryKey), m_port(port) {}
+bl::network::server::AServerUdp::AServerUdp(std::string const &factoryKey, unsigned short port) : m_factoryKey(factoryKey), m_port(port) {}
 
-void network::server::AServerUdp::run() {
+void bl::network::server::AServerUdp::run() {
 	std::shared_ptr<socket::ISocket> serverSocket = socket::SocketFactory::getInstance()->create(m_factoryKey);
 	if (serverSocket == nullptr) {
 		std::cerr << "Invalid key, cannot specialize the server on this socket" << std::endl;
@@ -33,7 +33,7 @@ void network::server::AServerUdp::run() {
 	}
 }
 
-void network::server::AServerUdp::stop() {
+void bl::network::server::AServerUdp::stop() {
 	running = false;
 	for (std::thread &thread : this->m_clients) {
 		thread.join();
@@ -41,7 +41,7 @@ void network::server::AServerUdp::stop() {
 	this->m_clients.clear();
 }
 
-void network::server::AServerUdp::restart() {
+void bl::network::server::AServerUdp::restart() {
 	this->stop();
 	this->run();
 }

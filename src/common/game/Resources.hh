@@ -10,7 +10,7 @@
 namespace bl {
 	namespace common {
 		namespace game {
-			class Resources : public pattern::ISerializable {
+			class Resources : public bl::common::pattern::ISerializable {
 			public:
 				explicit Resources(
 						uint64_t iron = 0,

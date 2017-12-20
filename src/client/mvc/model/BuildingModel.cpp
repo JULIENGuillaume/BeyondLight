@@ -40,7 +40,7 @@ namespace bl {
 					this->m_networkHandler->send("4242");
 					std::string jsonReceived = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived << std::endl;
-					auto toks = ::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
+					auto toks = bl::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
 					nlohmann::json buildings;
 					if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
 						buildings = ((nlohmann::json::parse(toks[1]))["buildings"]);
@@ -72,7 +72,7 @@ namespace bl {
 
 		bool BuildingModel::incrLevel() {
 			this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
-			auto answers = ::common::Toolbox::split(this->m_networkHandler->getLine(), ":");
+			auto answers = bl::common::Toolbox::split(this->m_networkHandler->getLine(), ":");
 			if (answers[0] == "321") {
 				return (false);
 			} else if (answers[0] == "421357" && answers[1] == std::to_string(this->m_id)) {
