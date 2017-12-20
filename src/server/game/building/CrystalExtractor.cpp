@@ -6,12 +6,13 @@
 #include "CrystalExtractor.hh"
 
 bl::server::game::building::CrystalExtractor::CrystalExtractor(planet::Planet &planet) :
-	ABuilding(2, "Crystal extractor", "Retrieve powerful crystals", {
-		resource::UpgradeCost(common::game::Resources(200), 60),
-		resource::UpgradeCost(common::game::Resources(1500, 200), 200),
-		resource::UpgradeCost(common::game::Resources(4000, 1200), 800),
-		resource::UpgradeCost(common::game::Resources(10000, 3000), 1200)
-	}, planet) {
+		ABuilding(2, "Crystal extractor", "Retrieve powerful crystals", {
+				resource::UpgradeCost(common::game::Resources(200), 60),
+				resource::UpgradeCost(common::game::Resources(1500, 200), 200),
+				resource::UpgradeCost(common::game::Resources(4000, 1200), 800),
+				resource::UpgradeCost(common::game::Resources(10000, 3000), 1200),
+				resource::UpgradeCost(common::game::Resources(50000, 10000, 1000), 12000)
+		}, planet) {
 }
 
 void bl::server::game::building::CrystalExtractor::updateResource() {
