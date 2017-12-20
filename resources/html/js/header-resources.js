@@ -1,19 +1,4 @@
-/*var i = 0;
-window.setInterval(oneSecondFunction, 500);
-
-function oneSecondFunction() {
-    var metal = document.getElementById("metal-value");
-    var crystal = document.getElementById("crystal-value");
-    var deuterium = document.getElementById("deuterium-value");
-    var antimatter = document.getElementById("antimatter-value");
-    var energy = document.getElementById("energy-value");
-    metal.innerHTML = i;
-    crystal.innerHTML = (i)*2;
-    deuterium.innerHTML = Math.round((i)*4 / 1.5);
-    antimatter.innerHTML = Math.round((i) / (Math.sqrt(i) + 1));
-    energy.innerHTML = "42/" + i;
-    i += 10;
-}*/
+window.setInterval(updateLoop, 1000);
 
 function updateResources(iron, crystal, iridium, antimatter, energy) {
     document.getElementById("metal-value").innerText = iron;
@@ -21,4 +6,18 @@ function updateResources(iron, crystal, iridium, antimatter, energy) {
     document.getElementById("deuterium-value").innerText = iridium; // todo rename to iridium
     document.getElementById("antimatter-value").innerText = antimatter;
     document.getElementById("energy-value").innerText = energy;
+}
+
+function updateLoop() {
+        var request_id = window.cefQuery({
+            request: 'update-player-resources',
+            persistent: true,
+            onSuccess: function(response) {
+                var resources = response.split(":");
+                updateResources(resources[0], resources[1], resources[2], resources[3], resources[4]);
+            },
+            onFailure: function(error_code, error_message) {
+                console.log("cannot update player resources");
+            }
+        });
 }

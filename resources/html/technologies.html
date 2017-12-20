@@ -10,13 +10,11 @@
         <link rel="import" href="entity-template.html">
     </head>
     <body style="overflow-y:hidden; height:100%;">
-        <div id="snow">
-            <header></header>
-            <left-menu></left-menu>
-            <div id="main-content-template">
-                <div class="game-main scrollbar" id="alpha-scrollbar">
-                    <entities></entities>
-                </div>
+        <header></header>
+        <left-menu></left-menu>
+        <div id="main-content-template">
+            <div class="game-main scrollbar" id="alpha-scrollbar">
+                <entities></entities>
             </div>
         </div>
     </body>
@@ -41,7 +39,7 @@
             });
         }
 
-        function createTechnologie(id, name, level, iron, crystal, iridium, energy) {
+        function createTechnologie(id, name, description, level, iron, crystal, iridium, energy) {
             var elements = document.querySelectorAll('link[rel=import]');
             for (var i = 0; i < elements.length; i++) {
                 if (elements[i].getAttribute("href") === "entity-template.html") {
@@ -50,6 +48,8 @@
                     template.id = "entity-" + id;
                     Utils.findChildById(template, "entity-img", true).src = "img/quantum-technology.jpg";
                     Utils.findChildById(template, "entity-name", true).innerText = name;
+                    Utils.findChildById(template, "desc-text", true).innerText = description;
+                    Utils.findChildById(template, "upgrade-text", true).innerText = "Upgrade cost for level " + level;
                     Utils.findChildById(template, "entity-level", true).innerText = "Level " + level;
                     Utils.findChildById(template, "entity-level", true).id += "-" + id;
                     Utils.findChildById(template, "iron-value", true).innerText = iron;
@@ -67,14 +67,14 @@
 
         ready(function () {
             document.getElementById("technologies").className = "active";
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
-            createTechnologie(1, "test", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
+            createTechnologie(1, "test", "If you understand quantum physics, then you don't.", 1, 2, 3, 4);
         });
     </script>
 </html>
