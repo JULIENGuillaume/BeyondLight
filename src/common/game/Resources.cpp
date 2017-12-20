@@ -146,7 +146,7 @@ bool bl::common::game::Resources::operator>=(const bl::common::game::Resources &
 	return !(*this < rhs);
 }
 
-bl::common::game::Resources &bl::common::game::Resources::operator-(const bl::common::game::Resources &rhs) {
+bl::common::game::Resources &bl::common::game::Resources::operator+(const bl::common::game::Resources &rhs) {
 	this->addIron(rhs.m_iron);
 	this->addEnergy(rhs.m_energy);
 	this->addCrystal(rhs.m_crystal);
@@ -155,7 +155,7 @@ bl::common::game::Resources &bl::common::game::Resources::operator-(const bl::co
 	return *this;
 }
 
-bl::common::game::Resources &bl::common::game::Resources::operator+(const bl::common::game::Resources &rhs) {
+bl::common::game::Resources &bl::common::game::Resources::operator-(const bl::common::game::Resources &rhs) {
 	this->removeIron(rhs.m_iron);
 	this->removeEnergy(rhs.m_energy);
 	this->removeCrystal(rhs.m_crystal);
