@@ -102,7 +102,7 @@ set(COMMON_SRC
         src/common/event/Chrono.cpp
         src/common/event/Chrono.hh
         src/common/game/Resources.cpp
-        src/common/game/Resources.hh src/common/pattern/IBinarizable.hh)
+        src/common/game/Resources.hh src/common/pattern/IBinarizable.hh src/common/UnionCast.hh)
 
 ##
 ##  Game Client perf test
@@ -214,10 +214,13 @@ else ()
     message("Unknown build type")
 endif ()
 
+set(CEREAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cereal")
+
 include_directories(${CEF_ROOT}
         ${GLM_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIR}
         ${GLFW_INCLUDE_DIR}
+        ${CEREAL_INCLUDE_DIR}
         )
 
 ##

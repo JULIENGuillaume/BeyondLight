@@ -13,6 +13,7 @@
 
 #include <string>
 #include <vector>
+#include "UnionCast.hh"
 
 namespace bl {
 	namespace common {
@@ -38,6 +39,11 @@ namespace bl {
 					const std::vector<char> &toEscape,
 					char16_t eschapeChar
 			);
+			template <class T, class V> static V forceCast(T data) {
+				UnionCast<T, V> unionCast;
+				unionCast.inputType = data;
+				return unionCast.outputType;
+			};
 		};
 	}
 }
