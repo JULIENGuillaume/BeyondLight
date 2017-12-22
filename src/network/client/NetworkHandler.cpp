@@ -39,6 +39,27 @@ void bl::network::client::NetworkHandler::send(std::string const &cmd) {
 	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->addToSend(cmd);
 }
 
+void bl::network::client::NetworkHandler::send(
+		bl::network::client::ClientMessageType type,
+		uint64_t code,
+		std::string const &msg
+) {
+	//Create the message structure
+	ClientMessage message;
+	message.getBody().message = msg;
+	message.getBody().messageSize = msg.size();
+	message.getBody().code = code;
+	message.getBody().type = type;
+
+	//Serialize the message
+	std::stringstream ss;
+	cereal::PortableBinaryOutputArchive outArchive(ss);
+	outArchive(message);
+	const std::string &strRepresentation = ss.str(); //TODO: check if working to avoid unnecessary copy
+	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
+	this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
+}
+
 void bl::network::client::NetworkHandler::retrieveLine() {
 	auto str = (std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->getAndEraseLine();
 	this->m_lines.push(str);

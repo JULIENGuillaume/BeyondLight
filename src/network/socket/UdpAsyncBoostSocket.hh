@@ -29,6 +29,7 @@ namespace bl {
 				) override;
 				void send(char const *msg) override;
 				void send(std::string const &msg) override;
+				void send(std::vector<char> const &msg) override;
 				char *receive(
 						char *buf,
 						size_t bufSize
@@ -40,6 +41,7 @@ namespace bl {
 				boost::asio::ip::udp::endpoint getLastSenderEndpoint();
 				void updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint);
 				void close() override;
+				void receive(std::vector<char> &buf) override;
 			private:
 				bool m_connected = false;
 				bool m_autoEncrypt = false;

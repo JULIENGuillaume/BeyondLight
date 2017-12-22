@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include "IClient.hh"
+#include "ClientMessage.hh"
 
 namespace bl {
 	namespace network {
@@ -32,6 +33,7 @@ namespace bl {
 			public:
 				std::string getLine();
 				void send(std::string const &cmd);
+				void send(ClientMessageType type, uint64_t code, std::string const& msg);
 				std::future<std::string> asyncGetLine();
 				void asyncSend(std::string const &cmd);
 			public:

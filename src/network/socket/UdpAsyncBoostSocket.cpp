@@ -12,21 +12,26 @@
 #include <boost/bind.hpp>
 #include <boost/array.hpp>
 #include <utility>
+#include <sstream>
+#include <cereal/archives/portable_binary.hpp>
 #include "UdpAsyncBoostSocket.hh"
 
-bl::network::socket::UdpAsyncBoostSocket::UdpAsyncBoostSocket() : m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
+bl::network::socket::UdpAsyncBoostSocket::UdpAsyncBoostSocket() :
+		m_socket(std::make_shared<boost::asio::ip::udp::socket>(m_ios)) {
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::close() {
 	m_socket->close();
 }
 
-bool bl::network::socket::UdpAsyncBoostSocket::connect(std::string const &address, unsigned short port) {
+bool bl::network::socket::UdpAsyncBoostSocket::connect(
+		std::string const &address,
+		unsigned short port
+) {
 	try {
 		if (m_socket->is_open()) {
 			m_socket->close();
 		}
-
 		m_socket->open(boost::asio::ip::udp::v4());
 		m_targetEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(address), port);
 		boost::array<char, 1> send_buf = {0};
@@ -60,7 +65,15 @@ void bl::network::socket::UdpAsyncBoostSocket::send(std::string const &msg) {
 	m_socket->send_to(boost::asio::buffer(msg + "\r\n"), m_targetEndpoint);
 }
 
-char *bl::network::socket::UdpAsyncBoostSocket::receive(char *buf, size_t bufSize) {
+void bl::network::socket::UdpAsyncBoostSocket::send(const std::vector<char> &msg) {
+	m_socket->send_to(boost::asio::buffer(msg), m_targetEndpoint);
+	m_socket->send_to(boost::asio::buffer("\r\n"), m_targetEndpoint);
+}
+
+char *bl::network::socket::UdpAsyncBoostSocket::receive(
+		char *buf,
+		size_t bufSize
+) {
 	auto received = receive();
 	std::strncpy(buf, received.data(), bufSize > received.size() ? received.size() : bufSize);
 	return buf;
@@ -71,6 +84,13 @@ std::string bl::network::socket::UdpAsyncBoostSocket::receive() {
 	boost::asio::ip::udp::endpoint sender_endpoint;
 	m_socket->receive_from(boost::asio::buffer(recv_buf), m_lastSenderEndpoint, 0);
 	return std::string(recv_buf.data());
+}
+
+void bl::network::socket::UdpAsyncBoostSocket::receive(std::vector<char> &buf) {
+	boost::array<char, m_bufferSize> recv_buf{};
+	boost::asio::ip::udp::endpoint sender_endpoint;
+	m_socket->receive_from(boost::asio::buffer(recv_buf), m_lastSenderEndpoint, 0);
+	buf = std::vector<char>(recv_buf.begin(), recv_buf.end());
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::setAutoDataEncrypt(bool encrypt) {
@@ -95,3 +115,4 @@ boost::asio::ip::udp::endpoint bl::network::socket::UdpAsyncBoostSocket::getLast
 void bl::network::socket::UdpAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
 	m_targetEndpoint = std::move(endpoint);
 }
+

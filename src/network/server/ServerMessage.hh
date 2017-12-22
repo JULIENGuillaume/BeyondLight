@@ -5,8 +5,8 @@
 #ifndef BEYONDLIGHT_SERVERMESSAGE_HH
 #define BEYONDLIGHT_SERVERMESSAGE_HH
 
-#include <boost/asio.hpp>
-#include <IBinarizable.hh>
+#include <cereal/types/string.hpp>
+#include <string>
 
 namespace bl {
 	namespace network {
@@ -22,22 +22,31 @@ namespace bl {
 			};
 
 			struct ServerMessageBody {
+			public:
+				template<class Archive>
+				void serialize(Archive &archive) {
+					archive(type, code, messageSize, message); // serialize things by passing them to the archive
+				}
+
+			public:
 				ServerMessageType type;
 				uint64_t code;
 				size_t messageSize;
-				std::vector<char> message;
+				std::string message;
 			};
 
-			class ServerMessage  : public common::pattern::IBinarizable {
+			class ServerMessage {
 			public:
-				std::pair<size_t, char*> getBinaryData() override;
-				IBinarizable *loadFromBinaryData(std::pair<size_t, char*> const &data) override;
+				template<class Archive>
+				void serialize(Archive &archive) {
+					archive(m_body); // serialize things by passing them to the archive
+				}
+
+				const ServerMessageBody &getBody() const;
 			private:
-				boost::asio::ip::udp::endpoint m_endpoint;
 				ServerMessageBody m_body;
 			};
 		}
 	}
 }
-
 #endif //BEYONDLIGHT_SERVERMESSAGE_HH

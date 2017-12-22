@@ -5,6 +5,7 @@
 #ifndef KEYLOGGER_ISOCKET_HH
 #define KEYLOGGER_ISOCKET_HH
 
+#include <cereal/archives/portable_binary.hpp>
 #include <string>
 #include "PClonable.hpp"
 
@@ -24,12 +25,14 @@ namespace bl {
 			public:
 				virtual void send(char const *msg) = 0;
 				virtual void send(std::string const &msg) = 0;
+				virtual void send(std::vector<char> const& msg) = 0;
 			public:
 				virtual char *receive(
 						char *buf,
 						size_t bufSize
 				) = 0;
 				virtual std::string receive() = 0;
+				virtual void receive(std::vector<char> &buf) = 0;
 			public:
 				virtual void setAutoDataEncrypt(bool encrypt) = 0;
 				virtual void setAutoDataDecrypt(bool decrypt) = 0;
