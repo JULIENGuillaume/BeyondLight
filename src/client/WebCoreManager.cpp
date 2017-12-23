@@ -11,9 +11,11 @@
 namespace bl {
 	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
+		std::cout << "Reaching the start of the web core manager constructor" << std::endl;
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);
 		if (retCode >= 0) {
+			std::cerr << "BYE BYE at execute "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while executing cef process with error code:" + std::to_string(retCode)));
 		}
 		CefSettings settings;
@@ -29,8 +31,10 @@ namespace bl {
 		CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";
 		bool result = CefInitialize(args, settings, this, nullptr);
 		if (!result) {
+			std::cerr << "BYE BYE at initialize "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while initializing cef with error code:" + std::to_string(retCode)));
 		}
+		std::cout << "Ending the web core manager constructor" << std::endl;
 	}
 
 	WebCoreManager::~WebCoreManager() {

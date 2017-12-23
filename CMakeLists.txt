@@ -233,21 +233,23 @@ set(NETWORK_SOCKET_SRC
         ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
         src/network/socket/INetworkHandler.hh
         src/network/socket/ANetworkHandler.cpp
-        src/network/socket/ANetworkHandler.hh)
+        src/network/socket/ANetworkHandler.hh
+        src/network/server/ServerMessage.cpp
+        src/network/server/ServerMessage.hh
+        src/network/client/ClientMessage.cpp
+        src/network/client/ClientMessage.hh)
 set(NETWORK_SERVER_SRC
         ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
         ${NETWORK_SERVER_SRC_DIR}/IServer.hh
-        src/network/server/ServerMessage.cpp
-        src/network/server/ServerMessage.hh src/network/server/ServerNetworkHandler.cpp src/network/server/ServerNetworkHandler.hh)
+        src/network/server/ServerNetworkHandler.cpp
+        src/network/server/ServerNetworkHandler.hh)
 set(NETWORK_CLIENT_SRC
         ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh
-        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh
-        src/network/client/ClientMessage.cpp
-        src/network/client/ClientMessage.hh)
+        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
         ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server ${SRC_BASE_DIR}/common/pattern)
@@ -282,7 +284,7 @@ set(GAME_SRC
         src/server/game/planet/Planet.hh
         src/server/UniqueObject.cpp
         src/server/UniqueObject.hh
-        src/server/game/building/specialities/IResourceProductionBuilding.hh src/server/game/building/CrystalExtractor.cpp src/server/game/building/CrystalExtractor.hh)
+        src/server/game/building/specialities/IResourceProductionBuilding.hh src/server/game/building/CrystalExtractor.cpp src/server/game/building/CrystalExtractor.hh src/server/ServerCore.cpp src/server/ServerCore.hh)
 
 add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build

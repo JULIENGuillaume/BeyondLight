@@ -19,22 +19,27 @@ bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, b
 }
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
-	m_socket = socket;
-	this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this);
-	this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this);
+	try {
+		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this, socket);
+		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this, socket);
 
-	while (this->m_running) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		while (this->m_running) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		}
+	} catch (std::exception &e) {
+		std::cerr << "Server thread exiting with error " << e.what() << std::endl;
+		quick_exit(42);
 	}
 }
 
-void bl::network::server::BeyondLightServer::readingThread() {
+void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	std::string data;
 	bool isOpen = true;
 
+	//std::cout << "Reading thread server launched" << std::endl;
 	while (isOpen && m_running) {
 		try {
-			data += this->m_socket->receive();
+			data += socket->receive();
 			while (data.find(newLineDelim) != data.npos) {
 				auto line = data.substr(0, data.find(newLineDelim));
 				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
@@ -51,13 +56,14 @@ void bl::network::server::BeyondLightServer::readingThread() {
 	}
 }
 
-void bl::network::server::BeyondLightServer::sendingThread() {
+void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	bool isOpen = true;
 
+	//std::cout << "Sending thread server launched" << std::endl;
 	while (isOpen && m_running) {
 		try {
 			while (!this->m_toSend.empty()) {
-				this->m_socket->send(this->m_toSend.front());
+				socket->send(this->m_toSend.front());
 				this->m_toSend.pop();
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);

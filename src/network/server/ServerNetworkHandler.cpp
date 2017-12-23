@@ -28,12 +28,14 @@ std::string bl::network::server::ServerNetworkHandler::getLine() {
 }
 
 bl::network::client::ClientMessage bl::network::server::ServerNetworkHandler::getMessage() {
+	std::cout << "Getting message..." << std::endl;
 	auto str = this->getLine();
+	std::cout << "A line has been found" << std::endl;
 	std::stringstream ss(str);
 	cereal::PortableBinaryInputArchive inArchive(ss);
 	client::ClientMessage message;
 	inArchive(message);
-
+	std::cout << "Received message" << std::endl;
 	return message;
 }
 
@@ -63,6 +65,12 @@ void bl::network::server::ServerNetworkHandler::send(
 }
 
 void bl::network::server::ServerNetworkHandler::retrieveLine() {
+	std::cout << "Retrieve line has been called" << std::endl;
 	auto str = (std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->getAndEraseLine();
+	std::cout << "Retrieve line got " << str << std::endl;
 	this->m_lines.push(str);
+}
+
+std::vector<std::string> bl::network::server::ServerNetworkHandler::getListClient() {
+	return this->m_networkServer->getClientsIds();
 }

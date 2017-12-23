@@ -16,6 +16,7 @@ namespace bl {
 		) :
 				ABaseModel::ABaseModel(networkHandler),
 				m_id(id) {
+			std::cout << "Basic building model has been created" << std::endl;
 			this->update();
 		}
 
@@ -37,7 +38,9 @@ namespace bl {
 					/*this->m_networkHandler->send("3242");
 					std::string jsonReceived1 = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived1 << std::endl;*/
-					this->m_networkHandler->send("4242");
+					//this->m_networkHandler->send("4242");
+					std::cout << "Sending from building model" << std::endl;
+					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
 					std::string jsonReceived = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived << std::endl;
 					auto toks = bl::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
@@ -71,7 +74,8 @@ namespace bl {
 		}
 
 		bool BuildingModel::incrLevel() {
-			this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
+			//this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
+			this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
 			auto answers = bl::common::Toolbox::split(this->m_networkHandler->getLine(), ":");
 			if (answers[0] == "321") {
 				return (false);

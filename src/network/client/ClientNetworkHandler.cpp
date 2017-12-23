@@ -13,6 +13,7 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 	if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
+	std::cout << "Successfully connected to server" << std::endl;
 	this->m_networkThread = m_networkClient->asyncLaunch();
 }
 
@@ -22,6 +23,7 @@ bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {
 }
 
 std::string bl::network::client::ClientNetworkHandler::getLine() {
+	std::cout << "Trying to get a line" << std::endl;
 	while (this->m_lines.empty()) {
 		if (!this->m_networkClient->isRunning()) {
 			throw std::runtime_error("Failed to get line: network isn't connected.");
@@ -30,6 +32,7 @@ std::string bl::network::client::ClientNetworkHandler::getLine() {
 	}
 	auto line = this->m_lines.front();
 	this->m_lines.pop();
+	std::cout << "Return " << line << std::endl;
 	return line;
 }
 
@@ -44,6 +47,7 @@ bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::ge
 }
 
 void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
+	std::cout << "Sending " << cmd << std::endl;
 	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->addToSend(cmd);
 }
 
@@ -52,6 +56,7 @@ void bl::network::client::ClientNetworkHandler::send(
 		uint64_t code,
 		std::string const &msg
 ) {
+	std::cout << "Creating a new message " << code << " " << msg << std::endl;
 	//Create the message structure
 	ClientMessage message;
 	message.getBody().message = msg;

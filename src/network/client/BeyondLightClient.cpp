@@ -16,7 +16,7 @@
 bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
 
 void bl::network::client::BeyondLightClient::mainLoop() {
-	//std::cout << "Client is in the main loop" << std::endl;
+	std::cout << "Client is in the main loop" << std::endl;
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
@@ -40,7 +40,9 @@ void bl::network::client::BeyondLightClient::readingThread() {
 
 	while (isOpen && m_running) {
 		try {
+			std::cout << "Client is ready to read..." << std::endl;
 			data += this->m_socket->receive();
+			std::cout << "Client has read [" << data << "]" << std::endl;
 			while (data.find(newLineDelim) != data.npos) {
 				auto line = data.substr(0, data.find(newLineDelim));
 				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
@@ -63,6 +65,7 @@ void bl::network::client::BeyondLightClient::sendingThread() {
 	while (isOpen && m_running) {
 		try {
 			while (!this->m_toSend.empty()) {
+				std::cout << "CLient is sending " << this->m_toSend.front()
 				this->m_socket->send(this->m_toSend.front());
 				this->m_toSend.pop();
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);

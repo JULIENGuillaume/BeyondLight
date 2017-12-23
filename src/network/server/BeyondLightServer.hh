@@ -28,10 +28,9 @@ namespace bl {
 			protected:
 				void mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) override;
 			private:
-				void readingThread();
-				void sendingThread();
+				void readingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
+				void sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
 			private:
-				std::shared_ptr<bl::network::socket::ISocket> m_socket;
 				ServerNetworkHandler *m_handler;
 				std::queue<std::string> m_toSend;
 				std::queue<std::string> m_lines;

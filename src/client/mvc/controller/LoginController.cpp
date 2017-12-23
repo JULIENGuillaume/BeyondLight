@@ -9,13 +9,13 @@
 namespace bl {
 	namespace mvc {
 		bool LoginController::onQuery(
-				CefRefPtr<CefBrowser> browser,
-				CefRefPtr<CefFrame> frame,
-				int64 query_id,
-				const CefString &request,
-				bool persistent,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
-				std::string &newRoute
+			CefRefPtr<CefBrowser> browser,
+			CefRefPtr<CefFrame> frame,
+			int64 query_id,
+			const CefString &request,
+			bool persistent,
+			CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
+			std::string &newRoute
 		) {
 			std::string message(request);
 			if (message.find("login-connect") == 0) {
@@ -31,16 +31,17 @@ namespace bl {
 		}
 
 		bool LoginController::handleLogin(
-				CefRefPtr<CefBrowser> browser,
-				std::string message,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+			CefRefPtr<CefBrowser> browser,
+			std::string message,
+			CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
 		) {
 			auto networkHandler = this->m_webCore->getNetworkHandler();
 			std::vector<std::string> logInfo = common::Toolbox::split(message, ":");
 			if (logInfo.size() != 2) {
 				callback->Failure(0, "Please enter both your login and password");
 			} else {
-				networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
+				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
+				networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + logInfo[1]);
 				auto future = networkHandler->asyncGetLine();
 				future.wait();
 				auto toks = common::Toolbox::split(future.get(), ":");
@@ -55,21 +56,24 @@ namespace bl {
 		}
 
 		void LoginController::handleRegister(
-				CefRefPtr<CefBrowser> browser,
-				std::string message,
-				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
+			CefRefPtr<CefBrowser> browser,
+			std::string message,
+			CefRefPtr<CefMessageRouterBrowserSide::Callback> callback
 		) {
 			auto networkHandler = this->m_webCore->getNetworkHandler();
 			std::vector<std::string> logInfo = common::Toolbox::split(message,
-																	  ":");
+			                                                          ":");
 			if (logInfo.size() == 6) {
 				if (logInfo[4] != logInfo[5]) {
 					callback->Failure(0, "Password must be the sames !");
 				} else {
-					networkHandler->send(
+					/*networkHandler->send(
 							"043:" + logInfo[0] + ":" + logInfo[1] + ":" +
 									logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" +
-									logInfo[5]);
+									logInfo[5]);*/
+					networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 43,
+					                     logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" +
+					                     logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
 					auto future = networkHandler->asyncGetLine();
 					future.wait();
 					auto toks = common::Toolbox::split(future.get(), ":");

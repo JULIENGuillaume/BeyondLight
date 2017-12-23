@@ -10,7 +10,8 @@ namespace bl {
 		void ResourcesModel::update() {
 			if (this->m_networkHandler.get()) {
 				try {
-					this->m_networkHandler->send("3242");
+					//this->m_networkHandler->send("3242");
+					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
 					std::string jsonReceived = this->m_networkHandler->getLine();
 					std::cout << "Received " << jsonReceived << std::endl;
 					auto toks = bl::common::Toolbox::splitAtMax(jsonReceived, ":", 1);

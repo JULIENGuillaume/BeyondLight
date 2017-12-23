@@ -23,6 +23,9 @@ namespace bl {
 				void send(std::string const &cmd) override;
 				void send(ServerMessageType type, uint64_t code, std::string const& msg);
 
+			public:
+				std::vector<std::string> getListClient();
+
 			protected:
 				void retrieveLine() override;
 			private:

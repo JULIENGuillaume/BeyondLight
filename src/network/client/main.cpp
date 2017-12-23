@@ -19,10 +19,14 @@ int main() {
 	FactoriesInit();
 
 	try {
+		std::cout << "Creating main handler..." << std::endl;
 		bl::MainHandler mainHandler;
 
+		std::cout << "Creating browser..." << std::endl;
 		mainHandler.createBrowser();
+		std::cout << "Starting main loop..." << std::endl;
 		mainHandler.startMainLoop();
+		std::cout << "Ending..." << std::endl;
 
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;

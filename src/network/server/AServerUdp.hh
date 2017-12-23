@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <thread>
+#include <unordered_map>
 #include "IServer.hh"
 
 namespace bl {
@@ -26,13 +27,15 @@ namespace bl {
 				void restart() override;
 				std::shared_ptr<std::thread> asyncRun() override;
 				bool isRunning() override;
+				std::vector<std::string> getClientsIds() override;
 			protected:
 				bool m_running = false;
 			private:
 				std::string const m_factoryKey;
 				unsigned short m_port;
 			private:
-				std::vector<std::thread> m_clients;
+				std::unordered_map<std::string, std::thread> m_clients;
+				std::vector<std::string> m_clientsIds;
 			};
 		}
 	}
