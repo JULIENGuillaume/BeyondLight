@@ -13,7 +13,6 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 	if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
-	this->m_privateWatchers.emplace(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE, &socket::ANetworkHandler::retrieveLine);
 	this->m_networkThread = m_networkClient->asyncLaunch();
 	//this->addWatcher(EWatcherType::WATCH_ALL_WATCHER_READ_DONE, "Final line retriever", &ClientNetworkHandler::retrieveLine);
 }

@@ -17,6 +17,7 @@ namespace bl {
 
 			class ANetworkHandler : public INetworkHandler {
 			public:
+				ANetworkHandler();
 				virtual ~ANetworkHandler() = default;
 			public:
 				std::future<std::string> asyncGetLine() override;
