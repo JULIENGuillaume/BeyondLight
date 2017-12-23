@@ -6,6 +6,7 @@
 #define BEYONDLIGHT_SERVERNETWORKHANDLER_HH
 
 #include <ANetworkHandler.hh>
+#include "../client/ClientMessage.hh"
 #include "ServerMessage.hh"
 #include "IServer.hh"
 
