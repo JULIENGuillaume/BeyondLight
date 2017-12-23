@@ -7,6 +7,7 @@
 #include <future>
 #include <thread>
 #include <iostream>
+#include <ClientMessage.hh>
 #include "ServerNetworkHandler.hh"
 #include "BeyondLightServer.hh"
 
@@ -24,6 +25,16 @@ std::string bl::network::server::ServerNetworkHandler::getLine() {
 	auto line = this->m_lines.front();
 	this->m_lines.pop();
 	return line;
+}
+
+bl::network::client::ClientMessage bl::network::server::ServerNetworkHandler::getMessage() {
+	auto str = this->getLine();
+	std::stringstream ss(str);
+	cereal::PortableBinaryInputArchive inArchive(ss);
+	client::ClientMessage message;
+	inArchive(message);
+
+	return message;
 }
 
 void bl::network::server::ServerNetworkHandler::send(std::string const &cmd) {

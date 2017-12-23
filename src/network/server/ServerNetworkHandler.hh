@@ -18,6 +18,7 @@ namespace bl {
 				~ServerNetworkHandler() override = default;
 			public:
 				std::string getLine() override;
+				client::ClientMessage getMessage();
 				void send(std::string const &cmd) override;
 				void send(ServerMessageType type, uint64_t code, std::string const& msg);
 

@@ -10,6 +10,7 @@
 #include <map>
 #include <queue>
 #include <ANetworkHandler.hh>
+#include <ServerMessage.hh>
 #include "IClient.hh"
 #include "ClientMessage.hh"
 
@@ -25,6 +26,7 @@ namespace bl {
 				~ClientNetworkHandler() override;
 			public:
 				std::string getLine() override;
+				server::ServerMessage getMessage();
 				void send(std::string const &cmd) override;
 				void send(ClientMessageType type, uint64_t code, std::string const& msg);
 

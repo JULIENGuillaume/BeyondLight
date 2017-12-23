@@ -33,6 +33,16 @@ std::string bl::network::client::ClientNetworkHandler::getLine() {
 	return line;
 }
 
+bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::getMessage() {
+	auto str = this->getLine();
+	std::stringstream ss(str);
+	cereal::PortableBinaryInputArchive inArchive(ss);
+	server::ServerMessage message;
+	inArchive(message);
+
+	return message;
+}
+
 void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
 	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->addToSend(cmd);
 }
