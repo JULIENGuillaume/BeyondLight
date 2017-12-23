@@ -12,7 +12,7 @@ namespace bl {
 	namespace mvc {
 		class BuildingModel : public ABaseModel {
 		public:
-			BuildingModel(std::shared_ptr<network::client::NetworkHandler> networkHandler, unsigned int id);
+			BuildingModel(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler, unsigned int id);
 			void update() override;
 			unsigned int getId() const;
 			const std::string &getName() const;

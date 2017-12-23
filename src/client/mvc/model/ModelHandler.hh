@@ -7,7 +7,7 @@
 
 #include <unordered_map>
 #include <memory>
-#include <NetworkHandler.hh>
+#include <ClientNetworkHandler.hh>
 #include "../DataHandler.hpp"
 #include "ABaseModel.hh"
 
@@ -16,7 +16,7 @@ namespace bl {
 		class ModelHandler
 				: public DataHandler<std::string, std::shared_ptr<ABaseModel>> {
 		public:
-			ModelHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler);
+			ModelHandler(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler);
 
 			template<typename Model>
 			std::shared_ptr<Model> getModel(const std::string &name) {
@@ -33,7 +33,7 @@ namespace bl {
 			}
 
 		private:
-			std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+			std::shared_ptr<network::client::ClientNetworkHandler> m_networkHandler;
 		};
 	}
 }

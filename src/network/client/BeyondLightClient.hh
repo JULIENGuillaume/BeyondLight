@@ -13,14 +13,14 @@
 
 #include <queue>
 #include "AClientUdp.hh"
-#include "NetworkHandler.hh"
+#include "ClientNetworkHandler.hh"
 
 namespace bl {
 	namespace network {
 		namespace client {
 			class BeyondLightClient : public AClientUdp {
 			public:
-				explicit BeyondLightClient(bl::network::client::NetworkHandler *handler);
+				explicit BeyondLightClient(bl::network::client::ClientNetworkHandler *handler);
 			public:
 				std::string const &getLine() const;
 				void setLineToRead();
@@ -33,7 +33,7 @@ namespace bl {
 				void readingThread();
 				void sendingThread();
 			private:
-				NetworkHandler *m_handler;
+				ClientNetworkHandler *m_handler;
 				std::queue<std::string> m_toSend;
 				std::queue<std::string> m_lines;
 			private:

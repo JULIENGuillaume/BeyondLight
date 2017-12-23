@@ -6,7 +6,7 @@
 #define CEFOFFSCREEN_MESSAGEHANDLER_HH
 
 #include <iostream>
-#include "NetworkHandler.hh"
+#include "ClientNetworkHandler.hh"
 #include "include/wrapper/cef_message_router.h"
 #include "mvc/MvcHandler.hh"
 

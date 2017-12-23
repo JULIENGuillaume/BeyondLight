@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <NetworkHandler.hh>
+#include <ClientNetworkHandler.hh>
 #include "include/cef_client.h"
 
 namespace bl {
@@ -19,7 +19,7 @@ namespace bl {
 	public:
 		WebCore(
 				const std::string &url,
-				std::shared_ptr<network::client::NetworkHandler> networkHandler
+				std::shared_ptr<network::client::ClientNetworkHandler> networkHandler
 		);
 		~WebCore();
 		void reshape(
@@ -56,12 +56,12 @@ namespace bl {
 		CefRefPtr<RenderHandler> getRenderHandler() const;
 		CefRefPtr<const CefBrowser> getBrowser() const;
 		CefRefPtr<const BrowserClient> getClient() const;
-		std::shared_ptr<const network::client::NetworkHandler>
+		std::shared_ptr<const network::client::ClientNetworkHandler>
 		getNetworkHandler() const;
 		std::shared_ptr<const mvc::MvcHandler> getMvcHandler() const;
 		CefRefPtr<CefBrowser> getBrowser();
 		CefRefPtr<BrowserClient> getClient();
-		std::shared_ptr<network::client::NetworkHandler> getNetworkHandler();
+		std::shared_ptr<network::client::ClientNetworkHandler> getNetworkHandler();
 		std::shared_ptr<mvc::MvcHandler> getMvcHandler();
 	private:
 		int m_mouseX;
@@ -71,7 +71,7 @@ namespace bl {
 		CefRefPtr<BrowserClient> m_client;
 		CefRefPtr<RenderHandler> m_renderHandler;
 		std::shared_ptr<mvc::MvcHandler> m_mvcHandler;
-		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+		std::shared_ptr<network::client::ClientNetworkHandler> m_networkHandler;
 		std::chrono::time_point<std::chrono::system_clock> m_chrono;
 	};
 }

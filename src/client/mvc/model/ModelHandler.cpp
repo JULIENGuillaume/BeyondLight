@@ -8,7 +8,7 @@
 
 namespace bl {
 	namespace mvc {
-		ModelHandler::ModelHandler(std::shared_ptr<network::client::NetworkHandler> networkHandler) {
+		ModelHandler::ModelHandler(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) {
 			this->m_networkHandler = networkHandler;
 			this->m_data = {
 					{"building-iron-mine", std::shared_ptr<ABaseModel>(new BuildingModel(networkHandler, 1))}, // todo "buidling-id" instead ?

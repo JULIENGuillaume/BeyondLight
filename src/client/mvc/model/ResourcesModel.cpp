@@ -31,7 +31,7 @@ namespace bl {
 		}
 
 		ResourcesModel::ResourcesModel(
-				std::shared_ptr<network::client::NetworkHandler> networkHandler,
+				std::shared_ptr<network::client::ClientNetworkHandler> networkHandler,
 				const boost::uuids::uuid &uuid // todo see what we use after serv refactor
 		) :
 				ABaseModel::ABaseModel(networkHandler),

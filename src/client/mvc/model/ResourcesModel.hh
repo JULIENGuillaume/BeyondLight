@@ -13,7 +13,7 @@ namespace bl {
 	namespace mvc {
 		class ResourcesModel : public ABaseModel  {
 		public:
-			ResourcesModel(std::shared_ptr<network::client::NetworkHandler> networkHandler, const boost::uuids::uuid &uuid);
+			ResourcesModel(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler, const boost::uuids::uuid &uuid);
 			void update() override;
 			const common::game::Resources &getResources() const;
 		private:

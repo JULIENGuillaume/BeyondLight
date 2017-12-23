@@ -141,8 +141,8 @@ set(CLIENT_SRC
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
-        src/network/client/NetworkHandler.cpp
-        src/network/client/NetworkHandler.hh
+        src/network/client/ClientNetworkHandler.cpp
+        src/network/client/ClientNetworkHandler.hh
         src/common/event/IEventObserver.hh
         src/common/event/EventObserver.cpp
         src/common/event/EventObserver.hh
@@ -173,7 +173,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/TechnologiesController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
-        libs/stb/stb_image.h)
+        libs/stb/stb_image.h src/network/socket/ANetworkHandler.cpp src/network/socket/ANetworkHandler.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -229,7 +229,7 @@ include_directories(${CEF_ROOT}
 
 set(NETWORK_SOCKET_SRC
         ${NETWORK_SOCKET_SRC_DIR}/UdpAsyncBoostSocket.cpp
-        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh)
+        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh src/network/socket/INetworkHandler.hh)
 set(NETWORK_SERVER_SRC
         ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp

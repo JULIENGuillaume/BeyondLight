@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include "../model/ModelHandler.hh"
-#include "../../../network/client/NetworkHandler.hh"
+#include "ClientNetworkHandler.hh"
 #include "include/wrapper/cef_message_router.h"
 
 namespace bl {

@@ -11,7 +11,7 @@ namespace bl {
 	namespace mvc {
 
 		BuildingModel::BuildingModel(
-				std::shared_ptr<network::client::NetworkHandler> networkHandler,
+				std::shared_ptr<network::client::ClientNetworkHandler> networkHandler,
 				unsigned int id
 		) :
 				ABaseModel::ABaseModel(networkHandler),

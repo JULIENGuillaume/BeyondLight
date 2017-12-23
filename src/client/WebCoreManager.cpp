@@ -9,7 +9,7 @@
 #include "../common/Toolbox.hh"
 
 namespace bl {
-	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) :
+	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);

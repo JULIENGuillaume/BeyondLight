@@ -5,18 +5,18 @@
 #ifndef MVC_TEST_ABASEMODEL_HH
 #define MVC_TEST_ABASEMODEL_HH
 
-#include <NetworkHandler.hh>
+#include <ClientNetworkHandler.hh>
 #include "../../../common/event/EventObserver.hh"
 
 namespace bl {
 	namespace mvc {
 		class ABaseModel : public EventObserver {
 		public:
-			ABaseModel(std::shared_ptr<network::client::NetworkHandler> networkHandler);
+			ABaseModel(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler);
 			virtual void update() = 0;
 			// todo add getter & setter for uuid ?
 		protected:
-			std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+			std::shared_ptr<network::client::ClientNetworkHandler> m_networkHandler;
 		};
 	}
 }
