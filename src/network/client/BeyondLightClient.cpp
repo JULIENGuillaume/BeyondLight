@@ -21,7 +21,7 @@ void bl::network::client::BeyondLightClient::mainLoop() {
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
 	while (this->m_running) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }
 

@@ -22,7 +22,7 @@ namespace bl {
 						std::string const &ip = "127.0.0.1",
 						unsigned short port = 4224
 				);
-				virtual ~ClientNetworkHandler();
+				~ClientNetworkHandler() override;
 			public:
 				std::string getLine() override;
 				void send(std::string const &cmd) override;

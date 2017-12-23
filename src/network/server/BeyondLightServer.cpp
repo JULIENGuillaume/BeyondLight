@@ -11,18 +11,92 @@
 #include <SocketFactory.hh>
 #include "BeyondLightServer.hh"
 #include "ISocket.hh"
-#include "../../common/Toolbox.hh"
-#include "../../server/user/RegisteredUsers.hh"
 #include "../../server/game/building/IBuilding.hh"
-#include "../../server/game/building/IronMine.hh"
 #include "../../server/game/planet/Planet.hh"
 
-bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port) :
-		AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port) {
+bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler) :
+	AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port), m_handler(handler) {
 }
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
-	auto users = ::server::user::RegisteredUsers::getInstance();
+	m_socket = socket;
+	this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this);
+	this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this);
+
+	while (this->m_running) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
+
+void bl::network::server::BeyondLightServer::readingThread() {
+	std::string data;
+	bool isOpen = true;
+
+	while (isOpen && m_running) {
+		try {
+			data += this->m_socket->receive();
+			while (data.find(newLineDelim) != data.npos) {
+				auto line = data.substr(0, data.find(newLineDelim));
+				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
+				this->m_lines.push(line);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
+			}
+		} catch (std::exception const &) {
+			isOpen = false;
+			std::cerr << "Exception in reading thread, quitting" << std::endl;
+			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
+			this->m_running = false;
+		}
+	}
+}
+
+void bl::network::server::BeyondLightServer::sendingThread() {
+	bool isOpen = true;
+
+	while (isOpen && m_running) {
+		try {
+			while (!this->m_toSend.empty()) {
+				this->m_socket->send(this->m_toSend.front());
+				this->m_toSend.pop();
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
+			}
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		} catch (std::exception const &) {
+			isOpen = false;
+			std::cerr << "Exception in sending thread, quitting" << std::endl;
+			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
+			this->m_running = false;
+		}
+	}
+}
+
+std::string const &bl::network::server::BeyondLightServer::getLine() const {
+	return this->m_lines.front();
+}
+
+void bl::network::server::BeyondLightServer::addToSend(std::string const &cmd) {
+	this->m_toSend.push(cmd);
+}
+
+void bl::network::server::BeyondLightServer::setLineToRead() {
+	this->m_lines.pop();
+}
+
+std::string bl::network::server::BeyondLightServer::getAndEraseLine() {
+	std::string line = this->getLine();
+	this->setLineToRead();
+	while (line.empty()) {
+		line = this->getLine();
+		this->setLineToRead();
+	}
+	return line;
+}
+
+/*TODO: remove old server
+void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
+	auto users = ::server::user::RegisteredUsers::getInstance(); 
 	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
 	::bl::server::game::planet::Planet planet;
 	std::cout << "Main loop reached" << std::endl;
@@ -101,3 +175,4 @@ void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::networ
 	}
 	std::cout << "End of server" << std::endl;
 }
+*/

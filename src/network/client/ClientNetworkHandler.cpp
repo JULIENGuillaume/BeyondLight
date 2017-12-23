@@ -14,7 +14,6 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 		throw std::runtime_error("Can't launch network client");
 	}
 	this->m_networkThread = m_networkClient->asyncLaunch();
-	//this->addWatcher(EWatcherType::WATCH_ALL_WATCHER_READ_DONE, "Final line retriever", &ClientNetworkHandler::retrieveLine);
 }
 
 bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {

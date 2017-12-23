@@ -12,17 +12,33 @@
 #define BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 
 #include "AServerUdp.hh"
+#include "ServerNetworkHandler.hh"
 
 namespace bl {
 	namespace network {
 		namespace server {
 			class BeyondLightServer : public AServerUdp {
 			public:
-				BeyondLightServer(unsigned short port);
+				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
+			public:
+				std::string const &getLine() const;
+				void setLineToRead();
+				std::string getAndEraseLine();
+				void addToSend(std::string const &cmd);
 			protected:
 				void mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) override;
 			private:
-				bool m_running = true;
+				void readingThread();
+				void sendingThread();
+			private:
+				std::shared_ptr<bl::network::socket::ISocket> m_socket;
+				ServerNetworkHandler *m_handler;
+				std::queue<std::string> m_toSend;
+				std::queue<std::string> m_lines;
+			private:
+				std::vector<std::thread> m_activeThreads;
+			private:
+				const std::string newLineDelim = "\r\n";
 			};
 		}
 	}

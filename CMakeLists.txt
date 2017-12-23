@@ -46,6 +46,7 @@ endif ()
 ########################################
 
 if (MSVC)
+    set(CMAKE_CXX_FLAGS "/MP")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
 endif (MSVC)
@@ -173,7 +174,7 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/TechnologiesController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
-        libs/stb/stb_image.h src/network/socket/ANetworkHandler.cpp src/network/socket/ANetworkHandler.hh)
+        libs/stb/stb_image.h)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -229,14 +230,17 @@ include_directories(${CEF_ROOT}
 
 set(NETWORK_SOCKET_SRC
         ${NETWORK_SOCKET_SRC_DIR}/UdpAsyncBoostSocket.cpp
-        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh src/network/socket/INetworkHandler.hh)
+        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
+        src/network/socket/INetworkHandler.hh
+        src/network/socket/ANetworkHandler.cpp
+        src/network/socket/ANetworkHandler.hh)
 set(NETWORK_SERVER_SRC
         ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
         ${NETWORK_SERVER_SRC_DIR}/IServer.hh
         src/network/server/ServerMessage.cpp
-        src/network/server/ServerMessage.hh)
+        src/network/server/ServerMessage.hh src/network/server/ServerNetworkHandler.cpp src/network/server/ServerNetworkHandler.hh)
 set(NETWORK_CLIENT_SRC
         ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp

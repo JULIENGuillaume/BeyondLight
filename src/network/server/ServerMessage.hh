@@ -43,6 +43,7 @@ namespace bl {
 				}
 
 				const ServerMessageBody &getBody() const;
+				ServerMessageBody &getBody() ;
 			private:
 				ServerMessageBody m_body;
 			};

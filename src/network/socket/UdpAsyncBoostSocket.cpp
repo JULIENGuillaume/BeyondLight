@@ -75,7 +75,7 @@ char *bl::network::socket::UdpAsyncBoostSocket::receive(
 		size_t bufSize
 ) {
 	auto received = receive();
-	std::strncpy(buf, received.data(), bufSize > received.size() ? received.size() : bufSize);
+	std::memcpy(buf, received.data(), bufSize > received.size() ? received.size() : bufSize);
 	return buf;
 }
 

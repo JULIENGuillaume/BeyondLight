@@ -7,3 +7,7 @@
 const bl::network::server::ServerMessageBody &bl::network::server::ServerMessage::getBody() const {
 	return m_body;
 }
+
+bl::network::server::ServerMessageBody &bl::network::server::ServerMessage::getBody() {
+	return m_body;
+}

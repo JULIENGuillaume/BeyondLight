@@ -16,8 +16,9 @@ int main() {
 	//TODO: move the main to a more coherent place
 
 	try {
-		std::shared_ptr<bl::network::server::IServer> server(new bl::network::server::BeyondLightServer(8080));
-		server->run();
+		//std::shared_ptr<bl::network::server::IServer> server(new bl::network::server::BeyondLightServer(8080));
+		//server->run();
+		bl::network::server::ServerNetworkHandler serverNetworkHandler;
 	} catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return 1;

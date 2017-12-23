@@ -1,8 +1,8 @@
 ﻿#include <iostream>
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
 #include "RenderHandler.hh"
 #include "ImageLoader.hh"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 #ifndef GL_BGR
 #define GL_BGR 0x80E0
@@ -330,7 +330,7 @@ namespace bl {
 			VERIFY_NO_ERROR;
 			glColor3f(1.0f, 0.0f, 0.0f);
 			VERIFY_NO_ERROR;
-			for (int i = 0;
+			for (unsigned int i = 0;
 				 i < m_update_rect.size();
 				 i++) {
 				int left = m_update_rect[i].x;

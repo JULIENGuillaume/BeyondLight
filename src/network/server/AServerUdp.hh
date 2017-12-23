@@ -24,12 +24,15 @@ namespace bl {
 				void run() override;
 				void stop() override;
 				void restart() override;
+				std::shared_ptr<std::thread> asyncRun() override;
+				bool isRunning() override;
+			protected:
+				bool m_running = false;
 			private:
 				std::string const m_factoryKey;
 				unsigned short m_port;
 			private:
 				std::vector<std::thread> m_clients;
-				bool running = false;
 			};
 		}
 	}

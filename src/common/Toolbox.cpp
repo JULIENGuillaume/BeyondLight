@@ -40,7 +40,7 @@ namespace bl {
 		std::vector<std::string> tokens;
 		std::string s = str;
 		size_t pos;
-		while (tokens.size() < max && (pos = s.find(sep)) != std::string::npos) {
+		while (static_cast<int>(tokens.size()) < max && (pos = s.find(sep)) != std::string::npos) {
 			auto token = s.substr(0, pos);
 			if (!token.empty())
 				tokens.push_back(token);
