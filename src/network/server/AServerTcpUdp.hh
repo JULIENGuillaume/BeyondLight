@@ -15,13 +15,14 @@
 namespace bl {
 	namespace network {
 		namespace server {
-			class AServerUdp : public IServer {
+			class AServerTcpUdp : public IServer {
 			public:
-				explicit AServerUdp(
-						std::string const &factoryKey,
+				explicit AServerTcpUdp(
+					std::string const &factoryKeyUdp,
+					std::string const &factoryKeyTcp,
 						unsigned short port
 				);
-				~AServerUdp() override = default;
+				~AServerTcpUdp() override = default;
 			public:
 				void run() override;
 				void stop() override;
@@ -34,7 +35,8 @@ namespace bl {
 				const size_t maxSockets = 1; //TODO: check how to make it work with more sockets
 				std::vector<std::shared_ptr<bl::network::socket::ISocket>> m_sockets;
 			private:
-				std::string const m_factoryKey;
+				std::string const m_factoryKeyUdp;
+				std::string const m_factoryKeyTcp;
 				unsigned short m_port;
 			private:
 				std::unordered_map<std::string, boost::asio::ip::udp::endpoint> m_clients;

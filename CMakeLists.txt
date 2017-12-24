@@ -72,6 +72,7 @@ add_definitions(
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
 set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
+
 find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 
 ##
@@ -200,6 +201,10 @@ set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
 set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
 set(USE_SANDBOX OFF)
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+set(OPENSSL_MSVC_STATIC_RT TRUE)
+
+find_package(OpenSSL REQUIRED)
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glew REQUIRED)
@@ -222,6 +227,7 @@ include_directories(${CEF_ROOT}
         ${GLEW_INCLUDE_DIR}
         ${GLFW_INCLUDE_DIR}
         ${CEREAL_INCLUDE_DIR}
+        ${OPENSSL_INCLUDE_DIR}
         )
 
 ##
@@ -231,6 +237,11 @@ include_directories(${CEF_ROOT}
 set(NETWORK_SOCKET_SRC
         ${NETWORK_SOCKET_SRC_DIR}/UdpAsyncBoostSocket.cpp
         ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
+        ${NETWORK_SOCKET_SRC_DIR}/IAcceptor.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostAcceptor.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostAcceptor.cpp
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostSslSocket.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostSslSocket.cpp
         src/network/socket/INetworkHandler.hh
         src/network/socket/ANetworkHandler.cpp
         src/network/socket/ANetworkHandler.hh
@@ -239,14 +250,14 @@ set(NETWORK_SOCKET_SRC
         src/network/client/ClientMessage.cpp
         src/network/client/ClientMessage.hh)
 set(NETWORK_SERVER_SRC
-        ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp
+        ${NETWORK_SERVER_SRC_DIR}/AServerTcpUdp.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
         ${NETWORK_SERVER_SRC_DIR}/IServer.hh
         src/network/server/ServerNetworkHandler.cpp
         src/network/server/ServerNetworkHandler.hh)
 set(NETWORK_CLIENT_SRC
-        ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp
+        ${NETWORK_CLIENT_SRC_DIR}/AClientTcpUdp.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh
         ${NETWORK_CLIENT_SRC_DIR}/IClient.hh)
@@ -295,14 +306,14 @@ target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NET
 target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 
 IF (UNIX)
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
-    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
 ELSE ()
 
     #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
-    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32)
+    target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 ENDIF (UNIX)
 
 ##

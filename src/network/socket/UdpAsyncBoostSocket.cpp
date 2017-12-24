@@ -84,6 +84,7 @@ char *bl::network::socket::UdpAsyncBoostSocket::receive(
 	return buf;
 }
 
+//TODO: work with size instead of adding a header
 std::string bl::network::socket::UdpAsyncBoostSocket::receive() {
 	boost::array<char, m_bufferSize> recv_buf{};
 	boost::asio::ip::udp::endpoint sender_endpoint;

@@ -12,13 +12,13 @@
 #define BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 
 #include <boost/asio/ip/udp.hpp>
-#include "AServerUdp.hh"
+#include "AServerTcpUdp.hh"
 #include "ServerNetworkHandler.hh"
 
 namespace bl {
 	namespace network {
 		namespace server {
-			class BeyondLightServer : public AServerUdp {
+			class BeyondLightServer : public AServerTcpUdp {
 			public:
 				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
 			public:

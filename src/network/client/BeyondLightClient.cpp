@@ -13,7 +13,7 @@
 #include "BeyondLightClient.hh"
 #include "../../client/MainHandler.hh"
 
-bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
+bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientTcpUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
 
 void bl::network::client::BeyondLightClient::mainLoop() {
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
@@ -25,7 +25,7 @@ void bl::network::client::BeyondLightClient::mainLoop() {
 }
 
 void bl::network::client::BeyondLightClient::disconnect() {
-	AClientUdp::disconnect();
+	AClientTcpUdp::disconnect();
 	this->m_socket->close();
 	for (auto &thread : this->m_activeThreads) {
 		thread.join();

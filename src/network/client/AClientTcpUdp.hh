@@ -12,10 +12,10 @@
 namespace bl {
 	namespace network {
 		namespace client {
-			class AClientUdp : public IClient {
+			class AClientTcpUdp : public IClient {
 			public:
-				explicit AClientUdp(const std::string &factoryKey);
-				~AClientUdp() override = default;
+				explicit AClientTcpUdp(const std::string &factoryKey);
+				~AClientTcpUdp() override = default;
 			public:
 				bool connectTo(
 						const std::string &address,

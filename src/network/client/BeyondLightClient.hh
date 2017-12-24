@@ -12,13 +12,13 @@
 #define BEYONDLIGHT_BEYONDLIGHTCLIENT_HH
 
 #include <queue>
-#include "AClientUdp.hh"
+#include "AClientTcpUdp.hh"
 #include "ClientNetworkHandler.hh"
 
 namespace bl {
 	namespace network {
 		namespace client {
-			class BeyondLightClient : public AClientUdp {
+			class BeyondLightClient : public AClientTcpUdp {
 			public:
 				explicit BeyondLightClient(bl::network::client::ClientNetworkHandler *handler);
 			public:

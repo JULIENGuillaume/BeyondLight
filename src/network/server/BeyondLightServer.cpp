@@ -16,7 +16,7 @@
 #include "../../server/game/planet/Planet.hh"
 
 bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler) :
-	AServerUdp(socket::serverKeyUdpSslAsyncBoostSocket, port), m_handler(handler) {
+	AServerTcpUdp(socket::serverKeyUdpSslAsyncBoostSocket, socket::serverKeyTcpSslBoostSocket, port), m_handler(handler) {
 }
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {

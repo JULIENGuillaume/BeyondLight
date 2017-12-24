@@ -5,15 +5,15 @@
 #include <SocketFactory.hh>
 #include <fstream>
 #include <UdpAsyncBoostSocket.hh>
-#include "AClientUdp.hh"
+#include "AClientTcpUdp.hh"
 #include "../../common/NetworkWrapper.hh"
 
-bl::network::client::AClientUdp::AClientUdp(std::string const &factoryKey) : m_socket(socket::SocketFactory::getInstance()->create(factoryKey)) {
+bl::network::client::AClientTcpUdp::AClientTcpUdp(std::string const &factoryKey) : m_socket(socket::SocketFactory::getInstance()->create(factoryKey)) {
 	if (m_socket == nullptr)
 		std::cerr << "Can't create socket client: invalid factory key" << std::endl;
 }
 
-bool bl::network::client::AClientUdp::connectTo(const std::string &address, unsigned short port) {
+bool bl::network::client::AClientTcpUdp::connectTo(const std::string &address, unsigned short port) {
 	if (!this->m_running) {
 		if (!this->m_socket->connect(address, port))
 			return false;
@@ -33,15 +33,15 @@ bool bl::network::client::AClientUdp::connectTo(const std::string &address, unsi
 	return true;
 }
 
-void bl::network::client::AClientUdp::disconnect() {
+void bl::network::client::AClientTcpUdp::disconnect() {
 	m_running = false;
 }
 
-std::shared_ptr<std::thread> bl::network::client::AClientUdp::asyncLaunch() {
-	return std::make_shared<std::thread>(&AClientUdp::launch, this);
+std::shared_ptr<std::thread> bl::network::client::AClientTcpUdp::asyncLaunch() {
+	return std::make_shared<std::thread>(&AClientTcpUdp::launch, this);
 }
 
-void bl::network::client::AClientUdp::launch() {
+void bl::network::client::AClientTcpUdp::launch() {
 	try {
 		this->mainLoop();
 	} catch (std::exception &e) {
@@ -49,6 +49,6 @@ void bl::network::client::AClientUdp::launch() {
 	}
 }
 
-bool bl::network::client::AClientUdp::isRunning() {
+bool bl::network::client::AClientTcpUdp::isRunning() {
 	return this->m_running;
 }
