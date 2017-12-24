@@ -14,13 +14,22 @@ bl::network::client::AClientUdp::AClientUdp(std::string const &factoryKey) : m_s
 }
 
 bool bl::network::client::AClientUdp::connectTo(const std::string &address, unsigned short port) {
-	if (!this->m_socket->connect(address, port))
-		return false;
-	this->m_socket->receive();
-	dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
-			dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
-	NetworkWrapper::m_socket = this->m_socket;
-	m_running = true;
+	if (!this->m_running) {
+		if (!this->m_socket->connect(address, port))
+			return false;
+		auto str = this->m_socket->receive();
+		while (str.find("\r\n") == str.npos) {
+			str += this->m_socket->receive();
+		}
+		str = str.substr(std::string("#$BL-->").size());
+		this->m_socket->connect(address, static_cast<unsigned short>(std::stoi(str)));
+		/*dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
+			dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());*/
+		NetworkWrapper::m_socket = this->m_socket;
+		m_running = true;
+	} else {
+		std::cerr << "You are already connected, please disconnect first" << std::endl;
+	}
 	return true;
 }
 

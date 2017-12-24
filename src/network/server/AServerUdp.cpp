@@ -7,7 +7,12 @@
 #include "SocketFactory.hh"
 #include "AServerUdp.hh"
 
-bl::network::server::AServerUdp::AServerUdp(std::string const &factoryKey, unsigned short port) : m_factoryKey(factoryKey), m_port(port) {}
+bl::network::server::AServerUdp::AServerUdp(std::string const &factoryKey, unsigned short port) : m_factoryKey(factoryKey), m_port(port) {
+	for (size_t i = 0; i < this->maxSockets; ++i) {
+		this->m_sockets.push_back(socket::SocketFactory::getInstance()->create(m_factoryKey));
+		this->m_sockets.back()->openConnection(static_cast<unsigned short>(port + i + 1));
+	}
+}
 
 void bl::network::server::AServerUdp::run() {
 	try {
@@ -20,25 +25,20 @@ void bl::network::server::AServerUdp::run() {
 		if (serverSocket->openConnection(m_port))
 			m_running = true;
 		bool firstClient = true;
-
+		size_t i = 0;
 		//TODO: launch over a dedicated TCP socket, use it for auth / update, then assign a UDP socket, and close the TCP
 
 		while (m_running) {
 			serverSocket->receive();
-			std::shared_ptr<socket::ISocket> newSocket = socket::SocketFactory::getInstance()->create(m_factoryKey);
-			if (newSocket == nullptr) {
-				std::cerr << "Invalid key, cannot specialize the server on this socket" << std::endl;
-				this->stop();
-				return;
-			}
 			auto newClient = dynamic_cast<socket::UdpAsyncBoostSocket *>(serverSocket.get())->getLastSenderEndpoint();
-			newSocket->connect(newClient.address().to_string(), newClient.port());
+			dynamic_cast<socket::UdpAsyncBoostSocket *>(serverSocket.get())->sendTo(std::to_string(i + this->m_port + 1), newClient);
 			if (firstClient) {
-				this->m_loopThread = std::make_shared<std::thread>(&AServerUdp::mainLoop, this, newSocket);
+				this->m_loopThread = std::make_shared<std::thread>(&AServerUdp::mainLoop, this, this->m_sockets[0]);
 				firstClient = false;
 			}
 			auto clientId = newClient.address().to_string() + "|" + std::to_string(newClient.port());
 			this->m_clients.insert(std::make_pair(clientId, newClient));
+			i = (i + 1) % this->maxSockets;
 		}
 	} catch (std::exception &e) {
 		std::cerr << "Server ended unexpectedly " << e.what() << std::endl;

@@ -29,6 +29,7 @@ namespace bl {
 				) override;
 				void send(char const *msg) override;
 				void send(std::string const &msg) override;
+				void sendTo(std::string const &msg, boost::asio::ip::udp::endpoint const& endpoint);
 				void send(std::vector<char> const &msg) override;
 				char *receive(
 						char *buf,

@@ -51,7 +51,7 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (std::exception const &e) {
+		} catch (boost::system::system_error const &e) {
 			isOpen = false;
 			std::cerr << "Exception in reading thread, quitting" << std::endl;
 			std::cerr << e.what() << std::endl;
@@ -69,8 +69,8 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 		try {
 			while (!this->m_toSend.empty()) {
 				//fixme: that's probably the less thread safe thing ever written
-				//dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->updateTargetEndpoint(this->m_toSend.front().first);
-				socket->send(this->m_toSend.front().second);
+				dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->sendTo(this->m_toSend.front().second, this->m_toSend.front().first);
+				//socket->send(this->m_toSend.front().second);
 				this->m_toSend.pop();
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);

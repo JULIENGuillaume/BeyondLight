@@ -10,6 +10,7 @@
 #include <thread>
 #include <unordered_map>
 #include "IServer.hh"
+#include "ISocket.hh"
 
 namespace bl {
 	namespace network {
@@ -30,6 +31,8 @@ namespace bl {
 				std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& getClients() override;
 			protected:
 				bool m_running = false;
+				const size_t maxSockets = 1; //TODO: check how to make it work with more sockets
+				std::vector<std::shared_ptr<bl::network::socket::ISocket>> m_sockets;
 			private:
 				std::string const m_factoryKey;
 				unsigned short m_port;

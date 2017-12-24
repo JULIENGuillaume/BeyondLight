@@ -65,6 +65,10 @@ void bl::network::socket::UdpAsyncBoostSocket::send(std::string const &msg) {
 	m_socket->send_to(boost::asio::buffer("#$BL-->" + msg + "\r\n"), m_targetEndpoint);
 }
 
+void bl::network::socket::UdpAsyncBoostSocket::sendTo(const std::string &msg, boost::asio::ip::udp::endpoint const& endpoint) {
+	m_socket->send_to(boost::asio::buffer("#$BL-->" + msg + "\r\n"), endpoint);
+}
+
 void bl::network::socket::UdpAsyncBoostSocket::send(const std::vector<char> &msg) {
 	m_socket->send_to(boost::asio::buffer("#$BL-->"), m_targetEndpoint);
 	m_socket->send_to(boost::asio::buffer(msg), m_targetEndpoint);
@@ -117,4 +121,3 @@ boost::asio::ip::udp::endpoint bl::network::socket::UdpAsyncBoostSocket::getLast
 void bl::network::socket::UdpAsyncBoostSocket::updateTargetEndpoint(boost::asio::ip::udp::endpoint endpoint) {
 	m_targetEndpoint = std::move(endpoint);
 }
-
