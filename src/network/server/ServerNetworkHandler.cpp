@@ -27,26 +27,41 @@ std::string bl::network::server::ServerNetworkHandler::getLine() {
 	return line;
 }
 
-bl::network::client::ClientMessage bl::network::server::ServerNetworkHandler::getMessage() {
+std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::ServerNetworkHandler::getLineFrom() {
+	while (this->m_linesFrom.empty()) {
+		if (!this->m_networkServer->isRunning()) {
+			throw std::runtime_error("Failed to get line: network isn't connected.");
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	}
+	auto line = this->m_linesFrom.front();
+	this->m_linesFrom.pop();
+	return line;
+}
+
+std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> bl::network::server::ServerNetworkHandler::getMessage() {
 	std::cout << "Getting message..." << std::endl;
-	auto str = this->getLine();
+	auto strFrom = this->getLineFrom();
+	auto str = strFrom.second;
 	std::cout << "A line has been found" << std::endl;
 	std::stringstream ss(str);
 	cereal::PortableBinaryInputArchive inArchive(ss);
 	client::ClientMessage message;
 	inArchive(message);
 	std::cout << "Received message" << std::endl;
-	return message;
+	return std::make_pair(strFrom.first, message);
 }
 
 void bl::network::server::ServerNetworkHandler::send(std::string const &cmd) {
-	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(cmd);
+	std::cerr << "Can't do a classic send here" << std::endl;
+	//(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(cmd, <#initializer#>);
 }
 
 void bl::network::server::ServerNetworkHandler::send(
 	bl::network::server::ServerMessageType type,
 	uint64_t code,
-	std::string const &msg
+	std::string const &msg,
+	boost::asio::ip::udp::endpoint const& endpoint
 ) {
 	//Create the message structure
 	ServerMessage message;
@@ -61,16 +76,17 @@ void bl::network::server::ServerNetworkHandler::send(
 	outArchive(message);
 	const std::string &strRepresentation = ss.str(); //TODO: check if working to avoid unnecessary copy
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
-	this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
+	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(std::string(fullData.begin(), fullData.end()), endpoint);
+	//this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
 }
 
 void bl::network::server::ServerNetworkHandler::retrieveLine() {
-	std::cout << "Retrieve line has been called" << std::endl;
+	//std::cout << "Retrieve line has been called" << std::endl;
 	auto str = (std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->getAndEraseLine();
-	std::cout << "Retrieve line got " << str << std::endl;
-	this->m_lines.push(str);
+	//std::cout << "Retrieve line got " << str << std::endl;
+	this->m_linesFrom.push(str);
 }
 
-std::vector<std::string> bl::network::server::ServerNetworkHandler::getListClient() {
-	return this->m_networkServer->getClientsIds();
+std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& bl::network::server::ServerNetworkHandler::getListClient() {
+	return this->m_networkServer->getClients();
 }

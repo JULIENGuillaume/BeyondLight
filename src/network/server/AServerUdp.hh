@@ -27,15 +27,15 @@ namespace bl {
 				void restart() override;
 				std::shared_ptr<std::thread> asyncRun() override;
 				bool isRunning() override;
-				std::vector<std::string> getClientsIds() override;
+				std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& getClients() override;
 			protected:
 				bool m_running = false;
 			private:
 				std::string const m_factoryKey;
 				unsigned short m_port;
 			private:
-				std::unordered_map<std::string, std::thread> m_clients;
-				std::vector<std::string> m_clientsIds;
+				std::unordered_map<std::string, boost::asio::ip::udp::endpoint> m_clients;
+				std::shared_ptr<std::thread> m_loopThread;
 			};
 		}
 	}

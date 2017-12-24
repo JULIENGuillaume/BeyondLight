@@ -40,6 +40,7 @@ namespace bl {
 				std::vector<std::thread> m_activeThreads;
 			private:
 				const std::string newLineDelim = "\r\n";
+				const std::string msgStartHeader = "#$BL-->";
 			};
 		}
 	}

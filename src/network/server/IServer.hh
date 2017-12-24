@@ -23,7 +23,7 @@ namespace bl {
 				virtual void stop() = 0;
 				virtual void restart() = 0;
 				virtual bool isRunning() = 0;
-				virtual std::vector<std::string> getClientsIds() = 0;
+				virtual std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& getClients() = 0;
 			protected:
 				virtual void mainLoop(std::shared_ptr<socket::ISocket> socket) = 0;
 			};

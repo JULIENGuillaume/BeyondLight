@@ -41,12 +41,13 @@ namespace bl {
 					//this->m_networkHandler->send("4242");
 					std::cout << "Sending from building model" << std::endl;
 					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
-					std::string jsonReceived = this->m_networkHandler->getLine();
+					auto msg = this->m_networkHandler->getMessage();
+					std::cout << "Received a msg with the code " << msg.getBody().code << " and the answer is " << msg.getBody().type << std::endl;
+					std::string jsonReceived = msg.getBody().message;
 					std::cout << "Received " << jsonReceived << std::endl;
-					auto toks = bl::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
 					nlohmann::json buildings;
-					if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 14242) {
-						buildings = ((nlohmann::json::parse(toks[1]))["buildings"]);
+					if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+						buildings = ((nlohmann::json::parse(jsonReceived))["buildings"]);
 						std::cout << "Buildings is " << buildings.dump() << std::endl;
 					} else {
 						std::cerr << "Invalid reply" << std::endl;
@@ -76,11 +77,10 @@ namespace bl {
 		bool BuildingModel::incrLevel() {
 			//this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
 			this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
-			auto answers = bl::common::Toolbox::split(this->m_networkHandler->getLine(), ":");
-			if (answers[0] == "321") {
-				return (false);
-			} else if (answers[0] == "421357" && answers[1] == std::to_string(this->m_id)) {
-				this->m_level = std::stoi(answers[2]);
+			auto msg = this->m_networkHandler->getMessage();
+			auto answers = bl::common::Toolbox::split(msg.getBody().message, ":");
+			if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id)) {
+				this->m_level = static_cast<unsigned int>(std::stoi(answers[1]));
 				return (true);
 			} else {
 				return (false);

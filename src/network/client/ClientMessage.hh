@@ -31,6 +31,7 @@ namespace bl {
 				}
 
 			public:
+				//char header[4] = {66, 76, 67, 76};
 				ClientMessageType type;
 				uint64_t code;
 				size_t messageSize;

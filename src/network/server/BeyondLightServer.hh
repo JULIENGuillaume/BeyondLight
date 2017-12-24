@@ -11,6 +11,7 @@
 #ifndef BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 #define BEYONDLIGHT_BEYONDLIGHTSERVER_HH
 
+#include <boost/asio/ip/udp.hpp>
 #include "AServerUdp.hh"
 #include "ServerNetworkHandler.hh"
 
@@ -21,10 +22,10 @@ namespace bl {
 			public:
 				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
 			public:
-				std::string const &getLine() const;
+				const std::pair<boost::asio::ip::udp::endpoint, std::string> & getLine() const;
 				void setLineToRead();
-				std::string getAndEraseLine();
-				void addToSend(std::string const &cmd);
+				std::pair<boost::asio::ip::udp::endpoint, std::string> getAndEraseLine();
+				void addToSend(std::string const &cmd, boost::asio::ip::udp::endpoint const &endpoint);
 			protected:
 				void mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) override;
 			private:
@@ -32,12 +33,13 @@ namespace bl {
 				void sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
 			private:
 				ServerNetworkHandler *m_handler;
-				std::queue<std::string> m_toSend;
-				std::queue<std::string> m_lines;
+				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_toSend;
+				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_lines;
 			private:
 				std::vector<std::thread> m_activeThreads;
 			private:
 				const std::string newLineDelim = "\r\n";
+				const std::string msgStartHeader = "#$BL-->";
 			};
 		}
 	}

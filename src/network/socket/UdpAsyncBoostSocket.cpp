@@ -60,16 +60,17 @@ bool bl::network::socket::UdpAsyncBoostSocket::openConnection(unsigned short por
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::send(char const *msg) {
-	std::cout << "Sending {" << msg << "}" << std::endl;
-	m_socket->send_to(boost::asio::buffer(std::string(msg) + "\r\n"), m_targetEndpoint);
+	//std::cout << "Sending {" << msg << "}" << std::endl;
+	m_socket->send_to(boost::asio::buffer("#$BL-->" + std::string(msg) + "\r\n"), m_targetEndpoint);
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::send(std::string const &msg) {
-	std::cout << "Sending {" << msg << "}" << std::endl;
-	m_socket->send_to(boost::asio::buffer(msg + "\r\n"), m_targetEndpoint);
+	//std::cout << "Sending {" << msg << "}" << std::endl;
+	m_socket->send_to(boost::asio::buffer("#$BL-->" + msg + "\r\n"), m_targetEndpoint);
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::send(const std::vector<char> &msg) {
+	m_socket->send_to(boost::asio::buffer("#$BL-->"), m_targetEndpoint);
 	m_socket->send_to(boost::asio::buffer(msg), m_targetEndpoint);
 	m_socket->send_to(boost::asio::buffer("\r\n"), m_targetEndpoint);
 }

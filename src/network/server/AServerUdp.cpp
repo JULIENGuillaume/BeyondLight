@@ -20,11 +20,14 @@ void bl::network::server::AServerUdp::run() {
 		if (serverSocket->openConnection(m_port))
 			m_running = true;
 		std::cout << "Server is running" << std::endl;
+		bool firstClient = true;
+
 		//TODO: launch over a dedicated TCP socket, use it for auth / update, then assign a UDP socket, and close the TCP
+
+
 		while (m_running) {
 			//std::cout << "Server is ready to receive new data" << std::endl;
 			serverSocket->receive();
-			//std::cout << "Server has received new data !" << std::endl;
 			std::shared_ptr<socket::ISocket> newSocket = socket::SocketFactory::getInstance()->create(m_factoryKey);
 			if (newSocket == nullptr) {
 				std::cerr << "Invalid key, cannot specialize the server on this socket" << std::endl;
@@ -32,12 +35,14 @@ void bl::network::server::AServerUdp::run() {
 				return;
 			}
 			auto newClient = dynamic_cast<socket::UdpAsyncBoostSocket *>(serverSocket.get())->getLastSenderEndpoint();
-			std::cout << "A new client has been created !" << std::endl;
+			//std::cout << "Server has received new data !" << std::endl;
 			newSocket->connect(newClient.address().to_string(), newClient.port());
-			auto clientId = newClient.address().to_string();
-			this->m_clientsIds.push_back(clientId);
-			std::cout << "New client has been connected to !" << std::endl;
-			this->m_clients.insert(std::make_pair(clientId, std::thread(&AServerUdp::mainLoop, this, newSocket)));
+			if (firstClient) {
+				this->m_loopThread = std::make_shared<std::thread>(&AServerUdp::mainLoop, this, newSocket);
+				firstClient = false;
+			}
+			auto clientId = newClient.address().to_string() + "|" + std::to_string(newClient.port());
+			this->m_clients.insert(std::make_pair(clientId, newClient));
 		}
 		std::cout << "Server isn't running anymore" << std::endl;
 	} catch (std::exception &e) {
@@ -46,8 +51,8 @@ void bl::network::server::AServerUdp::run() {
 	}
 }
 
-std::vector<std::string> bl::network::server::AServerUdp::getClientsIds() {
-	return this->m_clientsIds;
+std::unordered_map<std::string, boost::asio::ip::udp::endpoint> &bl::network::server::AServerUdp::getClients() {
+	return this->m_clients;
 }
 
 std::shared_ptr<std::thread> bl::network::server::AServerUdp::asyncRun() {
@@ -56,9 +61,7 @@ std::shared_ptr<std::thread> bl::network::server::AServerUdp::asyncRun() {
 
 void bl::network::server::AServerUdp::stop() {
 	m_running = false;
-	for (auto &client : this->m_clients) {
-		client.second.join();
-	}
+	m_loopThread->join();
 	this->m_clients.clear();
 }
 

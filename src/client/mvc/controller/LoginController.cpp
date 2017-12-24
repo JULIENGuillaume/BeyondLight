@@ -42,10 +42,8 @@ namespace bl {
 			} else {
 				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
 				networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + logInfo[1]);
-				auto future = networkHandler->asyncGetLine();
-				future.wait();
-				auto toks = common::Toolbox::split(future.get(), ":");
-				if (!toks.empty() && std::atoi(toks[0].c_str()) == 123) {
+				auto msg = networkHandler->getMessage().getBody();
+				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 					callback->Success("Login success");
 					return (true);
 				} else {
@@ -74,10 +72,12 @@ namespace bl {
 					networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 43,
 					                     logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" +
 					                     logInfo[3] + ":" + logInfo[4] + ":" + logInfo[5]);
-					auto future = networkHandler->asyncGetLine();
-					future.wait();
-					auto toks = common::Toolbox::split(future.get(), ":");
-					browser->Reload();
+					auto msg = networkHandler->getMessage().getBody();
+					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_KO) {
+						callback->Failure(0, "The server refused to register you: " + msg.message);
+					} else {
+						browser->Reload();
+					}
 				}
 			} else {
 				callback->Failure(0, "Please fill all the fields!");

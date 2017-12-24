@@ -9,6 +9,7 @@
 */
 
 #include <SocketFactory.hh>
+#include <UdpAsyncBoostSocket.hh>
 #include "BeyondLightServer.hh"
 #include "ISocket.hh"
 #include "../../server/game/building/IBuilding.hh"
@@ -43,13 +44,18 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 			while (data.find(newLineDelim) != data.npos) {
 				auto line = data.substr(0, data.find(newLineDelim));
 				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
-				this->m_lines.push(line);
+				if (line.find(this->msgStartHeader) != line.npos) {
+					line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
+				}
+				std::cout << "pushing line " << line << std::endl;
+				this->m_lines.push(std::make_pair(dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->getLastSenderEndpoint(), line));
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (std::exception const &) {
+		} catch (std::exception const &e) {
 			isOpen = false;
 			std::cerr << "Exception in reading thread, quitting" << std::endl;
+			std::cerr << e.what() << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 			this->m_running = false;
 		}
@@ -63,7 +69,9 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 	while (isOpen && m_running) {
 		try {
 			while (!this->m_toSend.empty()) {
-				socket->send(this->m_toSend.front());
+				//fixme: that's probably the less thread safe thing ever written
+				//dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->updateTargetEndpoint(this->m_toSend.front().first);
+				socket->send(this->m_toSend.front().second);
 				this->m_toSend.pop();
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
@@ -78,22 +86,22 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 	}
 }
 
-std::string const &bl::network::server::BeyondLightServer::getLine() const {
+const std::pair<boost::asio::ip::udp::endpoint, std::string> & bl::network::server::BeyondLightServer::getLine() const {
 	return this->m_lines.front();
 }
 
-void bl::network::server::BeyondLightServer::addToSend(std::string const &cmd) {
-	this->m_toSend.push(cmd);
+void bl::network::server::BeyondLightServer::addToSend(std::string const &cmd, boost::asio::ip::udp::endpoint const &endpoint) {
+	this->m_toSend.push(std::make_pair(endpoint, cmd));
 }
 
 void bl::network::server::BeyondLightServer::setLineToRead() {
 	this->m_lines.pop();
 }
 
-std::string bl::network::server::BeyondLightServer::getAndEraseLine() {
-	std::string line = this->getLine();
+std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::BeyondLightServer::getAndEraseLine() {
+	auto line = this->getLine();
 	this->setLineToRead();
-	while (line.empty()) {
+	while (line.second.empty()) {
 		line = this->getLine();
 		this->setLineToRead();
 	}
