@@ -19,14 +19,11 @@ void bl::network::server::AServerUdp::run() {
 		}
 		if (serverSocket->openConnection(m_port))
 			m_running = true;
-		std::cout << "Server is running" << std::endl;
 		bool firstClient = true;
 
 		//TODO: launch over a dedicated TCP socket, use it for auth / update, then assign a UDP socket, and close the TCP
 
-
 		while (m_running) {
-			//std::cout << "Server is ready to receive new data" << std::endl;
 			serverSocket->receive();
 			std::shared_ptr<socket::ISocket> newSocket = socket::SocketFactory::getInstance()->create(m_factoryKey);
 			if (newSocket == nullptr) {
@@ -35,7 +32,6 @@ void bl::network::server::AServerUdp::run() {
 				return;
 			}
 			auto newClient = dynamic_cast<socket::UdpAsyncBoostSocket *>(serverSocket.get())->getLastSenderEndpoint();
-			//std::cout << "Server has received new data !" << std::endl;
 			newSocket->connect(newClient.address().to_string(), newClient.port());
 			if (firstClient) {
 				this->m_loopThread = std::make_shared<std::thread>(&AServerUdp::mainLoop, this, newSocket);
@@ -44,10 +40,8 @@ void bl::network::server::AServerUdp::run() {
 			auto clientId = newClient.address().to_string() + "|" + std::to_string(newClient.port());
 			this->m_clients.insert(std::make_pair(clientId, newClient));
 		}
-		std::cout << "Server isn't running anymore" << std::endl;
 	} catch (std::exception &e) {
-		std::cout << "Server ended unexpectedly " << e.what() << std::endl;
-		quick_exit(42);
+		std::cerr << "Server ended unexpectedly " << e.what() << std::endl;
 	}
 }
 

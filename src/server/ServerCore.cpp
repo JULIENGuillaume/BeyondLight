@@ -21,7 +21,7 @@ void bl::server::ServerCore::start() {
 		}*/
 		auto msgFrom = m_serverNetworkHandler.getMessage();
 		auto msg = msgFrom.second.getBody();
-		std::cout << "Received " << msg.code << ":" << msg.message << std::endl;
+		//std::cout << "Received " << msg.code << ":" << msg.message << std::endl;
 		auto toks = common::Toolbox::split(msg.message, ":");
 		switch (msg.code) {
 			case 42:
@@ -34,7 +34,7 @@ void bl::server::ServerCore::start() {
 				break;
 			case 43:
 				if (toks.size() == 6) {
-					std::cout << "Registered user " << toks[2] << " with password " << toks[4] << std::endl;
+					//std::cout << "Registered user " << toks[2] << " with password " << toks[4] << std::endl;
 					users->users.emplace(toks[2], toks[4]);
 					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 43, "", msgFrom.first);
 				} else {
@@ -46,7 +46,7 @@ void bl::server::ServerCore::start() {
 					nlohmann::json sendingJson;
 					sendingJson["buildings"] = (planet.serialize())["buildings"];
 					std::string toSend = sendingJson.dump();
-					std::cout << "Sending " << toSend << std::endl;
+					//std::cout << "Sending " << toSend << std::endl;
 					//socket->send("14242:" + toSend);
 					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 4242, toSend, msgFrom.first);
 				} else {
@@ -59,7 +59,7 @@ void bl::server::ServerCore::start() {
 					nlohmann::json sendingJson;
 					sendingJson["resources"] = (planet.serialize())["resources"];
 					std::string toSend = sendingJson.dump();
-					std::cout << "Sending " << toSend << std::endl;
+					//std::cout << "Sending " << toSend << std::endl;
 					//socket->send("324201:" + toSend);
 					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 4242, toSend, msgFrom.first);
 				} else {
@@ -89,5 +89,5 @@ void bl::server::ServerCore::start() {
 				break;
 		}
 	}
-	std::cout << "End of server" << std::endl;
+	//std::cout << "End of server" << std::endl;
 }

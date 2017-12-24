@@ -35,9 +35,7 @@ bool bl::network::socket::UdpAsyncBoostSocket::connect(
 		m_socket->open(boost::asio::ip::udp::v4());
 		m_targetEndpoint = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(address), port);
 		boost::array<char, 1> send_buf = {0};
-		std::cout << "Ready to connect..." << std::endl;
 		m_socket->send_to(boost::asio::buffer(send_buf), m_targetEndpoint);
-		std::cout << "Connected" << std::endl;
 	} catch (boost::system::system_error &e) {
 		std::cerr << "Can't connect: " << e.what() << std::endl;
 		return false;
@@ -60,12 +58,10 @@ bool bl::network::socket::UdpAsyncBoostSocket::openConnection(unsigned short por
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::send(char const *msg) {
-	//std::cout << "Sending {" << msg << "}" << std::endl;
 	m_socket->send_to(boost::asio::buffer("#$BL-->" + std::string(msg) + "\r\n"), m_targetEndpoint);
 }
 
 void bl::network::socket::UdpAsyncBoostSocket::send(std::string const &msg) {
-	//std::cout << "Sending {" << msg << "}" << std::endl;
 	m_socket->send_to(boost::asio::buffer("#$BL-->" + msg + "\r\n"), m_targetEndpoint);
 }
 
@@ -89,7 +85,6 @@ std::string bl::network::socket::UdpAsyncBoostSocket::receive() {
 	boost::asio::ip::udp::endpoint sender_endpoint;
 	m_socket->receive_from(boost::asio::buffer(recv_buf), m_lastSenderEndpoint, 0);
 	auto msg = std::string(recv_buf.begin(), recv_buf.end());
-	//std::cout << "Received {" << msg << "}" << std::endl;
 	return msg;
 }
 

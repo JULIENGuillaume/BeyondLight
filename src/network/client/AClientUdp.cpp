@@ -14,12 +14,9 @@ bl::network::client::AClientUdp::AClientUdp(std::string const &factoryKey) : m_s
 }
 
 bool bl::network::client::AClientUdp::connectTo(const std::string &address, unsigned short port) {
-	std::cout << "Client is trying to connect to " << address << " " << port << std::endl;
 	if (!this->m_socket->connect(address, port))
 		return false;
-	std::cout << "Client has successfully connected to server" << std::endl;
 	this->m_socket->receive();
-	std::cout << "Client has completed handshake" << std::endl;
 	dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
 			dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());
 	NetworkWrapper::m_socket = this->m_socket;
@@ -39,8 +36,7 @@ void bl::network::client::AClientUdp::launch() {
 	try {
 		this->mainLoop();
 	} catch (std::exception &e) {
-		std::cout << "Main loop has quit with " << e.what() << std::endl;
-		quick_exit(42);
+		std::cerr << "Main loop has quit with " << e.what() << std::endl;
 	}
 }
 

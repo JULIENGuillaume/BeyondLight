@@ -40,15 +40,12 @@ std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::Serv
 }
 
 std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> bl::network::server::ServerNetworkHandler::getMessage() {
-	std::cout << "Getting message..." << std::endl;
 	auto strFrom = this->getLineFrom();
 	auto str = strFrom.second;
-	std::cout << "A line has been found" << std::endl;
 	std::stringstream ss(str);
 	cereal::PortableBinaryInputArchive inArchive(ss);
 	client::ClientMessage message;
 	inArchive(message);
-	std::cout << "Received message" << std::endl;
 	return std::make_pair(strFrom.first, message);
 }
 
@@ -81,9 +78,7 @@ void bl::network::server::ServerNetworkHandler::send(
 }
 
 void bl::network::server::ServerNetworkHandler::retrieveLine() {
-	//std::cout << "Retrieve line has been called" << std::endl;
 	auto str = (std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->getAndEraseLine();
-	//std::cout << "Retrieve line got " << str << std::endl;
 	this->m_linesFrom.push(str);
 }
 

@@ -47,7 +47,6 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 				if (line.find(this->msgStartHeader) != line.npos) {
 					line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
 				}
-				std::cout << "pushing line " << line << std::endl;
 				this->m_lines.push(std::make_pair(dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->getLastSenderEndpoint(), line));
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);

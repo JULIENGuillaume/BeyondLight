@@ -14,11 +14,9 @@ namespace bl {
 					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 3242, "");
 					auto msg = this->m_networkHandler->getMessage().getBody();
 					std::string jsonReceived = msg.message;
-					std::cout << "Received " << jsonReceived << std::endl;
 					nlohmann::json resources;
 					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 						resources = nlohmann::json::parse(jsonReceived);
-						std::cout << "Resources is " << resources.dump() << std::endl;
 					} else {
 						std::cerr << "Invalid reply" << std::endl;
 						return;
