@@ -10,8 +10,8 @@
 
 #include <SocketFactory.hh>
 #include <UdpAsyncBoostSocket.hh>
+#include <TcpBoostSslSocket.hh>
 #include "BeyondLightServer.hh"
-#include "ISocket.hh"
 #include "../../server/game/building/IBuilding.hh"
 #include "../../server/game/planet/Planet.hh"
 
@@ -21,15 +21,36 @@ bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, b
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	try {
+		if (std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket) != nullptr) {
+			advancedSecuredTcpConnection(socket);
+			this->m_workingLoop = false;
+			return;
+		}
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this, socket);
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this, socket);
 
-		while (this->m_running) {
+		while (this->m_running && this->m_workingLoop) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	} catch (std::exception &e) {
 		std::cerr << "Server thread exiting with error " << e.what() << std::endl;
-		quick_exit(42);
+	}
+}
+
+void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket) {
+	std::shared_ptr<socket::TcpBoostSslSocket> tcpSocket = std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket);
+	bool isLogged = false;
+	std::string data;
+	while (m_running && m_workingLoop && !isLogged) {
+		data += tcpSocket->receive();
+		while (data.find(newLineDelim) != data.npos) {
+			auto line = data.substr(0, data.find(newLineDelim));
+			data.erase(0, data.find(newLineDelim) + newLineDelim.length());
+			if (line.find(this->msgStartHeader) != line.npos) {
+				line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
+			}
+		}
+
 	}
 }
 
@@ -38,7 +59,7 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 	bool isOpen = true;
 
 	//std::cout << "Reading thread server launched" << std::endl;
-	while (isOpen && m_running) {
+	while (isOpen && m_running && m_workingLoop) {
 		try {
 			data += socket->receive();
 			while (data.find(newLineDelim) != data.npos) {
@@ -57,6 +78,7 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 			std::cerr << e.what() << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 			this->m_running = false;
+			this->m_workingLoop = false;
 		}
 	}
 }
@@ -65,10 +87,9 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 	bool isOpen = true;
 
 	//std::cout << "Sending thread server launched" << std::endl;
-	while (isOpen && m_running) {
+	while (isOpen && m_running && m_workingLoop) {
 		try {
 			while (!this->m_toSend.empty()) {
-				//fixme: that's probably the less thread safe thing ever written
 				dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->sendTo(this->m_toSend.front().second, this->m_toSend.front().first);
 				//socket->send(this->m_toSend.front().second);
 				this->m_toSend.pop();
@@ -81,11 +102,12 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 			std::cerr << "Exception in sending thread, quitting" << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 			this->m_running = false;
+			this->m_workingLoop = false;
 		}
 	}
 }
 
-const std::pair<boost::asio::ip::udp::endpoint, std::string> & bl::network::server::BeyondLightServer::getLine() const {
+const std::pair<boost::asio::ip::udp::endpoint, std::string> &bl::network::server::BeyondLightServer::getLine() const {
 	return this->m_lines.front();
 }
 

@@ -10,11 +10,11 @@
 bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080) {}
 
 void bl::server::ServerCore::start() {
-	auto users = ::server::user::RegisteredUsers::getInstance();
+	auto users = user::RegisteredUsers::getInstance();
 	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
 	::bl::server::game::planet::Planet planet;
 	//std::cout << "Main loop reached" << std::endl;
-	bool loggedIn = false;
+	bool loggedIn = true;
 	while (m_isRunning) {
 		/*while (m_serverNetworkHandler.getListClient().empty()) {
 			std::cout << "Empty" << std::endl;
@@ -24,23 +24,6 @@ void bl::server::ServerCore::start() {
 		//std::cout << "Received " << msg.code << ":" << msg.message << std::endl;
 		auto toks = common::Toolbox::split(msg.message, ":");
 		switch (msg.code) {
-			case 42:
-				if (toks.size() == 2 && users->users.find(toks[0]) != users->users.end() && toks[1] == users->users[toks[0]]) {
-					loggedIn = true;
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 42, "", msgFrom.first);
-				} else {
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 42, "", msgFrom.first);
-				}
-				break;
-			case 43:
-				if (toks.size() == 6) {
-					//std::cout << "Registered user " << toks[2] << " with password " << toks[4] << std::endl;
-					users->users.emplace(toks[2], toks[4]);
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 43, "", msgFrom.first);
-				} else {
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 43, "", msgFrom.first);
-				}
-				break;
 			case 4242:
 				if (loggedIn) {
 					nlohmann::json sendingJson;
@@ -82,6 +65,7 @@ void bl::server::ServerCore::start() {
 				break;
 			case 1337:
 				this->m_isRunning = false;
+				loggedIn = false;
 				m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 1337, "", msgFrom.first);
 				break;
 			default:

@@ -120,3 +120,7 @@ void bl::network::socket::TcpBoostSslSocket::send(std::vector<char> const &msg) 
 void bl::network::socket::TcpBoostSslSocket::receive(std::vector<char> &buf) {
 	std::cerr << "Nop" << std::endl;
 }
+
+boost::asio::ip::tcp::endpoint bl::network::socket::TcpBoostSslSocket::getRemoteEndpoint() {
+	return this->m_socket->lowest_layer().remote_endpoint();
+}

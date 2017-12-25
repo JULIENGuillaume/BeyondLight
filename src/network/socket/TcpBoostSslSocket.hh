@@ -47,6 +47,7 @@ namespace bl {
 				void close() override;
 				void send(std::vector<char> const &msg) override;
 				void receive(std::vector<char> &buf) override;
+				boost::asio::ip::tcp::endpoint getRemoteEndpoint();
 
 			protected:
 				bool verify_certificate(bool preverified,

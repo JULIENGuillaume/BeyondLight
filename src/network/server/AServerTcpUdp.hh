@@ -40,7 +40,8 @@ namespace bl {
 				unsigned short m_port;
 			private:
 				std::unordered_map<std::string, boost::asio::ip::udp::endpoint> m_clients;
-				std::shared_ptr<std::thread> m_loopThread;
+				std::vector<std::shared_ptr<std::thread>> m_loopThread;
+				std::vector<std::thread> m_loggingClients;
 			};
 		}
 	}

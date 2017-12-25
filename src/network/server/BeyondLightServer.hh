@@ -31,12 +31,14 @@ namespace bl {
 			private:
 				void readingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
 				void sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
+				void advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket);
 			private:
 				ServerNetworkHandler *m_handler;
 				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_toSend;
 				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_lines;
 			private:
 				std::vector<std::thread> m_activeThreads;
+				bool m_workingLoop = true;
 			private:
 				const std::string newLineDelim = "\r\n";
 				const std::string msgStartHeader = "#$BL-->";
