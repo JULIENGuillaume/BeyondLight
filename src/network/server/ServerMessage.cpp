@@ -11,3 +11,15 @@ const bl::network::server::ServerMessageBody &bl::network::server::ServerMessage
 bl::network::server::ServerMessageBody &bl::network::server::ServerMessage::getBody() {
 	return m_body;
 }
+
+std::ostream& operator<<(std::ostream& os, const bl::network::server::ServerMessage& dt)
+{
+	os << dt.getBody();
+	return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const bl::network::server::ServerMessageBody& dt)
+{
+	os << "{TYPE:" << dt.type << "|CODE:" << dt.code << "|MESSAGE:[" << dt.message << "]}";
+	return os;
+}  

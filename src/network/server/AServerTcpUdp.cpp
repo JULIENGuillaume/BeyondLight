@@ -84,10 +84,10 @@ bool bl::network::server::AServerTcpUdp::isRunning() {
 }
 
 void bl::network::server::AServerTcpUdp::sendUdpSocketPort(const std::shared_ptr<bl::network::socket::ISocket> &socket) {
-	if (this->m_firstClient) {
-		this->m_loopThread.push_back(std::make_shared<std::thread>(&AServerTcpUdp::mainLoop, this, this->m_sockets[0]));
+	/*if (this->m_firstClient) {
+		//this->m_loopThread.push_back(std::make_shared<std::thread>(&AServerTcpUdp::mainLoop, this, this->m_sockets[0]));
 		m_firstClient = false;
-	}
+	}*/
 	socket->send(std::to_string(this->m_actualPort + this->m_port + 1));
 	this->m_actualPort = (this->m_actualPort + 1) % this->maxSockets;
 }

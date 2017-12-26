@@ -61,18 +61,19 @@ void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::s
 		}
 		if (isLogged) {
 			this->sendUdpSocketPort(socket);
+			tcpSocket->close();
+			return;
 		}
-	} catch (std::exception const& e) {
-		std::cerr << "Advanced connection failed " << e.what() << std::endl;
+	} catch (std::exception const&) {
+		return;
 	}
 }
 
 void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	std::string data;
-	bool isOpen = true;
 
 	//std::cout << "Reading thread server launched" << std::endl;
-	while (isOpen && m_running && m_workingLoop) {
+	while (m_running && m_workingLoop) {
 		try {
 			data += socket->receive();
 			while (data.find(newLineDelim) != data.npos) {
@@ -86,7 +87,6 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
 		} catch (boost::system::system_error const &e) {
-			isOpen = false;
 			std::cerr << "Exception in reading thread, quitting" << std::endl;
 			std::cerr << e.what() << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
@@ -97,19 +97,20 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	bool isOpen = true;
 
-	//std::cout << "Sending thread server launched" << std::endl;
-	while (isOpen && m_running && m_workingLoop) {
+	std::cout << "Sending thread server launched" << std::endl;
+	while (m_running && m_workingLoop) {
 		try {
 			while (!this->m_toSend.empty()) {
 				dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->sendTo(this->m_toSend.front().second, this->m_toSend.front().first);
 				//socket->send(this->m_toSend.front().second);
+				std::cout << "PING" << std::endl;
 				this->m_toSend.pop();
+				std::cout << "PONG" << std::endl;
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		} catch (std::exception const &) {
-			isOpen = false;
 			std::cerr << "Exception in sending thread, quitting" << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 		}

@@ -54,4 +54,7 @@ namespace bl {
 	}
 }
 
+std::ostream& operator<<(std::ostream& os, const bl::network::client::ClientMessage& dt);
+std::ostream& operator<<(std::ostream& os, const bl::network::client::ClientMessageBody& dt);
+
 #endif //BEYONDLIGHT_CLIENTMESSAGE_HH

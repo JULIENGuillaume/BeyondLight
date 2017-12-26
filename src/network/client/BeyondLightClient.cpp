@@ -19,18 +19,19 @@ void bl::network::client::BeyondLightClient::mainLoop() {
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
-	for (auto & thread : this->m_activeThreads)
-		thread.join();
-	/*while (this->m_running) {
+	/*for (auto & thread : this->m_activeThreads)
+		thread.join();*/
+	while (this->m_running) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}*/
+	}
 }
 
 void bl::network::client::BeyondLightClient::disconnect() {
 	AClientTcpUdp::disconnect();
 	this->m_socket->close();
 	for (auto &thread : this->m_activeThreads) {
-		thread.join();
+		if (thread.joinable())
+			thread.join();
 	}
 	this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 }

@@ -38,6 +38,7 @@ namespace bl {
 			private:
 				std::shared_ptr<IClient> m_networkClient;
 				std::shared_ptr<std::thread> m_networkThread;
+				static bool creationAllowed;
 			};
 		}
 	}

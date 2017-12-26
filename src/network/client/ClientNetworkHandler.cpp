@@ -9,7 +9,13 @@
 #include "ClientNetworkHandler.hh"
 #include "BeyondLightClient.hh"
 
+bool bl::network::client::ClientNetworkHandler::creationAllowed = true;
+
 bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string const &ip, unsigned short port) : m_networkClient(std::make_shared<BeyondLightClient>(this)) {
+	if (!creationAllowed)
+		throw std::runtime_error("Can't create a second network handler");
+	creationAllowed = false;
+	std::cout << "IN CLIENT NETWORK HANDLER" << std::endl;
 	if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
@@ -17,8 +23,14 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 }
 
 bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {
-	this->m_networkClient->disconnect();
-	this->m_networkThread->join();
+	try {
+		std::cout << "EXITING client network handler" << std::endl;
+		this->m_networkClient->disconnect();
+		std::cout << "Disconnected" << std::endl;
+		this->m_networkThread->join();
+		std::cout << "EXITED" << std::endl;
+	} catch (...) {}
+	creationAllowed = true;
 }
 
 std::string bl::network::client::ClientNetworkHandler::getLine() {

@@ -15,6 +15,7 @@
 #include "TcpBoostSslSocket.hh"
 
 bl::network::socket::TcpBoostSslSocket::TcpBoostSslSocket(bool isClient) : m_isClient(isClient) {
+	std::cout << "Constructor tcp called" << std::endl;
 	if (!isClient) {
 		try {
 			m_sslCtx.set_options(
@@ -33,25 +34,25 @@ bl::network::socket::TcpBoostSslSocket::TcpBoostSslSocket(bool isClient) : m_isC
 }
 
 bool bl::network::socket::TcpBoostSslSocket::connect(std::string const &address, unsigned short port) {
-	std::ofstream log("log.txt", std::ios::out | std::ios::app);
-	log << "Setting verify mode" << std::endl;
+	/*std::ofstream log("log.txt", std::ios::out | std::ios::app);
+	log << "Setting verify mode" << std::endl;*/
 	m_socket->set_verify_mode(boost::asio::ssl::verify_peer);
 	m_socket->set_verify_callback(boost::bind(&TcpBoostSslSocket::verify_certificate, this, _1, _2));
 	m_socket->lowest_layer().connect(
 			boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address), port));
-	std::cout << "Starting handshake for client" << std::endl;
+	//std::cout << "Starting handshake for client" << std::endl;
 	m_socket->handshake(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::client);
-	std::cout << "Handshake is done" << std::endl;
+	//std::cout << "Handshake is done" << std::endl;
 	return (m_connected = m_socket->lowest_layer().is_open());
 }
 
 bool bl::network::socket::TcpBoostSslSocket::verify_certificate(bool,
                                                             boost::asio::ssl::verify_context &ctx) {
-	std::cout << "Ready to verify cert" << std::endl;
+	//std::cout << "Ready to verify cert" << std::endl;
 	char subject_name[256];
 	X509 *cert = X509_STORE_CTX_get_current_cert(ctx.native_handle());
 	X509_NAME_oneline(X509_get_subject_name(cert), subject_name, 256);
-	std::cout << "Verifying " << subject_name << "\n";
+	//std::cout << "Verifying " << subject_name << "\n";
 
 	return true;
 }
@@ -81,6 +82,7 @@ boost::asio::ip::tcp::socket &bl::network::socket::TcpBoostSslSocket::getBoostSo
 }
 
 std::shared_ptr<bl::network::socket::ISocket> bl::network::socket::TcpBoostSslSocket::clone() const {
+	std::cout << "Clone tcp called" << std::endl;
 	std::shared_ptr<ISocket> ret(new TcpBoostSslSocket(m_isClient));
 	ret->setAutoDataDecrypt(m_autoDecrypt);
 	ret->setAutoDataEncrypt(m_autoEncrypt);
@@ -109,7 +111,8 @@ bool bl::network::socket::TcpBoostSslSocket::openConnection(unsigned short) {
 }
 
 void bl::network::socket::TcpBoostSslSocket::close() {
-	this->m_socket->shutdown();
+	//this->m_socket->shutdown();
+	this->m_socket->lowest_layer().close();
 }
 
 void bl::network::socket::TcpBoostSslSocket::send(std::vector<char> const &msg) {

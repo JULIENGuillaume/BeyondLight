@@ -17,20 +17,19 @@ bl::network::client::AClientTcpUdp::AClientTcpUdp(
 		std::cerr << "Can't create socket client: invalid factory key" << std::endl;
 }
 
+bl::network::client::AClientTcpUdp::~AClientTcpUdp() {
+	try {
+		this->disconnect();
+	} catch (...) {}
+}
+
 bool bl::network::client::AClientTcpUdp::connectTo(const std::string &address, unsigned short port) {
 	if (!this->m_running) {
+		std::cout << "Connecting" << std::endl;
+		m_running = true;
 		if (!this->m_socket->connect(address, port))
 			return false;
 		this->m_serverAdress = address;
-		/*auto str = this->m_socket->receive();
-		while (str.find("\r\n") == str.npos) {
-			str += this->m_socket->receive();
-		}
-		str = str.substr(std::string("#$BL-->").size());
-		this->m_socket->connect(address, static_cast<unsigned short>(std::stoi(str)));*/
-		/*dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->updateTargetEndpoint(
-			dynamic_cast<socket::UdpAsyncBoostSocket *>(m_socket.get())->getLastSenderEndpoint());*/
-		m_running = true;
 	} else {
 		std::cerr << "You are already connected, please disconnect first" << std::endl;
 	}
@@ -51,6 +50,7 @@ void bl::network::client::AClientTcpUdp::launch() {
 		this->mainLoop();
 	} catch (std::exception &e) {
 		std::cerr << "Main loop has quit with " << e.what() << std::endl;
+		return;
 	}
 }
 

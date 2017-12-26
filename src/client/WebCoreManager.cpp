@@ -11,7 +11,7 @@
 namespace bl {
 	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
-		//std::cout << "Reaching the start of the web core manager constructor" << std::endl;
+		std::cout << "Reaching the start of the web core manager constructor" << std::endl;
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);
 		if (retCode >= 0) {

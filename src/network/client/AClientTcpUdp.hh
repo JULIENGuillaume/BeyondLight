@@ -16,7 +16,7 @@ namespace bl {
 			public:
 				explicit AClientTcpUdp(std::string const &factoryKeyUdp,
 				                       std::string const &factoryKeyTcp);
-				~AClientTcpUdp() override = default;
+				~AClientTcpUdp() override;
 			public:
 				bool connectTo(
 					const std::string &address,
