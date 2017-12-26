@@ -30,6 +30,9 @@ namespace bl {
 				void send(std::string const &cmd) override;
 				void send(ClientMessageType type, uint64_t code, std::string const& msg);
 
+			public:
+				void swapToUdp(unsigned short port);
+
 			protected:
 				void retrieveLine() override;
 			private:

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <TcpBoostSslSocket.hh>
 #include "UdpAsyncBoostSocket.hh"
 #include "../socket/SocketFactory.hh"
 #include "IServer.hh"
@@ -7,9 +8,14 @@
 #include "../../server/ServerCore.hh"
 
 void FactoriesInit() {
-	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::serverKeyUdpSslAsyncBoostSocket,
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::serverKeyUdpAsyncBoostSocket,
 	                                                             std::shared_ptr<bl::network::socket::ISocket>(
 			                                                             new bl::network::socket::UdpAsyncBoostSocket()));
+
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::serverKeyTcpSslBoostSocket,
+	                                                             std::shared_ptr<bl::network::socket::ISocket>(
+		                                                             new bl::network::socket::TcpBoostSslSocket(
+			                                                             false)));
 }
 
 int main() {

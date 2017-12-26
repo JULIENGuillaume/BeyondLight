@@ -7,18 +7,20 @@
 #include "user/RegisteredUsers.hh"
 #include "../common/Toolbox.hh"
 
-bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080) {}
+bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080) {
+	std::cout << "Reached server core construct" << std::endl;
+	m_isRunning = true;
+}
 
 void bl::server::ServerCore::start() {
-	auto users = user::RegisteredUsers::getInstance();
-	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
 	::bl::server::game::planet::Planet planet;
-	//std::cout << "Main loop reached" << std::endl;
+	std::cout << "Main loop reached" << std::endl;
 	bool loggedIn = true;
 	while (m_isRunning) {
 		/*while (m_serverNetworkHandler.getListClient().empty()) {
 			std::cout << "Empty" << std::endl;
 		}*/
+		std::cout << "Getting message" << std::endl;
 		auto msgFrom = m_serverNetworkHandler.getMessage();
 		auto msg = msgFrom.second.getBody();
 		//std::cout << "Received " << msg.code << ":" << msg.message << std::endl;

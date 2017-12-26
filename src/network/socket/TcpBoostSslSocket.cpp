@@ -30,8 +30,6 @@ bl::network::socket::TcpBoostSslSocket::TcpBoostSslSocket(bool isClient) : m_isC
 		}
 	}
 	m_socket = std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(m_ios, m_sslCtx);
-	m_autoDecrypt = !m_isClient;
-	m_autoEncrypt = m_isClient;
 }
 
 bool bl::network::socket::TcpBoostSslSocket::connect(std::string const &address, unsigned short port) {
@@ -43,6 +41,7 @@ bool bl::network::socket::TcpBoostSslSocket::connect(std::string const &address,
 			boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address), port));
 	std::cout << "Starting handshake for client" << std::endl;
 	m_socket->handshake(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::client);
+	std::cout << "Handshake is done" << std::endl;
 	return (m_connected = m_socket->lowest_layer().is_open());
 }
 
@@ -58,11 +57,11 @@ bool bl::network::socket::TcpBoostSslSocket::verify_certificate(bool,
 }
 
 void bl::network::socket::TcpBoostSslSocket::send(char const *msg) {
-	m_socket->next_layer().send(boost::asio::buffer(std::string(msg) + "\r\n"));
+	m_socket->next_layer().send(boost::asio::buffer("#$BL-->" + std::string(msg) + "\r\n"));
 }
 
 void bl::network::socket::TcpBoostSslSocket::send(std::string const &msg) {
-	m_socket->next_layer().send(boost::asio::buffer(msg + "\r\n"));
+	m_socket->next_layer().send(boost::asio::buffer("#$BL-->" + msg + "\r\n"));
 }
 
 char *bl::network::socket::TcpBoostSslSocket::receive(char *buf, size_t bufSize) {
@@ -124,3 +123,4 @@ void bl::network::socket::TcpBoostSslSocket::receive(std::vector<char> &buf) {
 boost::asio::ip::tcp::endpoint bl::network::socket::TcpBoostSslSocket::getRemoteEndpoint() {
 	return this->m_socket->lowest_layer().remote_endpoint();
 }
+

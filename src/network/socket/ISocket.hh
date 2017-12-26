@@ -14,7 +14,9 @@ namespace bl {
 		namespace socket {
 			class ISocket : public bl::common::pattern::PClonable<ISocket> {
 			public:
-				~ISocket() override = default;
+				~ISocket() override {
+					std::cout << "Destroying socket" << std::endl;
+				}
 			public:
 				virtual bool connect(
 						std::string const &address,

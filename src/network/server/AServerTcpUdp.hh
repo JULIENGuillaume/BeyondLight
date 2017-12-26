@@ -31,6 +31,9 @@ namespace bl {
 				bool isRunning() override;
 				std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& getClients() override;
 			protected:
+				void sendUdpSocketPort(std::shared_ptr<bl::network::socket::ISocket> const& socket);
+				virtual void advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket) = 0;
+			protected:
 				bool m_running = false;
 				const size_t maxSockets = 1; //TODO: check how to make it work with more sockets
 				std::vector<std::shared_ptr<bl::network::socket::ISocket>> m_sockets;
@@ -38,10 +41,12 @@ namespace bl {
 				std::string const m_factoryKeyUdp;
 				std::string const m_factoryKeyTcp;
 				unsigned short m_port;
+				size_t m_actualPort = 0;
 			private:
 				std::unordered_map<std::string, boost::asio::ip::udp::endpoint> m_clients;
 				std::vector<std::shared_ptr<std::thread>> m_loopThread;
 				std::vector<std::thread> m_loggingClients;
+				bool m_firstClient = true;
 			};
 		}
 	}

@@ -14,20 +14,26 @@ namespace bl {
 		namespace client {
 			class AClientTcpUdp : public IClient {
 			public:
-				explicit AClientTcpUdp(const std::string &factoryKey);
+				explicit AClientTcpUdp(std::string const &factoryKeyUdp,
+				                       std::string const &factoryKeyTcp);
 				~AClientTcpUdp() override = default;
 			public:
 				bool connectTo(
-						const std::string &address,
-						unsigned short port
+					const std::string &address,
+					unsigned short port
 				) override;
 				void disconnect() override;
 				std::shared_ptr<std::thread> asyncLaunch() override;
 				void launch() override;
 				bool isRunning() override;
+				std::shared_ptr<std::thread> switchToUdp(const std::string &address, unsigned short port);
+				const std::string &getConnectedServer() const override;
 			protected:
 				std::shared_ptr<socket::ISocket> m_socket;
 				bool m_running = false;
+				std::string m_serverAdress;
+				const std::string m_tcpSocketKey;
+				const std::string m_udpSocketKey;
 			};
 		}
 	}

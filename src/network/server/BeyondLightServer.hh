@@ -21,6 +21,7 @@ namespace bl {
 			class BeyondLightServer : public AServerTcpUdp {
 			public:
 				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
+				virtual ~BeyondLightServer();
 			public:
 				const std::pair<boost::asio::ip::udp::endpoint, std::string> & getLine() const;
 				void setLineToRead();
@@ -28,10 +29,10 @@ namespace bl {
 				void addToSend(std::string const &cmd, boost::asio::ip::udp::endpoint const &endpoint);
 			protected:
 				void mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) override;
+				void advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket) override;
 			private:
 				void readingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
 				void sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket);
-				void advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket);
 			private:
 				ServerNetworkHandler *m_handler;
 				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_toSend;

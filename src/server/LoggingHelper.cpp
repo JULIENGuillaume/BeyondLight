@@ -21,13 +21,8 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 		cereal::PortableBinaryInputArchive inArchive(ss);
 		inArchive(message);
 	}
-	std::stringstream ss;
-	cereal::PortableBinaryOutputArchive outArchive(ss);
 	network::server::ServerMessage answer;
-
-	const std::string &strRepresentation = ss.str();
-	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
-	auto toks = common::Toolbox::split(message.getBody().message, ":")
+	auto toks = common::Toolbox::split(message.getBody().message, ":");
 	switch (message.getBody().code) {
 		case 42:
 			if (toks.size() == 2 && users->users.find(toks[0]) != users->users.end() && toks[1] == users->users[toks[0]]) {
@@ -60,6 +55,12 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 			answer.getBody().message = "You're not logged in yet";
 			break;
 	}
+
+	std::stringstream ss;
+	cereal::PortableBinaryOutputArchive outArchive(ss);
 	outArchive(answer);
+	const std::string &strRepresentation = ss.str();
+	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
+	m_socket->send(std::string(fullData.begin(), fullData.end()));
 	return hasLogged;
 }

@@ -23,6 +23,7 @@ namespace bl {
 				virtual std::shared_ptr<std::thread> asyncLaunch() = 0;
 				virtual void disconnect() = 0;
 				virtual bool isRunning() = 0;
+				virtual std::string const& getConnectedServer() const = 0;
 			protected:
 				virtual void mainLoop() = 0;
 			};

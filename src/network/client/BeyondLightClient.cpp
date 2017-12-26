@@ -13,15 +13,17 @@
 #include "BeyondLightClient.hh"
 #include "../../client/MainHandler.hh"
 
-bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientTcpUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
+bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientTcpUdp(socket::clientKeyUdpAsyncBoostSocket, socket::clientKeyTcpSslBoostSocket), m_handler(handler) {}
 
 void bl::network::client::BeyondLightClient::mainLoop() {
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
 	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
-	while (this->m_running) {
+	for (auto & thread : this->m_activeThreads)
+		thread.join();
+	/*while (this->m_running) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
+	}*/
 }
 
 void bl::network::client::BeyondLightClient::disconnect() {
@@ -50,11 +52,10 @@ void bl::network::client::BeyondLightClient::readingThread() {
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (std::exception const &) {
+		} catch (std::exception const &e) {
 			isOpen = false;
-			std::cerr << "Exception in reading thread, quitting" << std::endl;
-			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-			this->m_running = false;
+			std::cerr << "Exception in reading thread (" << e.what() << "), quitting" << std::endl;
+			//this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 		}
 	}
 }
@@ -74,8 +75,7 @@ void bl::network::client::BeyondLightClient::sendingThread() {
 		} catch (std::exception const &) {
 			isOpen = false;
 			std::cerr << "Exception in sending thread, quitting" << std::endl;
-			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-			this->m_running = false;
+			//this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 		}
 	}
 }

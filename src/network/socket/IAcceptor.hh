@@ -16,6 +16,7 @@ namespace bl {
 
 			public:
 				virtual void accept(ISocket &socket) = 0;
+				virtual void accept(std::shared_ptr<ISocket> socket) = 0;
 			};
 		}
 	}

@@ -14,22 +14,25 @@
 #include "BeyondLightServer.hh"
 #include "../../server/game/building/IBuilding.hh"
 #include "../../server/game/planet/Planet.hh"
+#include "../../server/LoggingHelper.hh"
 
 bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler) :
-	AServerTcpUdp(socket::serverKeyUdpSslAsyncBoostSocket, socket::serverKeyTcpSslBoostSocket, port), m_handler(handler) {
+	AServerTcpUdp(socket::serverKeyUdpAsyncBoostSocket, socket::serverKeyTcpSslBoostSocket, port), m_handler(handler) {
 }
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	try {
+		/*std::cout << "Hello" << std::endl;
 		if (std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket) != nullptr) {
 			advancedSecuredTcpConnection(socket);
-			this->m_workingLoop = false;
 			return;
 		}
+		std::cout << "There" << std::endl;*/
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this, socket);
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this, socket);
 
 		while (this->m_running && this->m_workingLoop) {
+			//TODO; check if join can work here
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	} catch (std::exception &e) {
@@ -38,19 +41,29 @@ void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::networ
 }
 
 void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket) {
-	std::shared_ptr<socket::TcpBoostSslSocket> tcpSocket = std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket);
-	bool isLogged = false;
-	std::string data;
-	while (m_running && m_workingLoop && !isLogged) {
-		data += tcpSocket->receive();
-		while (data.find(newLineDelim) != data.npos) {
-			auto line = data.substr(0, data.find(newLineDelim));
-			data.erase(0, data.find(newLineDelim) + newLineDelim.length());
-			if (line.find(this->msgStartHeader) != line.npos) {
-				line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
+	try {
+		std::shared_ptr<socket::TcpBoostSslSocket> tcpSocket = std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket);
+		::bl::server::LoggingHelper helper(tcpSocket);
+		bool isLogged = false;
+		std::string data;
+
+		tcpSocket->handshake();
+		while (m_running && m_workingLoop && !isLogged) {
+			data += tcpSocket->receive();
+			while (data.find(newLineDelim) != data.npos) {
+				auto line = data.substr(0, data.find(newLineDelim));
+				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
+				if (line.find(this->msgStartHeader) != line.npos) {
+					line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
+				}
+				isLogged = helper.executeCommand(line);
 			}
 		}
-
+		if (isLogged) {
+			this->sendUdpSocketPort(socket);
+		}
+	} catch (std::exception const& e) {
+		std::cerr << "Advanced connection failed " << e.what() << std::endl;
 	}
 }
 
@@ -77,8 +90,6 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 			std::cerr << "Exception in reading thread, quitting" << std::endl;
 			std::cerr << e.what() << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-			this->m_running = false;
-			this->m_workingLoop = false;
 		}
 	}
 }
@@ -101,8 +112,6 @@ void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::n
 			isOpen = false;
 			std::cerr << "Exception in sending thread, quitting" << std::endl;
 			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-			this->m_running = false;
-			this->m_workingLoop = false;
 		}
 	}
 }
@@ -127,6 +136,10 @@ std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::Beyo
 		this->setLineToRead();
 	}
 	return line;
+}
+
+bl::network::server::BeyondLightServer::~BeyondLightServer() {
+	std::cout << "Destroying..." << std::endl;
 }
 
 /*TODO: remove old server

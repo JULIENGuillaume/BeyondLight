@@ -18,6 +18,7 @@ namespace bl {
 
 			public:
 				void accept(ISocket &socket) override;
+				void accept(std::shared_ptr<ISocket> socket) override;
 
 			private:
 				boost::asio::io_service m_ios;
