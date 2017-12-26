@@ -25,7 +25,6 @@ bl::network::client::AClientTcpUdp::~AClientTcpUdp() {
 
 bool bl::network::client::AClientTcpUdp::connectTo(const std::string &address, unsigned short port) {
 	if (!this->m_running) {
-		std::cout << "Connecting" << std::endl;
 		m_running = true;
 		if (!this->m_socket->connect(address, port))
 			return false;

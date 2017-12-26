@@ -51,7 +51,6 @@ std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> bl
 
 void bl::network::server::ServerNetworkHandler::send(std::string const &cmd) {
 	std::cerr << "Can't do a classic send here" << std::endl;
-	//(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(cmd, <#initializer#>);
 }
 
 void bl::network::server::ServerNetworkHandler::send(
@@ -71,7 +70,7 @@ void bl::network::server::ServerNetworkHandler::send(
 	std::stringstream ss;
 	cereal::PortableBinaryOutputArchive outArchive(ss);
 	outArchive(message);
-	const std::string &strRepresentation = ss.str(); //TODO: check if working to avoid unnecessary copy
+	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
 	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(std::string(fullData.begin(), fullData.end()), endpoint);
 	//this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string

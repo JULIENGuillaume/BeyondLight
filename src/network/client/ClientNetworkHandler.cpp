@@ -15,7 +15,6 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 	if (!creationAllowed)
 		throw std::runtime_error("Can't create a second network handler");
 	creationAllowed = false;
-	std::cout << "IN CLIENT NETWORK HANDLER" << std::endl;
 	if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
@@ -24,11 +23,8 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 
 bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {
 	try {
-		std::cout << "EXITING client network handler" << std::endl;
 		this->m_networkClient->disconnect();
-		std::cout << "Disconnected" << std::endl;
 		this->m_networkThread->join();
-		std::cout << "EXITED" << std::endl;
 	} catch (...) {}
 	creationAllowed = true;
 }
@@ -86,15 +82,11 @@ void bl::network::client::ClientNetworkHandler::retrieveLine() {
 }
 
 void bl::network::client::ClientNetworkHandler::swapToUdp(unsigned short port) {
-	std::cout << "Disconnect..." << std::endl;
 	try {
 		this->m_networkClient->disconnect();
 	} catch(std::exception const& e) {
 		std::cerr << "Disconnect failed: " << e.what() << std::endl;
 	}
-	std::cout << "Joining..." << std::endl;
 	this->m_networkThread->join();
-	std::cout << "Relaunch..." << std::endl;
 	this->m_networkThread = std::dynamic_pointer_cast<AClientTcpUdp>(this->m_networkClient)->switchToUdp(this->m_networkClient->getConnectedServer(), port);
-	std::cout << "Launching done" << std::endl;
 }

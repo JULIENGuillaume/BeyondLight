@@ -38,7 +38,6 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 			break;
 		case 43:
 			if (toks.size() == 6) {
-				//std::cout << "Registered user " << toks[2] << " with password " << toks[4] << std::endl;
 				answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 				answer.getBody().code = 43;
 				answer.getBody().message = "";

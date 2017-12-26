@@ -43,12 +43,9 @@ namespace bl {
 				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
 				networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + logInfo[1]);
 				auto msg = networkHandler->getMessage().getBody();
-				std::cout << "Login answer " << msg.code << " " << msg.type << " " << msg.message << std::endl;
 				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
-					std::cout << "Login success" << std::endl;
 					callback->Success("Login success");
 					auto str = networkHandler->getLine();
-					std::cout << str << std::endl;
 					networkHandler->swapToUdp(static_cast<unsigned short>(std::stol(str)));
 					return (true);
 				} else {

@@ -21,7 +21,7 @@ namespace bl {
 			class BeyondLightServer : public AServerTcpUdp {
 			public:
 				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
-				virtual ~BeyondLightServer();
+				virtual ~BeyondLightServer() = default;
 			public:
 				const std::pair<boost::asio::ip::udp::endpoint, std::string> & getLine() const;
 				void setLineToRead();

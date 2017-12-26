@@ -16,7 +16,6 @@ namespace bl {
 		) :
 				ABaseModel::ABaseModel(networkHandler),
 				m_id(id) {
-			//std::cout << "Basic building model has been created" << std::endl;
 			this->update();
 		}
 
@@ -35,10 +34,6 @@ namespace bl {
 		void BuildingModel::update() {
 			if (this->m_networkHandler.get()) {
 				try {
-					/*this->m_networkHandler->send("3242");
-					std::string jsonReceived1 = this->m_networkHandler->getLine();
-					std::cout << "Received " << jsonReceived1 << std::endl;*/
-					//this->m_networkHandler->send("4242");
 					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
 					auto msg = this->m_networkHandler->getMessage();
 					std::string jsonReceived = msg.getBody().message;

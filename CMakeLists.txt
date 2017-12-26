@@ -298,8 +298,8 @@ set(GAME_SRC
         src/server/UniqueObject.hh
         src/server/game/building/specialities/IResourceProductionBuilding.hh src/server/game/building/CrystalExtractor.cpp src/server/game/building/CrystalExtractor.hh src/server/ServerCore.cpp src/server/ServerCore.hh src/server/LoggingHelper.cpp src/server/LoggingHelper.hh)
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
+add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
+add_executable(BeyondLightClient ${CLIENT_PROJECT_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
 add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR})

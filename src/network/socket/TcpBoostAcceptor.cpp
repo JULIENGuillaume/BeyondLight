@@ -16,7 +16,6 @@ void bl::network::socket::TcpBoostAcceptor::accept(network::socket::ISocket &soc
 		m_acceptor.accept(dynamic_cast<TcpBoostSslSocket &>(socket).getBoostSocket());
 	} catch (std::bad_cast const&) {
 		std::cerr << "Fatal error: trying to use boost acceptor with non boost socket" << std::endl;
-		exit(1); //TODO: add socket exceptions
 	}
 }
 

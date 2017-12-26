@@ -17,7 +17,6 @@ namespace bl {
 			m_networkHandler(new network::client::ClientNetworkHandler("127.0.0.1", 8080)),
 			m_webCoreManager(m_networkHandler),
 			m_winName("BeyondLight") {
-		std::cout << "Reaching the start of the main handler constructor" << std::endl;
 		this->m_sizeUpdated = false;
 		this->m_frame = 0;
 		unsigned int width = 1280;

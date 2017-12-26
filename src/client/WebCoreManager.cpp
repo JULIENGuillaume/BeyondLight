@@ -11,7 +11,6 @@
 namespace bl {
 	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
-		std::cout << "Reaching the start of the web core manager constructor" << std::endl;
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);
 		if (retCode >= 0) {
@@ -34,7 +33,6 @@ namespace bl {
 			std::cerr << "BYE BYE at initialize "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while initializing cef with error code:" + std::to_string(retCode)));
 		}
-		//std::cout << "Ending the web core manager constructor" << std::endl;
 	}
 
 	WebCoreManager::~WebCoreManager() {

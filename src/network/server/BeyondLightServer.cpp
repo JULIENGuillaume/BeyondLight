@@ -22,17 +22,10 @@ bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, b
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	try {
-		/*std::cout << "Hello" << std::endl;
-		if (std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket) != nullptr) {
-			advancedSecuredTcpConnection(socket);
-			return;
-		}
-		std::cout << "There" << std::endl;*/
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::readingThread, this, socket);
 		this->m_activeThreads.emplace_back(&bl::network::server::BeyondLightServer::sendingThread, this, socket);
 
 		while (this->m_running && this->m_workingLoop) {
-			//TODO; check if join can work here
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	} catch (std::exception &e) {
@@ -72,7 +65,6 @@ void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::s
 void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	std::string data;
 
-	//std::cout << "Reading thread server launched" << std::endl;
 	while (m_running && m_workingLoop) {
 		try {
 			data += socket->receive();
@@ -86,34 +78,21 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (boost::system::system_error const &e) {
-			std::cerr << "Exception in reading thread, quitting" << std::endl;
-			std::cerr << e.what() << std::endl;
-			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-		}
+		} catch (boost::system::system_error const &e) {}
 	}
 }
 
 void bl::network::server::BeyondLightServer::sendingThread(std::shared_ptr<bl::network::socket::ISocket> socket) {
-	bool isOpen = true;
-
-	std::cout << "Sending thread server launched" << std::endl;
 	while (m_running && m_workingLoop) {
 		try {
 			while (!this->m_toSend.empty()) {
 				dynamic_cast<socket::UdpAsyncBoostSocket *>(socket.get())->sendTo(this->m_toSend.front().second, this->m_toSend.front().first);
-				//socket->send(this->m_toSend.front().second);
-				std::cout << "PING" << std::endl;
 				this->m_toSend.pop();
-				std::cout << "PONG" << std::endl;
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
-		} catch (std::exception const &) {
-			std::cerr << "Exception in sending thread, quitting" << std::endl;
-			this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
-		}
+		} catch (std::exception const &) {}
 	}
 }
 
@@ -138,90 +117,3 @@ std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::Beyo
 	}
 	return line;
 }
-
-bl::network::server::BeyondLightServer::~BeyondLightServer() {
-	std::cout << "Destroying..." << std::endl;
-}
-
-/*TODO: remove old server
-void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
-	auto users = ::server::user::RegisteredUsers::getInstance(); 
-	//::bl::server::game::building::IBuilding *build = new ::bl::server::game::building::IronMine(<#initializer#>); TODO: build a planet instead
-	::bl::server::game::planet::Planet planet;
-	std::cout << "Main loop reached" << std::endl;
-	bool loggedIn = false;
-	while (m_running) {
-		auto msg = socket->receive();
-		while (msg.find("\r\n") == msg.npos) {
-			msg += socket->receive();
-		}
-		msg = msg.substr(0, msg.find("\r\n"));
-		auto toks = bl::common::Toolbox::split(msg, ":");
-		std::cout << "Received " << msg << std::endl;
-		if (!toks.empty()) {
-			switch (std::atoi(toks[0].c_str())) {
-				case 42:
-					if (toks.size() == 3 && users->users.find(toks[1]) != users->users.end() && toks[2] == users->users[toks[1]]) {
-						loggedIn = true;
-						socket->send("123:OK");
-					} else {
-						socket->send("321:KO");
-					}
-					break;
-				case 43:
-					if (toks.size() == 7) {
-						std::cout << "Registered user " << toks[3] << " with password " << toks[5] << std::endl;
-						users->users.emplace(toks[3], toks[5]);
-						socket->send("123:OK");
-					} else {
-						socket->send("321:KO");
-					}
-					break;
-				case 4242:
-					if (toks.size() == 1 && loggedIn) {
-						nlohmann::json sendingJson;
-						sendingJson["buildings"] = (planet.serialize())["buildings"];
-						std::string toSend = sendingJson.dump();
-						std::cout << "Sending " << toSend << std::endl;
-						socket->send("14242:" + toSend);
-					} else {
-						socket->send("321:KO");
-					}
-					break;
-				case 3242:
-					if (toks.size() == 1 && loggedIn) {
-						planet.updateResources();
-						nlohmann::json sendingJson;
-						sendingJson["resources"] = (planet.serialize())["resources"];
-						std::string toSend = sendingJson.dump();
-						std::cout << "Sending " << toSend << std::endl;
-						socket->send("324201:" + toSend);
-					} else {
-						socket->send("321:KO");
-					}
-					break;
-				case 421356:
-					if (toks.size() == 2 && loggedIn) {
-						int buildingId = std::atoi(toks[1].c_str());
-						if (!planet.tryToUpdateBuilding(buildingId)) {
-							socket->send("321:KO");
-						} else {
-							socket->send("421357:" + toks[1] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()));
-						}
-					} else {
-						socket->send("321:KO");
-					}
-					break;
-				case 1337:
-					this->m_running = false;
-					socket->send("123:OK");
-					break;
-				default:
-					socket->send("404:UNKNOWN");
-					break;
-			}
-		}
-	}
-	std::cout << "End of server" << std::endl;
-}
-*/
