@@ -1,4 +1,4 @@
-﻿﻿#ifndef WEB_CORE_HH
+﻿#ifndef WEB_CORE_HH
 #define WEB_CORE_HH
 
 #include <string>

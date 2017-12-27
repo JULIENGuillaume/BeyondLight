@@ -1,4 +1,4 @@
-﻿﻿#include <iostream>
+﻿#include <iostream>
 #include "RenderHandler.hh"
 #include "ImageLoader.hh"
 #include "GL/glew.h"
