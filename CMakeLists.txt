@@ -77,6 +77,16 @@ set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
 find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
 
 ##
+##  MongoDB setup
+##
+
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-cxx-driver")
+set(libbson-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libbson-static-1.0")
+set(libmongoc-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libmongoc-static-1.0")
+
+find_package(libmongocxx-static REQUIRED)
+
+##
 ##  Set path to source directories
 ##
 
@@ -296,26 +306,36 @@ set(GAME_SRC
         src/server/game/planet/Planet.hh
         src/server/UniqueObject.cpp
         src/server/UniqueObject.hh
-        src/server/game/building/specialities/IResourceProductionBuilding.hh src/server/game/building/CrystalExtractor.cpp src/server/game/building/CrystalExtractor.hh src/server/ServerCore.cpp src/server/ServerCore.hh src/server/LoggingHelper.cpp src/server/LoggingHelper.hh)
+        src/server/game/building/specialities/IResourceProductionBuilding.hh
+        src/server/game/building/CrystalExtractor.cpp
+        src/server/game/building/CrystalExtractor.hh
+        src/server/ServerCore.cpp
+        src/server/ServerCore.hh
+        src/server/LoggingHelper.cpp
+        src/server/LoggingHelper.hh)
 
 add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
 add_executable(BeyondLightClient ${CLIENT_PROJECT_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
 add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
-target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR})
+target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} ${LIBMONGOCXX_STATIC_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 
 IF (UNIX)
-    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} pthread)
     target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
 ELSE ()
 
     #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
-    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} ws2_32)
     target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 ENDIF (UNIX)
+
+target_compile_definitions(BeyondLightServer
+        PRIVATE ${LIBMONGOCXX_STATIC_DEFINITIONS}
+        )
 
 ##
 ##  Compile the test environment with Google test, optionnal
