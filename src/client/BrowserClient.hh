@@ -1,4 +1,4 @@
-﻿#ifndef BROWSER_CLIENT_HH
+﻿﻿#ifndef BROWSER_CLIENT_HH
 #define BROWSER_CLIENT_HH
 
 #include "ClientNetworkHandler.hh"
