@@ -81,6 +81,14 @@ void bl::network::client::BeyondLightClient::sendingThread() {
 	}
 }
 
+void bl::network::client::BeyondLightClient::directSend(std::string const &cmd) {
+	try {
+		this->m_socket->send(cmd);
+	} catch (std::exception const& e) {
+		std::cerr << "Can't direct send: " << e.what();
+	}
+}
+
 std::string const &bl::network::client::BeyondLightClient::getLine() const {
 	return this->m_lines.front();
 }

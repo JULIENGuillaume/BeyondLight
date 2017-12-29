@@ -16,8 +16,12 @@
 #include "../../server/game/planet/Planet.hh"
 #include "../../server/LoggingHelper.hh"
 
-bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler) :
-	AServerTcpUdp(socket::serverKeyUdpAsyncBoostSocket, socket::serverKeyTcpSslBoostSocket, port), m_handler(handler) {
+bl::network::server::BeyondLightServer::BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler, ::bl::server::LoadedData &data) :
+	AServerTcpUdp(socket::serverKeyUdpAsyncBoostSocket,
+	              socket::serverKeyTcpSslBoostSocket,
+	              port),
+	m_handler(handler),
+	m_data(data) {
 }
 
 void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::network::socket::ISocket> socket) {
@@ -36,7 +40,7 @@ void bl::network::server::BeyondLightServer::mainLoop(std::shared_ptr<bl::networ
 void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::shared_ptr<bl::network::socket::ISocket> socket) {
 	try {
 		std::shared_ptr<socket::TcpBoostSslSocket> tcpSocket = std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket);
-		::bl::server::LoggingHelper helper(tcpSocket);
+		::bl::server::LoggingHelper helper(tcpSocket, this->m_data);
 		bool isLogged = false;
 		std::string data;
 

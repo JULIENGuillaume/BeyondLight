@@ -33,6 +33,13 @@ nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 }
 
 bl::common::pattern::ISerializable *bl::server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
+	m_id = json["id"];
+	m_level = json["level"];
+	m_upgrading = json["isUpgrading"];
+	m_upgradeTimeLeft = json["timeLeft"];
+	m_name = json["name"];
+	m_desc = json["description"];
+
 	return this;
 }
 

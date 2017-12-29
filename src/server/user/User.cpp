@@ -10,4 +10,33 @@
 
 #include "User.hh"
 
-server::user::User::User(unsigned long id, const std::string &login) : m_id(id), m_login(login) {}
+nlohmann::json bl::server::user::User::serialize() const {
+	nlohmann::json json = UniqueObject::serialize();
+
+	json["login"] = this->m_login;
+	json["lastPlanet"] = this->m_lastPlanetId;
+	return json;
+}
+
+bl::common::pattern::ISerializable *bl::server::user::User::deserialize(nlohmann::json const &json) {
+	UniqueObject::deserialize(json);
+	this->m_login = json["login"];
+	this->m_lastPlanetId = json["lastPlanet"];
+	return this;
+}
+
+const std::string &bl::server::user::User::getLogin() const {
+	return m_login;
+}
+
+void bl::server::user::User::setLogin(const std::string &login) {
+	m_login = login;
+}
+
+const std::string &bl::server::user::User::getLastPlanetId() const {
+	return m_lastPlanetId;
+}
+
+void bl::server::user::User::setLastPlanetId(const std::string &lastPlanetId) {
+	m_lastPlanetId = lastPlanetId;
+}

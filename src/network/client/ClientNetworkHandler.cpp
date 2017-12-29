@@ -23,6 +23,7 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string cons
 
 bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {
 	try {
+		this->directSend(ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 1337, "");
 		this->m_networkClient->disconnect();
 		this->m_networkThread->join();
 	} catch (...) {}
@@ -63,6 +64,7 @@ void bl::network::client::ClientNetworkHandler::send(
 	//Create the message structure
 	ClientMessage message;
 	message.getBody().message = msg;
+	message.getBody().sessionId = this->m_sessionId;
 	message.getBody().messageSize = msg.size();
 	message.getBody().code = code;
 	message.getBody().type = type;
@@ -71,9 +73,30 @@ void bl::network::client::ClientNetworkHandler::send(
 	std::stringstream ss;
 	cereal::PortableBinaryOutputArchive outArchive(ss);
 	outArchive(message);
-	const std::string &strRepresentation = ss.str(); //TODO: check if working to avoid unnecessary copy
+	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
 	this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
+}
+
+void bl::network::client::ClientNetworkHandler::directSend(std::string const &cmd) {
+	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->directSend(cmd);
+}
+
+void bl::network::client::ClientNetworkHandler::directSend(bl::network::client::ClientMessageType type, uint64_t code, std::string const &msg) {
+	ClientMessage message;
+	message.getBody().message = msg;
+	message.getBody().sessionId = this->m_sessionId;
+	message.getBody().messageSize = msg.size();
+	message.getBody().code = code;
+	message.getBody().type = type;
+
+	//Serialize the message
+	std::stringstream ss;
+	cereal::PortableBinaryOutputArchive outArchive(ss);
+	outArchive(message);
+	const std::string &strRepresentation = ss.str();
+	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
+	this->directSend(std::string(fullData.begin(), fullData.end()));
 }
 
 void bl::network::client::ClientNetworkHandler::retrieveLine() {
@@ -89,4 +112,8 @@ void bl::network::client::ClientNetworkHandler::swapToUdp(unsigned short port) {
 	}
 	this->m_networkThread->join();
 	this->m_networkThread = std::dynamic_pointer_cast<AClientTcpUdp>(this->m_networkClient)->switchToUdp(this->m_networkClient->getConnectedServer(), port);
+}
+
+void bl::network::client::ClientNetworkHandler::setSessionId(std::string const& sessionId) {
+	this->m_sessionId = sessionId;
 }

@@ -26,6 +26,7 @@ namespace bl {
 				void serialize(Archive &archive) {
 					archive((int)type,
 							code,
+					        sessionId,
 							messageSize,
 							message); // serialize things by passing them to the archive
 				}
@@ -34,6 +35,7 @@ namespace bl {
 				//char header[4] = {66, 76, 67, 76};
 				ClientMessageType type;
 				uint64_t code;
+				std::string sessionId;
 				size_t messageSize;
 				std::string message;
 			};

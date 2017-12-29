@@ -10,13 +10,14 @@
 #include "../client/ClientMessage.hh"
 #include "ServerMessage.hh"
 #include "IServer.hh"
+#include "../../server/LoadedData.hh"
 
 namespace bl {
 	namespace network {
 		namespace server {
 			class ServerNetworkHandler : public socket::ANetworkHandler  {
 			public:
-				explicit ServerNetworkHandler(unsigned short port = 4224);
+				explicit ServerNetworkHandler(unsigned short port, ::bl::server::LoadedData &data);
 				~ServerNetworkHandler() override = default;
 			public:
 				std::string getLine() override;
@@ -34,6 +35,7 @@ namespace bl {
 				std::shared_ptr<IServer> m_networkServer;
 				std::shared_ptr<std::thread> m_networkThread;
 				std::queue<std::pair<boost::asio::ip::udp::endpoint, std::string>> m_linesFrom;
+				::bl::server::LoadedData &m_data;
 			};
 		}
 	}

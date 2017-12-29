@@ -20,8 +20,8 @@ namespace bl {
 		namespace server {
 			class BeyondLightServer : public AServerTcpUdp {
 			public:
-				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler);
-				virtual ~BeyondLightServer() = default;
+				explicit BeyondLightServer(unsigned short port, bl::network::server::ServerNetworkHandler *handler, ::bl::server::LoadedData &data);
+				~BeyondLightServer() override = default;
 			public:
 				const std::pair<boost::asio::ip::udp::endpoint, std::string> & getLine() const;
 				void setLineToRead();
@@ -40,6 +40,7 @@ namespace bl {
 			private:
 				std::vector<std::thread> m_activeThreads;
 				bool m_workingLoop = true;
+				::bl::server::LoadedData &m_data;
 			private:
 				const std::string newLineDelim = "\r\n";
 				const std::string msgStartHeader = "#$BL-->";

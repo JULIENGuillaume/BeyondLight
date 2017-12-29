@@ -27,6 +27,7 @@ namespace bl {
 				std::string getAndEraseLine();
 				void addToSend(std::string const &cmd);
 				void disconnect() override;
+				void directSend(std::string const& cmd);
 			protected:
 				void mainLoop() override;
 			private:

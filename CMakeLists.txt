@@ -49,7 +49,7 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /W3 /Oi /O2 /Gy /Zi /EHsc")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /W3 /Oi /O2 /Gy /Zi /EHsc")
 endif (MSVC)
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # todo remove overwriting flags
@@ -287,7 +287,7 @@ set(USER_SRC
         src/server/user/AuthSystem.hh
         src/server/user/RegisteredUsers.cpp
         src/server/user/RegisteredUsers.hh
-        )
+        src/server/user/FullUser.cpp src/server/user/FullUser.hh src/server/user/SessionIdentifier.cpp src/server/user/SessionIdentifier.hh)
 
 ##
 ##  Game sources
@@ -312,9 +312,13 @@ set(GAME_SRC
         src/server/ServerCore.cpp
         src/server/ServerCore.hh
         src/server/LoggingHelper.cpp
-        src/server/LoggingHelper.hh)
+        src/server/LoggingHelper.hh src/server/LoadedData.cpp src/server/LoadedData.hh)
 
-add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
+set(DATABASE_SRC
+        src/server/storage/Database.cpp
+        src/server/storage/Database.hh)
+
+add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC} ${DATABASE_SRC})
 add_executable(BeyondLightClient ${CLIENT_PROJECT_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
 add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 

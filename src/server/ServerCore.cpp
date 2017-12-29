@@ -3,65 +3,66 @@
 //
 
 #include "ServerCore.hh"
-#include "game/planet/Planet.hh"
 #include "../common/Toolbox.hh"
 
-bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080) {
+bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080, this->m_data) {
 	m_isRunning = true;
 }
 
 void bl::server::ServerCore::start() {
 	try {
-		::bl::server::game::planet::Planet planet;
-		bool loggedIn = true;
 		while (m_isRunning) {
+			std::shared_ptr<::bl::server::game::planet::Planet> planet;
 			auto msgFrom = m_serverNetworkHandler.getMessage();
 			auto msg = msgFrom.second.getBody();
 			auto toks = common::Toolbox::split(msg.message, ":");
-			switch (msg.code) {
-				case 4242:
-					if (loggedIn) {
-						nlohmann::json sendingJson;
-						sendingJson["buildings"] = (planet.serialize())["buildings"];
-						std::string toSend = sendingJson.dump();
+			std::cout << "Received request " << msg.code << " from session id " << msg.sessionId << std::endl;
+			nlohmann::json sendingJson;
+			std::string toSend;
+			if (m_data.activeSessions.find(msg.sessionId) != m_data.activeSessions.end()) {
+				auto session = m_data.activeSessions[msg.sessionId];
+				planet = m_data.loadedPlanets.find(session->getUser().getLastPlanetId())->second;
+				switch (msg.code) {
+					case 4242:
+						sendingJson["buildings"] = (planet->serialize())["buildings"];
+						toSend = sendingJson.dump();
 						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 4242, toSend, msgFrom.first);
-					} else {
-						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 4242, "", msgFrom.first);
-					}
-					break;
-				case 3242:
-					if (loggedIn) {
-						planet.updateResources();
-						nlohmann::json sendingJson;
-						sendingJson["resources"] = (planet.serialize())["resources"];
-						std::string toSend = sendingJson.dump();
+						break;
+					case 3242:
+						planet->updateResources();
+						sendingJson["resources"] = (planet->serialize())["resources"];
+						toSend = sendingJson.dump();
 						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 3242, toSend, msgFrom.first);
-					} else {
-						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 3242, "", msgFrom.first);
-					}
-					break;
-				case 421356:
-					if (toks.size() == 1 && loggedIn) {
-						int buildingId = std::atoi(toks[0].c_str());
-						if (!planet.tryToUpdateBuilding(buildingId)) {
-							m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 421356, "", msgFrom.first);
+						m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
+						break;
+					case 421356:
+						if (toks.size() == 1) {
+							int buildingId = std::atoi(toks[0].c_str());
+							if (!planet->tryToUpdateBuilding(buildingId)) {
+								m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 421356, "", msgFrom.first);
+							} else {
+								//socket->send("421357:" + toks[0] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()));
+								m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 421356,
+								                            toks[0] + ":" + std::to_string(planet->getBuildingInfo(buildingId)->getLevel()), msgFrom.first);
+							}
+							m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
 						} else {
-							//socket->send("421357:" + toks[0] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()));
-							m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 421356,
-							                            toks[0] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()), msgFrom.first);
+							m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 421356, "", msgFrom.first);
 						}
-					} else {
-						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 421356, "", msgFrom.first);
-					}
-					break;
-				case 1337:
-					this->m_isRunning = false;
-					loggedIn = false;
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 1337, "", msgFrom.first);
-					break;
-				default:
-					m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ERROR, 404, "Unknown command", msgFrom.first);
-					break;
+						break;
+					case 1337:
+						std::cout << "Ending session" << std::endl;
+						m_data.loggedUsers.erase(session->getUser().getLogin());
+						m_data.activeSessions.erase(session->getUuidAsString());
+						//this->m_isRunning = false;
+						//m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 1337, "", msgFrom.first);
+						break;
+					default:
+						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ERROR, 404, "Unknown command", msgFrom.first);
+						break;
+				}
+			} else {
+				m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ERROR, 403, "You don't have any session opened, please log in first", msgFrom.first);
 			}
 		}
 	} catch (std::exception const &e) {

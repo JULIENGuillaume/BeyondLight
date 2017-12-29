@@ -25,6 +25,7 @@ namespace bl {
 				);
 				~ClientNetworkHandler() override;
 			public:
+				void setSessionId(std::string const& sessionId);
 				std::string getLine() override;
 				server::ServerMessage getMessage();
 				void send(std::string const &cmd) override;
@@ -35,9 +36,12 @@ namespace bl {
 
 			protected:
 				void retrieveLine() override;
+				void directSend(std::string const &cmd);
+				void directSend(ClientMessageType type, uint64_t code, std::string const& msg);
 			private:
 				std::shared_ptr<IClient> m_networkClient;
 				std::shared_ptr<std::thread> m_networkThread;
+				std::string m_sessionId;
 				static bool creationAllowed;
 			};
 		}

@@ -12,18 +12,27 @@
 #define BEYONDLIGHT_USER_HH
 
 #include <string>
+#include <ISerializable.hh>
+#include "../UniqueObject.hh"
 
-namespace server {
-	namespace user {
-		class User {
-		public:
-			User(unsigned long m_id, const std::string &m_login);
+namespace bl {
+	namespace server {
+		namespace user{
+			class User : protected UniqueObject {
+			public:
+				User() = default;
+				nlohmann::json serialize() const override;
+				ISerializable *deserialize(nlohmann::json const &json) override;
+				const std::string &getLogin() const;
+				void setLogin(const std::string &login);
+				const std::string &getLastPlanetId() const;
+				void setLastPlanetId(const std::string &lastPlanetId);
 
-		private:
-			unsigned long int m_id;
-			std::string m_login;
-			char m_nonce[32];
-		};
+			protected:
+				std::string m_login{};
+				std::string m_lastPlanetId{};
+			};
+		}
 	}
 }
 

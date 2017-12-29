@@ -10,8 +10,10 @@
 #include <ClientMessage.hh>
 #include "ServerNetworkHandler.hh"
 #include "BeyondLightServer.hh"
+#include "../../server/LoadedData.hh"
 
-bl::network::server::ServerNetworkHandler::ServerNetworkHandler(unsigned short port) : m_networkServer(std::make_shared<BeyondLightServer>(port, this)) {
+bl::network::server::ServerNetworkHandler::ServerNetworkHandler(unsigned short port, ::bl::server::LoadedData &data) : m_networkServer(std::make_shared<BeyondLightServer>(port, this, data)),
+                                                                                                                       m_data(data) {
 	this->m_networkThread = m_networkServer->asyncRun();
 }
 

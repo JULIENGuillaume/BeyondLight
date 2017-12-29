@@ -44,12 +44,13 @@ namespace bl {
 				networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + logInfo[1]);
 				auto msg = networkHandler->getMessage().getBody();
 				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+					networkHandler->setSessionId(msg.message);
 					callback->Success("Login success");
 					auto str = networkHandler->getLine();
 					networkHandler->swapToUdp(static_cast<unsigned short>(std::stol(str)));
 					return (true);
 				} else {
-					callback->Failure(0, "Bad login or password");
+					callback->Failure(0, msg.message);
 				}
 			}
 			return (false);

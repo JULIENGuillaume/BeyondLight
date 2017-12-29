@@ -7,16 +7,24 @@
 
 #include <memory>
 #include <TcpBoostSslSocket.hh>
+#include "storage/Database.hh"
+#include "LoadedData.hh"
 
 namespace bl {
 	namespace server {
 		class LoggingHelper {
 		public:
-			explicit LoggingHelper(const std::shared_ptr<network::socket::TcpBoostSslSocket> &m_socket);
+			explicit LoggingHelper(const std::shared_ptr<bl::network::socket::TcpBoostSslSocket> &m_socket, ::bl::server::LoadedData &data);
 			bool executeCommand(std::string const& cmd);
 
 		private:
+			network::server::ServerMessage registerNewUser(std::vector<std::string> const& toks);
+			network::server::ServerMessage loginUser(std::vector<std::string> const& toks);
+
+		private:
 			std::shared_ptr<network::socket::TcpBoostSslSocket> m_socket;
+			bl::server::storage::Database m_db;
+			::bl::server::LoadedData &m_data;
 		};
 	}
 }
