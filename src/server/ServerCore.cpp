@@ -52,6 +52,8 @@ void bl::server::ServerCore::start() {
 						break;
 					case 1337:
 						std::cout << "Ending session" << std::endl;
+						m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
+						m_data.loadedPlanets.erase(planet->getUuidAsString());
 						m_data.loggedUsers.erase(session->getUser().getLogin());
 						m_data.activeSessions.erase(session->getUuidAsString());
 						//this->m_isRunning = false;
