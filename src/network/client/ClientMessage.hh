@@ -33,11 +33,11 @@ namespace bl {
 
 			public:
 				//char header[4] = {66, 76, 67, 76};
-				ClientMessageType type;
-				uint64_t code;
-				std::string sessionId;
-				size_t messageSize;
-				std::string message;
+				ClientMessageType type = CLIENT_MESSAGE_TYPE_NONE;
+				uint64_t code = 0;
+				std::string sessionId = "";
+				size_t messageSize = 0;
+				std::string message = "";
 			};
 
 			class ClientMessage {

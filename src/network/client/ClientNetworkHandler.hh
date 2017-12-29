@@ -30,6 +30,7 @@ namespace bl {
 				server::ServerMessage getMessage();
 				void send(std::string const &cmd) override;
 				void send(ClientMessageType type, uint64_t code, std::string const& msg);
+				void send(ClientMessage const& msg);
 
 			public:
 				void swapToUdp(unsigned short port);

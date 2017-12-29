@@ -18,6 +18,14 @@ namespace bl {
 		public:
 			void start();
 
+		public:
+			const network::server::ServerNetworkHandler &getServerNetworkHandler() const;
+			network::server::ServerNetworkHandler &getServerNetworkHandler();
+			const storage::Database &getDatabase() const;
+			storage::Database &getDatabase();
+			const LoadedData &getData() const;
+			LoadedData &getData();
+
 		private:
 			bl::network::server::ServerNetworkHandler m_serverNetworkHandler;
 			bl::server::storage::Database m_database;

@@ -4,6 +4,7 @@
 
 #include "ServerCore.hh"
 #include "../common/Toolbox.hh"
+#include "api/Api.hh"
 
 bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080, this->m_data) {
 	m_isRunning = true;
@@ -11,6 +12,7 @@ bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080, this->m_data
 
 void bl::server::ServerCore::start() {
 	try {
+		api::Api serverApi(*this);
 		while (m_isRunning) {
 			std::shared_ptr<::bl::server::game::planet::Planet> planet;
 			auto msgFrom = m_serverNetworkHandler.getMessage();
@@ -69,4 +71,29 @@ void bl::server::ServerCore::start() {
 	} catch (std::exception const &e) {
 		std::cerr << "Server core end with error: " << e.what() << std::endl;
 	}
+}
+
+const bl::network::server::ServerNetworkHandler &bl::server::ServerCore::getServerNetworkHandler() const {
+	return m_serverNetworkHandler;
+}
+
+const bl::server::storage::Database &bl::server::ServerCore::getDatabase() const {
+	return m_database;
+}
+
+const bl::server::LoadedData &bl::server::ServerCore::getData() const {
+	return m_data;
+}
+
+
+bl::network::server::ServerNetworkHandler &bl::server::ServerCore::getServerNetworkHandler() {
+	return m_serverNetworkHandler;
+}
+
+bl::server::storage::Database &bl::server::ServerCore::getDatabase() {
+	return m_database;
+}
+
+bl::server::LoadedData &bl::server::ServerCore::getData()  {
+	return m_data;
 }

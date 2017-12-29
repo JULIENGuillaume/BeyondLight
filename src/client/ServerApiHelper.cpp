@@ -1,0 +1,55 @@
+//
+// Created by Guillaume on 29/12/2017.
+//
+
+#include "ServerApiHelper.hh"
+
+bl::client::ServerApiHelper::ServerApiHelper() {
+	this->registerRequest(this->REQUEST_LOGIN, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 42, "");
+	this->registerRequest(this->REQUEST_REGISTER, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 43, "");
+	this->registerRequest(this->REQUEST_LOGOUT, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 1337, "");
+	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
+	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 3242, "");
+	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, 421356, "");
+}
+
+bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {
+	if (this->m_requestModel.find(requestName) == this->m_requestModel.end())
+		return bl::network::client::ClientMessage();
+	return bl::network::client::ClientMessage();
+}
+
+bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName, std::string const &arg) {
+	auto baseRequest = buildNewApiRequest(requestName);
+	if (baseRequest.getBody().type == network::client::CLIENT_MESSAGE_TYPE_NONE)
+		return baseRequest;
+	baseRequest.getBody().message += "?" + arg;
+	return baseRequest;
+}
+
+bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName, std::vector<std::string> const &args) {
+	std::string finalArg;
+	for (size_t i = 0; i < args.size(); ++i) {
+		if (i != 0) {
+			finalArg += "&";
+		}
+		finalArg += args[i];
+	}
+	return buildNewApiRequest(requestName, finalArg);
+}
+
+bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName, std::unordered_map<std::string, std::string> const &args) {
+	std::vector<std::string> finalArgs;
+	finalArgs.reserve(args.size());
+	for (auto arg : args)
+		finalArgs.push_back(arg.first + "=" + arg.second);
+	return buildNewApiRequest(requestName, finalArgs);
+}
+
+void bl::client::ServerApiHelper::registerRequest(std::string const &requestName, network::client::ClientMessageType type, uint64_t code, std::string const &message) {
+	bl::network::client::ClientMessage request;
+	request.getBody().message = message;
+	request.getBody().code = code;
+	request.getBody().type = type;
+	this->m_requestModel.emplace(requestName, request);
+}

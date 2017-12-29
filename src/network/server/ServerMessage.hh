@@ -30,10 +30,10 @@ namespace bl {
 
 			public:
 				//char header[4] = {66, 76, 83, 86};
-				ServerMessageType type;
-				uint64_t code;
-				size_t messageSize;
-				std::string message;
+				ServerMessageType type = SERVER_MESSAGE_TYPE_NONE;
+				uint64_t code = 0;
+				size_t messageSize = 0;
+				std::string message = "";
 			};
 
 			class ServerMessage {

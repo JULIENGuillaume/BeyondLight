@@ -78,6 +78,10 @@ void bl::network::client::ClientNetworkHandler::send(
 	this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
 }
 
+void bl::network::client::ClientNetworkHandler::send(const bl::network::client::ClientMessage &msg) {
+	this->send(msg.getBody().type, msg.getBody().code, msg.getBody().message);
+}
+
 void bl::network::client::ClientNetworkHandler::directSend(std::string const &cmd) {
 	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->directSend(cmd);
 }

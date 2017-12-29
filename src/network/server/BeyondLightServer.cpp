@@ -82,7 +82,7 @@ void bl::network::server::BeyondLightServer::readingThread(std::shared_ptr<bl::n
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
 				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (boost::system::system_error const &e) {}
+		} catch (boost::system::system_error const &) {}
 	}
 }
 
