@@ -2,6 +2,7 @@
 // Created by Guillaume on 04/12/2017.
 //
 
+#include <iostream>
 #include "../planet/Planet.hh"
 #include "ABuilding.hh"
 

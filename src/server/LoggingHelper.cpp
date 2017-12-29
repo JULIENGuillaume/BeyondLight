@@ -90,8 +90,8 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::registerNewUser(st
 		startingPlanet.claimBy(newUser);
 		newUser.setLastPlanetId(startingPlanet.getUuidAsString());
 
-		m_db.insert("planets", startingPlanet.serialize());
-		m_db.insert("users", newUser.serialize());
+		m_db.update("planets", "uuid", startingPlanet.getUuidAsString(), startingPlanet.serialize());
+		m_db.update("users", "uuid", newUser.getUuidAsString(), newUser.serialize());
 	}
 	return message;
 }

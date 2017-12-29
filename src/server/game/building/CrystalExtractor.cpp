@@ -2,6 +2,7 @@
 // Created by Guillaume on 19/12/2017.
 //
 
+#include <iostream>
 #include "../planet/Planet.hh"
 #include "CrystalExtractor.hh"
 
@@ -38,6 +39,9 @@ void bl::server::game::building::CrystalExtractor::updateBuildingOnDeltaTime(uin
 		if (actualTime >= this->m_secondsForProduction) {
 			this->m_planet.getStockResources().addCrystal((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(5 * std::pow(1.20, this->m_level))));
 			this->m_timeLeftFromLastProd = actualTime % this->m_secondsForProduction;
+			this->m_chrono.reset();
 		}
+	} else {
+		this->m_chrono.reset();
 	}
 }

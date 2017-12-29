@@ -68,14 +68,14 @@ nlohmann::json bl::server::game::planet::Planet::serialize() const {
 bl::common::pattern::ISerializable *bl::server::game::planet::Planet::deserialize(nlohmann::json const &json) {
 	try {
 		UniqueObject::deserialize(json);
-		std::vector<nlohmann::json> buildings = json["buildings"];
+		this->m_stockResources.deserialize(json["resources"]);
+		this->m_planetOwner = json["owner"];
 
 		this->resetBuildings();
+		std::vector<nlohmann::json> buildings = json["buildings"];
 		for (const auto& build : buildings) {
 			m_idToBuildings[build["id"]]->deserialize(build);
 		}
-		this->m_stockResources.deserialize(json["resources"]);
-		this->m_planetOwner = json["owner"];
 	} catch (std::exception const& e) {
 		std::cerr << e.what() << std::endl;
 	}

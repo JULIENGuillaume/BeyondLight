@@ -16,7 +16,6 @@ void bl::server::ServerCore::start() {
 			auto msgFrom = m_serverNetworkHandler.getMessage();
 			auto msg = msgFrom.second.getBody();
 			auto toks = common::Toolbox::split(msg.message, ":");
-			std::cout << "Received request " << msg.code << " from session id " << msg.sessionId << std::endl;
 			nlohmann::json sendingJson;
 			std::string toSend;
 			if (m_data.activeSessions.find(msg.sessionId) != m_data.activeSessions.end()) {

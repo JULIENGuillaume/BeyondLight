@@ -30,7 +30,6 @@ bl::server::game::building::IronMine::IronMine(planet::Planet &planet) :
 
 void bl::server::game::building::IronMine::updateResource() {
 	updateBuildingOnDeltaTime(this->m_chrono.getElapsedSeconds());
-	this->m_chrono.reset();
 }
 
 void bl::server::game::building::IronMine::updateBuildingOnDeltaTime(uint64_t seconds) {
@@ -39,6 +38,9 @@ void bl::server::game::building::IronMine::updateBuildingOnDeltaTime(uint64_t se
 		if (actualTime >= this->m_secondsForProduction) {
 			this->m_planet.getStockResources().addIron((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(10 * std::pow(1.42, this->m_level))));
 			this->m_timeLeftFromLastProd = actualTime % this->m_secondsForProduction;
+			this->m_chrono.reset();
 		}
+	} else {
+		this->m_chrono.reset();
 	}
 }
