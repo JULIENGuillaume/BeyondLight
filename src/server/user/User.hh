@@ -18,7 +18,7 @@
 namespace bl {
 	namespace server {
 		namespace user{
-			class User : protected UniqueObject {
+			class User : public UniqueObject {
 			public:
 				User() = default;
 				nlohmann::json serialize() const override;

@@ -29,6 +29,7 @@ nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 	json["timeLeft"] = m_upgradeTimeLeft;
 	json["name"] = m_name;
 	json["description"] = m_desc;
+	json["serializeTime"] = time(nullptr);
 	return json;
 }
 
@@ -39,7 +40,8 @@ bl::common::pattern::ISerializable *bl::server::game::building::ABuilding::deser
 	m_upgradeTimeLeft = json["timeLeft"];
 	m_name = json["name"];
 	m_desc = json["description"];
-
+	time_t lastUpdateTime = json["serializeTime"];
+	this->updateBuildingOnDeltaTime(static_cast<uint64_t>(difftime(time(nullptr), lastUpdateTime)));
 	return this;
 }
 

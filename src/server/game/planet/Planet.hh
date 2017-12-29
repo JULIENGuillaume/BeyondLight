@@ -11,6 +11,7 @@
 #include "../../UniqueObject.hh"
 #include "../../../common/game/Resources.hh"
 #include "../building/specialities/IResourceProductionBuilding.hh"
+#include "../../user/User.hh"
 
 namespace bl {
 	namespace server {
@@ -26,6 +27,7 @@ namespace bl {
 					void updateResources();
 					nlohmann::json serialize() const override;
 					ISerializable *deserialize(nlohmann::json const &json) override;
+					bool claimBy(user::User const& claimer);
 				public:
 					bool tryToUpdateBuilding(int id);
 					const std::shared_ptr<building::IBuilding>& getBuildingInfo(int id) const;
@@ -37,6 +39,7 @@ namespace bl {
 					std::unordered_map<uint64_t, std::shared_ptr<building::IBuilding>> m_idToBuildings;
 					std::vector<std::shared_ptr<building::specialities::IResourceProductionBuilding>> m_resourceProductionBuildings;
 					common::game::Resources m_stockResources;
+					std::string m_planetOwner;
 				};
 			}
 		}

@@ -29,6 +29,8 @@ namespace bl {
 					virtual bool isUpgrading() const = 0;
 					virtual int getFullUpgradeTime() const = 0;
 					virtual int getTimeLeft() const = 0;
+				protected:
+					virtual void updateBuildingOnDeltaTime(uint64_t seconds) = 0;
 				};
 			}
 		}

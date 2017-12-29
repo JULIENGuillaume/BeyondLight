@@ -87,6 +87,7 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::registerNewUser(st
 		newUser.setPassword(toks[4]);
 
 		game::planet::Planet startingPlanet;
+		startingPlanet.claimBy(newUser);
 		newUser.setLastPlanetId(startingPlanet.getUuidAsString());
 
 		m_db.insert("planets", startingPlanet.serialize());

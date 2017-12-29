@@ -18,6 +18,10 @@ namespace bl {
 					IronMine(planet::Planet &planet);
 				public:
 					void updateResource() override;
+					nlohmann::json serialize() const override;
+					ISerializable *deserialize(nlohmann::json const &json) override;
+				protected:
+					void updateBuildingOnDeltaTime(uint64_t seconds) override;
 				private:
 					common::event::Chrono m_chrono;
 					uint64_t m_timeLeftFromLastProd = 0;

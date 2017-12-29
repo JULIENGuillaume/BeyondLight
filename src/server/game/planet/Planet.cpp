@@ -2,6 +2,7 @@
 // Created by Guillaume Julien on 14/12/2017.
 //
 
+#include <time.h>
 #include <boost/uuid/uuid_io.hpp>
 #include <iostream>
 #include "Planet.hh"
@@ -60,25 +61,21 @@ nlohmann::json bl::server::game::planet::Planet::serialize() const {
 	}
 	json["buildings"] = buildings;
 	json["resources"] = this->m_stockResources.serialize();
+	json["owner"] = this->m_planetOwner;
 	return json;
 }
 
 bl::common::pattern::ISerializable *bl::server::game::planet::Planet::deserialize(nlohmann::json const &json) {
 	try {
-		std::cout << "Deserialize planet " << json.dump() << std::endl;
 		UniqueObject::deserialize(json);
-		std::cout << "Ready to retrieve buildings..." << std::endl;
 		std::vector<nlohmann::json> buildings = json["buildings"];
-		std::cout << "Retrieved " << buildings.size() << std::endl;
 
 		this->resetBuildings();
 		for (const auto& build : buildings) {
-			std::cout << "Build data is " << build.dump() << std::endl;
 			m_idToBuildings[build["id"]]->deserialize(build);
-			std::cout << "Rebuild " << m_idToBuildings[build["id"]]->getName() << " at level " << m_idToBuildings[build["id"]]->getLevel() << std::endl;
 		}
 		this->m_stockResources.deserialize(json["resources"]);
-		std::cout << "Done" << std::endl;
+		this->m_planetOwner = json["owner"];
 	} catch (std::exception const& e) {
 		std::cerr << e.what() << std::endl;
 	}
@@ -100,4 +97,9 @@ void bl::server::game::planet::Planet::resetBuildings() {
 	this->m_idToBuildings.clear();
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::IronMine(*this)));
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::CrystalExtractor(*this)));
+}
+
+bool bl::server::game::planet::Planet::claimBy(const bl::server::user::User &claimer) {
+	this->m_planetOwner = claimer.getUuidAsString();
+	return true;
 }
