@@ -25,6 +25,9 @@ namespace bl {
 			std::shared_ptr<network::socket::TcpBoostSslSocket> m_socket;
 			bl::server::storage::Database m_db;
 			::bl::server::LoadedData &m_data;
+
+		private:
+			const size_t m_saltSize = 512;
 		};
 	}
 }

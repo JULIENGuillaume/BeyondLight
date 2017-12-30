@@ -18,15 +18,18 @@ namespace bl {
 				const std::string &getFirstname() const;
 				const std::string &getEmail() const;
 				const std::string &getPassword() const;
+				const std::string &getSalt() const;
 				void setLastname(const std::string &name);
 				void setFirstname(const std::string &forename);
 				void setEmail(const std::string &email);
 				void setPassword(const std::string &password);
+				void setSalt(const std::string &salt);
 			protected:
 				std::string m_firstname;
 				std::string m_lastname;
 				std::string m_email;
 				std::string m_password;
+				std::string m_salt;
 			};
 		}
 	}

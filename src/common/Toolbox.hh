@@ -34,6 +34,8 @@ namespace bl {
 			static std::wstring toWstring(const std::u16string &str);
 			static std::wstring toWstring(const std::string &str);
 			static std::string toString(const std::wstring &str);
+			static std::string sha512This(const std::string &str);
+			static std::string generateSalt(size_t size);
 			static const std::u16string &escapeChar(
 					std::u16string &str,
 					const std::vector<char> &toEscape,

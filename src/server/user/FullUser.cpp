@@ -11,6 +11,7 @@ nlohmann::json bl::server::user::FullUser::serialize() const {
 	json["firstName"] = this->m_firstname;
 	json["email"] = this->m_email;
 	json["password"] = this->m_password;
+	json["salt"] = this->m_salt;
 	return json;
 }
 
@@ -21,6 +22,7 @@ bl::common::pattern::ISerializable *bl::server::user::FullUser::deserialize(nloh
 	this->m_firstname = json["firstName"];
 	this->m_email = json["email"];
 	this->m_password = json["password"];
+	this->m_salt = json["salt"];
 	return this;
 }
 
@@ -40,6 +42,10 @@ void bl::server::user::FullUser::setPassword(const std::string &password) {
 	m_password = password;
 }
 
+void bl::server::user::FullUser::setSalt(const std::string &salt) {
+	m_salt = salt;
+}
+
 const std::string &bl::server::user::FullUser::getLastame() const {
 	return m_lastname;
 }
@@ -54,4 +60,8 @@ const std::string &bl::server::user::FullUser::getEmail() const {
 
 const std::string &bl::server::user::FullUser::getPassword() const {
 	return m_password;
+}
+
+const std::string &bl::server::user::FullUser::getSalt() const {
+	return m_salt;
 }

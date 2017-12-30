@@ -17,7 +17,6 @@ bl::server::LoggingHelper::LoggingHelper(const std::shared_ptr<bl::network::sock
 
 bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 	bool hasLogged = false;
-	auto users = user::RegisteredUsers::getInstance();
 	network::client::ClientMessage message;
 	{
 		std::stringstream ss(cmd);
@@ -27,6 +26,21 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 	network::server::ServerMessage answer;
 	auto toks = common::Toolbox::split(message.getBody().message, ":");
 	switch (message.getBody().code) {
+		case 22:
+			if (toks.size() == 1) {
+				auto dbData = m_db.getByKey("users", "login", toks[0]);
+				if (dbData != nullptr) {
+					user::FullUser user;
+					user.deserialize(dbData);
+					answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
+					answer.getBody().code = 22;
+					answer.getBody().message = user.getSalt();
+				} else {
+					answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO;
+					answer.getBody().code = 22;
+					answer.getBody().message = "Unknown login and / or password";
+				}
+			}
 		case 42:
 			if (toks.size() == 2) {
 				answer = loginUser(toks);
@@ -84,7 +98,9 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::registerNewUser(st
 		newUser.setLastname(toks[1]);
 		newUser.setLogin(toks[2]);
 		newUser.setEmail(toks[3]);
-		newUser.setPassword(toks[4]);
+		newUser.setSalt(common::Toolbox::generateSalt(this->m_saltSize));
+		newUser.setPassword(common::Toolbox::sha512This(newUser.getSalt() + toks[4]));
+		std::cout << "New user salt is " << newUser.getSalt() << std::endl;
 
 		game::planet::Planet startingPlanet;
 		startingPlanet.claimBy(newUser);
@@ -106,7 +122,8 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 	if (dbData != nullptr) {
 		user::FullUser fullUser;
 		fullUser.deserialize(dbData);
-		if (fullUser.getPassword() == toks[1]) {
+		std::cout << "User salt is " << fullUser.getSalt() << std::endl;
+		if (fullUser.getPassword() == common::Toolbox::sha512This(fullUser.getSalt() + toks[1])) {
 			if (m_data.loggedUsers.find(fullUser.getLogin()) != m_data.loggedUsers.end()) {
 				answer.getBody().message = "You're already logged in !";
 			} else {
@@ -131,7 +148,7 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 			answer.getBody().message = "Login and password don't match";
 		}
 	} else {
-		answer.getBody().message = "Unknown login";
+		answer.getBody().message = "Unknown login and / or password";
 	}
 
 	return answer;
