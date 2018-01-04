@@ -6,12 +6,19 @@
 #define BEYONDLIGHT_APIPLANET_HH
 
 namespace bl {
+	namespace network {
+		namespace client {
+			class ClientMessage;
+		}
+	}
 	namespace server {
 		namespace api {
 			class Api;
 			class ApiPlanet {
 			public:
-				ApiPlanet(Api &basicApi);
+				explicit ApiPlanet(Api &basicApi);
+				void execute(network::client::ClientMessage &message);
+
 			private:
 				Api &basicApi;
 			};

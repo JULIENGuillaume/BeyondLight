@@ -20,6 +20,6 @@ std::ostream& operator<<(std::ostream& os, const bl::network::client::ClientMess
 
 std::ostream& operator<<(std::ostream& os, const bl::network::client::ClientMessageBody& dt)
 {
-	os << "{TYPE:" << dt.type << "|CODE:" << dt.code << "|MESSAGE:[" << dt.message << "]}";
+	os << "{TYPE:" << dt.msgType << "|CODE:" << dt.code << "|MESSAGE:[" << dt.message << "]}";
 	return os;
 }  

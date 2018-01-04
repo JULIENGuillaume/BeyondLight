@@ -24,7 +24,9 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 		inArchive(message);
 	}
 	network::server::ServerMessage answer;
-	auto toks = common::Toolbox::split(message.getBody().message, ":");
+	std::cout << "Received " << message.getBody().message << std::endl;
+	message.getBody().message = message.getBody().message.substr(1);
+	auto toks = common::Toolbox::split(message.getBody().message, "&");
 	switch (message.getBody().code) {
 		case 22:
 			if (toks.size() == 1) {
@@ -100,7 +102,6 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::registerNewUser(st
 		newUser.setEmail(toks[3]);
 		newUser.setSalt(common::Toolbox::generateSalt(this->m_saltSize));
 		newUser.setPassword(common::Toolbox::sha512This(newUser.getSalt() + toks[4]));
-		std::cout << "New user salt is " << newUser.getSalt() << std::endl;
 
 		game::planet::Planet startingPlanet;
 		startingPlanet.claimBy(newUser);

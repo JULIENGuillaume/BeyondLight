@@ -16,7 +16,7 @@ namespace bl {
 		) :
 				ABaseModel::ABaseModel(networkHandler),
 				m_id(id) {
-			this->update();
+			//this->update();
 		}
 
 		unsigned int BuildingModel::getId() const {
@@ -34,21 +34,22 @@ namespace bl {
 		void BuildingModel::update() {
 			if (this->m_networkHandler.get()) {
 				try {
-					this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
+					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_BUILDING_INFO, std::to_string(m_id)));
+					//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
 					auto msg = this->m_networkHandler->getMessage();
-					std::string jsonReceived = msg.getBody().message;
+					/*std::string jsonReceived = msg.getBody().message;
 					nlohmann::json buildings;
 					if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 						buildings = ((nlohmann::json::parse(jsonReceived))["buildings"]);
 					} else {
 						return;
-					}
-					nlohmann::json building;
-					for (const auto& build : buildings) {
+					}*/
+					nlohmann::json building = nlohmann::json::parse(msg.getBody().message);
+					/*for (const auto& build : buildings) {
 						building = build;
 						if (building.at("id") == m_id)
 							break;
-					}
+					}*/
 
 					m_level = building["level"];
 					m_name = building["name"];
@@ -63,7 +64,8 @@ namespace bl {
 
 		bool BuildingModel::incrLevel() {
 			//this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
-			this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
+			m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_BUILDING_UPGRADE, std::to_string(m_id)));
+			//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
 			auto msg = this->m_networkHandler->getMessage();
 			auto answers = bl::common::Toolbox::split(msg.getBody().message, ":");
 			if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id)) {

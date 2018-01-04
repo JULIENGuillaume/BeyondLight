@@ -7,6 +7,7 @@
 
 #include <cereal/types/string.hpp>
 #include <string>
+#include "../../server/api/Api.hh"
 
 namespace bl {
 	namespace network {
@@ -24,7 +25,8 @@ namespace bl {
 			public:
 				template<class Archive>
 				void serialize(Archive &archive) {
-					archive((int)type,
+					archive((int)msgType,
+					        (int)apiType,
 							code,
 					        sessionId,
 							messageSize,
@@ -32,8 +34,8 @@ namespace bl {
 				}
 
 			public:
-				//char header[4] = {66, 76, 67, 76};
-				ClientMessageType type = CLIENT_MESSAGE_TYPE_NONE;
+				ClientMessageType msgType = CLIENT_MESSAGE_TYPE_NONE;
+				::bl::server::api::EApiType apiType;
 				uint64_t code = 0;
 				std::string sessionId = "";
 				size_t messageSize = 0;

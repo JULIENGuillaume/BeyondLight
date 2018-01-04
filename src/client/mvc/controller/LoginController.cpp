@@ -41,18 +41,20 @@ namespace bl {
 				callback->Failure(0, "Please enter both your login and password");
 			} else {
 				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
-					networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + common::Toolbox::sha512This(logInfo[1]));
-					auto msg = networkHandler->getMessage().getBody();
-					if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
-						networkHandler->setSessionId(msg.message);
-						callback->Success("Login success");
-						auto str = networkHandler->getLine();
-						networkHandler->swapToUdp(static_cast<unsigned short>(std::stol(str)));
-						return (true);
-					} else {
-						callback->Failure(0, msg.message);
-					}
+				networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_LOGIN, std::vector<std::string>{logInfo[0],
+				                                                                                                                                                logInfo[1]}));
+				//networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + common::Toolbox::sha512This(logInfo[1]));
+				auto msg = networkHandler->getMessage().getBody();
+				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+					networkHandler->setSessionId(msg.message);
+					callback->Success("Login success");
+					auto str = networkHandler->getLine();
+					networkHandler->swapToUdp(static_cast<unsigned short>(std::stol(str)));
+					return (true);
+				} else {
+					callback->Failure(0, msg.message);
 				}
+			}
 			return (false);
 		}
 
@@ -68,13 +70,15 @@ namespace bl {
 				if (logInfo[4] != logInfo[5]) {
 					callback->Failure(0, "Password must be the sames !");
 				} else {
-					/*networkHandler->send(
-							"043:" + logInfo[0] + ":" + logInfo[1] + ":" +
-									logInfo[2] + ":" + logInfo[3] + ":" + logInfo[4] + ":" +
-									logInfo[5]);*/
-					networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 43,
+					networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_REGISTER, std::vector<std::string>{logInfo[0],
+					                                                                                                                                                   logInfo[1],
+					                                                                                                                                                   logInfo[2],
+					                                                                                                                                                   logInfo[3],
+					                                                                                                                                                   common::Toolbox::sha512This(logInfo[4]),
+					                                                                                                                                                   common::Toolbox::sha512This(logInfo[5])}));
+					/*networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 43,
 					                     logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" +
-					                     logInfo[3] + ":" + common::Toolbox::sha512This(logInfo[4]) + ":" + common::Toolbox::sha512This(logInfo[5]));
+					                     logInfo[3] + ":" + common::Toolbox::sha512This(logInfo[4]) + ":" + common::Toolbox::sha512This(logInfo[5]));*/
 					auto msg = networkHandler->getMessage().getBody();
 					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_KO) {
 						callback->Failure(0, "The server refused to register you: " + msg.message);

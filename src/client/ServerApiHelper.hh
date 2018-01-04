@@ -27,7 +27,7 @@ namespace bl {
 			network::client::ClientMessage buildNewApiRequest(std::string const& requestName, std::unordered_map<std::string, std::string> const& args);
 
 		protected:
-			void registerRequest(std::string const &requestName, network::client::ClientMessageType type, uint64_t code, std::string const &message);
+			void registerRequest(std::string const &requestName, network::client::ClientMessageType type, server::api::EApiType requestType, uint64_t code, std::string const &message);
 
 		private:
 			std::unordered_map<std::string, network::client::ClientMessage> m_requestModel;

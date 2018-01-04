@@ -13,6 +13,7 @@
 #include <ServerMessage.hh>
 #include "IClient.hh"
 #include "ClientMessage.hh"
+#include "../../client/ServerApiHelper.hh"
 
 namespace bl {
 	namespace network {
@@ -29,11 +30,15 @@ namespace bl {
 				std::string getLine() override;
 				server::ServerMessage getMessage();
 				void send(std::string const &cmd) override;
-				void send(ClientMessageType type, uint64_t code, std::string const& msg);
+				void send(ClientMessageType type,
+				          bl::server::api::EApiType apiRequestType,
+				          uint64_t code,
+				          std::string const& msg);
 				void send(ClientMessage const& msg);
 
 			public:
 				void swapToUdp(unsigned short port);
+				const std::shared_ptr<bl::client::ServerApiHelper> &getApiHelper() const;
 
 			protected:
 				void retrieveLine() override;
@@ -42,6 +47,7 @@ namespace bl {
 			private:
 				std::shared_ptr<IClient> m_networkClient;
 				std::shared_ptr<std::thread> m_networkThread;
+				std::shared_ptr<::bl::client::ServerApiHelper> m_apiHelper;
 				std::string m_sessionId;
 				static bool creationAllowed;
 			};

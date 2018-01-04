@@ -6,12 +6,19 @@
 #define BEYONDLIGHT_APIUSER_HH
 
 namespace bl {
+	namespace network {
+		namespace client {
+			class ClientMessage;
+		}
+	}
 	namespace server {
 		namespace api {
 			class Api;
 			class ApiUser {
 			public:
-				ApiUser(Api &basicApi);
+				explicit ApiUser(Api &basicApi);
+				void execute(network::client::ClientMessage &message);
+
 			private:
 				Api &basicApi;
 			};

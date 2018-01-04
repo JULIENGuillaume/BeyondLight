@@ -6,12 +6,19 @@
 #define BEYONDLIGHT_APIBUILDING_HH
 
 namespace bl {
+	namespace network {
+		namespace client {
+			class ClientMessage;
+		}
+	}
 	namespace server {
 		namespace api {
 			class Api;
 			class ApiBuilding {
 			public:
-				ApiBuilding(Api &basicApi);
+				explicit ApiBuilding(Api &basicApi);
+				void execute(network::client::ClientMessage &message);
+
 			private:
 				Api &basicApi;
 			};

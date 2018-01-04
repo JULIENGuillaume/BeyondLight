@@ -6,12 +6,19 @@
 #define BEYONDLIGHT_APITECHNOLOGY_HH
 
 namespace bl {
+	namespace network {
+		namespace client {
+			class ClientMessage;
+		}
+	}
 	namespace server {
 		namespace api {
 			class Api;
 			class ApiTechnology {
 			public:
-				ApiTechnology(Api &basicApi);
+				explicit ApiTechnology(Api &basicApi);
+				void execute(network::client::ClientMessage &message);
+
 			private:
 				Api &basicApi;
 			};

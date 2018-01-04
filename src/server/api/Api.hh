@@ -5,21 +5,38 @@
 #ifndef BEYONDLIGHT_API_HH
 #define BEYONDLIGHT_API_HH
 
-#include "../ServerCore.hh"
 #include "ApiBuilding.hh"
 #include "ApiPlanet.hh"
 #include "ApiTechnology.hh"
 #include "ApiUser.hh"
 
 namespace bl {
+	namespace network {
+		namespace client {
+			class ClientMessage;
+		}
+	}
 	namespace server {
+		class ServerCore;
 		namespace api {
+			enum EApiType {
+				API_TYPE_UNKNOW,
+				API_TYPE_BASIC,
+				API_TYPE_BUILDING,
+				API_TYPE_PLANET,
+				API_TYPE_TECHNOLOGY,
+				API_TYPE_USER
+			};
+
 			class Api {
 			public:
 				explicit Api(ServerCore &core);
-				void execute(network::client::ClientMessage message);
+				void execute(network::client::ClientMessage &message);
 
 				ServerCore &getCore();
+
+			protected:
+				void basicApiExecution(network::client::ClientMessage &message);
 
 			private:
 				ServerCore &m_core;
@@ -32,5 +49,18 @@ namespace bl {
 	}
 }
 
+/*
+namespace std {
 
+	template<>
+	class hash<bl::server::api::EApiType> {
+	public:
+		std::size_t operator()(bl::server::api::EApiType const &key) const noexcept {
+			std::cout << "hash< A::E >::operator()" << std::endl;
+			return key;
+		}
+
+	};
+}
+*/
 #endif //BEYONDLIGHT_API_HH

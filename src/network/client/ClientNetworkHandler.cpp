@@ -4,14 +4,14 @@
 
 #include <functional>
 #include <future>
-#include <thread>
 #include <iostream>
 #include "ClientNetworkHandler.hh"
 #include "BeyondLightClient.hh"
 
 bool bl::network::client::ClientNetworkHandler::creationAllowed = true;
 
-bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string const &ip, unsigned short port) : m_networkClient(std::make_shared<BeyondLightClient>(this)) {
+bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string const &ip, unsigned short port) : m_networkClient(std::make_shared<BeyondLightClient>(this)),
+                                                                                                              m_apiHelper(new bl::client::ServerApiHelper) {
 	if (!creationAllowed)
 		throw std::runtime_error("Can't create a second network handler");
 	creationAllowed = false;
@@ -57,9 +57,10 @@ void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
 }
 
 void bl::network::client::ClientNetworkHandler::send(
-		bl::network::client::ClientMessageType type,
-		uint64_t code,
-		std::string const &msg
+	bl::network::client::ClientMessageType type,
+	bl::server::api::EApiType apiRequestType,
+	uint64_t code,
+	std::string const &msg
 ) {
 	//Create the message structure
 	ClientMessage message;
@@ -67,7 +68,8 @@ void bl::network::client::ClientNetworkHandler::send(
 	message.getBody().sessionId = this->m_sessionId;
 	message.getBody().messageSize = msg.size();
 	message.getBody().code = code;
-	message.getBody().type = type;
+	message.getBody().msgType = type;
+	message.getBody().apiType = apiRequestType;
 
 	//Serialize the message
 	std::stringstream ss;
@@ -79,7 +81,7 @@ void bl::network::client::ClientNetworkHandler::send(
 }
 
 void bl::network::client::ClientNetworkHandler::send(const bl::network::client::ClientMessage &msg) {
-	this->send(msg.getBody().type, msg.getBody().code, msg.getBody().message);
+	this->send(msg.getBody().msgType, msg.getBody().apiType, msg.getBody().code, msg.getBody().message);
 }
 
 void bl::network::client::ClientNetworkHandler::directSend(std::string const &cmd) {
@@ -92,7 +94,7 @@ void bl::network::client::ClientNetworkHandler::directSend(bl::network::client::
 	message.getBody().sessionId = this->m_sessionId;
 	message.getBody().messageSize = msg.size();
 	message.getBody().code = code;
-	message.getBody().type = type;
+	message.getBody().msgType = type;
 
 	//Serialize the message
 	std::stringstream ss;
@@ -111,13 +113,17 @@ void bl::network::client::ClientNetworkHandler::retrieveLine() {
 void bl::network::client::ClientNetworkHandler::swapToUdp(unsigned short port) {
 	try {
 		this->m_networkClient->disconnect();
-	} catch(std::exception const& e) {
+	} catch (std::exception const &e) {
 		std::cerr << "Disconnect failed: " << e.what() << std::endl;
 	}
 	this->m_networkThread->join();
 	this->m_networkThread = std::dynamic_pointer_cast<AClientTcpUdp>(this->m_networkClient)->switchToUdp(this->m_networkClient->getConnectedServer(), port);
 }
 
-void bl::network::client::ClientNetworkHandler::setSessionId(std::string const& sessionId) {
+void bl::network::client::ClientNetworkHandler::setSessionId(std::string const &sessionId) {
 	this->m_sessionId = sessionId;
+}
+
+const std::shared_ptr<bl::client::ServerApiHelper> &bl::network::client::ClientNetworkHandler::getApiHelper() const {
+	return m_apiHelper;
 }
