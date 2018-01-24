@@ -111,7 +111,7 @@ bsoncxx::stdx::optional<mongocxx::result::insert_one> bl::server::storage::Datab
                                                                                             nlohmann::json &toInsert) {
 	try {
 		removeByKey(collName, key, value);
-		removeByKey(collName, key, value);
+		removeByKey(collName, key, value);//fixme
 	} catch (std::exception const& e) {
 		std::cerr << "Error in deletion: " << e.what() << std::endl;
 	}

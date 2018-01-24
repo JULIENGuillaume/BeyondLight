@@ -8,26 +8,39 @@
 #include "ClientNetworkHandler.hh"
 #include "BeyondLightClient.hh"
 
-bool bl::network::client::ClientNetworkHandler::creationAllowed = true;
-
-bl::network::client::ClientNetworkHandler::ClientNetworkHandler(std::string const &ip, unsigned short port) : m_networkClient(std::make_shared<BeyondLightClient>(this)),
-                                                                                                              m_apiHelper(new bl::client::ServerApiHelper) {
-	if (!creationAllowed)
-		throw std::runtime_error("Can't create a second network handler");
-	creationAllowed = false;
-	if (!m_networkClient->connectTo(ip, port)) {
+bl::network::client::ClientNetworkHandler::ClientNetworkHandler(
+		std::string const &ip,
+		unsigned short port
+) :
+		m_networkClient(std::make_shared<BeyondLightClient>(this)),
+		m_apiHelper(new bl::client::ServerApiHelper),
+		m_destIp(ip),
+		m_destPort(port) {
+	std::cerr << "Creating network handler" << std::endl;
+	/*if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
-	this->m_networkThread = m_networkClient->asyncLaunch();
+	this->m_networkThread = m_networkClient->asyncLaunch();*/
 }
 
 bl::network::client::ClientNetworkHandler::~ClientNetworkHandler() {
-	try {
-		this->directSend(ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 1337, "");
-		this->m_networkClient->disconnect();
-		this->m_networkThread->join();
-	} catch (...) {}
-	creationAllowed = true;
+	std::cerr << "Destroying network handler" << std::endl;
+	if (m_connected) {
+		try {
+			this->directSend(ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 1337, "");
+			this->m_networkClient->disconnect();
+			this->m_networkThread->join();
+		} catch (...) {
+		}
+	}
+}
+
+bool bl::network::client::ClientNetworkHandler::tryToConnect() {
+	std::cerr << "Trying to connect to " << m_destIp << ":" << m_destPort << std::endl;
+	m_connected = m_networkClient->connectTo(m_destIp, m_destPort);
+	this->m_networkThread = m_networkClient->asyncLaunch();
+	std::cerr << "Connected" << std::endl;
+	return m_connected;
 }
 
 std::string bl::network::client::ClientNetworkHandler::getLine() {
@@ -48,7 +61,6 @@ bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::ge
 	cereal::PortableBinaryInputArchive inArchive(ss);
 	server::ServerMessage message;
 	inArchive(message);
-
 	return message;
 }
 
@@ -57,10 +69,10 @@ void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
 }
 
 void bl::network::client::ClientNetworkHandler::send(
-	bl::network::client::ClientMessageType type,
-	bl::server::api::EApiType apiRequestType,
-	uint64_t code,
-	std::string const &msg
+		bl::network::client::ClientMessageType type,
+		bl::server::api::EApiType apiRequestType,
+		uint64_t code,
+		std::string const &msg
 ) {
 	//Create the message structure
 	ClientMessage message;
@@ -85,10 +97,19 @@ void bl::network::client::ClientNetworkHandler::send(const bl::network::client::
 }
 
 void bl::network::client::ClientNetworkHandler::directSend(std::string const &cmd) {
-	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->directSend(cmd);
+	if (m_connected) {
+		(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->directSend(cmd);
+	}
 }
 
-void bl::network::client::ClientNetworkHandler::directSend(bl::network::client::ClientMessageType type, uint64_t code, std::string const &msg) {
+void bl::network::client::ClientNetworkHandler::directSend(
+		bl::network::client::ClientMessageType type,
+		uint64_t code,
+		std::string const &msg
+) {
+	if (!m_connected) {
+		return;
+	}
 	ClientMessage message;
 	message.getBody().message = msg;
 	message.getBody().sessionId = this->m_sessionId;

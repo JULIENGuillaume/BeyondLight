@@ -25,12 +25,15 @@ int main() {
 	FactoriesInit();
 
 		try {
+			std::cerr << "Creating main handler" << std::endl;
 			bl::MainHandler mainHandler;
 
+			std::cerr << "Creating browser" << std::endl;
 			mainHandler.createBrowser();
+			std::cerr << "starting main loop" << std::endl;
 			mainHandler.startMainLoop();
 		} catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
+			std::cerr << "Client exited with " << e.what() << std::endl;
 			return 1;
 		}
 

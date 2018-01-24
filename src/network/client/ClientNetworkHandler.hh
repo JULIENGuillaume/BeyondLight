@@ -26,6 +26,7 @@ namespace bl {
 				);
 				~ClientNetworkHandler() override;
 			public:
+				bool tryToConnect();
 				void setSessionId(std::string const& sessionId);
 				std::string getLine() override;
 				server::ServerMessage getMessage();
@@ -49,7 +50,10 @@ namespace bl {
 				std::shared_ptr<std::thread> m_networkThread;
 				std::shared_ptr<::bl::client::ServerApiHelper> m_apiHelper;
 				std::string m_sessionId;
-				static bool creationAllowed;
+			private:
+				std::string m_destIp;
+				unsigned short m_destPort;
+				bool m_connected = false;
 			};
 		}
 	}

@@ -11,8 +11,12 @@
 namespace bl {
 	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
+		std::cerr << "Creating web core manager" << std::endl;
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);
+		while (!this->m_networkHandler->tryToConnect()) {
+			std::cerr << "Trying to connect to server..." << std::endl;
+		}
 		if (retCode >= 0) {
 			std::cerr << "BYE BYE at execute "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while executing cef process with error code:" + std::to_string(retCode)));

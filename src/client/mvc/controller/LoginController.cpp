@@ -42,7 +42,7 @@ namespace bl {
 			} else {
 				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
 				networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_LOGIN, std::vector<std::string>{logInfo[0],
-				                                                                                                                                                logInfo[1]}));
+				                                                                                                                                                common::Toolbox::sha512This(logInfo[1])}));
 				//networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 42, logInfo[0] + ":" + common::Toolbox::sha512This(logInfo[1]));
 				auto msg = networkHandler->getMessage().getBody();
 				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
