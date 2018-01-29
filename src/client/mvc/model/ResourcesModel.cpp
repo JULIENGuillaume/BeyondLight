@@ -11,7 +11,7 @@ namespace bl {
 			if (this->m_networkHandler.get()) {
 				try {
 					//this->m_networkHandler->send("3242");
-					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_BUILDING_UPGRADE));
+					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_CURRENT_RESOURCES));
 					//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 3242, "");
 					auto msg = this->m_networkHandler->getMessage().getBody();
 					std::string jsonReceived = msg.message;

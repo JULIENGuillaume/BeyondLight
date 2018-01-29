@@ -9,8 +9,8 @@ bl::client::ServerApiHelper::ServerApiHelper() {
 	this->registerRequest(this->REQUEST_REGISTER, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 43, "");
 	this->registerRequest(this->REQUEST_LOGOUT, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 1337, "");
 	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 4242, "");
-	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 3242, "");
-	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_PLANET, 421356, "");
+	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 421356, "");
+	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_PLANET, 3242, "");
 }
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {

@@ -23,14 +23,17 @@ void bl::server::ServerCore::start() {
 			if (m_data.activeSessions.find(msg.sessionId) != m_data.activeSessions.end()) {
 				auto session = m_data.activeSessions[msg.sessionId];
 				planet = m_data.loadedPlanets.find(session->getUser().getLastPlanetId())->second;
+				std::cout << msg << std::endl;
 				switch (msg.code) {
 					case 4242:
-						sendingJson["buildings"] = (planet->serialize())["buildings"];
+						std::cout << "Request buildings" << std::endl;
+						sendingJson = planet->getBuildingInfo(std::stol(msg.message.substr(1)))->serialize();
 						toSend = sendingJson.dump();
 						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 4242, toSend, msgFrom.first);
 						break;
 					case 3242:
 						planet->updateResources();
+						std::cout << "Request resources" << std::endl;
 						sendingJson["resources"] = (planet->serialize())["resources"];
 						toSend = sendingJson.dump();
 						m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 3242, toSend, msgFrom.first);
@@ -38,13 +41,14 @@ void bl::server::ServerCore::start() {
 						break;
 					case 421356:
 						if (toks.size() == 1) {
-							int buildingId = std::atoi(toks[0].c_str());
+							std::cout << "Trying to update" << std::endl;
+							int buildingId = std::stol(toks[0].substr(1));
 							if (!planet->tryToUpdateBuilding(buildingId)) {
 								m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, 421356, "", msgFrom.first);
 							} else {
 								//socket->send("421357:" + toks[0] + ":" + std::to_string(planet.getBuildingInfo(buildingId)->getLevel()));
 								m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 421356,
-								                            toks[0] + ":" + std::to_string(planet->getBuildingInfo(buildingId)->getLevel()), msgFrom.first);
+								                            toks[0].substr(1) + ":" + std::to_string(planet->getBuildingInfo(buildingId)->getLevel()), msgFrom.first);
 							}
 							m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
 						} else {

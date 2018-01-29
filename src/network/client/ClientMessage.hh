@@ -21,6 +21,7 @@ namespace bl {
 				CLIENT_MESSAGE_TYPE_CRITICAL = 5
 			};
 
+			#pragma pack(push, 1)
 			struct ClientMessageBody {
 			public:
 				template<class Archive>
@@ -41,6 +42,7 @@ namespace bl {
 				size_t messageSize = 0;
 				std::string message = "";
 			};
+			#pragma pack(pop)
 
 			class ClientMessage {
 			public:

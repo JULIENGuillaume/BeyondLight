@@ -63,6 +63,7 @@ namespace bl {
 		}
 
 		bool BuildingModel::incrLevel() {
+			std::cout << "Incr level" << std::endl;
 			//this->m_networkHandler->send("421356:" + std::to_string(this->m_id));
 			m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_BUILDING_UPGRADE, std::to_string(m_id)));
 			//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
