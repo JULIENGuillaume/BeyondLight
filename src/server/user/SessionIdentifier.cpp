@@ -5,10 +5,10 @@
 #include "SessionIdentifier.hh"
 
 const bl::server::user::User &bl::server::user::SessionIdentifier::getUser() const {
-	return m_user;
+	return *m_user;
 }
 
-void bl::server::user::SessionIdentifier::setUser(bl::server::user::User user) {
+void bl::server::user::SessionIdentifier::setUser(std::shared_ptr<User> user) {
 	m_user = user;
 }
 

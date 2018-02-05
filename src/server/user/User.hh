@@ -13,7 +13,9 @@
 
 #include <string>
 #include <ISerializable.hh>
+#include <unordered_set>
 #include "../UniqueObject.hh"
+#include "../game/technology/ITechnology.hh"
 
 namespace bl {
 	namespace server {
@@ -27,10 +29,12 @@ namespace bl {
 				void setLogin(const std::string &login);
 				const std::string &getLastPlanetId() const;
 				void setLastPlanetId(const std::string &lastPlanetId);
-
+				const std::unordered_set<int> &getTechnologies() const;
+				void addTechnology(int techId);
 			protected:
 				std::string m_login{};
 				std::string m_lastPlanetId{};
+				std::unordered_set<int> m_technologies;
 			};
 		}
 	}

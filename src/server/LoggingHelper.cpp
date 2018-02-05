@@ -129,16 +129,17 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 				answer.getBody().message = "You're already logged in !";
 			} else {
 				answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
-				user::User user(fullUser);
+				std::shared_ptr<user::User> user = std::make_shared<user::User>(fullUser);
 				std::shared_ptr<user::SessionIdentifier> session{new user::SessionIdentifier()};
 				session->setUser(user);
 				answer.getBody().message = session->getUuidAsString();
 				this->m_data.activeSessions.emplace(session->getUuidAsString(), session);
-				this->m_data.loggedUsers.insert(user.getLogin());
+				this->m_data.loggedUsers.insert(user->getLogin());
+				this->m_data.activeUsers.emplace(user->getUuidAsString(), user);
 
-				std::cout << "Registering session " << session->getUuidAsString() << " for user " << user.getLogin() << std::endl;
+				std::cout << "Registering session " << session->getUuidAsString() << " for user " << user->getLogin() << std::endl;
 
-				dbData = m_db.getByKey("planets", "uuid", user.getLastPlanetId());
+				dbData = m_db.getByKey("planets", "uuid", user->getLastPlanetId());
 				std::shared_ptr<game::planet::Planet> planet{new game::planet::Planet()};
 				planet->deserialize(dbData);
 				this->m_data.loadedPlanets.emplace(planet->getUuidAsString(), planet);

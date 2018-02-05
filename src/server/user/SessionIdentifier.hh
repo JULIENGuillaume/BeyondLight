@@ -14,11 +14,11 @@ namespace bl {
 			class SessionIdentifier : public UniqueObject {
 			public:
 				const User &getUser() const;
-				void setUser(User user);
+				void setUser(std::shared_ptr<User> user);
 				const std::string &getIp() const;
 				void setIp(const std::string &ip);
 			private:
-				User m_user;
+				std::shared_ptr<User> m_user;
 				std::string m_ip;
 			};
 		}

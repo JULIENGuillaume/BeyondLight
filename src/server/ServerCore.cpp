@@ -6,6 +6,8 @@
 #include "../common/Toolbox.hh"
 #include "api/Api.hh"
 
+bl::server::LoadedData bl::server::ServerCore::m_data = {};
+
 bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080, this->m_data) {
 	m_isRunning = true;
 }
@@ -59,6 +61,7 @@ void bl::server::ServerCore::start() {
 						std::cout << "Ending session" << std::endl;
 						m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
 						m_data.loadedPlanets.erase(planet->getUuidAsString());
+						m_data.activeUsers.erase(session->getUser().getUuidAsString());
 						m_data.loggedUsers.erase(session->getUser().getLogin());
 						m_data.activeSessions.erase(session->getUuidAsString());
 						//this->m_isRunning = false;
@@ -84,10 +87,10 @@ const bl::network::server::ServerNetworkHandler &bl::server::ServerCore::getServ
 const bl::server::storage::Database &bl::server::ServerCore::getDatabase() const {
 	return m_database;
 }
-
-const bl::server::LoadedData &bl::server::ServerCore::getData() const {
+/*
+const bl::server::LoadedData &bl::server::ServerCore::getData() {
 	return m_data;
-}
+}*/
 
 
 bl::network::server::ServerNetworkHandler &bl::server::ServerCore::getServerNetworkHandler() {
