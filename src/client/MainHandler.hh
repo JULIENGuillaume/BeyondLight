@@ -58,7 +58,7 @@ namespace bl {
 				int i
 		);
 	private:
-		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+		std::shared_ptr<network::client::ClientNetworkHandler> m_networkHandler;
 		std::weak_ptr<WebCore> m_activeBrowser;
 		WebCoreManager m_webCoreManager;
 		GlfwHandler m_glfwHandler;

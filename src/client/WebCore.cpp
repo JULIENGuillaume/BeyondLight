@@ -11,7 +11,7 @@
 namespace bl {
 	WebCore::WebCore(
 			const std::string &url,
-			std::shared_ptr<network::client::NetworkHandler> networkHandler
+			std::shared_ptr<network::client::ClientNetworkHandler> networkHandler
 	)
 			:
 			m_mouseX(0),
@@ -189,7 +189,7 @@ namespace bl {
 		return m_client;
 	}
 
-	std::shared_ptr<const network::client::NetworkHandler> WebCore::getNetworkHandler() const {
+	std::shared_ptr<const network::client::ClientNetworkHandler> WebCore::getNetworkHandler() const {
 		return (this->m_networkHandler);
 	}
 
@@ -197,7 +197,7 @@ namespace bl {
 		return (this->m_mvcHandler);
 	}
 
-	std::shared_ptr<network::client::NetworkHandler> WebCore::getNetworkHandler() {
+	std::shared_ptr<network::client::ClientNetworkHandler> WebCore::getNetworkHandler() {
 		return (this->m_networkHandler);
 	}
 

@@ -14,12 +14,14 @@
 #include <PSingleton.hpp>
 #include <unordered_map>
 
-namespace server {
-	namespace user {
-		struct RegisteredUsers : public pattern::PSingleton<RegisteredUsers> {
-			std::unordered_map<std::string, std::string> users = {std::make_pair("root", "root")};
-		};
+namespace bl {
+	namespace server {
+		namespace user {
+			struct RegisteredUsers : public bl::common::pattern::PSingleton<RegisteredUsers> {
+				std::unordered_map<std::string, std::string> users = {std::make_pair("root", "root")};
+			};
 
+		}
 	}
 }
 

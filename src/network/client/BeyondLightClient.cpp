@@ -13,28 +13,30 @@
 #include "BeyondLightClient.hh"
 #include "../../client/MainHandler.hh"
 
-network::client::BeyondLightClient::BeyondLightClient(NetworkHandler *handler) : AClientUdp(socket::clientKeyUdpSslAsyncBoostSocket), m_handler(handler) {}
+bl::network::client::BeyondLightClient::BeyondLightClient(ClientNetworkHandler *handler) : AClientTcpUdp(socket::clientKeyUdpAsyncBoostSocket, socket::clientKeyTcpSslBoostSocket), m_handler(handler) {}
 
-void network::client::BeyondLightClient::mainLoop() {
-	//std::cout << "Client is in the main loop" << std::endl;
-	this->m_activeThreads.emplace_back(&network::client::BeyondLightClient::readingThread, this);
-	this->m_activeThreads.emplace_back(&network::client::BeyondLightClient::sendingThread, this);
+void bl::network::client::BeyondLightClient::mainLoop() {
+	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::readingThread, this);
+	this->m_activeThreads.emplace_back(&bl::network::client::BeyondLightClient::sendingThread, this);
 
+	/*for (auto & thread : this->m_activeThreads)
+		thread.join();*/
 	while (this->m_running) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 }
 
-void network::client::BeyondLightClient::disconnect() {
-	AClientUdp::disconnect();
+void bl::network::client::BeyondLightClient::disconnect() {
+	AClientTcpUdp::disconnect();
 	this->m_socket->close();
 	for (auto &thread : this->m_activeThreads) {
-		thread.join();
+		if (thread.joinable())
+			thread.join();
 	}
-	this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
+	this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 }
 
-void network::client::BeyondLightClient::readingThread() {
+void bl::network::client::BeyondLightClient::readingThread() {
 	std::string data;
 	bool isOpen = true;
 
@@ -44,20 +46,22 @@ void network::client::BeyondLightClient::readingThread() {
 			while (data.find(newLineDelim) != data.npos) {
 				auto line = data.substr(0, data.find(newLineDelim));
 				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
+				if (line.find(this->msgStartHeader) != line.npos) {
+					line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
+				}
 				this->m_lines.push(line);
-				this->m_handler->notifyWatchers(EWatcherType::WATCH_READ);
-				this->m_handler->notifyWatchers(EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_READ);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_READ_DONE);
 			}
-		} catch (std::exception const &) {
+		} catch (std::exception const &e) {
 			isOpen = false;
-			std::cerr << "Exception in reading thread, quitting" << std::endl;
-			this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
-			this->m_running = false;
+			std::cerr << "Exception in reading thread (" << e.what() << "), quitting" << std::endl;
+			//this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 		}
 	}
 }
 
-void network::client::BeyondLightClient::sendingThread() {
+void bl::network::client::BeyondLightClient::sendingThread() {
 	bool isOpen = true;
 
 	while (isOpen && m_running) {
@@ -65,32 +69,39 @@ void network::client::BeyondLightClient::sendingThread() {
 			while (!this->m_toSend.empty()) {
 				this->m_socket->send(this->m_toSend.front());
 				this->m_toSend.pop();
-				this->m_handler->notifyWatchers(EWatcherType::WATCH_SEND);
-				this->m_handler->notifyWatchers(EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_SEND);
+				this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_ALL_WATCHER_SEND_DONE);
 			}
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		} catch (std::exception const &) {
 			isOpen = false;
 			std::cerr << "Exception in sending thread, quitting" << std::endl;
-			this->m_handler->notifyWatchers(EWatcherType::WATCH_QUIT);
-			this->m_running = false;
+			//this->m_handler->notifyWatchers(socket::EWatcherType::WATCH_QUIT);
 		}
 	}
 }
 
-std::string const &network::client::BeyondLightClient::getLine() const {
+void bl::network::client::BeyondLightClient::directSend(std::string const &cmd) {
+	try {
+		this->m_socket->send(cmd);
+	} catch (std::exception const& e) {
+		std::cerr << "Can't direct send: " << e.what();
+	}
+}
+
+std::string const &bl::network::client::BeyondLightClient::getLine() const {
 	return this->m_lines.front();
 }
 
-void network::client::BeyondLightClient::addToSend(std::string const &cmd) {
+void bl::network::client::BeyondLightClient::addToSend(std::string const &cmd) {
 	this->m_toSend.push(cmd);
 }
 
-void network::client::BeyondLightClient::setLineToRead() {
+void bl::network::client::BeyondLightClient::setLineToRead() {
 	this->m_lines.pop();
 }
 
-std::string network::client::BeyondLightClient::getAndEraseLine() {
+std::string bl::network::client::BeyondLightClient::getAndEraseLine() {
 	std::string line = this->getLine();
 	this->setLineToRead();
 	while (line.empty()) {

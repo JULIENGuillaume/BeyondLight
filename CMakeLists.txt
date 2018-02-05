@@ -42,8 +42,10 @@ endif ()
 ########################################
 
 if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Oy /Ox /Gy /EHsc")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /W3 /Oi /O2 /Gy /Zi /EHsc")
 endif (MSVC)
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # todo remove overwriting flags
@@ -64,7 +66,18 @@ add_definitions(
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
 set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
+
 find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
+
+##
+##  MongoDB setup
+##
+
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-cxx-driver")
+set(libbson-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libbson-static-1.0")
+set(libmongoc-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libmongoc-static-1.0")
+
+find_package(libmongocxx-static REQUIRED)
 
 ##
 ##  Set path to source directories
@@ -88,10 +101,14 @@ set(COMMON_SRC
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
         src/common/pattern/ISerializable.hh
+        src/common/pattern/PClonable.hpp
+        src/common/pattern/PFactory.hpp
+        src/common/pattern/PSingleton.hpp
+        src/network/socket/SocketFactory.hh
         src/common/event/Chrono.cpp
         src/common/event/Chrono.hh
         src/common/game/Resources.cpp
-        src/common/game/Resources.hh)
+        src/common/game/Resources.hh src/common/UnionCast.hh)
 
 ##
 ##  Game Client perf test
@@ -130,8 +147,8 @@ set(CLIENT_SRC
         src/common/NetworkWrapper.hh
         src/common/Toolbox.cpp
         src/common/Toolbox.hh
-        src/network/client/NetworkHandler.cpp
-        src/network/client/NetworkHandler.hh
+        src/network/client/ClientNetworkHandler.cpp
+        src/network/client/ClientNetworkHandler.hh
         src/common/event/IEventObserver.hh
         src/common/event/EventObserver.cpp
         src/common/event/EventObserver.hh
@@ -163,7 +180,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
         libs/stb/stb_image.h
-        )
+        src/client/ServerApiHelper.cpp
+        src/client/ServerApiHelper.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -189,6 +207,12 @@ set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
 set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
 set(USE_SANDBOX OFF)
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+set(OPENSSL_MSVC_STATIC_RT TRUE)
+set(OPENSSL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/openssl-win32)
+
+find_package(OpenSSL REQUIRED)
+message(${OPENSSL_LIBRARIES})
 find_package(CEF REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glew REQUIRED)
@@ -204,22 +228,50 @@ else ()
     message("Unknown build type")
 endif ()
 
+set(CEREAL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/cereal")
+
 include_directories(${CEF_ROOT}
         ${GLM_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIR}
         ${GLFW_INCLUDE_DIR}
+        ${CEREAL_INCLUDE_DIR}
+        ${OPENSSL_INCLUDE_DIR}
         )
 
 ##
 ##  Network sources
 ##
 
-set(NETWORK_SOCKET_SRC ${NETWORK_SOCKET_SRC_DIR}/UdpSslAsyncBoostSocket.cpp)
-set(NETWORK_SERVER_SRC ${NETWORK_SERVER_SRC_DIR}/AServerUdp.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh)
-set(NETWORK_CLIENT_SRC ${NETWORK_CLIENT_SRC_DIR}/AClientUdp.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh)
+set(NETWORK_SOCKET_SRC
+        ${NETWORK_SOCKET_SRC_DIR}/UdpAsyncBoostSocket.cpp
+        ${NETWORK_SOCKET_SRC_DIR}/ISocket.hh
+        ${NETWORK_SOCKET_SRC_DIR}/IAcceptor.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostAcceptor.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostAcceptor.cpp
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostSslSocket.hh
+        ${NETWORK_SOCKET_SRC_DIR}/TcpBoostSslSocket.cpp
+        src/network/socket/INetworkHandler.hh
+        src/network/socket/ANetworkHandler.cpp
+        src/network/socket/ANetworkHandler.hh
+        src/network/server/ServerMessage.cpp
+        src/network/server/ServerMessage.hh
+        src/network/client/ClientMessage.cpp
+        src/network/client/ClientMessage.hh)
+set(NETWORK_SERVER_SRC
+        ${NETWORK_SERVER_SRC_DIR}/AServerTcpUdp.cpp
+        ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.cpp
+        ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
+        ${NETWORK_SERVER_SRC_DIR}/IServer.hh
+        src/network/server/ServerNetworkHandler.cpp
+        src/network/server/ServerNetworkHandler.hh)
+set(NETWORK_CLIENT_SRC
+        ${NETWORK_CLIENT_SRC_DIR}/AClientTcpUdp.cpp
+        ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp
+        ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh
+        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
-        ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server)
+        ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server ${SRC_BASE_DIR}/common/pattern)
 
 ##
 ##  User sources
@@ -232,8 +284,7 @@ set(USER_SRC
         src/server/user/AuthSystem.hh
         src/server/user/RegisteredUsers.cpp
         src/server/user/RegisteredUsers.hh
-        src/network/socket/SocketMessage.cpp
-        src/network/socket/SocketMessage.hh)
+        src/server/user/FullUser.cpp src/server/user/FullUser.hh src/server/user/SessionIdentifier.cpp src/server/user/SessionIdentifier.hh)
 
 ##
 ##  Game sources
@@ -252,26 +303,56 @@ set(GAME_SRC
         src/server/game/planet/Planet.hh
         src/server/UniqueObject.cpp
         src/server/UniqueObject.hh
-        src/server/game/building/specialities/IResourceProductionBuilding.hh src/server/game/building/CrystalExtractor.cpp src/server/game/building/CrystalExtractor.hh)
+        src/server/game/building/specialities/IResourceProductionBuilding.hh
+        src/server/game/building/CrystalExtractor.cpp
+        src/server/game/building/CrystalExtractor.hh
+        src/server/ServerCore.cpp
+        src/server/ServerCore.hh
+        src/server/LoggingHelper.cpp
+        src/server/LoggingHelper.hh
+        src/server/LoadedData.cpp
+        src/server/LoadedData.hh
+        src/server/api/Api.cpp
+        src/server/api/Api.hh
+        src/server/api/ApiPlanet.cpp
+        src/server/api/ApiPlanet.hh
+        src/server/api/ApiTechnology.cpp
+        src/server/api/ApiTechnology.hh
+        src/server/api/ApiBuilding.cpp
+        src/server/api/ApiBuilding.hh
+        src/server/api/ApiUser.cpp
+        src/server/api/ApiUser.hh
+        src/server/game/decorator/UpgradableCapacity.cpp
+        src/server/game/decorator/UpgradableCapacity.hh
+        src/server/game/decorator/UnlockableCapacity.cpp
+        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh)
 
-add_executable(BeyondLightServer ${NETWORK_SERVER_SRC_DIR}/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC})
-add_executable(BeyondLightClient ${NETWORK_CLIENT_SRC_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
+set(DATABASE_SRC
+        src/server/storage/Database.cpp
+        src/server/storage/Database.hh)
+
+add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC} ${DATABASE_SRC})
+add_executable(BeyondLightClient ${CLIENT_PROJECT_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
 add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
-target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR})
+target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} ${LIBMONGOCXX_STATIC_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 
 IF (UNIX)
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} pthread)
-    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} pthread)
+    target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
 ELSE ()
 
     #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
-    target_link_libraries(BeyondLightServer ${Boost_LIBRARIES} ws2_32)
-    target_link_libraries(BeyondLightClient ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+    target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} ws2_32)
+    target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
 ENDIF (UNIX)
+
+target_compile_definitions(BeyondLightServer
+        PRIVATE ${LIBMONGOCXX_STATIC_DEFINITIONS}
+        )
 
 ##
 ##  Compile the test environment with Google test, optionnal

@@ -28,23 +28,8 @@ namespace bl {
 				public:
 					nlohmann::json serialize() const override;
 					ISerializable *deserialize(nlohmann::json const &json) override;
-					const std::string &getName() const override;
-					const std::string &getDescription() const override;
-					const resource::UpgradeCost &getResources() const override;
-					int getId() const override;
-					int getLevel() const override;
-					bool isUpgrading() const override;
-					int getFullUpgradeTime() const override;
-					int getTimeLeft() const override;
 					bool upgrade() override;
 				protected:
-					int m_level = 0;
-					int m_id = -1;
-					bool m_upgrading = false;
-					int m_upgradeTimeLeft = -1;
-					std::string m_name = "";
-					std::string m_desc = "";
-					std::vector<resource::UpgradeCost> m_upgrades = {};
 					planet::Planet &m_planet;
 				};
 			}

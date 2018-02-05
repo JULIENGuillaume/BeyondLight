@@ -12,42 +12,39 @@
 #define BEYONDLIGHT_BEYONDLIGHTCLIENT_HH
 
 #include <queue>
-#include "AClientUdp.hh"
-#include "NetworkHandler.hh"
+#include "AClientTcpUdp.hh"
+#include "ClientNetworkHandler.hh"
 
-namespace network {
-	namespace client {
-		class BeyondLightClient : public AClientUdp {
-		public:
-			explicit BeyondLightClient(network::client::NetworkHandler *handler);
-
-		public:
-			std::string const& getLine() const;
-			void setLineToRead();
-			std::string getAndEraseLine();
-			void addToSend(std::string const& cmd);
-			void disconnect() override;
-
-		protected:
-			void mainLoop() override;
-
-		private:
-			void readingThread();
-			void sendingThread();
-
-		private:
-			NetworkHandler *m_handler;
-			std::queue<std::string> m_toSend;
-			std::queue<std::string> m_lines;
-
-		private:
-			std::vector<std::thread> m_activeThreads;
-
-		private:
-			const std::string newLineDelim = "\r\n";
-		};
+namespace bl {
+	namespace network {
+		namespace client {
+			class BeyondLightClient : public AClientTcpUdp {
+			public:
+				explicit BeyondLightClient(bl::network::client::ClientNetworkHandler *handler);
+			public:
+				std::string const &getLine() const;
+				void setLineToRead();
+				std::string getAndEraseLine();
+				void addToSend(std::string const &cmd);
+				void disconnect() override;
+				void directSend(std::string const& cmd);
+			protected:
+				void mainLoop() override;
+			private:
+				void readingThread();
+				void sendingThread();
+			private:
+				ClientNetworkHandler *m_handler;
+				std::queue<std::string> m_toSend;
+				std::queue<std::string> m_lines;
+			private:
+				std::vector<std::thread> m_activeThreads;
+			private:
+				const std::string newLineDelim = "\r\n";
+				const std::string msgStartHeader = "#$BL-->";
+			};
+		}
 	}
 }
-
 
 #endif //BEYONDLIGHT_BEYONDLIGHTCLIENT_HH

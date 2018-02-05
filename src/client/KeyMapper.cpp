@@ -2,9 +2,9 @@
 // Created by diguie_t on 12/7/2017.
 //
 
+#include "KeyMapper.hh"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
-#include "KeyMapper.hh"
 
 namespace bl {
 	const std::unordered_map<int, CefBrowserHost::MouseButtonType> KeyMapper::m_glfwMouseButtonToCef = {

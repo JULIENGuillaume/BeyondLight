@@ -5,7 +5,7 @@
 #ifndef MVC_TEST_CONTROLLERFACTORY_HH
 #define MVC_TEST_CONTROLLERFACTORY_HH
 
-#include <NetworkHandler.hh>
+#include <ClientNetworkHandler.hh>
 #include "IControllerFactory.hh"
 
 namespace bl {

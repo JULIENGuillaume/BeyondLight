@@ -9,11 +9,16 @@
 #include "../common/Toolbox.hh"
 
 namespace bl {
-	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::NetworkHandler> networkHandler) :
+	WebCoreManager::WebCoreManager(std::shared_ptr<network::client::ClientNetworkHandler> networkHandler) :
 			m_networkHandler(networkHandler) {
+		std::cerr << "Creating web core manager" << std::endl;
 		CefMainArgs args;
 		int retCode = CefExecuteProcess(args, this, nullptr);
+		while (!this->m_networkHandler->tryToConnect()) {
+			std::cerr << "Trying to connect to server..." << std::endl;
+		}
 		if (retCode >= 0) {
+			std::cerr << "BYE BYE at execute "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while executing cef process with error code:" + std::to_string(retCode)));
 		}
 		CefSettings settings;
@@ -29,6 +34,7 @@ namespace bl {
 		CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";
 		bool result = CefInitialize(args, settings, this, nullptr);
 		if (!result) {
+			std::cerr << "BYE BYE at initialize "  + std::to_string(retCode) << std::endl;
 			throw (std::runtime_error("Error while initializing cef with error code:" + std::to_string(retCode)));
 		}
 	}

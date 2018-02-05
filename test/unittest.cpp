@@ -10,23 +10,23 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include <UdpSslAsyncBoostSocket.hh>
+#include <UdpAsyncBoostSocket.hh>
 #include <SocketFactory.hh>
 #include "../src/network/server/BeyondLightServer.hh"
 #include "../src/network/client/BeyondLightClient.hh"
 
 void FactoriesInit() {
-	network::socket::SocketFactory::getInstance()->registerModel(network::socket::serverKeyUdpSslAsyncBoostSocket,
-	                                                             std::shared_ptr<network::socket::ISocket>(
-			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::serverKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<bl::network::socket::ISocket>(
+			                                                             new bl::network::socket::UdpSslAsyncBoostSocket()));
 
-	network::socket::SocketFactory::getInstance()->registerModel(network::socket::clientKeyUdpSslAsyncBoostSocket,
-	                                                             std::shared_ptr<network::socket::ISocket>(
-			                                                             new network::socket::UdpSslAsyncBoostSocket()));
+	bl::network::socket::SocketFactory::getInstance()->registerModel(bl::network::socket::clientKeyUdpSslAsyncBoostSocket,
+	                                                             std::shared_ptr<bl::network::socket::ISocket>(
+			                                                             new bl::network::socket::UdpSslAsyncBoostSocket()));
 }
 
 void serverLaunch() {
-	network::server::BeyondLightServer server(4242);
+	bl::network::server::BeyondLightServer server(4242);
 	server.run();
 }
 
@@ -36,7 +36,7 @@ TEST(Network, ClientServerConnection) {
 	thread.detach();
 
 	sleep(1);
-	network::client::BeyondLightClient client;
+	bl::network::client::BeyondLightClient client;
 	ASSERT_TRUE(client.connectTo("127.0.0.1", 4242));
 	client.disconnect();
 }

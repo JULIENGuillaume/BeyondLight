@@ -1,7 +1,7 @@
 ﻿#ifndef BROWSER_CLIENT_HH
 #define BROWSER_CLIENT_HH
 
-#include "NetworkHandler.hh"
+#include "ClientNetworkHandler.hh"
 #include "include/cef_client.h"
 #include "include/wrapper/cef_message_router.h"
 #include "mvc/MvcHandler.hh"

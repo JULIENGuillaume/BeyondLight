@@ -10,28 +10,28 @@ namespace bl {
 		void ResourcesModel::update() {
 			if (this->m_networkHandler.get()) {
 				try {
-					this->m_networkHandler->send("3242");
-					std::string jsonReceived = this->m_networkHandler->getLine();
-					std::cout << "Received " << jsonReceived << std::endl;
-					auto toks = ::common::Toolbox::splitAtMax(jsonReceived, ":", 1);
+					//this->m_networkHandler->send("3242");
+					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_CURRENT_RESOURCES));
+					//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 3242, "");
+					auto msg = this->m_networkHandler->getMessage().getBody();
+					std::string jsonReceived = msg.message;
 					nlohmann::json resources;
-					if (toks.size() == 2 && std::atoi(toks[0].c_str()) == 324201) {
-						resources = nlohmann::json::parse(toks[1]);
-						std::cout << "Resources is " << resources.dump() << std::endl;
+					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+						resources = nlohmann::json::parse(jsonReceived);
 					} else {
 						std::cerr << "Invalid reply" << std::endl;
 						return;
 					}
 					this->m_resources.deserialize(resources["resources"]);
-				} catch (...) {
-					std::cerr << "json parse error" << std::endl;
+				} catch (std::exception &e) {
+					std::cerr << "json parse error resources: " << e.what() << std::endl;
 					return;
 				}
 			}
 		}
 
 		ResourcesModel::ResourcesModel(
-				std::shared_ptr<network::client::NetworkHandler> networkHandler,
+				std::shared_ptr<network::client::ClientNetworkHandler> networkHandler,
 				const boost::uuids::uuid &uuid // todo see what we use after serv refactor
 		) :
 				ABaseModel::ABaseModel(networkHandler),

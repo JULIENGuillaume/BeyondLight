@@ -5,16 +5,16 @@
 #include <iostream>
 #include <iomanip>
 // GL
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
-#include "glm/ext.hpp"
 #include "MainHandler.hh"
 #include "RenderHandler.hh"
 #include "KeyMapper.hh"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
+#include "glm/ext.hpp"
 
 namespace bl {
 	MainHandler::MainHandler() :
-			m_networkHandler(new network::client::NetworkHandler("127.0.0.1", 8080)),
+			m_networkHandler(new network::client::ClientNetworkHandler("127.0.0.1", 8080)),
 			m_webCoreManager(m_networkHandler),
 			m_winName("BeyondLight") {
 		this->m_sizeUpdated = false;
@@ -157,7 +157,7 @@ namespace bl {
 			double x,
 			double y
 	) {
-		this->m_activeBrowser.lock()->mouseScroll(x, y);
+		this->m_activeBrowser.lock()->mouseScroll(static_cast<int>(x), static_cast<int>(y));
 	}
 
 	void MainHandler::onCursorEnter(

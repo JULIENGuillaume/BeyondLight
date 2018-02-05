@@ -15,7 +15,7 @@ namespace bl {
 			public CefRenderProcessHandler {
 	public:
 		explicit WebCoreManager(
-				std::shared_ptr<network::client::NetworkHandler> networkHandler
+				std::shared_ptr<network::client::ClientNetworkHandler> networkHandler
 		);
 		~WebCoreManager() override; // todo check if we need or not to override
 		void update();
@@ -55,7 +55,7 @@ namespace bl {
 	private:
 		std::vector<std::shared_ptr<WebCore>> m_browsers;
 		CefRefPtr<CefMessageRouterRendererSide> m_message_router;
-		std::shared_ptr<network::client::NetworkHandler> m_networkHandler;
+		std::shared_ptr<network::client::ClientNetworkHandler> m_networkHandler;
 		//IMPLEMENT_REFCOUNTING(WebCoreManager); // fixme crashing me using this. This line of the define crash -> "delete static_cast<const WebCoreManager*>(this);"
 		DISALLOW_COPY_AND_ASSIGN(WebCoreManager);
 	};

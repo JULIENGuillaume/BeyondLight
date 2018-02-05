@@ -8,7 +8,7 @@
 ** Last update Thu Nov 09 17:59:05 2017 Guillaume Julien
 */
 
-#include <UdpSslAsyncBoostSocket.hh>
+#include <UdpAsyncBoostSocket.hh>
 #include "AuthSystem.hh"
 
 server::user::AuthSystem::AuthSystem() {
@@ -31,7 +31,7 @@ bool server::user::AuthSystem::tryToAuthenticate() {
 	return login == realLogin && password == realPassword;
 }
 
-void server::user::AuthSystem::setClientSocket(std::shared_ptr<network::socket::ISocket> &clientSocket) {
-	auto p = std::dynamic_pointer_cast<network::socket::UdpSslAsyncBoostSocket>(clientSocket);
+void server::user::AuthSystem::setClientSocket(std::shared_ptr<bl::network::socket::ISocket> &clientSocket) {
+	auto p = std::dynamic_pointer_cast<bl::network::socket::UdpAsyncBoostSocket>(clientSocket);
 	this->m_clientSocket = clientSocket;
 }

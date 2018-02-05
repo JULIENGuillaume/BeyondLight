@@ -12,7 +12,7 @@
 
 namespace bl {
 	namespace mvc {
-		const std::string BuildingsController::m_buildingsUrl = "file:///" + ::common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
+		const std::string BuildingsController::m_buildingsUrl = "file:///" + bl::common::Toolbox::getApplicationDir() + "/../resources/html/buildings.html";
 
 		void BuildingsController::setWebCore(bl::WebCore *webCore) {
 			this->m_webCore = webCore;
@@ -28,15 +28,13 @@ namespace bl {
 				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
 				std::string &newRoute
 		) {
-			std::vector<std::string> requestArgs = ::common::Toolbox::split(request, ":");
+			std::vector<std::string> requestArgs = bl::common::Toolbox::split(request, ":");
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
 					auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
-						std::cout << requestArgs[1] << std::endl;
 						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor");
-						//const std::string &buildingId = requestArgs[1];
 						if (building->incrLevel()) {
 							this->m_webCore->reload(false); // fixme remove hack
 							callback->Success(std::to_string(building->getLevel()));

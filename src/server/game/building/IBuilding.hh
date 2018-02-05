@@ -9,26 +9,23 @@
 #include <map>
 #include "../../../common/pattern/ISerializable.hh"
 #include "../resource/UpgradeCost.hh"
+#include "../decorator/IdentifiableCapacity.hh"
+#include "../decorator/UpgradableCapacity.hh"
 
 namespace bl {
 	namespace server {
 		namespace game {
 			namespace building {
-				class IBuilding : public common::pattern::ISerializable {
+				class IBuilding : public decorator::IdentifiableCapacity, public decorator::UpgradableCapacity {
 				public:
-					virtual ~IBuilding() = default;
-				public:
-					virtual std::string const &getName() const = 0;
-					virtual std::string const &getDescription() const = 0;
-					virtual resource::UpgradeCost const &getResources() const = 0;
-				public:
-					virtual int getId() const = 0;
-					virtual int getLevel() const = 0;
+					~IBuilding() override = default;
 				public:
 					virtual bool upgrade() = 0;
-					virtual bool isUpgrading() const = 0;
-					virtual int getFullUpgradeTime() const = 0;
-					virtual int getTimeLeft() const = 0;
+
+					nlohmann::json serialize() const override = 0;
+					ISerializable *deserialize(nlohmann::json const &json) override = 0;
+				protected:
+					virtual void updateBuildingOnDeltaTime(uint64_t seconds) = 0;
 				};
 			}
 		}

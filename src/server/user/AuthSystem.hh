@@ -23,10 +23,10 @@ namespace server {
 
 		public:
 			bool tryToAuthenticate();
-			void setClientSocket(std::shared_ptr<network::socket::ISocket> &clientSocket);
+			void setClientSocket(std::shared_ptr<bl::network::socket::ISocket> &clientSocket);
 
 		private:
-			std::shared_ptr<network::socket::ISocket> m_clientSocket;
+			std::shared_ptr<bl::network::socket::ISocket> m_clientSocket;
 		};
 	}
 }

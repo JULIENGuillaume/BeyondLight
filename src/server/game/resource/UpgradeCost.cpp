@@ -27,12 +27,6 @@ nlohmann::json bl::server::game::resource::UpgradeCost::serialize() const {
 }
 
 bl::common::pattern::ISerializable *bl::server::game::resource::UpgradeCost::deserialize(nlohmann::json const &json) {
-	/*std::cout << "Got following resources: " << std::endl;
-	std::cout << "\t-Iron: " << json["iron"] << std::endl;
-	std::cout << "\t-Crystal: " << json["crystal"] << std::endl;
-	std::cout << "\t-Iridium: " << json["iridium"] << std::endl;
-	std::cout << "\t-Energy: " << json["energy"] << std::endl;
-	std::cout << "\t-Upgrade time: " << json["upgradeTime"] << std::endl;*/
 	this->m_resources.deserialize(json["resources"]);
 	this->m_upgradeTime = json["upgradeTime"];
 	return this;
@@ -43,13 +37,9 @@ bool bl::server::game::resource::UpgradeCost::isValid() const {
 }
 
 bool bl::server::game::resource::UpgradeCost::launchUpgrade(bl::common::game::Resources &stock) const {
-	std::cout << "Iron stock is " << stock.getIron() << std::endl;
-	std::cout << "Iron needed is " << this->m_resources.getIron() << std::endl;
 	if (stock >= this->m_resources) {
 		stock = stock - this->m_resources;
-		std::cout << "Launch upgrades" << std::endl;
 		return true;
 	}
-	std::cout << "Do not launch upgrade" << std::endl;
 	return false;
 }
