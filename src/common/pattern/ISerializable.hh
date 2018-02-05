@@ -12,6 +12,8 @@ namespace bl {
 		namespace pattern {
 			class ISerializable {
 			public:
+				virtual ~ISerializable() = default;
+			public:
 				virtual nlohmann::json serialize() const = 0;
 				virtual common::pattern::ISerializable *deserialize(nlohmann::json const &json) = 0;
 			};

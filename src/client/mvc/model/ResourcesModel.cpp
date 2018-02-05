@@ -23,8 +23,8 @@ namespace bl {
 						return;
 					}
 					this->m_resources.deserialize(resources["resources"]);
-				} catch (...) {
-					std::cerr << "json parse error" << std::endl;
+				} catch (std::exception &e) {
+					std::cerr << "json parse error resources: " << e.what() << std::endl;
 					return;
 				}
 			}

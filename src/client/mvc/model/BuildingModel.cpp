@@ -45,6 +45,7 @@ namespace bl {
 						return;
 					}*/
 					nlohmann::json building = nlohmann::json::parse(msg.getBody().message);
+					std::cerr << "Building: " << msg.getBody().message << std::endl;
 					/*for (const auto& build : buildings) {
 						building = build;
 						if (building.at("id") == m_id)
@@ -55,8 +56,8 @@ namespace bl {
 					m_name = building["name"];
 					m_desc = building["description"];
 					this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
-				} catch (...) {
-					std::cerr << "json parse error" << std::endl;
+				} catch (std::exception &e) {
+					std::cerr << "json parse error building " << e.what() << std::endl;
 					return;
 				}
 			}

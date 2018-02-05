@@ -186,7 +186,9 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/TechnologiesController.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
-        libs/stb/stb_image.h src/client/ServerApiHelper.cpp src/client/ServerApiHelper.hh)
+        libs/stb/stb_image.h
+        src/client/ServerApiHelper.cpp
+        src/client/ServerApiHelper.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
@@ -318,7 +320,19 @@ set(GAME_SRC
         src/server/LoadedData.cpp
         src/server/LoadedData.hh
         src/server/api/Api.cpp
-        src/server/api/Api.hh src/server/api/ApiPlanet.cpp src/server/api/ApiPlanet.hh src/server/api/ApiTechnology.cpp src/server/api/ApiTechnology.hh src/server/api/ApiBuilding.cpp src/server/api/ApiBuilding.hh src/server/api/ApiUser.cpp src/server/api/ApiUser.hh)
+        src/server/api/Api.hh
+        src/server/api/ApiPlanet.cpp
+        src/server/api/ApiPlanet.hh
+        src/server/api/ApiTechnology.cpp
+        src/server/api/ApiTechnology.hh
+        src/server/api/ApiBuilding.cpp
+        src/server/api/ApiBuilding.hh
+        src/server/api/ApiUser.cpp
+        src/server/api/ApiUser.hh
+        src/server/game/decorator/UpgradableCapacity.cpp
+        src/server/game/decorator/UpgradableCapacity.hh
+        src/server/game/decorator/UnlockableCapacity.cpp
+        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh)
 
 set(DATABASE_SRC
         src/server/storage/Database.cpp
