@@ -1,7 +1,3 @@
-# to build on visual studio
-#cmake .. -G "Visual Studio 15"
-#cmake .. -G "Visual Studio 15" -DCMAKE_BUILD_TYPE="Release"
-
 cmake_minimum_required(VERSION 3.5)
 project(BeyondLight)
 
@@ -47,7 +43,7 @@ endif ()
 
 if (MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /W3 /Od /Zi /EHsc")
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Gy /Zi /EHsc")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /W3 /Oi /O2 /Oy /Ox /Gy /EHsc")
 endif (MSVC)
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # todo remove overwriting flags
@@ -59,9 +55,6 @@ endif (NOT MSVC)
 # Definition of Macros
 add_definitions(
         -DDEBUG
-        #        -DUNICODE
-        #        -D_UNICODE
-        #        -DGLFW_DLL
 )
 
 ##
