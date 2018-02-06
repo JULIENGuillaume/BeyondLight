@@ -22,7 +22,7 @@ namespace bl {
 						std::cerr << "Invalid reply" << std::endl;
 						return;
 					}
-					this->m_resources.deserialize(resources["resources"]);
+					this->m_resources.deserialize(resources);
 				} catch (std::exception &e) {
 					std::cerr << "json parse error resources: " << e.what() << std::endl;
 					return;

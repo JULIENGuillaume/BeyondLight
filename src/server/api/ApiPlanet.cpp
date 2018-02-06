@@ -22,7 +22,8 @@ bl::network::server::ServerMessage bl::server::api::ApiPlanet::getResourcesInfo(
 	auto planet = this->basicApi.getCore().getData().loadedPlanets[this->basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getLastPlanetId()];
 	try {
 		nlohmann::json sendingJson;
-		sendingJson["resources"] = (planet->serialize())["resources"];
+		planet->updateResources();
+		sendingJson = planet->getStockResources().serialize();
 		answer.getBody().message = sendingJson.dump();
 		answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {

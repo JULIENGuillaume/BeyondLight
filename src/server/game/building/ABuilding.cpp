@@ -28,6 +28,8 @@ nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 }
 
 bl::common::pattern::ISerializable *bl::server::game::building::ABuilding::deserialize(nlohmann::json const &json) {
+	decorator::IdentifiableCapacity::deserialize(json);
+	decorator::UpgradableCapacity::deserialize(json);
 	time_t lastUpdateTime = json["serializeTime"];
 	this->updateBuildingOnDeltaTime(static_cast<uint64_t>(difftime(time(nullptr), lastUpdateTime)));
 	return this;

@@ -89,8 +89,13 @@ void bl::server::ServerCore::executeCommand(std::pair<boost::asio::ip::udp::endp
 											bl::server::api::Api &refApi) {
 	std::cout << "Executing " << msg.second << std::endl;
 	if (msg.second.getBody().code == 1337) {
-		this->getData().loggedUsers.erase(this->getData().activeSessions[msg.second.getBody().sessionId]->getUser().getLogin());
-		this->getData().activeSessions.erase(msg.second.getBody().sessionId);
+		auto session = m_data.activeSessions[msg.second.getBody().sessionId];
+		auto planet = this->getData().loadedPlanets[this->getData().activeSessions[msg.second.getBody().sessionId]->getUser().getLastPlanetId()];
+		m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
+		m_data.loadedPlanets.erase(planet->getUuidAsString());
+		m_data.activeUsers.erase(session->getUser().getUuidAsString());
+		m_data.loggedUsers.erase(session->getUser().getLogin());
+		m_data.activeSessions.erase(session->getUuidAsString());
 		std::cout << "Logged out !" << std::endl;
 		return;
 	}
