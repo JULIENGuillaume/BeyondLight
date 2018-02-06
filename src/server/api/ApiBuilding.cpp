@@ -8,6 +8,7 @@
 
 bl::server::api::ApiBuilding::ApiBuilding(bl::server::api::Api &basicApi) : basicApi(basicApi) {}
 
-void bl::server::api::ApiBuilding::execute(bl::network::client::ClientMessage &message) {
+bl::network::server::ServerMessage  bl::server::api::ApiBuilding::execute(bl::network::client::ClientMessage &message) {
+	return bl::network::server::ServerMessage{};
 
 }

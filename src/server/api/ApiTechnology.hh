@@ -5,6 +5,8 @@
 #ifndef BEYONDLIGHT_APITECHNOLOGY_HH
 #define BEYONDLIGHT_APITECHNOLOGY_HH
 
+#include <ServerMessage.hh>
+
 namespace bl {
 	namespace network {
 		namespace client {
@@ -17,7 +19,7 @@ namespace bl {
 			class ApiTechnology {
 			public:
 				explicit ApiTechnology(Api &basicApi);
-				void execute(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

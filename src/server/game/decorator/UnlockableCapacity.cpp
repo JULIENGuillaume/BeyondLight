@@ -7,6 +7,8 @@
 #include "../../ServerCore.hh"
 
 bool bl::server::game::decorator::UnlockableCapacity::unlock(const planet::Planet &planet) {
+	if (m_unlocked)
+		return true;
 	if (!isUnlockable(planet))
 		return false;
 	m_unlocked = true;
@@ -18,7 +20,15 @@ bool bl::server::game::decorator::UnlockableCapacity::isUnlocked() const {
 }
 
 bool bl::server::game::decorator::UnlockableCapacity::isUnlockable(planet::Planet const &planet) const {
-	auto user = ServerCore::getData().activeSessions.at(planet.getPlanetOwner());
+	auto user = ServerCore::getData().activeSessions.at(planet.getPlanetOwner())->getUser();
+	for (auto id : this->m_researchDependencies) {
+		if (user.getTechnologies().find(id) == user.getTechnologies().end())
+			return false;
+	}
+	for (auto buildings : this->m_buildingDependencies) {
+		if (planet.getBuildingInfo(buildings.first)->getLevel() < buildings.second)
+			return false;
+	}
 	return false;
 }
 

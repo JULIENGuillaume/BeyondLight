@@ -8,6 +8,6 @@
 
 bl::server::api::ApiPlanet::ApiPlanet(bl::server::api::Api &basicApi) : basicApi(basicApi) {}
 
-void bl::server::api::ApiPlanet::execute(bl::network::client::ClientMessage &message) {
-
+bl::network::server::ServerMessage  bl::server::api::ApiPlanet::execute(bl::network::client::ClientMessage &message) {
+	return bl::network::server::ServerMessage{};
 }
