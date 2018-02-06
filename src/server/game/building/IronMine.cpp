@@ -25,7 +25,7 @@ bl::server::game::building::IronMine::IronMine(planet::Planet &planet) :
 				resource::UpgradeCost(common::game::Resources(1000, 50), 800),
 				resource::UpgradeCost(common::game::Resources(3000, 300), 1200),
 				resource::UpgradeCost(common::game::Resources(3000, 300, 50), 3600)
-		}, planet) {
+		}, {}, {}, planet) {
 }
 
 void bl::server::game::building::IronMine::updateResource() {

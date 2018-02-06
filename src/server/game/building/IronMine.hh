@@ -15,6 +15,8 @@ namespace bl {
 			namespace building {
 				class IronMine : public ABuilding, public specialities::IResourceProductionBuilding {
 				public:
+					static const int id = 1;
+				public:
 					IronMine(planet::Planet &planet);
 				public:
 					void updateResource() override;

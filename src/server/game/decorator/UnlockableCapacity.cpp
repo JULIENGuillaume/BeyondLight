@@ -7,10 +7,13 @@
 #include "../../ServerCore.hh"
 
 bool bl::server::game::decorator::UnlockableCapacity::unlock(const planet::Planet &planet) {
+	std::cout << "Checking unlocked..." << std::endl;
 	if (m_unlocked)
 		return true;
+	std::cout << "Checking unlockable..." << std::endl;
 	if (!isUnlockable(planet))
 		return false;
+	std::cout << "Unlocking" << std::endl;
 	m_unlocked = true;
 	return true;
 }
@@ -20,16 +23,21 @@ bool bl::server::game::decorator::UnlockableCapacity::isUnlocked() const {
 }
 
 bool bl::server::game::decorator::UnlockableCapacity::isUnlockable(planet::Planet const &planet) const {
-	auto user = ServerCore::getData().activeSessions.at(planet.getPlanetOwner())->getUser();
+	std::cout << "Getting user..." << std::endl;
+	auto user = ServerCore::getData().activeUsers.at(planet.getPlanetOwner());
+	std::cout << "Getted user" << std::endl;
 	for (auto id : this->m_researchDependencies) {
-		if (user.getTechnologies().find(id) == user.getTechnologies().end())
+		std::cout << "Checking research of id " << id << std::endl;
+		if (user->getTechnologies().find(id) == user->getTechnologies().end())
 			return false;
 	}
 	for (auto buildings : this->m_buildingDependencies) {
+		std::cout << "Checking building of id " << buildings.first << " and of level " << buildings.second << std::endl;
 		if (planet.getBuildingInfo(buildings.first)->getLevel() < buildings.second)
 			return false;
 	}
-	return false;
+	std::cout << "Returning unlockable..." << std::endl;
+	return true;
 }
 
 void bl::server::game::decorator::UnlockableCapacity::addResearchDependency(int dependency) {
@@ -41,4 +49,12 @@ void bl::server::game::decorator::UnlockableCapacity::addBuildingDependency(
 		int level
 ) {
 	this->m_buildingDependencies.emplace(dependency, level);
+}
+
+bl::server::game::decorator::UnlockableCapacity::UnlockableCapacity(
+		const std::vector<int> &researchDependencies,
+		const std::unordered_map<int, int> &buildingDependencies
+) :
+		m_researchDependencies(researchDependencies),
+		m_buildingDependencies(buildingDependencies) {
 }

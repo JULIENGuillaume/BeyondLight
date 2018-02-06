@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../planet/Planet.hh"
 #include "CrystalExtractor.hh"
+#include "IronMine.hh"
 
 nlohmann::json bl::server::game::building::CrystalExtractor::serialize() const {
 	nlohmann::json json = ABuilding::serialize();
@@ -25,7 +26,7 @@ bl::server::game::building::CrystalExtractor::CrystalExtractor(planet::Planet &p
 				resource::UpgradeCost(common::game::Resources(4000, 1200), 800),
 				resource::UpgradeCost(common::game::Resources(10000, 3000), 1200),
 				resource::UpgradeCost(common::game::Resources(50000, 10000, 1000), 12000)
-		}, planet) {
+		}, {}, {{IronMine::id, 2}}, planet) {
 }
 
 void bl::server::game::building::CrystalExtractor::updateResource() {

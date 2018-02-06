@@ -85,7 +85,9 @@ namespace bl {
 					/*networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 43,
 					                     logInfo[0] + ":" + logInfo[1] + ":" + logInfo[2] + ":" +
 					                     logInfo[3] + ":" + common::Toolbox::sha512This(logInfo[4]) + ":" + common::Toolbox::sha512This(logInfo[5]));*/
+					std::cout << "Send register" << std::endl;
 					auto msg = networkHandler->getMessage().getBody();
+					std::cout << "Got answer: " << msg << std::endl;
 					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_KO) {
 						callback->Failure(0, "The server refused to register you: " + msg.message);
 					} else {

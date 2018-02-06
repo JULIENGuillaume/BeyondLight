@@ -11,12 +11,13 @@
 #include "../resource/UpgradeCost.hh"
 #include "../decorator/IdentifiableCapacity.hh"
 #include "../decorator/UpgradableCapacity.hh"
+#include "../decorator/UnlockableCapacity.hh"
 
 namespace bl {
 	namespace server {
 		namespace game {
 			namespace building {
-				class IBuilding : public decorator::IdentifiableCapacity, public decorator::UpgradableCapacity {
+				class IBuilding : public decorator::IdentifiableCapacity, public decorator::UpgradableCapacity, public decorator::UnlockableCapacity {
 				public:
 					~IBuilding() override = default;
 				public:

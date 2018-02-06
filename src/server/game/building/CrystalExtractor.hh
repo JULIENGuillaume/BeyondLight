@@ -28,6 +28,8 @@ namespace bl {
 					common::event::Chrono m_chrono;
 					uint64_t m_timeLeftFromLastProd = 0;
 					const uint64_t m_secondsForProduction = 1;
+					static const int id = 2;
+
 				};
 			}
 		}

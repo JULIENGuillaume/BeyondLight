@@ -13,7 +13,7 @@ mongocxx::instance bl::server::storage::Database::m_inst{};
 bl::server::storage::Database::Database() {
 	try {
 		m_client = mongocxx::client(mongocxx::uri{});
-		m_db = m_client["storage"];
+		m_db = m_client["BeyondLightDb"];
 		auto cursor1 = m_db.list_collections();
 		for (const bsoncxx::document::view &doc :cursor1) {
 			bsoncxx::document::element ele = doc["name"];
@@ -28,12 +28,16 @@ bl::server::storage::Database::Database() {
 }
 
 void bl::server::storage::Database::createCollection(const std::string &collName) {
-	m_collections[collName] = m_db[collName];
+	try {
+		m_collections[collName] = m_db[collName];
+	} catch (std::exception &e) {
+		std::cerr << "Failed to create collection: " << e.what() << std::endl;
+	}
 }
 
 bsoncxx::stdx::optional<mongocxx::result::insert_one>
 bl::server::storage::Database::insert(const std::string &collName, nlohmann::json &toInsert) {
-	bsoncxx::builder::basic::document builder{};
+	//bsoncxx::builder::basic::document builder{};
 
 	//builder.append(bsoncxx::from_json(toInsert.dump()));
 	//builder.append(bsoncxx::builder::basic::kvp("JSON", toInsert.dump()));
@@ -109,11 +113,19 @@ bsoncxx::stdx::optional<mongocxx::result::insert_one> bl::server::storage::Datab
                                                                                             const std::string &key,
                                                                                             const std::string &value,
                                                                                             nlohmann::json &toInsert) {
+	std::cout << "Starting to update..." << std::endl;
 	try {
-		removeByKey(collName, key, value);
-		removeByKey(collName, key, value);//fixme
-	} catch (std::exception const& e) {
-		std::cerr << "Error in deletion: " << e.what() << std::endl;
+		try {
+			removeByKey(collName, key, value);
+			removeByKey(collName, key, value);//fixme
+		} catch (std::exception const& e) {
+			std::cerr << "Error in deletion: " << e.what() << std::endl;
+		}
+		std::cout << "Update succeed ..." << std::endl;
+		return this->insert(collName, toInsert);
+	} catch (std::exception &e) {
+		std::cerr << "Failed to insert in db: " << e.what() << std::endl;
 	}
-	return this->insert(collName, toInsert);
+	std::cout << "Update failed..." << std::endl;
+	return bsoncxx::stdx::optional<mongocxx::result::insert_one>{};
 }
