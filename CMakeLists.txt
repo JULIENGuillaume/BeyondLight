@@ -165,8 +165,10 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/model/ABaseModel.hh
         ${CLIENT_PROJECT_DIR}/mvc/model/BuildingModel.cpp
         ${CLIENT_PROJECT_DIR}/mvc/model/BuildingModel.hh
-        src/client/mvc/model/ResourcesModel.cpp
-        src/client/mvc/model/ResourcesModel.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/TechnologyModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/TechnologyModel.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/ResourcesModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/ResourcesModel.hh
         ${CLIENT_PROJECT_DIR}/mvc/MvcHandler.cpp
         ${CLIENT_PROJECT_DIR}/mvc/MvcHandler.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/LoginController.cpp
@@ -180,8 +182,8 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
         libs/stb/stb_image.h
-        src/client/ServerApiHelper.cpp
-        src/client/ServerApiHelper.hh)
+        ${CLIENT_PROJECT_DIR}/ServerApiHelper.cpp
+        ${CLIENT_PROJECT_DIR}/ServerApiHelper.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 
