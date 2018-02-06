@@ -31,22 +31,22 @@ namespace bl {
 		}
 
 		void TechnologyModel::update() {
-			/*if (this->m_networkHandler.get()) {
+			if (this->m_networkHandler.get()) {
 				try {
 					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_TECHNOLOGY_INFO,
 																								std::to_string(m_id)));
 					auto msg = this->m_networkHandler->getMessage();
-					nlohmann::json building = nlohmann::json::parse(msg.getBody().message);
+					nlohmann::json technology = nlohmann::json::parse(msg.getBody().message);
 					std::cerr << "Technology: " << msg.getBody().message << std::endl;
-					m_level = building["level"];
-					m_name = building["name"];
-					m_desc = building["description"];
-					this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
+					m_level = technology["level"];
+					m_name = technology["name"];
+					m_desc = technology["description"];
+					//this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
 				} catch (std::exception &e) {
 					std::cerr << "json parse error building " << e.what() << std::endl;
 					return;
 				}
-			}*/
+			}
 		}
 
 		bool TechnologyModel::incrLevel() {

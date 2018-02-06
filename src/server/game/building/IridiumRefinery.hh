@@ -1,9 +1,9 @@
 //
-// Created by Guillaume on 04/12/2017.
+// Created by Guillaume on 06/02/2018.
 //
 
-#ifndef BEYONDLIGHT_IRONMINE_HH
-#define BEYONDLIGHT_IRONMINE_HH
+#ifndef BEYONDLIGHT_IRIDIUMREFINERY_HH
+#define BEYONDLIGHT_IRIDIUMREFINERY_HH
 
 #include "ABuilding.hh"
 #include "specialities/IResourceProductionBuilding.hh"
@@ -13,11 +13,11 @@ namespace bl {
 	namespace server {
 		namespace game {
 			namespace building {
-				class IronMine : public ABuilding, public specialities::IResourceProductionBuilding {
+				class IridiumRefinery : public ABuilding, public specialities::IResourceProductionBuilding  {
 				public:
-					static const int id = 1;
+					static const int id = 4;
 				public:
-					explicit IronMine(planet::Planet &planet);
+					explicit IridiumRefinery(planet::Planet &planet);
 				public:
 					void updateResource() override;
 					nlohmann::json serialize() const override;
@@ -34,5 +34,4 @@ namespace bl {
 	}
 }
 
-
-#endif //BEYONDLIGHT_IRONMINE_HH
+#endif //BEYONDLIGHT_IRIDIUMREFINERY_HH

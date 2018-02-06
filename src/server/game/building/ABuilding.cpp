@@ -11,7 +11,7 @@ bl::server::game::building::ABuilding::ABuilding(
 		std::string const &name,
 		std::string const &desc,
 		std::vector<resource::UpgradeCost> const &upgrades,
-		const std::vector<int> &researchDependencies,
+		const std::unordered_set<int> &researchDependencies,
 		const std::unordered_map<int, int> &buildingDependencies,
 		planet::Planet &planet
 ) :

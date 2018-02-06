@@ -18,6 +18,7 @@ namespace bl {
 			const std::string REQUEST_CURRENT_RESOURCES = "current_resources";
 			const std::string REQUEST_BUILDING_INFO = "building_info";
 			const std::string REQUEST_BUILDING_UPGRADE = "building_upgrade";
+			const std::string REQUEST_TECHNOLOGY_INFO = "technology_info";
 			const std::string REQUEST_LOGOUT = "logout";
 
 		public:

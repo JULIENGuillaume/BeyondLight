@@ -18,6 +18,8 @@ namespace bl {
 			namespace building {
 				class CrystalExtractor : public ABuilding, public specialities::IResourceProductionBuilding {
 				public:
+					static const int id = 2;
+				public:
 					explicit CrystalExtractor(planet::Planet &planet);
 					void updateResource() override;
 					nlohmann::json serialize() const override;
@@ -28,8 +30,6 @@ namespace bl {
 					common::event::Chrono m_chrono;
 					uint64_t m_timeLeftFromLastProd = 0;
 					const uint64_t m_secondsForProduction = 1;
-					static const int id = 2;
-
 				};
 			}
 		}

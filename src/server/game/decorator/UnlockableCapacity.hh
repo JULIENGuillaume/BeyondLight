@@ -7,6 +7,7 @@
 
 #include <ISerializable.hh>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace bl {
 	namespace server {
@@ -18,7 +19,7 @@ namespace bl {
 				class UnlockableCapacity {
 				public:
 					UnlockableCapacity(
-							const std::vector<int> &researchDependencies = {},
+							const std::unordered_set<int> &researchDependencies = {},
 							const std::unordered_map<int, int> &buildingDependencies = {}
 					);
 					virtual ~UnlockableCapacity() = default;
@@ -30,7 +31,7 @@ namespace bl {
 					void addBuildingDependency(int dependency, int level);
 				protected:
 					bool m_unlocked = false;
-					std::vector<int> m_researchDependencies = {};
+					std::unordered_set<int> m_researchDependencies = {};
 					std::unordered_map<int, int> m_buildingDependencies = {};
 				};
 			}

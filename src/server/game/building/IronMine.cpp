@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../planet/Planet.hh"
 #include "IronMine.hh"
+#include "IridiumRefinery.hh"
 
 nlohmann::json bl::server::game::building::IronMine::serialize() const {
 	nlohmann::json json = ABuilding::serialize();
@@ -19,12 +20,14 @@ bl::common::pattern::ISerializable *bl::server::game::building::IronMine::deseri
 }
 
 bl::server::game::building::IronMine::IronMine(planet::Planet &planet) :
-		ABuilding(1, "Iron mine", "A mine to retrieve iron from the depth of the earth", {
+		ABuilding(IronMine::id, "Iron mine", "A mine to retrieve iron from the depth of the earth", {
 				resource::UpgradeCost(common::game::Resources(), 60),
 				resource::UpgradeCost(common::game::Resources(100), 200),
 				resource::UpgradeCost(common::game::Resources(1000, 50), 800),
 				resource::UpgradeCost(common::game::Resources(3000, 300), 1200),
-				resource::UpgradeCost(common::game::Resources(3000, 300, 50), 3600)
+				resource::UpgradeCost(common::game::Resources(6000, 400), 3600),
+				resource::UpgradeCost(common::game::Resources(10000, 1000), 7200),
+				resource::UpgradeCost(common::game::Resources(20000, 5000, 50), 36000)
 		}, {}, {}, planet) {
 }
 
@@ -36,7 +39,7 @@ void bl::server::game::building::IronMine::updateBuildingOnDeltaTime(uint64_t se
 	if (this->m_level >= 1) {
 		auto actualTime = seconds + this->m_timeLeftFromLastProd;
 		if (actualTime >= this->m_secondsForProduction) {
-			this->m_planet.getStockResources().addIron((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(10 * std::pow(1.42, this->m_level))));
+			this->m_planet.getStockResources().addIron((actualTime / this->m_secondsForProduction) * (static_cast<uint64_t>(10 * std::pow(1.42, this->m_level) - std::pow(1.3, this->m_planet.getBuildingInfo(IridiumRefinery::id)->getLevel()) + 1)));
 			this->m_timeLeftFromLastProd = actualTime % this->m_secondsForProduction;
 			this->m_chrono.reset();
 		}

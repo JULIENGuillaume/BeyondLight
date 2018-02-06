@@ -20,7 +20,7 @@ bl::common::pattern::ISerializable *bl::server::game::building::CrystalExtractor
 }
 
 bl::server::game::building::CrystalExtractor::CrystalExtractor(planet::Planet &planet) :
-		ABuilding(2, "Crystal extractor", "Retrieve powerful crystals", {
+		ABuilding(CrystalExtractor::id, "Crystal extractor", "Retrieve powerful crystals", {
 				resource::UpgradeCost(common::game::Resources(200), 60),
 				resource::UpgradeCost(common::game::Resources(1500, 200), 200),
 				resource::UpgradeCost(common::game::Resources(4000, 1200), 800),

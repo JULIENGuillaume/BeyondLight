@@ -8,6 +8,7 @@
 #include "api/Api.hh"
 
 bl::server::LoadedData bl::server::ServerCore::m_data = {};
+bl::server::ModelData bl::server::ServerCore::m_models = {};
 
 bl::server::ServerCore::ServerCore() : m_serverNetworkHandler(8080, this->m_data) {
 	m_isRunning = true;
@@ -141,4 +142,8 @@ bl::server::storage::Database &bl::server::ServerCore::getDatabase() {
 
 bl::server::LoadedData &bl::server::ServerCore::getData()  {
 	return m_data;
+}
+
+bl::server::ModelData &bl::server::ServerCore::getModels() {
+	return m_models;
 }

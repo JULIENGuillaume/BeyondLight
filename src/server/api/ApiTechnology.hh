@@ -20,6 +20,8 @@ namespace bl {
 			public:
 				explicit ApiTechnology(Api &basicApi);
 				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
+			public:
+				bl::network::server::ServerMessage getTechnologyInfo(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;
