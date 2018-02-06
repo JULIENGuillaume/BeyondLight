@@ -91,7 +91,8 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
-						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+						+ std::to_string(resourcesNeeded.getEnergy()) + ","
+						+ "0" + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
@@ -107,7 +108,8 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
-						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+						+ std::to_string(resourcesNeeded.getEnergy()) + ","
+						+ "1" + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}

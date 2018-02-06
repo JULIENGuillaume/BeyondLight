@@ -263,7 +263,11 @@
     color: white;
     overflow: hidden;
     font-family: Lato;
-    
+    z-index: -1;
+}
+
+.game-entity-disabled {
+    background-color:rgba(0,0,0,0.3);
 }
 
 .game-entity-title {
