@@ -17,7 +17,7 @@ namespace bl {
 				public:
 					static const int id = 1;
 				public:
-					IronMine(planet::Planet &planet);
+					explicit IronMine(planet::Planet &planet);
 				public:
 					void updateResource() override;
 					nlohmann::json serialize() const override;

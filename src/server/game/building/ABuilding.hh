@@ -9,11 +9,10 @@
 
 namespace bl {
 	namespace server {
-		namespace planet {
-			class Planet;
-		}
-
 		namespace game {
+			namespace planet {
+				class Planet;
+			}
 			namespace building {
 				class ABuilding : public IBuilding {
 				public:

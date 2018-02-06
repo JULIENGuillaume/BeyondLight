@@ -327,7 +327,7 @@ set(GAME_SRC
         src/server/game/decorator/UpgradableCapacity.cpp
         src/server/game/decorator/UpgradableCapacity.hh
         src/server/game/decorator/UnlockableCapacity.cpp
-        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh)
+        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh src/server/game/building/ResearchCenter.cpp src/server/game/building/ResearchCenter.hh)
 
 set(DATABASE_SRC
         src/server/storage/Database.cpp

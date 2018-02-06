@@ -19,7 +19,7 @@ bl::common::pattern::ISerializable *bl::server::game::building::IronMine::deseri
 }
 
 bl::server::game::building::IronMine::IronMine(planet::Planet &planet) :
-		ABuilding(1, "Iron mine", "A mine to retrieve iron from the depth of the earth", {
+		ABuilding(IronMine::id, "Iron mine", "A mine to retrieve iron from the depth of the earth", {
 				resource::UpgradeCost(common::game::Resources(), 60),
 				resource::UpgradeCost(common::game::Resources(100), 200),
 				resource::UpgradeCost(common::game::Resources(1000, 50), 800),
