@@ -75,6 +75,7 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 	outArchive(answer);
 	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
+	std::cout << "Sending " << answer << std::endl;
 	m_socket->send(std::string(fullData.begin(), fullData.end()));
 	return hasLogged;
 }
@@ -102,14 +103,22 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::registerNewUser(st
 		newUser.setEmail(toks[3]);
 		newUser.setSalt(common::Toolbox::generateSalt(this->m_saltSize));
 		newUser.setPassword(common::Toolbox::sha512This(newUser.getSalt() + toks[4]));
+		std::cout << "New user built" << std::endl;
 
 		game::planet::Planet startingPlanet;
 		startingPlanet.claimBy(newUser);
 		newUser.setLastPlanetId(startingPlanet.getUuidAsString());
+		std::cout << "New planet built" << std::endl;
 
-		m_db.update("planets", "uuid", startingPlanet.getUuidAsString(), startingPlanet.serialize());
-		m_db.update("users", "uuid", newUser.getUuidAsString(), newUser.serialize());
+		try {
+			m_db.update("planets", "uuid", startingPlanet.getUuidAsString(), startingPlanet.serialize());
+			m_db.update("users", "uuid", newUser.getUuidAsString(), newUser.serialize());
+		} catch (std::exception &e) {
+			std::cerr << "Update failure: " << e.what() << std::endl;
+		}
+		std::cout << "User and planet saved" << std::endl;
 	}
+	std::cout << "Returning message" << std::endl;
 	return message;
 }
 

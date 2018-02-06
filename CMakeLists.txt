@@ -401,3 +401,8 @@ add_custom_command(TARGET BeyondLightClient PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/resources/static/
         $<TARGET_FILE_DIR:BeyondLightClient>)
+
+add_custom_command(TARGET BeyondLightClient PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/.certificate
+        $<TARGET_FILE_DIR:BeyondLightClient>)

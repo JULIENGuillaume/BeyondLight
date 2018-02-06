@@ -6,14 +6,19 @@
 #define BEYONDLIGHT_ITECHNOLOGY_HH
 
 #include <ISerializable.hh>
+#include "../decorator/IdentifiableCapacity.hh"
+#include "../decorator/UnlockableCapacity.hh"
 
 namespace bl {
 	namespace server {
 		namespace game {
 			namespace technology {
-				class ITechnology : public common::pattern::ISerializable {
+				class ITechnology : public decorator::IdentifiableCapacity, public decorator::UnlockableCapacity {
 				public:
-
+					~ITechnology() override = default;
+				public:
+					nlohmann::json serialize() const override = 0;
+					ISerializable *deserialize(nlohmann::json const &json) override = 0;
 				};
 			}
 		}

@@ -7,14 +7,20 @@
 
 #include <ISerializable.hh>
 #include <unordered_map>
-#include "../planet/Planet.hh"
 
 namespace bl {
 	namespace server {
 		namespace game {
+			namespace planet {
+				class Planet;
+			}
 			namespace decorator {
-				class UnlockableCapacity : public virtual common::pattern::ISerializable {
+				class UnlockableCapacity {
 				public:
+					UnlockableCapacity(
+							const std::vector<int> &researchDependencies = {},
+							const std::unordered_map<int, int> &buildingDependencies = {}
+					);
 					virtual ~UnlockableCapacity() = default;
 				public:
 					bool unlock(planet::Planet const &planet);
