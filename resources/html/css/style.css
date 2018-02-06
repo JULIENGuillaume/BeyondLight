@@ -366,6 +366,24 @@
 
 }
 
+.upgrade-button:disabled {
+    border: 1px solid #969393;
+    background: linear-gradient(180deg, rgb(186, 190, 185) 0, rgb(144, 146, 144) 100%), rgb(186, 190, 185);
+}
+
+.upgrade-button:disabled:hover {
+    background: rgb(115, 117, 115);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11) ;
+    transition: all 150ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.upgrade-button:disabled:active {
+    border: 1px solid rgba(180,180,180,0.2);
+    background: rgb(144, 146, 144);
+    box-shadow: 0 3px 0 0 rgba(0,0,0,0.1) inset;
+    transition: 0.3s ease;
+}
+
 .upgrade-button:hover {
   background: rgb(90, 190, 87);
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11) ;

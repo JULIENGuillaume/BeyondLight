@@ -27,17 +27,19 @@
     <script>
         function onUpgradeClick(e) {
             var id = e.target.id.split('-').reverse()[0];
-            var request_id = window.cefQuery({
-                request: 'index-building-upgrade:' + id,
-                persistent: false,
-                onSuccess: function(response) {
-                    document.getElementById("entity-level-" + id).innerText = "Level " + response;
-                    // todo update resources
-                },
-                onFailure: function(error_code, error_message) {
-                    console.log("cannot upgrade building with id: " + id);
-                }
-            });
+            if (!document.getElementById("entity-upgrade-" + id).disabled) { // not needed but just in case
+                var request_id = window.cefQuery({
+                    request: 'index-building-upgrade:' + id,
+                    persistent: false,
+                    onSuccess: function (response) {
+                        document.getElementById("entity-level-" + id).innerText = "Level " + response;
+                        // todo update resources
+                    },
+                    onFailure: function (error_code, error_message) {
+                        console.log("cannot upgrade building with id: " + id);
+                    }
+                });
+            }
         }
 
         function createBuilding(id, name, description, level, iron, crystal, iridium, energy) { // todo move to createEntity
@@ -58,6 +60,7 @@
                     Utils.findChildById(template, "energy-value", true).innerText = energy;
                     Utils.findChildById(template, "entity-upgrade", true).id += "-" + id;
                     Utils.findChildById(template, "entity-upgrade-" + id, true).onclick = function(e) {onUpgradeClick(e)};
+                    Utils.findChildById(template, "entity-upgrade-" + id, true).disabled = !isUpgradable(iron, crystal, iridium, 0, energy);
                     var container = document.querySelector('entities');
                     container.appendChild(template);
                     return ;
@@ -65,9 +68,31 @@
             }
         }
 
+        function getAllBuildings() {
+            return (document.getElementsByClassName('game-entity'));
+        }
+
         ready(function () {
             document.getElementById("buildings").className = "active";
+            window.setInterval(updateBuildingsButtons, 1000);
         });
+
+        function updateBuildingsButtons() {
+            var buildings = getAllBuildings();
+            for (var i = 0; i < buildings.length; i++) {
+                var elem = buildings[i];
+                var upgradeButtons = elem.getElementsByClassName("upgrade-button");
+                if (upgradeButtons.length === 0)
+                    continue;
+                var firstButton = upgradeButtons.item(0);
+                var iron = Utils.findChildById(elem, "iron-value", true).innerText;
+                var crystal = Utils.findChildById(elem, "crystal-value", true).innerText;
+                var iridium = Utils.findChildById(elem, "iridium-value", true).innerText;
+                var energy = Utils.findChildById(elem, "energy-value", true).innerText;
+                firstButton.disabled = !isUpgradable(iron, crystal, iridium, 0, energy);
+            }
+        }
+
     </script>
 </html>
 
