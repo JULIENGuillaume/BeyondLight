@@ -5,9 +5,17 @@
 #include "ServerApiHelper.hh"
 
 bl::client::ServerApiHelper::ServerApiHelper() {
+	/*
+	 * Request for login / logout procedure (priority request, doesn't go through the api system)
+	 */
+	this->registerRequest(this->REQUEST_VALIDATE_NETWORK, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 0, "");
 	this->registerRequest(this->REQUEST_LOGIN, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 42, "");
 	this->registerRequest(this->REQUEST_REGISTER, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 43, "");
 	this->registerRequest(this->REQUEST_LOGOUT, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 1337, "");
+
+	/*
+	 * Info on the current state of buildings / planets
+	 */
 	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 4242, "");
 	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 421356, "");
 	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_PLANET, 3242, "");

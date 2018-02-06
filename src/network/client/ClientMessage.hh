@@ -26,8 +26,8 @@ namespace bl {
 			public:
 				template<class Archive>
 				void serialize(Archive &archive) {
-					archive((int)msgType,
-					        (int)apiType,
+					archive(msgType,
+					        apiType,
 							code,
 					        sessionId,
 							messageSize,

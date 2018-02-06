@@ -8,6 +8,6 @@
 
 bl::server::api::ApiUser::ApiUser(bl::server::api::Api &basicApi) : basicApi(basicApi) {}
 
-void bl::server::api::ApiUser::execute(bl::network::client::ClientMessage &message) {
-
+bl::network::server::ServerMessage  bl::server::api::ApiUser::execute(bl::network::client::ClientMessage &message) {
+	return bl::network::server::ServerMessage{};
 }

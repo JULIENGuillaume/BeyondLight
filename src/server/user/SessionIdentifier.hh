@@ -5,6 +5,7 @@
 #ifndef BEYONDLIGHT_SESSIONIDENTIFIER_HH
 #define BEYONDLIGHT_SESSIONIDENTIFIER_HH
 
+#include <boost/asio.hpp>
 #include "../UniqueObject.hh"
 #include "User.hh"
 
@@ -14,12 +15,16 @@ namespace bl {
 			class SessionIdentifier : public UniqueObject {
 			public:
 				const User &getUser() const;
-				void setUser(User user);
+				User &getUser();
+				void setUser(std::shared_ptr<User> user);
 				const std::string &getIp() const;
 				void setIp(const std::string &ip);
+				const boost::asio::ip::udp::endpoint &getEndpoint() const;
+				void setEndpoint(const boost::asio::ip::udp::endpoint &endpoint);
 			private:
-				User m_user;
+				std::shared_ptr<User> m_user;
 				std::string m_ip;
+				boost::asio::ip::udp::endpoint m_endpoint;
 			};
 		}
 	}

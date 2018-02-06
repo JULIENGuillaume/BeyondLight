@@ -28,6 +28,7 @@ namespace bl {
 					nlohmann::json serialize() const override;
 					ISerializable *deserialize(nlohmann::json const &json) override;
 					bool claimBy(user::User const& claimer);
+					const std::string &getPlanetOwner() const;
 				public:
 					bool tryToUpdateBuilding(int id);
 					const std::shared_ptr<building::IBuilding>& getBuildingInfo(int id) const;

@@ -31,12 +31,12 @@ namespace bl {
 			class Api {
 			public:
 				explicit Api(ServerCore &core);
-				void execute(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
 
 				ServerCore &getCore();
 
 			protected:
-				void basicApiExecution(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage  basicApiExecution(network::client::ClientMessage &message);
 
 			private:
 				ServerCore &m_core;

@@ -5,6 +5,8 @@
 #ifndef BEYONDLIGHT_APIPLANET_HH
 #define BEYONDLIGHT_APIPLANET_HH
 
+#include <ServerMessage.hh>
+
 namespace bl {
 	namespace network {
 		namespace client {
@@ -17,7 +19,9 @@ namespace bl {
 			class ApiPlanet {
 			public:
 				explicit ApiPlanet(Api &basicApi);
-				void execute(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
+			private:
+				bl::network::server::ServerMessage  getResourcesInfo(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

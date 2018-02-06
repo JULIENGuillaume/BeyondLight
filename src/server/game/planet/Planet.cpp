@@ -103,3 +103,7 @@ bool bl::server::game::planet::Planet::claimBy(const bl::server::user::User &cla
 	this->m_planetOwner = claimer.getUuidAsString();
 	return true;
 }
+
+const std::string &bl::server::game::planet::Planet::getPlanetOwner() const {
+	return m_planetOwner;
+}

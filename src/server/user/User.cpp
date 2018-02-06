@@ -40,3 +40,11 @@ const std::string &bl::server::user::User::getLastPlanetId() const {
 void bl::server::user::User::setLastPlanetId(const std::string &lastPlanetId) {
 	m_lastPlanetId = lastPlanetId;
 }
+
+const std::unordered_set<int> &bl::server::user::User::getTechnologies() const {
+	return m_technologies;
+}
+
+void bl::server::user::User::addTechnology(int techId) {
+	this->m_technologies.insert(techId);
+}

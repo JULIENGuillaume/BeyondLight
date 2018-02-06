@@ -5,6 +5,8 @@
 #ifndef BEYONDLIGHT_APIBUILDING_HH
 #define BEYONDLIGHT_APIBUILDING_HH
 
+#include <ServerMessage.hh>
+
 namespace bl {
 	namespace network {
 		namespace client {
@@ -17,7 +19,10 @@ namespace bl {
 			class ApiBuilding {
 			public:
 				explicit ApiBuilding(Api &basicApi);
-				void execute(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
+			private:
+				bl::network::server::ServerMessage getBuildingInfo(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage upgradeBuilding(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;
