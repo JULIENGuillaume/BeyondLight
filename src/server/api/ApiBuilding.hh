@@ -20,6 +20,9 @@ namespace bl {
 			public:
 				explicit ApiBuilding(Api &basicApi);
 				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
+			private:
+				bl::network::server::ServerMessage getBuildingInfo(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage upgradeBuilding(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

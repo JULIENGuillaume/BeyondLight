@@ -82,6 +82,8 @@ void bl::network::client::ClientNetworkHandler::send(
 	message.getBody().code = code;
 	message.getBody().msgType = type;
 	message.getBody().apiType = apiRequestType;
+	
+	std::cout << "Sending " << message << std::endl;
 
 	//Serialize the message
 	std::stringstream ss;

@@ -23,8 +23,10 @@ namespace bl {
 			network::server::ServerNetworkHandler &getServerNetworkHandler();
 			const storage::Database &getDatabase() const;
 			storage::Database &getDatabase();
-			//static const LoadedData &getData();
 			static LoadedData &getData();
+
+		private:
+			void executeCommand(std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> msg, api::Api &refApi);
 
 		private:
 			bl::network::server::ServerNetworkHandler m_serverNetworkHandler;

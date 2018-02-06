@@ -20,6 +20,8 @@ namespace bl {
 			public:
 				explicit ApiPlanet(Api &basicApi);
 				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
+			private:
+				bl::network::server::ServerMessage  getResourcesInfo(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

@@ -14,6 +14,7 @@ namespace bl {
 			const std::string REQUEST_ = "";
 			const std::string REQUEST_LOGIN = "login";
 			const std::string REQUEST_REGISTER = "register";
+			const std::string REQUEST_VALIDATE_NETWORK = "network_connection_validation";
 			const std::string REQUEST_CURRENT_RESOURCES = "current_resources";
 			const std::string REQUEST_BUILDING_INFO = "building_info";
 			const std::string REQUEST_BUILDING_UPGRADE = "building_upgrade";

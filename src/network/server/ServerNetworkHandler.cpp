@@ -86,3 +86,8 @@ void bl::network::server::ServerNetworkHandler::retrieveLine() {
 std::unordered_map<std::string, boost::asio::ip::udp::endpoint>& bl::network::server::ServerNetworkHandler::getListClient() {
 	return this->m_networkServer->getClients();
 }
+
+void bl::network::server::ServerNetworkHandler::send(const bl::network::server::ServerMessage &msg,
+													 boost::asio::ip::udp::endpoint const &endpoint) {
+	this->send(msg.getBody().type, msg.getBody().code, msg.getBody().message, endpoint);
+}

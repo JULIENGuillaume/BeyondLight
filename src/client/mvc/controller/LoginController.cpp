@@ -40,6 +40,7 @@ namespace bl {
 			if (logInfo.size() != 2) {
 				callback->Failure(0, "Please enter both your login and password");
 			} else {
+				//TODO: setup a better login way
 				//networkHandler->send("042:" + logInfo[0] + ":" + logInfo[1]);
 				networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_LOGIN, std::vector<std::string>{logInfo[0],
 				                                                                                                                                                common::Toolbox::sha512This(logInfo[1])}));
@@ -47,10 +48,15 @@ namespace bl {
 				auto msg = networkHandler->getMessage().getBody();
 				if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 					networkHandler->setSessionId(msg.message);
-					callback->Success("Login success");
 					auto str = networkHandler->getLine();
 					networkHandler->swapToUdp(static_cast<unsigned short>(std::stol(str)));
-					return (true);
+					networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_VALIDATE_NETWORK));
+					msg = networkHandler->getMessage().getBody();
+					if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+						callback->Success("Login success");
+						return (true);
+					}
+					callback->Failure(0, msg.message);
 				} else {
 					callback->Failure(0, msg.message);
 				}

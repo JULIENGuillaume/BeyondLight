@@ -24,6 +24,7 @@ namespace bl {
 				std::pair<boost::asio::ip::udp::endpoint, std::string> getLineFrom();
 				std::pair<boost::asio::ip::udp::endpoint, client::ClientMessage> getMessage();
 				void send(std::string const &cmd) override;
+				void send(ServerMessage const& msg, boost::asio::ip::udp::endpoint const& endpoint);
 				void send(ServerMessageType type, uint64_t code, std::string const& msg, boost::asio::ip::udp::endpoint const& endpoint);
 
 			public:

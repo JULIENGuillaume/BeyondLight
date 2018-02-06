@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <mmsystem.h>
+#include <string>
 #include "include/cef_app.h"
 #include "include/cef_browser.h"
 #include "include/cef_command_line.h"
@@ -84,7 +85,7 @@ public:
 		browserSettings.web_security = STATE_DISABLED;
 		browserSettings.windowless_frame_rate = 60; // 30 is default
 
-		std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/overview.html";
+		std::string url = "file:///" + bl::common::Toolbox::getApplicationDir() + "/../resources/html/overview.html";
 		//std::string url = "https://www.shadertoy.com/view/Msf3R8";
 
 		CefWindowInfo window_info;
@@ -146,7 +147,7 @@ int main() {
 	settings.single_process = false;
 	settings.command_line_args_disabled = false;
 	settings.windowless_rendering_enabled = true;
-	std::string rootDir = common::Toolbox::getApplicationDir();
+	std::string rootDir = bl::common::Toolbox::getApplicationDir();
 	rootDir = rootDir.substr(0, rootDir.rfind("\\"));
 	CefString(&settings.resources_dir_path) = rootDir + "\\resources\\cef";
 	CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";
