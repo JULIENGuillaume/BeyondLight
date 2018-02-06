@@ -8,6 +8,7 @@
 #include <ServerNetworkHandler.hh>
 #include "storage/Database.hh"
 #include "LoadedData.hh"
+#include "ModelData.hh"
 
 namespace bl {
 	namespace server {
@@ -24,6 +25,7 @@ namespace bl {
 			const storage::Database &getDatabase() const;
 			storage::Database &getDatabase();
 			static LoadedData &getData();
+			static ModelData &getModels();
 
 		private:
 			void executeCommand(std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> msg, api::Api &refApi);
@@ -33,6 +35,7 @@ namespace bl {
 			bl::server::storage::Database m_database;
 			bool m_isRunning = true;
 			static LoadedData m_data;
+			static ModelData m_models;
 		};
 	}
 }

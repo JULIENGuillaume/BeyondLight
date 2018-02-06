@@ -9,6 +9,7 @@
 #include "../building/IronMine.hh"
 #include "../building/CrystalExtractor.hh"
 #include "../building/ResearchCenter.hh"
+#include "../building/IridiumRefinery.hh"
 
 bl::server::game::planet::Planet::Planet() :
 		UniqueObject() {
@@ -99,6 +100,7 @@ void bl::server::game::planet::Planet::resetBuildings() {
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::IronMine(*this)));
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::CrystalExtractor(*this)));
 	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::ResearchCenter(*this)));
+	this->addBuilding(std::shared_ptr<building::IBuilding>(new building::IridiumRefinery(*this)));
 }
 
 bool bl::server::game::planet::Planet::claimBy(const bl::server::user::User &claimer) {

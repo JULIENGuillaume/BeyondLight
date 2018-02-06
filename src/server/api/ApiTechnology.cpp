@@ -9,5 +9,24 @@
 bl::server::api::ApiTechnology::ApiTechnology(bl::server::api::Api &basicApi) : basicApi(basicApi) {}
 
 bl::network::server::ServerMessage  bl::server::api::ApiTechnology::execute(bl::network::client::ClientMessage &message) {
-	return bl::network::server::ServerMessage{};
+	static std::unordered_map<uint64_t, std::function<network::server::ServerMessage(bl::network::client::ClientMessage)>> lMap = {
+			{154, [this](bl::network::client::ClientMessage message) -> network::server::ServerMessage { return getTechnologyInfo(message);}},
+	};
+	return (lMap.at(message.getBody().code))(message);
+}
+
+bl::network::server::ServerMessage bl::server::api::ApiTechnology::getTechnologyInfo(bl::network::client::ClientMessage &message) {
+	bl::network::server::ServerMessage answer{};
+	answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_KO;
+	answer.getBody().code = message.getBody().code;
+	auto const& techs = basicApi.getCore().getModels().technologies;
+	try {
+		auto tech = techs.at(std::stoi(message.getBody().message.substr(1)));
+		auto sendingJson = tech->serialize();
+		answer.getBody().message = sendingJson.dump();
+		bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
+	} catch (std::exception &e) {
+		answer.getBody().message = e.what();
+	}
+	return answer;
 }

@@ -6,6 +6,7 @@
 #define BEYONDLIGHT_RESEARCHCENTER_HH
 
 #include "ABuilding.hh"
+#include "../../../common/event/Chrono.hh"
 
 namespace bl {
 	namespace server {
@@ -21,11 +22,16 @@ namespace bl {
 					explicit ResearchCenter(planet::Planet &planet);
 					~ResearchCenter() override = default;
 				public:
+					bool startResearch(int id);
+					bool isResearchGoing() const;
+					int getCurrentResearch() const;
 				protected:
 					void updateBuildingOnDeltaTime(uint64_t seconds) override;
+					void finalizeResearch();
 				private:
 					int m_actualResearch = -1;
 					uint64_t m_remainingUpdateTime = 0;
+					common::event::Chrono m_chrono;
 				};
 			}
 		}

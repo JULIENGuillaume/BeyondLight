@@ -17,6 +17,8 @@ namespace bl {
 				public:
 					~ITechnology() override = default;
 				public:
+					virtual uint64_t getResearchTime() = 0;
+				public:
 					nlohmann::json serialize() const override = 0;
 					ISerializable *deserialize(nlohmann::json const &json) override = 0;
 				};

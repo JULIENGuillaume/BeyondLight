@@ -327,7 +327,7 @@ set(GAME_SRC
         src/server/game/decorator/UpgradableCapacity.cpp
         src/server/game/decorator/UpgradableCapacity.hh
         src/server/game/decorator/UnlockableCapacity.cpp
-        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh src/server/game/building/ResearchCenter.cpp src/server/game/building/ResearchCenter.hh)
+        src/server/game/decorator/UnlockableCapacity.hh src/server/game/decorator/IdentifiableCapacity.cpp src/server/game/decorator/IdentifiableCapacity.hh src/server/game/building/ResearchCenter.cpp src/server/game/building/ResearchCenter.hh src/server/ModelData.cpp src/server/ModelData.hh src/server/game/technology/ATechnology.cpp src/server/game/technology/ATechnology.hh src/server/game/building/IridiumRefinery.cpp src/server/game/building/IridiumRefinery.hh src/server/game/technology/RefiningIridium.cpp src/server/game/technology/RefiningIridium.hh)
 
 set(DATABASE_SRC
         src/server/storage/Database.cpp

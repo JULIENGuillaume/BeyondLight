@@ -7,6 +7,7 @@
 #include "../../MvcHandler.hh"
 #include "LeftMenu.hh"
 #include "../../model/ResourcesModel.hh"
+#include "../../model/TechnologyModel.hh"
 
 namespace bl {
 	namespace mvc {
@@ -73,6 +74,7 @@ namespace bl {
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_technologiesUrl, 0);
 			}
+			/*
 			std::string js = std::string("createTechnologie(")
 					+ std::to_string(1) + ",\""
 					+ "Quantum Technology" + "\",\""
@@ -82,7 +84,23 @@ namespace bl {
 					+ std::to_string(30000) + ","
 					+ std::to_string(10000) + ","
 					+ std::to_string(5000) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);*/
+
+			{
+				auto refiningIridiumTechnology = modelHandler->getModel<TechnologyModel>("technology-refining-iridium");
+				refiningIridiumTechnology->update();
+				const auto resourcesNeeded = refiningIridiumTechnology->getResourcesNeeded();
+				std::string js = std::string("createTechnologie(")
+						+ std::to_string(refiningIridiumTechnology->getId()) + ",\""
+						+ refiningIridiumTechnology->getName() + "\",\""
+						+ refiningIridiumTechnology->getDesc() + "\","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);
+			}
 		}
 	}
 }

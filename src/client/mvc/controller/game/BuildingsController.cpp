@@ -34,7 +34,7 @@ namespace bl {
 				if (controllerRoute.empty()) {
 					auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
-						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor");
+						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor"); //fixme WTF ?
 						if (building->incrLevel()) {
 							this->m_webCore->reload(false); // fixme remove hack
 							callback->Success(std::to_string(building->getLevel()));
@@ -104,6 +104,38 @@ namespace bl {
 						+ crystalExtractor->getName() + "\",\""
 						+ crystalExtractor->getDesc() + "\","
 						+ std::to_string(crystalExtractor->getLevel()) + ","
+						+ std::to_string(resourcesNeeded.getIron()) + ","
+						+ std::to_string(resourcesNeeded.getCrystal()) + ","
+						+ std::to_string(resourcesNeeded.getIridium()) + ","
+						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			}
+			{
+				auto researchCenter = modelHandler->getModel<BuildingModel>("building-research-center");
+				researchCenter->update();
+				const auto resourcesNeeded = researchCenter->getResourcesNeeded();
+				std::string js = std::string("createBuilding(")
+						+ std::to_string(researchCenter->getId()) + ",\""
+						+ researchCenter->getName() + "\",\""
+						+ researchCenter->getDesc() + "\","
+						+ std::to_string(researchCenter->getLevel()) + ","
+						+ std::to_string(resourcesNeeded.getIron()) + ","
+						+ std::to_string(resourcesNeeded.getCrystal()) + ","
+						+ std::to_string(resourcesNeeded.getIridium()) + ","
+						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
+						js, m_buildingsUrl, 0);
+			}
+			{
+				auto iridiumRefinery = modelHandler->getModel<BuildingModel>("building-iridium-refinery");
+				iridiumRefinery->update();
+				const auto resourcesNeeded = iridiumRefinery->getResourcesNeeded();
+				std::string js = std::string("createBuilding(")
+						+ std::to_string(iridiumRefinery->getId()) + ",\""
+						+ iridiumRefinery->getName() + "\",\""
+						+ iridiumRefinery->getDesc() + "\","
+						+ std::to_string(iridiumRefinery->getLevel()) + ","
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","

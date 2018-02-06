@@ -19,6 +19,11 @@ bl::client::ServerApiHelper::ServerApiHelper() {
 	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 4242, "");
 	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 421356, "");
 	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_PLANET, 3242, "");
+
+	/*
+	 * Info on technologies
+	 */
+	this->registerRequest(this->REQUEST_TECHNOLOGY_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_TECHNOLOGY, 154, "");
 }
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {
