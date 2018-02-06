@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <mmsystem.h>
+#include <iostream>
 #include "include/cef_app.h"
 #include "include/cef_browser.h"
 #include "include/cef_command_line.h"
@@ -18,7 +19,7 @@ class SimpleHandler :
 		public CefClient,
 		public CefRenderHandler {
 public:
-	int sizeX = 8100;
+	int sizeX = 1920;
 	int sizeY = 1080;
 	DWORD lasttime = timeGetTime();
 
@@ -44,10 +45,14 @@ public:
 			int width,
 			int height
 	) override {
+		static int total = 0;
+		static int count = 0;
 		DWORD time = timeGetTime();
 		int delta = time - lasttime;
 		lasttime = time;
-		printf("%3d", delta);
+		++count;
+		total += delta;
+		printf("%3d avg:%f ", delta, (float)total / count);
 		for (auto r : dirtyRects) {
 			printf(" %dx%d", r.width, r.height);
 		}
@@ -84,7 +89,8 @@ public:
 		browserSettings.web_security = STATE_DISABLED;
 		browserSettings.windowless_frame_rate = 60; // 30 is default
 
-		std::string url = "file:///" + common::Toolbox::getApplicationDir() + "/../resources/html/overview.html";
+		std::string url = "file:///" + bl::common::Toolbox::getApplicationDir() + "\\..\\src\\client-test\\render_all.html";
+		std::cout << url << std::endl;
 		//std::string url = "https://www.shadertoy.com/view/Msf3R8";
 
 		CefWindowInfo window_info;
@@ -140,18 +146,21 @@ int main() {
 		return exit_code;
 	}
 	CefSettings settings;
-	settings.multi_threaded_message_loop = true;
+	settings.multi_threaded_message_loop = false;
 	settings.no_sandbox = true;
 	//settings.pack_loading_disabled = true;
 	settings.single_process = false;
 	settings.command_line_args_disabled = false;
 	settings.windowless_rendering_enabled = true;
-	std::string rootDir = common::Toolbox::getApplicationDir();
+	std::string rootDir = bl::common::Toolbox::getApplicationDir();
 	rootDir = rootDir.substr(0, rootDir.rfind("\\"));
 	CefString(&settings.resources_dir_path) = rootDir + "\\resources\\cef";
 	CefString(&settings.locales_dir_path) = rootDir + "\\resources\\cef\\locales";
 	CefRefPtr<SimpleApp> app(new SimpleApp);
 	CefInitialize(main_args, settings, app.get(), NULL);
+	while(!settings.multi_threaded_message_loop) {
+		CefDoMessageLoopWork();
+	}
 	getchar(); // wait for something to happen
 
 	// Shut down CEF.

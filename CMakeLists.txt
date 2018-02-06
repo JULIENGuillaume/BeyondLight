@@ -342,12 +342,15 @@ target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef o
 IF (UNIX)
     target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} pthread)
     target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} pthread)
+    target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES})
 ELSE ()
 
     #include(${CLIENT_PROJECT_DIR}/CMakeLists.txt)
 
     target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} ws2_32)
     target_link_libraries(BeyondLightClient ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ws2_32 libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+    target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} libcef_dll_wrapper libcef)
+
 ENDIF (UNIX)
 
 target_compile_definitions(BeyondLightServer

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:background-position="http://www.w3.org/1999/xhtml" xmlns:background-repeat="http://www.w3.org/1999/xhtml"
+      xmlns:background-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="main" style="height: 100vh; width: 100vw; background-image: url(transparent.png); background-position: center; background-repeat: no-repeat; background-size: cover;">
+    <p id="p1" style="font-size: 300pt; position:absolute;">0</p>
+</div>
+</body>
+</html>
+
+<script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    function changeBackground(color) {
+        document.body.style.background = color;
+    }
+
+    function getRandomPosition(element) {
+        var x = document.body.offsetHeight-element.clientHeight;
+        var y = document.body.offsetWidth-element.clientWidth;
+        var randomX = Math.floor(Math.random()*x);
+        var randomY = Math.floor(Math.random()*y);
+        return [randomX,randomY];
+    }
+
+    function moveDiv(name) {
+        var boxElement = document.getElementById(name);
+
+        var xy = getRandomPosition(boxElement);
+        boxElement.style.top = xy[0] + 'px';
+        boxElement.style.left = xy[1] + 'px';
+    }
+
+    var i = 0;
+    window.setInterval(function(){
+        moveDiv("p1");
+        changeBackground(getRandomColor());
+        document.getElementById("p1").innerHTML = i;
+        ++i;
+    }, 33);
+
+</script>
+
