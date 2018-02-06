@@ -339,7 +339,7 @@ add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} ${LIBMONGOCXX_STATIC_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
-target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
+target_link_libraries(${CLIENT_PERF_EXECUTABLE_NAME} libcef_dll_wrapper libcef)
 
 IF (UNIX)
     target_link_libraries(BeyondLightServer ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${LIBMONGOCXX_STATIC_LIBRARIES} pthread)

@@ -1,4 +1,7 @@
-document.getElementById("left-menu").onclick = function(e) {onLeftMenuClick(e)};
+document.getElementById("left-menu").onclick = function(e) {
+    onLeftMenuClick(e);
+};
+
 function onLeftMenuClick(e) {
     var request_id = window.cefQuery({
         request: 'route-' + e.target.id,
