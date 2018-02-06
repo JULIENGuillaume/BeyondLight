@@ -26,10 +26,10 @@ bl::server::game::building::ABuilding::ABuilding(
 
 nlohmann::json bl::server::game::building::ABuilding::serialize() const {
 	nlohmann::json json = decorator::IdentifiableCapacity::serialize();
+	json["unlocked"] = this->isUnlocked();
 	auto upgradablePart = decorator::UpgradableCapacity::serialize();
 	json.insert(upgradablePart.begin(), upgradablePart.end());
-	/*json["unlocked"] = this->isUnlocked();
-	json["unlockable"] = this->isUnlockable(this->m_planet);*/
+	//json["unlockable"] = this->isUnlockable(this->m_planet);*/
 	return json;
 }
 

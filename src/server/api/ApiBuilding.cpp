@@ -23,7 +23,9 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::getBuildingInfo
 	answer.getBody().code = message.getBody().code;
 	auto planet = this->basicApi.getCore().getData().loadedPlanets[this->basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getLastPlanetId()];
 	try {
-		auto sendingJson = planet->getBuildingInfo(std::stol(message.getBody().message.substr(1)))->serialize();
+		auto building = planet->getBuildingInfo(std::stol(message.getBody().message.substr(1)));
+		building->unlock(*planet);
+		auto sendingJson = building->serialize();
 		answer.getBody().message = sendingJson.dump();
 		bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
