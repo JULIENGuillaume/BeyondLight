@@ -37,6 +37,7 @@
                     },
                     onFailure: function (error_code, error_message) {
                         console.log("cannot upgrade building with id: " + id);
+                        console.log("error code: " + error_code + " reason: " + error_message);
                     }
                 });
             }
@@ -50,6 +51,7 @@
                     var template = post.cloneNode(true);
                     var element = null;
                     if (unlocked == "0") {
+                        template.style.zIndex = -1;
                         element = document.createElement("div");
                         element.className = "game-entity-disabled";
                     }

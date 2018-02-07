@@ -263,7 +263,6 @@
     color: white;
     overflow: hidden;
     font-family: Lato;
-    z-index: -1;
 }
 
 .game-entity-disabled {

@@ -34,7 +34,19 @@ namespace bl {
 				if (controllerRoute.empty()) {
 					auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
 					if (requestArgs[0].find("index-building-upgrade") == 0 && requestArgs.size() == 2) {
-						auto building = modelHandler->getModel<BuildingModel>(requestArgs[1] == "1" ? "building-iron-mine" : "building-crystal-extractor"); //fixme WTF ?
+						// todo add a way to convert id to name & vis versa
+						static const std::unordered_map<int, std::string> buildingsMap = { //fixme
+								{1, "building-iron-mine"},
+								{2, "building-crystal-extractor"},
+								{3, "building-research-center"},
+								{4, "building-iridium-refinery"}
+						};
+						auto buildingName = buildingsMap.find(std::stoi(requestArgs[1]));
+						if (buildingName == buildingsMap.end()) {
+							callback->Failure(404, "Invalid id: " + requestArgs[1]);
+							return (true);
+						}
+						auto building = modelHandler->getModel<BuildingModel>(buildingName->second);
 						if (building->incrLevel()) {
 							this->m_webCore->reload(false); // fixme remove hack
 							callback->Success(std::to_string(building->getLevel()));
@@ -92,7 +104,7 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
 						+ std::to_string(resourcesNeeded.getEnergy()) + ","
-						+ "0" + ");";
+						+ "1" + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
@@ -125,7 +137,9 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
-						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+						+ std::to_string(resourcesNeeded.getEnergy()) + ","
+						+ "0" + ");";
+
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
@@ -141,7 +155,8 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getIron()) + ","
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
-						+ std::to_string(resourcesNeeded.getEnergy()) + ");";
+						+ std::to_string(resourcesNeeded.getEnergy()) + ","
+						+ "1" + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
