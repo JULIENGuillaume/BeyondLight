@@ -71,5 +71,9 @@ namespace bl {
 		const std::string &TechnologyModel::getDesc() const {
 			return (this->m_desc);
 		}
+
+		bool TechnologyModel::isUnlocked() const {
+			return (this->m_unlocked);
+		}
 	}
 }

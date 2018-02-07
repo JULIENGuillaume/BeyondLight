@@ -74,31 +74,20 @@ namespace bl {
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_technologiesUrl, 0);
 			}
-			/*
-			std::string js = std::string("createTechnologie(")
-					+ std::to_string(1) + ",\""
-					+ "Quantum Technology" + "\",\""
-					+ "If you understand quantum physics, then you don't." + "\","
-					+ std::to_string(1) + ","
-					+ std::to_string(400000) + ","
-					+ std::to_string(30000) + ","
-					+ std::to_string(10000) + ","
-					+ std::to_string(5000) + ");";
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);*/
-
 			{
 				auto refiningIridiumTechnology = modelHandler->getModel<TechnologyModel>("technology-refining-iridium");
-				refiningIridiumTechnology->update();
-				const auto resourcesNeeded = refiningIridiumTechnology->getResourcesNeeded();
 				std::string js = std::string("createTechnologie(")
 						+ std::to_string(refiningIridiumTechnology->getId()) + ",\""
 						+ refiningIridiumTechnology->getName() + "\",\""
 						+ refiningIridiumTechnology->getDesc() + "\","
-						+ std::to_string(0) + ","
-						+ std::to_string(0) + ","
-						+ std::to_string(0) + ","
-						+ std::to_string(0) + ","
-						+ std::to_string(0) + ");";
+						+ std::to_string(refiningIridiumTechnology->getLevel()) + ","
+						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getIron()) + ","
+						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getCrystal()) + ","
+						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getIridium()) + ","
+						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getEnergy()) + ","
+						+ std::to_string(static_cast<int>(refiningIridiumTechnology->isUnlocked())) + ");";
+				refiningIridiumTechnology->update();
+				const auto resourcesNeeded = refiningIridiumTechnology->getResourcesNeeded();
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);
 			}
 		}
