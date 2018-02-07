@@ -17,18 +17,20 @@ namespace bl {
 			void update() override;
 			unsigned int getId() const;
 			const std::string &getName() const;
-			unsigned int getLevel() const;
+			//unsigned int getLevel() const;
 			bool isUnlocked() const;
-			const common::game::Resources &getResourcesNeeded() const;
+			bool isUnlockable() const;
+			//const common::game::Resources &getResourcesNeeded() const;
 			bool incrLevel();
 			const std::string &getDesc() const;
 		private:
 			unsigned int m_id;
 			std::string m_name;
 			std::string m_desc;
-			unsigned int m_level;
+			//unsigned int m_level;
 			bool m_unlocked;
-			common::game::Resources m_resourcesNeeded;
+			bool m_unlockable;
+			//common::game::Resources m_resourcesNeeded;
 		};
 	}
 }

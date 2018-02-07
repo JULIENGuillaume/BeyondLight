@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include "ATechnology.hh"
+#include "../../user/User.hh"
 
 bl::server::game::technology::ATechnology::ATechnology(
 		int id,
@@ -32,4 +33,8 @@ nlohmann::json bl::server::game::technology::ATechnology::serialize() const {
 
 bl::common::pattern::ISerializable *bl::server::game::technology::ATechnology::deserialize(nlohmann::json const &json) {
 	return decorator::IdentifiableCapacity::deserialize(json);
+}
+
+bool bl::server::game::technology::ATechnology::isUnlockedByPlayer(const bl::server::user::User &user) const {
+	return user.getTechnologies().find(this->getId()) != user.getTechnologies().end();
 }

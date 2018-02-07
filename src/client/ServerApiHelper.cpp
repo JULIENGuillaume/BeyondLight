@@ -24,6 +24,7 @@ bl::client::ServerApiHelper::ServerApiHelper() {
 	 * Info on technologies
 	 */
 	this->registerRequest(this->REQUEST_TECHNOLOGY_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_TECHNOLOGY, 154, "");
+	this->registerRequest(this->REQUEST_TECHNOLOGY_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_TECHNOLOGY, 157, "");
 }
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {

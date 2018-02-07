@@ -33,10 +33,15 @@ namespace bl {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
 					if (requestArgs[0] == "index-technology-upgrade" && requestArgs.size() == 2) {
-						static int level = 1;
 						const std::string &result = requestArgs[1];
 						auto network = this->m_webCore->getNetworkHandler();
-						callback->Success(std::to_string(++level));
+						auto tech = this->m_webCore->getMvcHandler()->getModelHandler()->getModel<TechnologyModel>("technology-refining-iridium"); //fixme
+						if (tech->incrLevel()) {
+							this->m_webCore->reload(false); // fixme remove hack
+							callback->Success("0");
+						} else {
+							callback->Failure(404, "MARCHE PAAAAAAAAS");
+						}
 						return (true);
 					} else if (requestArgs[0].find("update-player-resources") == 0 && requestArgs.size() == 1) {
 						auto modelHandler = this->m_webCore->getMvcHandler()->getModelHandler();
@@ -76,18 +81,19 @@ namespace bl {
 			}
 			{
 				auto refiningIridiumTechnology = modelHandler->getModel<TechnologyModel>("technology-refining-iridium");
+				refiningIridiumTechnology->update();
 				std::string js = std::string("createTechnologie(")
 						+ std::to_string(refiningIridiumTechnology->getId()) + ",\""
 						+ refiningIridiumTechnology->getName() + "\",\""
 						+ refiningIridiumTechnology->getDesc() + "\","
-						+ std::to_string(refiningIridiumTechnology->getLevel()) + ","
-						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getIron()) + ","
-						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getCrystal()) + ","
-						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getIridium()) + ","
-						+ std::to_string(refiningIridiumTechnology->getResourcesNeeded().getEnergy()) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(0) + ","
+						+ std::to_string(static_cast<int>(refiningIridiumTechnology->isUnlockable())) + ","
 						+ std::to_string(static_cast<int>(refiningIridiumTechnology->isUnlocked())) + ");";
-				refiningIridiumTechnology->update();
-				const auto resourcesNeeded = refiningIridiumTechnology->getResourcesNeeded();
+				//const auto resourcesNeeded = refiningIridiumTechnology->getResourcesNeeded();
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(js, m_technologiesUrl, 0);
 			}
 		}

@@ -22,6 +22,7 @@ namespace bl {
 				bl::network::server::ServerMessage  execute(network::client::ClientMessage &message);
 			public:
 				bl::network::server::ServerMessage getTechnologyInfo(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage unlockTechnology(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

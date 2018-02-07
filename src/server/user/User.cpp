@@ -15,6 +15,7 @@ nlohmann::json bl::server::user::User::serialize() const {
 
 	json["login"] = this->m_login;
 	json["lastPlanet"] = this->m_lastPlanetId;
+	json["technologies"] = nlohmann::json(this->m_technologies);
 	return json;
 }
 
@@ -22,6 +23,7 @@ bl::common::pattern::ISerializable *bl::server::user::User::deserialize(nlohmann
 	UniqueObject::deserialize(json);
 	this->m_login = json["login"];
 	this->m_lastPlanetId = json["lastPlanet"];
+	this->m_technologies = json["technologies"].get<std::unordered_set<int>>();
 	return this;
 }
 

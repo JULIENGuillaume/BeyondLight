@@ -11,6 +11,9 @@
 
 namespace bl {
 	namespace server {
+		namespace user {
+			class User;
+		}
 		namespace game {
 			namespace technology {
 				class ITechnology : public decorator::IdentifiableCapacity, public decorator::UnlockableCapacity {
@@ -18,6 +21,7 @@ namespace bl {
 					~ITechnology() override = default;
 				public:
 					virtual uint64_t getResearchTime() = 0;
+					virtual bool isUnlockedByPlayer(user::User const& user) const = 0;
 				public:
 					nlohmann::json serialize() const override = 0;
 					ISerializable *deserialize(nlohmann::json const &json) override = 0;
