@@ -55,6 +55,7 @@ namespace bl {
 					m_level = building["level"];
 					m_name = building["name"];
 					m_desc = building["description"];
+					m_unlocked = building["unlocked"];
 					this->m_resourcesNeeded.deserialize(building["resourcesRequired"]["resources"]);
 				} catch (std::exception &e) {
 					std::cerr << "json parse error building " << e.what() << std::endl;
@@ -84,6 +85,10 @@ namespace bl {
 
 		const std::string &BuildingModel::getDesc() const {
 			return (this->m_desc);
+		}
+
+		bool BuildingModel::isUnlocked() const {
+			return m_unlocked;
 		}
 	}
 }

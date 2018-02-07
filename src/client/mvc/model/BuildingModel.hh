@@ -17,6 +17,7 @@ namespace bl {
 			unsigned int getId() const;
 			const std::string &getName() const;
 			unsigned int getLevel() const;
+			bool isUnlocked() const;
 			const common::game::Resources &getResourcesNeeded() const;
 			bool incrLevel();
 			const std::string &getDesc() const;
@@ -25,6 +26,7 @@ namespace bl {
 			std::string m_name;
 			std::string m_desc;
 			unsigned int m_level;
+			bool m_unlocked;
 			common::game::Resources m_resourcesNeeded;
 		};
 	}

@@ -104,7 +104,7 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
 						+ std::to_string(resourcesNeeded.getEnergy()) + ","
-						+ "1" + ");";
+						+ std::to_string(static_cast<int>(ironMine->isUnlocked())) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
@@ -121,7 +121,7 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
 						+ std::to_string(resourcesNeeded.getEnergy()) + ","
-						+ "1" + ");";
+						+ std::to_string(static_cast<int>(crystalExtractor->isUnlocked())) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
@@ -138,7 +138,7 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
 						+ std::to_string(resourcesNeeded.getEnergy()) + ","
-						+ "0" + ");";
+						+ std::to_string(static_cast<int>(researchCenter->isUnlocked())) + ");";
 
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
@@ -156,7 +156,7 @@ namespace bl {
 						+ std::to_string(resourcesNeeded.getCrystal()) + ","
 						+ std::to_string(resourcesNeeded.getIridium()) + ","
 						+ std::to_string(resourcesNeeded.getEnergy()) + ","
-						+ "1" + ");";
+						+ std::to_string(static_cast<int>(iridiumRefinery->isUnlocked())) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_buildingsUrl, 0);
 			}
