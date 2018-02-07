@@ -131,7 +131,7 @@ namespace bl {
 			double x,
 			double y
 	) {
-		this->m_activeBrowser.lock()->mouseMove(x, y, 1);
+		this->m_activeBrowser.lock()->mouseMove(x, y, 1); // fixme check if browser is null
 	}
 
 	void MainHandler::onWinResize(
@@ -167,7 +167,7 @@ namespace bl {
 		double x = 0;
 		double y = 0;
 		glfwGetCursorPos(window, &x, &y);
-		this->m_activeBrowser.lock()->mouseMove(x, y, entered);
+		this->m_activeBrowser.lock()->mouseMove(x, y, entered); // fixme check if browser is null
 	}
 
 	MainHandler::~MainHandler() {

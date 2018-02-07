@@ -58,7 +58,7 @@ namespace bl {
 		m_browser->GetHost()->WasResized();
 	}
 
-	void WebCore::mouseMove(
+	void WebCore::mouseMove( // fixme program can crash sometimes or when you close it because this = 0x0 (null)
 			double x,
 			double y,
 			int entered
