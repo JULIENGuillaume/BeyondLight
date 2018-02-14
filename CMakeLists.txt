@@ -265,12 +265,12 @@ set(NETWORK_SERVER_SRC
         ${NETWORK_SERVER_SRC_DIR}/BeyondLightServer.hh
         ${NETWORK_SERVER_SRC_DIR}/IServer.hh
         src/network/server/ServerNetworkHandler.cpp
-        src/network/server/ServerNetworkHandler.hh)
+        src/network/server/ServerNetworkHandler.hh src/network/server/UpdaterServer.cpp src/network/server/UpdaterServer.hh)
 set(NETWORK_CLIENT_SRC
         ${NETWORK_CLIENT_SRC_DIR}/AClientTcpUdp.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.cpp
         ${NETWORK_CLIENT_SRC_DIR}/BeyondLightClient.hh
-        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh)
+        ${NETWORK_CLIENT_SRC_DIR}/IClient.hh src/network/client/LauncherClient.cpp src/network/client/LauncherClient.hh)
 
 set(NETWORK_INCLUDE_DIRS ${SRC_BASE_DIR}/network/socket ${SRC_BASE_DIR}/network/client
         ${SRC_BASE_DIR}/network/factories ${SRC_BASE_DIR}/network/server ${SRC_BASE_DIR}/common/pattern)
@@ -333,9 +333,17 @@ set(DATABASE_SRC
         src/server/storage/Database.cpp
         src/server/storage/Database.hh)
 
+set(LAUNCHER_SRC
+        src/launcher/main.cpp)
+
+set(UPDATER_SRC
+        src/updater/main.cpp)
+
 add_executable(BeyondLightServer ${SRC_BASE_DIR}/server/main.cpp ${NETWORK_SERVER_SRC} ${NETWORK_SOCKET_SRC} ${USER_SRC} ${COMMON_SRC} ${GAME_SRC} ${DATABASE_SRC})
 add_executable(BeyondLightClient ${CLIENT_PROJECT_DIR}/main.cpp ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${CLIENT_SRC})  # todo add WIN32 if debug build
-add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${PERF_TEST_SRC})
+add_executable(BeyondLightLauncher ${LAUNCHER_SRC} ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
+add_executable(BeyondLightUpdater ${UPDATER_SRC} ${NETWORK_CLIENT_SRC} ${NETWORK_SOCKET_SRC} ${COMMON_SRC})
+add_executable(${CLIENT_PERF_EXECUTABLE_NAME} ${NETWORK_SOCKET_SRC} ${COMMON_SRC} ${PERF_TEST_SRC})
 
 target_include_directories(BeyondLightServer PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} ${LIBMONGOCXX_STATIC_INCLUDE_DIRS})
 target_include_directories(BeyondLightClient PRIVATE ${Boost_INCLUDE_DIRS} ${NETWORK_INCLUDE_DIRS} ${JSON_INCLUDE_DIR} libcef_dll_wrapper libcef opengl32 glew32 ${GLFW_LIBRARIES}/glfw3dll.lib)
