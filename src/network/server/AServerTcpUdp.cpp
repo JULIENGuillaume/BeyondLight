@@ -61,6 +61,6 @@ bool bl::network::server::AServerTcpUdp::isRunning() {
 }
 
 void bl::network::server::AServerTcpUdp::sendUdpSocketPort(const std::shared_ptr<bl::network::socket::ISocket> &socket) {
-	socket->send(std::to_string(this->m_actualPort + this->m_port + 1));
+	socket->send(std::to_string(this->m_actualPort + this->m_port + 1)); //TODO send in a message
 	this->m_actualPort = (this->m_actualPort + 1) % this->maxSockets;
 }
