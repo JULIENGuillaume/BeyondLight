@@ -30,6 +30,7 @@ namespace bl {
 			public:
 				void send(char const *msg) override;
 				void send(std::string const &msg) override;
+				void directSend(std::string const& msg);
 
 			public:
 				char *receive(char *buf, size_t b) override;

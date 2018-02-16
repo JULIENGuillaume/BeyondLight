@@ -67,7 +67,7 @@ set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
 set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
 
-find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time)
+find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time filesystem)
 
 ##
 ##  MongoDB setup

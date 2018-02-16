@@ -60,15 +60,19 @@ void bl::network::socket::TcpBoostSslSocket::send(std::string const &msg) {
 	m_socket->next_layer().send(boost::asio::buffer("#$BL-->" + msg + "\r\n"));
 }
 
+void bl::network::socket::TcpBoostSslSocket::directSend(std::string const &msg) {
+	std::cout << "Directly sending [" << msg << "]" << std::endl;
+	m_socket->next_layer().send(boost::asio::buffer(msg));
+}
+
 char *bl::network::socket::TcpBoostSslSocket::receive(char *buf, size_t bufSize) {
 	return buf;
 }
 
 std::string bl::network::socket::TcpBoostSslSocket::receive() {
-	boost::array<char, m_bufferSize> recv_buf{};
-	boost::asio::ip::udp::endpoint sender_endpoint;
-	m_socket->next_layer().receive(boost::asio::buffer(recv_buf));
-	auto msg = std::string(recv_buf.begin(), recv_buf.end());
+	boost::array<char, 1> recv_buf{};
+	auto readed = m_socket->next_layer().receive(boost::asio::buffer(recv_buf));
+	auto msg = std::string(recv_buf.begin(), recv_buf.begin() + readed);
 	return msg;
 }
 

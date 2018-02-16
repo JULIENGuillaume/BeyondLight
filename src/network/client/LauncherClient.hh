@@ -17,6 +17,7 @@ namespace bl {
 				void mainLoop() override;
 			private:
 				std::string getLine();
+				std::string readSize(size_t size);
 			private:
 				std::string m_data;
 				const std::string newLineDelim = "\r\n";
