@@ -70,7 +70,7 @@ char *bl::network::socket::TcpBoostSslSocket::receive(char *buf, size_t bufSize)
 }
 
 std::string bl::network::socket::TcpBoostSslSocket::receive() {
-	boost::array<char, 1> recv_buf{};
+	boost::array<char, m_bufferSize> recv_buf{};
 	auto readed = m_socket->next_layer().receive(boost::asio::buffer(recv_buf));
 	auto msg = std::string(recv_buf.begin(), recv_buf.begin() + readed);
 	return msg;
