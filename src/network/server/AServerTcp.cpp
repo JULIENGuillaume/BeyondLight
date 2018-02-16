@@ -10,12 +10,13 @@
 bl::network::server::AServerTcp::AServerTcp(
 		std::string const &factoryKeyTcp,
 		unsigned short port
-) {
+) : m_factoryKeyTcp(factoryKeyTcp),
+	m_port(port) {
+	m_running = true;
 }
 
 void bl::network::server::AServerTcp::run() {
 	try {
-		m_running = true;
 		auto acceptor = std::shared_ptr<socket::IAcceptor>(new socket::TcpBoostAcceptor(m_port));
 
 		while (m_running) {

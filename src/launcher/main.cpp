@@ -14,6 +14,7 @@ void FactoriesInit() {
 }
 
 int main() {
+	std::string s;
 	try {
 		FactoriesInit();
 		bl::network::client::LauncherClient launcher;
@@ -21,7 +22,9 @@ int main() {
 		launcher.launch();
 	} catch (std::exception &e) {
 		std::cerr << "Launcher stopped: " << e.what() << std::endl;
+		std::cin >> s;
 		return EXIT_FAILURE;
 	}
+	std::cin >> s;
 	return EXIT_SUCCESS;
 }

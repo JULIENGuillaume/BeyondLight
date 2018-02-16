@@ -3,15 +3,19 @@
 //
 
 #include <SocketFactory.hh>
+#include <TcpBoostSslSocket.hh>
 #include "UpdaterServer.hh"
 
 bl::network::server::UpdaterServer::UpdaterServer(unsigned short port) : AServerTcp(
 		socket::serverKeyTcpSslBoostSocket,
-		port){
+		port) {
 }
 
 void bl::network::server::UpdaterServer::mainLoop(std::shared_ptr<socket::ISocket> socket) {
 	bool running = true;
+	std::shared_ptr<socket::TcpBoostSslSocket> tcpSocket = std::dynamic_pointer_cast<socket::TcpBoostSslSocket>(socket);
+
+	tcpSocket->handshake();
 	while (running) {
 		try {
 			socket->send("Hello world");
