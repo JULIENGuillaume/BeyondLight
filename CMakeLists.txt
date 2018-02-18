@@ -5,7 +5,7 @@ project(BeyondLight)
 ##  CMake initialization, with flags and cpp standard version
 ##
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 set(CLIENT_PERF_EXECUTABLE_NAME BeyondLightClientPerfTest)
 
@@ -73,9 +73,11 @@ find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time filesy
 ##  MongoDB setup
 ##
 
-set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-cxx-driver")
-set(libbson-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libbson-static-1.0")
-set(libmongoc-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libmongoc-static-1.0")
+if (WIN32)
+  set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-cxx-driver")
+  set(libbson-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libbson-static-1.0")
+  set(libmongoc-static-1.0_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs/mongodb/mongo-c-driver/lib/cmake/libmongoc-static-1.0")
+endif()
 
 find_package(libmongocxx-static REQUIRED)
 
