@@ -16,7 +16,6 @@
 
 bl::network::socket::TcpBoostSslSocket::TcpBoostSslSocket(bool isClient) : m_isClient(isClient) {
 	if (!isClient) {
-		std::cout << "I'm the server !" << std::endl;
 		try {
 			m_sslCtx.set_options(
 					boost::asio::ssl::context::default_workarounds
@@ -38,7 +37,6 @@ bool bl::network::socket::TcpBoostSslSocket::connect(std::string const &address,
 	m_socket->set_verify_callback(boost::bind(&TcpBoostSslSocket::verify_certificate, this, _1, _2));
 	m_socket->lowest_layer().connect(
 			boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(address), port));
-	std::cout << "I'm the client" << std::endl;
 	m_socket->handshake(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::client);
 	return (m_connected = m_socket->lowest_layer().is_open());
 }
@@ -61,7 +59,6 @@ void bl::network::socket::TcpBoostSslSocket::send(std::string const &msg) {
 }
 
 void bl::network::socket::TcpBoostSslSocket::directSend(std::string const &msg) {
-	std::cout << "Directly sending [" << msg << "]" << std::endl;
 	m_socket->next_layer().send(boost::asio::buffer(msg));
 }
 
@@ -92,7 +89,6 @@ std::string bl::network::socket::TcpBoostSslSocket::getPassword() const {
 }
 
 void bl::network::socket::TcpBoostSslSocket::handshake() {
-	std::cout << "I'm the server" << std::endl;
 	m_socket->handshake(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>::server);
 }
 

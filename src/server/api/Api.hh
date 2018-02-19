@@ -19,7 +19,7 @@ namespace bl {
 	namespace server {
 		class ServerCore;
 		namespace api {
-			enum EApiType {
+			enum class EApiType : int32_t {
 				API_TYPE_UNKNOW,
 				API_TYPE_BASIC,
 				API_TYPE_BUILDING,

@@ -13,7 +13,7 @@
 #include <boost/array.hpp>
 #include <utility>
 #include <sstream>
-#include <cereal/archives/portable_binary.hpp>
+#include <cereal/archives/json.hpp>
 #include "UdpAsyncBoostSocket.hh"
 
 bl::network::socket::UdpAsyncBoostSocket::UdpAsyncBoostSocket() :

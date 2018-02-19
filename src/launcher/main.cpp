@@ -18,7 +18,7 @@ int main() {
 	try {
 		FactoriesInit();
 		bl::network::client::LauncherClient launcher;
-		launcher.connectTo("127.0.0.1", 3242);
+		launcher.connectTo("89.234.182.223", 3242);
 		launcher.launch();
 	} catch (std::exception &e) {
 		std::cerr << "Launcher stopped: " << e.what() << std::endl;

@@ -18,10 +18,16 @@ bl::server::LoggingHelper::LoggingHelper(const std::shared_ptr<bl::network::sock
 bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 	bool hasLogged = false;
 	network::client::ClientMessage message;
+	std::cout << "Received " << cmd << std::endl;
 	{
+		/*std::cout << "Creating stringstream" << std::endl;
 		std::stringstream ss(cmd);
-		cereal::PortableBinaryInputArchive inArchive(ss);
+		std::cout << "Creating archive" << std::endl;
+		cereal::JSONInputArchive inArchive(ss);
+		std::cout << "Filling message" << std::endl;
 		inArchive(message);
+		std::cout << "Message filled" << std::endl;*/
+		message.deserialize(cmd);
 	}
 	network::server::ServerMessage answer;
 	std::cout << "Received " << message.getBody().message << std::endl;
@@ -70,13 +76,14 @@ bool bl::server::LoggingHelper::executeCommand(std::string const &cmd) {
 			break;
 	}
 
-	std::stringstream ss;
-	cereal::PortableBinaryOutputArchive outArchive(ss);
+	/*std::stringstream ss;
+	cereal::JSONOutputArchive outArchive(ss);
 	outArchive(answer);
 	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
 	std::cout << "Sending " << answer << std::endl;
-	m_socket->send(std::string(fullData.begin(), fullData.end()));
+	m_socket->send(std::string(fullData.begin(), fullData.end()));*/
+	m_socket->send(answer.serialize());
 	return hasLogged;
 }
 

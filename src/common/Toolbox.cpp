@@ -14,6 +14,7 @@
 #include <random>
 #include <functional>
 #include <iostream>
+#include <algorithm>
 #include "Toolbox.hh"
 
 #ifdef WIN32

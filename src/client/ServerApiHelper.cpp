@@ -8,23 +8,23 @@ bl::client::ServerApiHelper::ServerApiHelper() {
 	/*
 	 * Request for login / logout procedure (priority request, doesn't go through the api system)
 	 */
-	this->registerRequest(this->REQUEST_VALIDATE_NETWORK, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 0, "");
-	this->registerRequest(this->REQUEST_LOGIN, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 42, "");
-	this->registerRequest(this->REQUEST_REGISTER, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 43, "");
-	this->registerRequest(this->REQUEST_LOGOUT, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_USER, 1337, "");
+	this->registerRequest(this->REQUEST_VALIDATE_NETWORK, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 0, "");
+	this->registerRequest(this->REQUEST_LOGIN, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 42, "");
+	this->registerRequest(this->REQUEST_REGISTER, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 43, "");
+	this->registerRequest(this->REQUEST_LOGOUT, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 1337, "");
 
 	/*
 	 * Info on the current state of buildings / planets
 	 */
-	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 4242, "");
-	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_BUILDING, 421356, "");
-	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_PLANET, 3242, "");
+	this->registerRequest(this->REQUEST_BUILDING_INFO, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_BUILDING, 4242, "");
+	this->registerRequest(this->REQUEST_BUILDING_UPGRADE, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_BUILDING, 421356, "");
+	this->registerRequest(this->REQUEST_CURRENT_RESOURCES, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_PLANET, 3242, "");
 
 	/*
 	 * Info on technologies
 	 */
-	this->registerRequest(this->REQUEST_TECHNOLOGY_INFO, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_TECHNOLOGY, 154, "");
-	this->registerRequest(this->REQUEST_TECHNOLOGY_UPGRADE, network::client::CLIENT_MESSAGE_TYPE_REQUEST, server::api::API_TYPE_TECHNOLOGY, 157, "");
+	this->registerRequest(this->REQUEST_TECHNOLOGY_INFO, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_TECHNOLOGY, 154, "");
+	this->registerRequest(this->REQUEST_TECHNOLOGY_UPGRADE, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_TECHNOLOGY, 157, "");
 }
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {
@@ -37,7 +37,7 @@ bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiReque
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName, std::string const &arg) {
 	auto baseRequest = buildNewApiRequest(requestName);
-	if (baseRequest.getBody().msgType == network::client::CLIENT_MESSAGE_TYPE_NONE)
+	if (baseRequest.getBody().msgType == network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_NONE)
 		return baseRequest;
 	baseRequest.getBody().message += "?" + arg;
 	return baseRequest;

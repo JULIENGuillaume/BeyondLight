@@ -44,24 +44,36 @@ void bl::network::server::BeyondLightServer::advancedSecuredTcpConnection(std::s
 		bool isLogged = false;
 		std::string data;
 
+		std::cout << "Doing handshake..." << std::endl;
 		tcpSocket->handshake();
+		std::cout << "Handshake is good !" << std::endl;
 		while (m_running && m_workingLoop && !isLogged) {
+			std::cout << "Receiving data..." << std::endl;
 			data += tcpSocket->receive();
+			std::cout << "Data is: [" << data << "]" << std::endl;
 			while (data.find(newLineDelim) != data.npos) {
+				std::cout << "A new line is in there !" << std::endl;
 				auto line = data.substr(0, data.find(newLineDelim));
 				data.erase(0, data.find(newLineDelim) + newLineDelim.length());
 				if (line.find(this->msgStartHeader) != line.npos) {
+					std::cout << "A starting header is in there !" << std::endl;
 					line = line.substr(line.find(this->msgStartHeader) + this->msgStartHeader.size());
 				}
+				std::cout << "Executing line [" << line << "]" << std::endl;
 				isLogged = helper.executeCommand(line);
+				std::cout << "Successfully executing command ! Is logged is now " << std::to_string(isLogged) << std::endl;
 			}
 		}
 		if (isLogged) {
+			std::cout << "Sending an udp port..." << std::endl;
 			this->sendUdpSocketPort(socket);
+			std::cout << "Closing connexion..." << std::endl;
 			tcpSocket->close();
+			std::cout << "Succesfully exiting login process !" << std::endl;
 			return;
 		}
-	} catch (std::exception const&) {
+	} catch (std::exception const&e) {
+		std::cout << "An error occurred during the login process: " << e.what() << std::endl;
 		return;
 	}
 }

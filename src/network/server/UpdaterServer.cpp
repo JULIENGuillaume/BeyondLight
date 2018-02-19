@@ -3,6 +3,7 @@
 //
 
 #include <boost/filesystem.hpp>
+#include <fstream>
 #include <SocketFactory.hh>
 #include <TcpBoostSslSocket.hh>
 #include "UpdaterServer.hh"

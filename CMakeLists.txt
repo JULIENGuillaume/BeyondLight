@@ -20,9 +20,9 @@ if (NOT DEFINED PROJECT_ARCH)
     else ()
         set(PROJECT_ARCH "x86")
     endif ()
-    if (NOT MSVC)
-        set(CMAKE_CXX_FLAGS "-m32")
-    endif ()
+#    if (NOT MSVC)
+#        set(CMAKE_CXX_FLAGS "-m32")
+#    endif ()
     if (OS_MACOSX)
         # PROJECT_ARCH should be specified on Mac OS X.
         message(WARNING "No PROJECT_ARCH value specified, using ${PROJECT_ARCH}")
@@ -65,9 +65,11 @@ add_definitions(
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREAD ON)
-set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
+if (WIN32)
+  set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/libs/Boost)
+endif()
 
-find_package(Boost 1.65 COMPONENTS REQUIRED chrono system regex date_time filesystem)
+find_package(Boost 1.58 COMPONENTS REQUIRED chrono system regex date_time filesystem)
 
 ##
 ##  MongoDB setup
@@ -204,16 +206,22 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 else ()
     set(CEF_LIBRARY ${CEF_ROOT}/Release)
     set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/Release/Win32)
-endif ()
+  endif ()
+
+  if (WIN32)
 set(GLEW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include)
 set(GLM_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glm)
 set(GLFW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw/include)
 set(GLFW_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/libs/glfw)
+endif()
 set(JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/json/include)
 set(USE_SANDBOX OFF)
+
+if (WIN32)
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 set(OPENSSL_MSVC_STATIC_RT TRUE)
 set(OPENSSL_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/openssl-win32)
+endif()
 
 find_package(OpenSSL REQUIRED)
 message(${OPENSSL_LIBRARIES})
@@ -436,3 +444,8 @@ add_custom_command(TARGET BeyondLightClient PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/.certificate
         $<TARGET_FILE_DIR:BeyondLightClient>)
+
+add_custom_command(TARGET BeyondLightServer PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/.certificate
+        $<TARGET_FILE_DIR:BeyondLightServer>)

@@ -71,7 +71,7 @@ namespace bl {
 			//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 421356, std::to_string(this->m_id));
 			auto msg = this->m_networkHandler->getMessage();
 			auto answers = bl::common::Toolbox::split(msg.getBody().message, ":");
-			if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id)) {
+			if (msg.getBody().type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id)) {
 				this->m_level = static_cast<unsigned int>(std::stoi(answers[1]));
 				return (true);
 			} else {

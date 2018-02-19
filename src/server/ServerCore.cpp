@@ -18,7 +18,7 @@ void bl::server::ServerCore::start() {
 	try {
 		api::Api serverApi(*this);
 		while (this->m_isRunning) {
-			auto thread = std::thread(&ServerCore::executeCommand, this, this->m_serverNetworkHandler.getMessage(), std::ref(serverApi));
+		  auto thread = std::thread(&ServerCore::executeCommand, this, this->m_serverNetworkHandler.getMessage(), std::ref(serverApi));
 			thread.detach();
 		}
 	} catch (std::exception const &e) {
@@ -43,19 +43,19 @@ void bl::server::ServerCore::executeCommand(std::pair<boost::asio::ip::udp::endp
 	if (msg.second.getBody().code == 0) {
 		this->getData().activeSessions[msg.second.getBody().sessionId]->setIp(msg.first.address().to_string());
 		this->getData().activeSessions[msg.second.getBody().sessionId]->setEndpoint(msg.first);
-		this->m_serverNetworkHandler.send(network::server::SERVER_MESSAGE_TYPE_ANSWER_OK, 0, "",msg.first);
+		this->m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK, 0, "",msg.first);
 		return;
 	}
 	bl::network::server::ServerMessage message;
 	message.getBody().code = msg.second.getBody().code;
-	message.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_KO;
+	message.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO;
 	message.getBody().message = "Unknown command";
 	try {
 		message = refApi.execute(msg.second);
 	} catch (std::exception const& e) {
 		std::cerr << "Command execution failed with " << e.what() << std::endl;
 	}
-	if (msg.second.getBody().msgType == network::client::CLIENT_MESSAGE_TYPE_REQUEST)
+	if (msg.second.getBody().msgType == network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST)
 		this->m_serverNetworkHandler.send(message, msg.first);
 }
 

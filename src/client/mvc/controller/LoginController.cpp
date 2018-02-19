@@ -88,7 +88,7 @@ namespace bl {
 					std::cout << "Send register" << std::endl;
 					auto msg = networkHandler->getMessage().getBody();
 					std::cout << "Got answer: " << msg << std::endl;
-					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_KO) {
+					if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO) {
 						callback->Failure(0, "The server refused to register you: " + msg.message);
 					} else {
 						browser->Reload();

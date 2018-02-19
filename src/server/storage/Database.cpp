@@ -36,7 +36,7 @@ void bl::server::storage::Database::createCollection(const std::string &collName
 }
 
 bsoncxx::stdx::optional<mongocxx::result::insert_one>
-bl::server::storage::Database::insert(const std::string &collName, nlohmann::json &toInsert) {
+bl::server::storage::Database::insert(const std::string &collName, nlohmann::json toInsert) {
 	//bsoncxx::builder::basic::document builder{};
 
 	//builder.append(bsoncxx::from_json(toInsert.dump()));
@@ -112,7 +112,7 @@ int32_t bl::server::storage::Database::removeByKey(const std::string &collName, 
 bsoncxx::stdx::optional<mongocxx::result::insert_one> bl::server::storage::Database::update(const std::string &collName,
                                                                                             const std::string &key,
                                                                                             const std::string &value,
-                                                                                            nlohmann::json &toInsert) {
+                                                                                            nlohmann::json toInsert) {
 	std::cout << "Starting to update..." << std::endl;
 	try {
 		try {

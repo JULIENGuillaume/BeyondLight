@@ -12,22 +12,26 @@ bl::network::client::LauncherClient::LauncherClient() :  AClientTcp(socket::clie
 void bl::network::client::LauncherClient::mainLoop() {
 	while (this->m_running) {
 		std::string cmd = this->getLine();
-		std::cout << "Launcher got [" << cmd << "]" << std::endl;
 		auto data = common::Toolbox::split(cmd, ":");
 		if (data.size() > 1) {
 			auto code = std::stol(data[0]);
 			switch (code) {
 				case 1337:
 					std::cerr << "Ending client:" << data[1] << std::endl;
+					this->m_running = false;
 					break;
 				case 42:
 				{
+					auto dataSize = std::stol(data[2]);
+					std::cout << "Downloading " << data[1] << " (";
+					if (dataSize > 1000)
+						std::cout << ((double)dataSize) / 1000.0 << "ko)" << std::endl;
+					else
+						std::cout << dataSize << "o)" << std::endl;
 					std::ofstream outFile(data[1], std::ios::binary);
 					auto toRead = static_cast<size_t>(std::stol(data[2]));
 					std::string fileData = readSize(toRead);
-					std::cout << "Exporting data ! (" << fileData.size() << "o)" << std::endl;
 					outFile << fileData;
-					std::cout << "Copied " << fileData << std::endl;
 					break;
 				}
 				default:
@@ -35,6 +39,7 @@ void bl::network::client::LauncherClient::mainLoop() {
 			}
 		}
 	}
+	std::cout << "All files have been downloaded, you can now close this launcher." << std::endl;
 }
 
 std::string bl::network::client::LauncherClient::getLine() {
@@ -52,7 +57,8 @@ std::string bl::network::client::LauncherClient::getLine() {
 			}
 		} catch (std::exception const &e) {
 			m_running = false;
-			std::cerr << "Exception while reading (" << e.what() << "), quitting" << std::endl;
+			if ((std::string(e.what())).find("End of file") == std::string::npos)
+				std::cerr << "Exception while reading (" << e.what() << "), quitting" << std::endl;
 		}
 	}
 	return "";
