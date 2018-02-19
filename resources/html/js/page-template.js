@@ -15,4 +15,9 @@ for(var i = 0; i < elements.length; i++){
         var container = document.querySelector('main-content');
         container.appendChild(post.cloneNode(true));
     }
+    else if (elements[i].getAttribute("href") === "chat-template.html") {
+        var post = elements[i].import.querySelector('#chat-template');
+        var container = document.querySelector('chat-template');
+        container.appendChild(post.cloneNode(true));
+    }
 }
