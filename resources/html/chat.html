@@ -41,6 +41,7 @@
                 persistent: true,
                 onSuccess: function(response) {
                     var args = response.split(':', 2);
+                    document.getElementById("chat-input-text").value = "";
                     addMessage(args[0],  args[1]);
                 },
                 onFailure: function(error_code, error_message) {
@@ -59,6 +60,7 @@
                     Utils.findChildById(template, "chat-message-content", true).innerText = content;
                     var container = document.querySelector('.chat-messages');
                     container.appendChild(template);
+                    container.scrollTop = container.scrollHeight - container.clientHeight;
                     return ;
                 }
             }
