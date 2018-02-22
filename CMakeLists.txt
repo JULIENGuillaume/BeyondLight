@@ -183,7 +183,9 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/LeftMenu.hh
         libs/stb/stb_image.h
         ${CLIENT_PROJECT_DIR}/ServerApiHelper.cpp
-        ${CLIENT_PROJECT_DIR}/ServerApiHelper.hh)
+        ${CLIENT_PROJECT_DIR}/ServerApiHelper.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/game/ChatController.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/game/ChatController.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 

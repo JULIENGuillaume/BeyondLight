@@ -11,6 +11,7 @@ namespace bl {
 				{"route-buildings", "/buildings"},
 				{"route-technologies", "/technologies"},
 				{"route-overview", "/overview"},
+				{"route-chat", "/chat"}
 		};
 
 		const std::string &LeftMenu::getRequestControllerRouter(const std::string &requestRoute) {
