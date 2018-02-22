@@ -189,7 +189,9 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/ServerApiHelper.cpp
         ${CLIENT_PROJECT_DIR}/ServerApiHelper.hh
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/ChatController.cpp
-        ${CLIENT_PROJECT_DIR}/mvc/controller/game/ChatController.hh)
+        ${CLIENT_PROJECT_DIR}/mvc/controller/game/ChatController.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/ChatModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/ChatModel.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 

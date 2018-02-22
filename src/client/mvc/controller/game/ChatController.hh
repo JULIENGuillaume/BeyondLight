@@ -12,6 +12,8 @@ namespace bl {
 	namespace mvc {
 		class ChatController : public IBaseController {
 		public:
+			static const unsigned int MAX_MESSAGES;
+
 			void setWebCore(WebCore *webCore) override;
 			bool onQuery(
 					CefRefPtr<CefBrowser> browser,
@@ -23,6 +25,8 @@ namespace bl {
 					std::string &newRoute
 			) override;
 			void onFrameEnd() override;
+			void addMessage(const std::string &username, const std::string &content);
+			void clearChat();
 		private:
 			static const std::string m_chatUrl;
 			WebCore *m_webCore;
