@@ -51,6 +51,15 @@ namespace bl {
 												  + ":" + std::to_string(resources.getAntiMatter())
 												  + ":" + std::to_string(resources.getEnergy()));
 						return (true);
+					} else if (requestArgs[0].find("update-chat") == 0 && requestArgs.size() == 1) {
+						auto chat = this->m_webCore->getMvcHandler()->getModelHandler()->getModel<ChatModel>("chat");
+						chat->update();
+						clearChat();
+						auto const& msgs = chat->getMessages();
+						for (auto const& pair : msgs) {
+							addMessage(pair.first, pair.second);
+						}
+						return (true);
 					}
 				} else {
 					callback->Success("OK");
@@ -76,15 +85,6 @@ namespace bl {
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_chatUrl, 0);
 			}
-			{
-				auto chat = modelHandler->getModel<ChatModel>("chat");
-				chat->update();
-				clearChat();
-				auto const& msgs = chat->getMessages();
-				for (auto const& pair : msgs) {
-					addMessage(pair.first, pair.second);
-				}
-			}
 		}
 
 		void ChatController::addMessage(
@@ -95,7 +95,7 @@ namespace bl {
 		}
 
 		void ChatController::clearChat() {
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("cleatChat();", m_chatUrl, 0);
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("clearChat();", m_chatUrl, 0);
 		}
 	}
 }

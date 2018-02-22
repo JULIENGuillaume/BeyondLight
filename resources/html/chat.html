@@ -26,6 +26,7 @@
     <script>
         ready(function () {
             document.getElementById("chat").className = "active";
+            window.setInterval(updateChat, 2000);
         });
 
         document.getElementById("chat-input-text").addEventListener("keyup", function(event) {
@@ -42,10 +43,10 @@
                 onSuccess: function(response) {
                     var args = response.split(':', 2);
                     document.getElementById("chat-input-text").value = "";
-                    addMessage(args[0],  args[1]);
+                    //addMessage(args[0],  args[1]);
                 },
                 onFailure: function(error_code, error_message) {
-                    console.log("Cannot send chat message!");
+                    //console.log("Cannot send chat message!");
                 }
             });
         });
@@ -71,6 +72,19 @@
             while (container.firstChild) {
                 container.removeChild(container.firstChild);
             }
+        }
+
+        function updateChat() {
+            var request_id = window.cefQuery({
+                request: 'update-chat',
+                persistent: true,
+                onSuccess: function(response) {
+
+                },
+                onFailure: function(error_code, error_message) {
+
+                }
+            });
         }
     </script>
 </html>

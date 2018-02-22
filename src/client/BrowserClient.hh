@@ -6,8 +6,9 @@
 #include "include/wrapper/cef_message_router.h"
 #include "mvc/MvcHandler.hh"
 
-class RenderHandler;
 namespace bl {
+	class RenderHandler;
+
 	// for manual render handler
 	class BrowserClient :
 			public CefClient,

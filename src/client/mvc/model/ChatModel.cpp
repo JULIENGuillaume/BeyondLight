@@ -21,8 +21,6 @@ namespace bl {
 				addMessage(data[i], data[i + 1]);
 				std::cout << data[i] << ": " << data[i + 1] << std::endl;
 			}
-			//addMessage("login", "bonjour");
-			// todo
 		}
 
 		void ChatModel::addMessage(
