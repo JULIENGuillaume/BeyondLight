@@ -65,6 +65,13 @@
                 }
             }
         }
+
+        function clearChat() {
+            var container = document.querySelector('.chat-messages');
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
     </script>
 </html>
 

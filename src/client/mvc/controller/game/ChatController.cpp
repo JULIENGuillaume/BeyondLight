@@ -10,6 +10,7 @@
 
 namespace bl {
 	namespace mvc {
+		const unsigned int ChatController::MAX_MESSAGES = 1000;
 		const std::string ChatController::m_chatUrl = "file:///" + bl::common::Toolbox::getApplicationDir() + "/../resources/html/chat.html";
 
 		void ChatController::setWebCore(bl::WebCore *webCore) {
@@ -70,6 +71,17 @@ namespace bl {
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_chatUrl, 0);
 			}
+		}
+
+		void ChatController::addMessage(
+				const std::string &username,
+				const std::string &content
+		) {
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("addMessage(\"" + username + "\",\"" + content + "\");", m_chatUrl, 0);
+		}
+
+		void ChatController::clearChat() {
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("cleatChat();", m_chatUrl, 0);
 		}
 	}
 }
