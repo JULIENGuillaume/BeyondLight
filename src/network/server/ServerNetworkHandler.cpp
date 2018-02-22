@@ -48,7 +48,7 @@ std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> bl
 		strFrom = this->getLineFrom();
 		str = strFrom.second;
 	}*/
-	std::cout << "Got [" << str << "] (" << str.size() << ")" << std::endl;
+	//std::cout << "Got [" << str << "] (" << str.size() << ")" << std::endl;
 	/*for (int i = 0; i < str.size(); i++) {
 		std::cout << (int)str[i] << std::endl;
 	}*/

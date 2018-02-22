@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include "user/SessionIdentifier.hh"
 #include "game/planet/Planet.hh"
+#include "game/user/Chat.hh"
 
 namespace bl {
 	namespace server {
@@ -17,6 +18,7 @@ namespace bl {
 			std::unordered_map<std::string, std::shared_ptr<user::User>> activeUsers;
 			std::unordered_set<std::string> loggedUsers;
 			std::unordered_map<std::string, std::shared_ptr<game::planet::Planet>> loadedPlanets;
+			game::user::Chat chatInstance;
 		};
 	}
 }

@@ -16,7 +16,7 @@
 
 namespace bl {
 	MainHandler::MainHandler() :
-			m_networkHandler(new network::client::ClientNetworkHandler("89.234.182.223", 8080)),
+			m_networkHandler(new network::client::ClientNetworkHandler("127.0.0.1", 8080)),
 			m_webCoreManager(m_networkHandler),
 			m_winName("BeyondLight") {
 		this->m_sizeUpdated = false;

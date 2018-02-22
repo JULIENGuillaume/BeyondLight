@@ -26,13 +26,17 @@ namespace bl {
 				CefRefPtr<CefMessageRouterBrowserSide::Callback> callback,
 				std::string &newRoute
 		) {
-			std::vector<std::string> requestArgs = bl::common::Toolbox::split(request, ":"); // todo fixme only split 1 time, otherwise if content contain a : it can fucked things.
+			std::vector<std::string> requestArgs = bl::common::Toolbox::splitAtMax(request, ":", 1);
 			std::cout << "request chat: " << bl::common::Toolbox::toString(request) << std::endl;
 			if (!requestArgs.empty()) {
 				const std::string &controllerRoute = LeftMenu::getRequestControllerRouter(requestArgs[0]);
 				if (controllerRoute.empty()) {
 					if (requestArgs[0] == "chat-send-message" && requestArgs.size() == 2) {
 						const std::string &result = requestArgs[1];
+						auto networkHandler = this->m_webCore->getNetworkHandler();
+						networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_SEND_CHAT_MESSAGE, requestArgs[1]));
+						auto msg = networkHandler->getMessage();
+						std::cout << msg << std::endl;
 						callback->Success("Allan-add-user:" + result);
 						return (true);
 					} else if (requestArgs[0].find("update-player-resources") == 0 && requestArgs.size() == 1) {

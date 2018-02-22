@@ -126,7 +126,7 @@ namespace bl {
 		for (int i = 0; i < SHA512_DIGEST_LENGTH; i++)
 			sprintf(&mdString[i * 2], "%02x", (unsigned int) digest[i]);
 
-		printf("SHA512 digest: %s\n", mdString);
+//		printf("SHA512 digest: %s\n", mdString);
 		ret.resize(SHA512_DIGEST_LENGTH * 2, '\0');
 		for (int i = 0; i < SHA512_DIGEST_LENGTH * 2; ++i) {
 			ret[i] = mdString[i];

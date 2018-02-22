@@ -21,6 +21,9 @@ namespace bl {
 			const std::string REQUEST_TECHNOLOGY_INFO = "technology_info";
 			const std::string REQUEST_TECHNOLOGY_UPGRADE = "technology_upgrade";
 			const std::string REQUEST_LOGOUT = "logout";
+			const std::string REQUEST_SEND_CHAT_MESSAGE = "user_send_chat_message";
+			const std::string REQUEST_GET_CHAT_MESSAGES = "user_get_chat_messages";
+			const std::string REQUEST_GET_LAST_42_CHAT_MESSAGES = "user_get_last_42_chat_messages";
 
 		public:
 			ServerApiHelper();

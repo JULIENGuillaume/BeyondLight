@@ -20,6 +20,9 @@ namespace bl {
 			public:
 				explicit ApiUser(Api &basicApi);
 				bl::network::server::ServerMessage execute(network::client::ClientMessage &message);
+			private:
+				bl::network::server::ServerMessage addChatMessage(network::client::ClientMessage &message);
+				bl::network::server::ServerMessage getChatMessages(network::client::ClientMessage &message);
 
 			private:
 				Api &basicApi;

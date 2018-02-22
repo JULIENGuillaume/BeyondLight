@@ -25,6 +25,13 @@ bl::client::ServerApiHelper::ServerApiHelper() {
 	 */
 	this->registerRequest(this->REQUEST_TECHNOLOGY_INFO, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_TECHNOLOGY, 154, "");
 	this->registerRequest(this->REQUEST_TECHNOLOGY_UPGRADE, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_TECHNOLOGY, 157, "");
+
+	/*
+	 *	Chat
+	 */
+	this->registerRequest(this->REQUEST_SEND_CHAT_MESSAGE, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 234, "");
+	this->registerRequest(this->REQUEST_GET_CHAT_MESSAGES, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 235, "");
+	this->registerRequest(this->REQUEST_GET_LAST_42_CHAT_MESSAGES, network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, server::api::EApiType::API_TYPE_USER, 235, "42");
 }
 
 bl::network::client::ClientMessage bl::client::ServerApiHelper::buildNewApiRequest(std::string const &requestName) {
