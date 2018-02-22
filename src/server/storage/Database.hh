@@ -27,11 +27,11 @@ namespace bl {
 
 			public:
 				void createCollection(const std::string &);
-				bsoncxx::stdx::optional<mongocxx::result::insert_one> insert(const std::string &, nlohmann::json &);
+			  bsoncxx::stdx::optional<mongocxx::result::insert_one> insert(const std::string &, nlohmann::json );
 				bsoncxx::stdx::optional<mongocxx::result::insert_many> insertMultiple(const std::string &, std::vector<nlohmann::json> &);
 				nlohmann::json getByKey(const std::string &, const std::string &, const std::string &);
 				int32_t removeByKey(const std::string &, const std::string &, const std::string &);
-				bsoncxx::stdx::optional<mongocxx::result::insert_one> update(const std::string &, const std::string &, const std::string &, nlohmann::json &);
+				bsoncxx::stdx::optional<mongocxx::result::insert_one> update(const std::string &, const std::string &, const std::string &, nlohmann::json );
 
 			protected:
 				static mongocxx::instance m_inst;

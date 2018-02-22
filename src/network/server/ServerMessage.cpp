@@ -20,6 +20,36 @@ std::ostream& operator<<(std::ostream& os, const bl::network::server::ServerMess
 
 std::ostream& operator<<(std::ostream& os, const bl::network::server::ServerMessageBody& dt)
 {
-	os << "{TYPE:" << dt.type << "|CODE:" << dt.code << "|MESSAGE:[" << dt.message << "]}";
+	os << "{TYPE:" << static_cast<int32_t>(dt.type) << "|CODE:" << dt.code << "|MESSAGE:[" << dt.message << "]}";
 	return os;
-}  
+}
+
+std::string bl::network::server::ServerMessage::serialize() {
+	std::stringstream ss;
+	cereal::PortableBinaryOutputArchive outArchive(ss);
+	outArchive(*this);
+	return ss.str();
+}
+
+void bl::network::server::ServerMessage::deserialize(std::string const &s) {
+	std::stringstream ss(s);
+	cereal::PortableBinaryInputArchive inArchive(ss);
+	inArchive(*this);
+}
+
+/*
+ *
+
+				std::string serialize() {
+					std::stringstream ss;
+					cereal::PortableBinaryOutputArchive outArchive(ss);
+					outArchive(*this);
+					return ss.str();
+				}
+
+				void deserialize(std::string const& s) {
+					std::stringstream ss(s);
+					cereal::PortableBinaryInputArchive inArchive(ss);
+					inArchive(*this);
+				}
+ */

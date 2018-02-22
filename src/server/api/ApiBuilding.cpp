@@ -19,7 +19,7 @@ bl::network::server::ServerMessage  bl::server::api::ApiBuilding::execute(bl::ne
 
 bl::network::server::ServerMessage bl::server::api::ApiBuilding::getBuildingInfo(bl::network::client::ClientMessage &message) {
 	bl::network::server::ServerMessage answer{};
-	answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_KO;
+	answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO;
 	answer.getBody().code = message.getBody().code;
 	auto planet = this->basicApi.getCore().getData().loadedPlanets[this->basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getLastPlanetId()];
 	try {
@@ -27,7 +27,7 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::getBuildingInfo
 		building->unlock(*planet);
 		auto sendingJson = building->serialize();
 		answer.getBody().message = sendingJson.dump();
-		bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
+		bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();
 	}
@@ -36,7 +36,7 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::getBuildingInfo
 
 bl::network::server::ServerMessage bl::server::api::ApiBuilding::upgradeBuilding(bl::network::client::ClientMessage &message) {
 	bl::network::server::ServerMessage answer{};
-	answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_KO;
+	answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO;
 	answer.getBody().code = message.getBody().code;
 	auto planet = this->basicApi.getCore().getData().loadedPlanets[this->basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getLastPlanetId()];
 	try {
@@ -45,10 +45,10 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::upgradeBuilding
 			answer.getBody().message = "Can't upgrade building";
 		} else {
 			answer.getBody().message = message.getBody().message.substr(1) + ":" + std::to_string(planet->getBuildingInfo(buildingId)->getLevel());
-			answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
+			answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 		}
 		this->basicApi.getCore().getDatabase().update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
-		bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
+		bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();
 	}

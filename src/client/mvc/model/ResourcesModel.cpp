@@ -16,7 +16,7 @@ namespace bl {
 					auto msg = this->m_networkHandler->getMessage().getBody();
 					std::string jsonReceived = msg.message;
 					nlohmann::json resources;
-					if (msg.type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+					if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 						resources = nlohmann::json::parse(jsonReceived);
 					} else {
 						std::cerr << "Invalid reply" << std::endl;

@@ -7,11 +7,12 @@
 
 #include <cereal/types/string.hpp>
 #include <string>
+#include <cereal/archives/portable_binary.hpp>
 
 namespace bl {
 	namespace network {
 		namespace server {
-			enum ServerMessageType {
+			enum class ServerMessageType : int32_t {
 				SERVER_MESSAGE_TYPE_NONE = 0,
 				SERVER_MESSAGE_TYPE_ANSWER_OK = 1,
 				SERVER_MESSAGE_TYPE_ANSWER_KO = 2,
@@ -31,9 +32,9 @@ namespace bl {
 
 			public:
 				//char header[4] = {66, 76, 83, 86};
-				ServerMessageType type = SERVER_MESSAGE_TYPE_NONE;
+				ServerMessageType type = ServerMessageType::SERVER_MESSAGE_TYPE_NONE;
 				uint64_t code = 0;
-				size_t messageSize = 0;
+				uint64_t messageSize = 0;
 				std::string message = "";
 			};
 			#pragma pack(pop)
@@ -44,6 +45,9 @@ namespace bl {
 				void serialize(Archive &archive) {
 					archive(m_body); // serialize things by passing them to the archive
 				}
+
+				std::string serialize();
+				void deserialize(std::string const& s);
 
 				const ServerMessageBody &getBody() const;
 				ServerMessageBody &getBody() ;

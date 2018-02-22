@@ -7,6 +7,9 @@
 
 #include <memory>
 #include <thread>
+#include <unordered_map>
+#include <boost/asio/ip/udp.hpp>
+#include <ISocket.hh>
 
 namespace bl {
 	namespace network {

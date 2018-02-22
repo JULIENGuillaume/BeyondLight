@@ -57,14 +57,20 @@ std::string bl::network::client::ClientNetworkHandler::getLine() {
 
 bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::getMessage() {
 	auto str = this->getLine();
-	std::stringstream ss(str);
-	cereal::PortableBinaryInputArchive inArchive(ss);
+	/*std::stringstream ss(str);
+	cereal::JSONInputArchive inArchive(ss);
 	server::ServerMessage message;
-	inArchive(message);
+	inArchive(message);*/
+	server::ServerMessage message;
+	message.deserialize(str);
 	return message;
 }
 
 void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
+	std::cout << "Send [" << cmd << "] (" << cmd.size() << ")" << std::endl;
+	/*for (int i = 0; i < cmd.size(); i++) {
+		std::cout << (int)cmd[i] << std::endl;
+	}*/
 	(std::dynamic_pointer_cast<BeyondLightClient>(this->m_networkClient))->addToSend(cmd);
 }
 
@@ -86,12 +92,13 @@ void bl::network::client::ClientNetworkHandler::send(
 	std::cout << "Sending " << message << std::endl;
 
 	//Serialize the message
-	std::stringstream ss;
-	cereal::PortableBinaryOutputArchive outArchive(ss);
+	/*std::stringstream ss;
+	cereal::JSONOutputArchive outArchive(ss);
 	outArchive(message);
 	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
-	this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
+	this->send(std::string(fullData.begin(), fullData.end()));*/ // Copy the data to be send to a string
+	this->send(message.serialize());
 }
 
 void bl::network::client::ClientNetworkHandler::send(const bl::network::client::ClientMessage &msg) {
@@ -120,12 +127,13 @@ void bl::network::client::ClientNetworkHandler::directSend(
 	message.getBody().msgType = type;
 
 	//Serialize the message
-	std::stringstream ss;
-	cereal::PortableBinaryOutputArchive outArchive(ss);
+	/*std::stringstream ss;
+	cereal::JSONOutputArchive outArchive(ss);
 	outArchive(message);
 	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
-	this->directSend(std::string(fullData.begin(), fullData.end()));
+	this->directSend(std::string(fullData.begin(), fullData.end()));*/
+	this->directSend(message.serialize());
 }
 
 void bl::network::client::ClientNetworkHandler::retrieveLine() {

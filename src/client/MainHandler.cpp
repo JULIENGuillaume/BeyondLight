@@ -12,9 +12,11 @@
 #include "GLFW/glfw3.h"
 #include "glm/ext.hpp"
 
+//VPS: 89.234.182.223
+
 namespace bl {
 	MainHandler::MainHandler() :
-			m_networkHandler(new network::client::ClientNetworkHandler("127.0.0.1", 8080)),
+			m_networkHandler(new network::client::ClientNetworkHandler("89.234.182.223", 8080)),
 			m_webCoreManager(m_networkHandler),
 			m_winName("BeyondLight") {
 		this->m_sizeUpdated = false;
@@ -93,7 +95,7 @@ namespace bl {
 			int action,
 			int mods
 	) {
-		//if (!this->m_isInput) // todo if isinput and key = delete -> send it
+		//if (!this->m_isInput) // todo if is input and key = delete -> send it
 		this->m_activeBrowser.lock()->keyPress(key, scancode, action, mods);
 		if (mods == GLFW_MOD_CONTROL) {
 			if (key == GLFW_KEY_C) {

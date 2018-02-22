@@ -2,7 +2,7 @@
 // Created by Guillaume on 23/12/2017.
 //
 
-#include <cereal/archives/portable_binary.hpp>
+#include <cereal/archives/json.hpp>
 #include <functional>
 #include <future>
 #include <thread>
@@ -44,10 +44,20 @@ std::pair<boost::asio::ip::udp::endpoint, std::string> bl::network::server::Serv
 std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> bl::network::server::ServerNetworkHandler::getMessage() {
 	auto strFrom = this->getLineFrom();
 	auto str = strFrom.second;
-	std::stringstream ss(str);
-	cereal::PortableBinaryInputArchive inArchive(ss);
+	/*while (str.size() < 10) {
+		strFrom = this->getLineFrom();
+		str = strFrom.second;
+	}*/
+	std::cout << "Got [" << str << "] (" << str.size() << ")" << std::endl;
+	/*for (int i = 0; i < str.size(); i++) {
+		std::cout << (int)str[i] << std::endl;
+	}*/
+	/*std::stringstream ss(str);
+	cereal::JSONInputArchive inArchive(ss);
 	client::ClientMessage message;
-	inArchive(message);
+	inArchive(message);*/
+	client::ClientMessage message;
+	message.deserialize(str);
 	return std::make_pair(strFrom.first, message);
 }
 
@@ -69,13 +79,14 @@ void bl::network::server::ServerNetworkHandler::send(
 	message.getBody().type = type;
 
 	//Serialize the message
-	std::stringstream ss;
-	cereal::PortableBinaryOutputArchive outArchive(ss);
+	/*std::stringstream ss;
+	cereal::JSONOutputArchive outArchive(ss);
 	outArchive(message);
 	const std::string &strRepresentation = ss.str();
 	std::vector<char> fullData(strRepresentation.begin(), strRepresentation.end());
-	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(std::string(fullData.begin(), fullData.end()), endpoint);
+	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(std::string(fullData.begin(), fullData.end()), endpoint);*/
 	//this->send(std::string(fullData.begin(), fullData.end())); // Copy the data to be send to a string
+	(std::dynamic_pointer_cast<BeyondLightServer>(this->m_networkServer))->addToSend(message.serialize(), endpoint);
 }
 
 void bl::network::server::ServerNetworkHandler::retrieveLine() {

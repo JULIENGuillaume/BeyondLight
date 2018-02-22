@@ -5,6 +5,7 @@
 #ifndef BEYONDLIGHT_CLIENTMESSAGE_HH
 #define BEYONDLIGHT_CLIENTMESSAGE_HH
 
+#include <cereal/archives/portable_binary.hpp>
 #include <cereal/types/string.hpp>
 #include <string>
 #include "../../server/api/Api.hh"
@@ -12,7 +13,7 @@
 namespace bl {
 	namespace network {
 		namespace client {
-			enum ClientMessageType {
+			enum class ClientMessageType : int32_t {
 				CLIENT_MESSAGE_TYPE_NONE = 0,
 				CLIENT_MESSAGE_TYPE_ANSWER_OK = 1,
 				CLIENT_MESSAGE_TYPE_ANSWER_KO = 2,
@@ -27,7 +28,7 @@ namespace bl {
 				template<class Archive>
 				void serialize(Archive &archive) {
 					archive(msgType,
-					        apiType,
+							apiType,
 							code,
 					        sessionId,
 							messageSize,
@@ -35,11 +36,11 @@ namespace bl {
 				}
 
 			public:
-				ClientMessageType msgType = CLIENT_MESSAGE_TYPE_NONE;
+				ClientMessageType msgType = ClientMessageType::CLIENT_MESSAGE_TYPE_NONE;
 				::bl::server::api::EApiType apiType;
 				uint64_t code = 0;
 				std::string sessionId = "";
-				size_t messageSize = 0;
+				uint64_t messageSize = 0;
 				std::string message = "";
 			};
 			#pragma pack(pop)
@@ -50,6 +51,9 @@ namespace bl {
 				void serialize(Archive &archive) {
 					archive(m_body); // serialize things by passing them to the archive
 				}
+
+				std::string serialize();
+				void deserialize(std::string const& s);
 
 				const ClientMessageBody &getBody() const;
 				ClientMessageBody &getBody();

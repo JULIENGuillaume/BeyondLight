@@ -57,7 +57,7 @@ namespace bl {
 					m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_TECHNOLOGY_UPGRADE, std::to_string(m_id)));
 			auto msg = this->m_networkHandler->getMessage();
 			auto answers = bl::common::Toolbox::split(msg.getBody().message, ":");
-			return msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id);
+			return msg.getBody().type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id);
 		}
 
 		/*

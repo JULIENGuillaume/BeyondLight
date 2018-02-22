@@ -22,7 +22,7 @@ bl::network::server::ServerMessage bl::server::api::Api::execute(bl::network::cl
 		{EApiType::API_TYPE_USER, [this](bl::network::client::ClientMessage msg) -> bl::network::server::ServerMessage  {return this->m_apiUser.execute(msg);}}
 	};
 
-	return lMap[message.getBody().apiType](message);
+	return lMap.at(message.getBody().apiType)(message);
 }
 
 bl::server::ServerCore &bl::server::api::Api::getCore() {

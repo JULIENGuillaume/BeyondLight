@@ -17,7 +17,7 @@ bl::network::server::ServerMessage  bl::server::api::ApiPlanet::execute(bl::netw
 
 bl::network::server::ServerMessage bl::server::api::ApiPlanet::getResourcesInfo(bl::network::client::ClientMessage &message) {
 	bl::network::server::ServerMessage answer{};
-	answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_KO;
+	answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO;
 	answer.getBody().code = message.getBody().code;
 	auto planet = this->basicApi.getCore().getData().loadedPlanets[this->basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getLastPlanetId()];
 	try {
@@ -25,7 +25,7 @@ bl::network::server::ServerMessage bl::server::api::ApiPlanet::getResourcesInfo(
 		planet->updateResources();
 		sendingJson = planet->getStockResources().serialize();
 		answer.getBody().message = sendingJson.dump();
-		answer.getBody().type = bl::network::server::SERVER_MESSAGE_TYPE_ANSWER_OK;
+		answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();
 	}
