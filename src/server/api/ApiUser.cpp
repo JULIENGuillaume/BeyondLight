@@ -38,7 +38,9 @@ bl::network::server::ServerMessage bl::server::api::ApiUser::getChatMessages(bl:
 	answer.getBody().code = message.getBody().code;
 	auto &user = basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser();
 	auto data = std::stoul(message.getBody().message.substr(1));
+	std::cout << "Data is " << data << std::endl;
 	auto msgs = basicApi.getCore().getData().chatInstance.getNLastMessages(static_cast<uint32_t>(data));
+	std::cout << "Msgs" << std::endl;
 	bool first = true;
 	for (auto const& s : msgs) {
 		if (!first)

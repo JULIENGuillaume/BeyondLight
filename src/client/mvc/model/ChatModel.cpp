@@ -4,6 +4,7 @@
 
 #include "ChatModel.hh"
 #include "../controller/game/ChatController.hh"
+#include "../../../common/Toolbox.hh"
 
 namespace bl {
 	namespace mvc {
@@ -12,7 +13,15 @@ namespace bl {
 		}
 
 		void ChatModel::update() {
-			addMessage("login", "bonjour");
+			this->m_messages.clear();
+			m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_GET_LAST_42_CHAT_MESSAGES));
+			auto answer = m_networkHandler->getMessage();
+			auto data = common::Toolbox::split(answer.getBody().message, "\\:");
+			for (int i = 0; i + 1 < data.size(); i += 2) {
+				addMessage(data[i], data[i + 1]);
+				std::cout << data[i] << ": " << data[i + 1] << std::endl;
+			}
+			//addMessage("login", "bonjour");
 			// todo
 		}
 
@@ -20,9 +29,9 @@ namespace bl {
 				const std::string &username,
 				const std::string &content
 		) {
-			this->m_messages.push_front(std::make_pair(username, content));
+			this->m_messages.push_back(std::make_pair(username, content));
 			if (this->m_messages.size() >= ChatController::MAX_MESSAGES) {
-				this->m_messages.pop_back();
+				this->m_messages.pop_front();
 			}
 		}
 

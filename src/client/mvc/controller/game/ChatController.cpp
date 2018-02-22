@@ -7,6 +7,7 @@
 #include "LeftMenu.hh"
 #include "../../model/ResourcesModel.hh"
 #include "../../MvcHandler.hh"
+#include "../../model/ChatModel.hh"
 
 namespace bl {
 	namespace mvc {
@@ -74,6 +75,15 @@ namespace bl {
 						+ std::to_string(resources.getEnergy()) + ");";
 				this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript(
 						js, m_chatUrl, 0);
+			}
+			{
+				auto chat = modelHandler->getModel<ChatModel>("chat");
+				chat->update();
+				clearChat();
+				auto const& msgs = chat->getMessages();
+				for (auto const& pair : msgs) {
+					addMessage(pair.first, pair.second);
+				}
 			}
 		}
 
