@@ -140,9 +140,27 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 		user::FullUser fullUser;
 		fullUser.deserialize(dbData);
 		std::cout << "User salt is " << fullUser.getSalt() << std::endl;
+		std::cout << "There are " << m_data.activeSessions.size() << " active sessions" << std::endl;
 		if (fullUser.getPassword() == common::Toolbox::sha512This(fullUser.getSalt() + toks[1])) {
 			if (m_data.loggedUsers.find(fullUser.getLogin()) != m_data.loggedUsers.end()) {
-				answer.getBody().message = "You're already logged in !";
+				std::cout << "An user was already logged in !" << std::endl;
+				auto oldUser = m_data.activeUsers.find(fullUser.getUuidAsString())->second;
+				m_data.activeUsers.erase(oldUser->getUuidAsString());
+				m_data.loggedUsers.erase(oldUser->getLogin());
+				m_data.usersSession.erase(oldUser->getUuidAsString());
+				m_data.activeSessions.erase(m_data.usersSession[oldUser->getLogin()]); //fixme: remove session
+
+				std::cout << "There are " << m_data.activeSessions.size() << " active sessions" << std::endl;
+
+				answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
+				std::shared_ptr<user::User> user = std::make_shared<user::User>(fullUser);
+				std::shared_ptr<user::SessionIdentifier> session{new user::SessionIdentifier()};
+				session->setUser(user);
+				answer.getBody().message = session->getUuidAsString();
+				this->m_data.activeSessions.emplace(session->getUuidAsString(), session);
+				this->m_data.loggedUsers.insert(user->getLogin());
+				this->m_data.activeUsers.emplace(user->getUuidAsString(), user);
+				this->m_data.usersSession.emplace(user->getLogin(), session->getUuidAsString());
 			} else {
 				answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 				std::shared_ptr<user::User> user = std::make_shared<user::User>(fullUser);
@@ -152,6 +170,7 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 				this->m_data.activeSessions.emplace(session->getUuidAsString(), session);
 				this->m_data.loggedUsers.insert(user->getLogin());
 				this->m_data.activeUsers.emplace(user->getUuidAsString(), user);
+				this->m_data.usersSession.emplace(user->getLogin(), session->getUuidAsString());
 
 				std::cout << "Registering session " << session->getUuidAsString() << " for user " << user->getLogin() << std::endl;
 
@@ -169,5 +188,6 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 		answer.getBody().message = "Unknown login and / or password";
 	}
 
+	std::cout << "There are " << m_data.activeSessions.size() << " active sessions" << std::endl;
 	return answer;
 }

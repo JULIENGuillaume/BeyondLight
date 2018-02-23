@@ -28,6 +28,10 @@ void bl::server::ServerCore::start() {
 
 void bl::server::ServerCore::executeCommand(std::pair<boost::asio::ip::udp::endpoint, bl::network::client::ClientMessage> msg,
 											bl::server::api::Api &refApi) {
+	if (m_data.activeSessions.find(msg.second.getBody().sessionId) == m_data.activeSessions.end()) {
+		this->m_serverNetworkHandler.send(network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_KO, msg.second.getBody().code, "You're not logged in", msg.first);
+		return;
+	}
 	std::cout << "Executing " << msg.second << std::endl;
 	if (msg.second.getBody().code == 1337) {
 		auto session = m_data.activeSessions[msg.second.getBody().sessionId];

@@ -16,6 +16,7 @@ namespace bl {
 		struct LoadedData {
 			std::unordered_map<std::string, std::shared_ptr<user::SessionIdentifier>> activeSessions;
 			std::unordered_map<std::string, std::shared_ptr<user::User>> activeUsers;
+			std::unordered_map<std::string, std::string> usersSession;
 			std::unordered_set<std::string> loggedUsers;
 			std::unordered_map<std::string, std::shared_ptr<game::planet::Planet>> loadedPlanets;
 			game::user::Chat chatInstance;
