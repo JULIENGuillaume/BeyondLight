@@ -5,6 +5,7 @@
 #include <functional>
 #include <future>
 #include <iostream>
+#include <chrono>
 #include "ClientNetworkHandler.hh"
 #include "BeyondLightClient.hh"
 
@@ -56,14 +57,10 @@ std::string bl::network::client::ClientNetworkHandler::getLine() {
 }
 
 bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::getMessage() {
-	auto str = this->getLine();
-	/*std::stringstream ss(str);
-	cereal::JSONInputArchive inArchive(ss);
-	server::ServerMessage message;
-	inArchive(message);*/
-	server::ServerMessage message;
-	message.deserialize(str);
-	return message;
+	auto futureMsg = this->asyncGetMessage();
+	using namespace std::chrono_literals;
+	futureMsg.wait_for(1s);
+	return futureMsg.get();
 }
 
 void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
@@ -157,4 +154,15 @@ void bl::network::client::ClientNetworkHandler::setSessionId(std::string const &
 
 const std::shared_ptr<bl::client::ServerApiHelper> &bl::network::client::ClientNetworkHandler::getApiHelper() const {
 	return m_apiHelper;
+}
+
+std::future<bl::network::server::ServerMessage> bl::network::client::ClientNetworkHandler::asyncGetMessage() {
+	return std::async(&bl::network::client::ClientNetworkHandler::syncGetMessage, this);
+}
+
+bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::syncGetMessage() {
+	auto str = this->getLine();
+	server::ServerMessage message;
+	message.deserialize(str);
+	return message;
 }

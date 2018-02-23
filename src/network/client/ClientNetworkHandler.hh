@@ -30,6 +30,8 @@ namespace bl {
 				void setSessionId(std::string const& sessionId);
 				std::string getLine() override;
 				server::ServerMessage getMessage();
+				std::future<server::ServerMessage> asyncGetMessage();
+				server::ServerMessage syncGetMessage();
 				void send(std::string const &cmd) override;
 				void send(ClientMessageType type,
 				          bl::server::api::EApiType apiRequestType,
