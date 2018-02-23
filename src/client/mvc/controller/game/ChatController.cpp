@@ -93,10 +93,10 @@ namespace bl {
 		) {
 			std::string user = username;
 			std::string message = content;
-			std::replace(user.begin(), user.end(), ')', ' ');
-			std::replace(user.begin(), user.end(), '(', ' ');
-			std::replace(message.begin(), message.end(), '(', ' ');
-			std::replace(message.begin(), message.end(), ')', ' ');
+			std::replace(user.begin(), user.end(), '\'', '`');
+			std::replace(user.begin(), user.end(), '\"', '`');
+			std::replace(message.begin(), message.end(), '\'', '`');
+			std::replace(message.begin(), message.end(), '\"', '`');
 			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("addMessage(\"" + username + "\",\"" + message + "\");", m_chatUrl, 0); // todo escape character
 		}
 
