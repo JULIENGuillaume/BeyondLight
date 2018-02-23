@@ -39,7 +39,7 @@ namespace bl {
 						networkHandler->send(networkHandler->getApiHelper()->buildNewApiRequest(networkHandler->getApiHelper()->REQUEST_SEND_CHAT_MESSAGE, requestArgs[1]));
 						auto msg = networkHandler->getMessage();
 						std::cout << msg << std::endl;
-						callback->Success("Allan-add-user:" + result);
+						callback->Success("");
 						return (true);
 					} else if (requestArgs[0].find("update-player-resources") == 0 && requestArgs.size() == 1) {
 						auto playerResources = this->m_webCore->getMvcHandler()->getModelHandler()->getModel<ResourcesModel>("player-resources");
@@ -91,7 +91,13 @@ namespace bl {
 				const std::string &username,
 				const std::string &content
 		) {
-			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("addMessage(\"" + username + "\",\"" + content + "\");", m_chatUrl, 0);
+			std::string user = username;
+			std::string message = content;
+			std::replace(user.begin(), user.end(), ')', ' ');
+			std::replace(user.begin(), user.end(), '(', ' ');
+			std::replace(message.begin(), message.end(), '(', ' ');
+			std::replace(message.begin(), message.end(), ')', ' ');
+			this->m_webCore->getBrowser()->GetMainFrame()->ExecuteJavaScript("addMessage(\"" + username + "\",\"" + message + "\");", m_chatUrl, 0); // todo escape character
 		}
 
 		void ChatController::clearChat() {
