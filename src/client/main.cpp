@@ -21,6 +21,13 @@ void FactoriesInit() {
 			                                                                 true)));
 }
 
+int f(int a) {
+	std::cout << "In f..." << std::endl;
+	Sleep(50000);
+	std::cout << "Returning f..." << std::endl;
+	return (a);
+}
+
 int main() {
 	FactoriesInit();
 

@@ -8,6 +8,7 @@
 #include <chrono>
 #include "ClientNetworkHandler.hh"
 #include "BeyondLightClient.hh"
+#include "../../common/event/Chrono.hh"
 
 bl::network::client::ClientNetworkHandler::ClientNetworkHandler(
 		std::string const &ip,
@@ -18,6 +19,7 @@ bl::network::client::ClientNetworkHandler::ClientNetworkHandler(
 		m_destIp(ip),
 		m_destPort(port) {
 	std::cerr << "Creating network handler" << std::endl;
+	this->m_timeout = 30000;
 	/*if (!m_networkClient->connectTo(ip, port)) {
 		throw std::runtime_error("Can't launch network client");
 	}
@@ -45,11 +47,15 @@ bool bl::network::client::ClientNetworkHandler::tryToConnect() {
 }
 
 std::string bl::network::client::ClientNetworkHandler::getLine() {
-	while (this->m_lines.empty()) {
+	common::event::Chrono chrono;
+	while (this->m_lines.empty() && (chrono.getElapsedMilliseconds() < m_timeout || !m_timeout)) {
 		if (!this->m_networkClient->isRunning()) {
 			throw std::runtime_error("Failed to get line: network isn't connected.");
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	}
+	if (m_timeout && chrono.getElapsedMilliseconds() >= m_timeout) {
+		throw std::runtime_error("getline timeout reached");
 	}
 	auto line = this->m_lines.front();
 	this->m_lines.pop();
@@ -57,10 +63,7 @@ std::string bl::network::client::ClientNetworkHandler::getLine() {
 }
 
 bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::getMessage() {
-	auto futureMsg = this->asyncGetMessage();
-	using namespace std::chrono_literals;
-	futureMsg.wait_for(1s);
-	return futureMsg.get();
+	return syncGetMessage();
 }
 
 void bl::network::client::ClientNetworkHandler::send(std::string const &cmd) {
@@ -161,8 +164,13 @@ std::future<bl::network::server::ServerMessage> bl::network::client::ClientNetwo
 }
 
 bl::network::server::ServerMessage bl::network::client::ClientNetworkHandler::syncGetMessage() {
-	auto str = this->getLine();
-	server::ServerMessage message;
-	message.deserialize(str);
-	return message;
+	try {
+		auto str = this->getLine();
+		server::ServerMessage message;
+		message.deserialize(str);
+		return message;
+	} catch (std::exception &e) {
+		std::cerr << "Exception: " << e.what() << std::endl;
+		return bl::network::server::ServerMessage{};
+	}
 }

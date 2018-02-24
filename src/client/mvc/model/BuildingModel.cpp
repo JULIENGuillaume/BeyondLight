@@ -37,6 +37,11 @@ namespace bl {
 					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_BUILDING_INFO, std::to_string(m_id)));
 					//this->m_networkHandler->send(network::client::ClientMessageType::CLIENT_MESSAGE_TYPE_REQUEST, 4242, "");
 					auto msg = this->m_networkHandler->getMessage();
+					if (msg.getBody().type != bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
+						std::cout << msg << std::endl;
+						std::cout << "It's not ok !" << std::endl;
+						return;
+					}
 					/*std::string jsonReceived = msg.getBody().message;
 					nlohmann::json buildings;
 					if (msg.getBody().type == network::server::SERVER_MESSAGE_TYPE_ANSWER_OK) {

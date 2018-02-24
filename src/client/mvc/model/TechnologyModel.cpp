@@ -36,6 +36,8 @@ namespace bl {
 					m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_TECHNOLOGY_INFO,
 																								std::to_string(m_id)));
 					auto msg = this->m_networkHandler->getMessage();
+					if (msg.getBody().type != bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK)
+						return;
 					nlohmann::json technology = nlohmann::json::parse(msg.getBody().message);
 					std::cerr << "Technology: " << msg.getBody().message << std::endl;
 					m_id = technology["id"];
@@ -56,6 +58,8 @@ namespace bl {
 			m_networkHandler->send(
 					m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_TECHNOLOGY_UPGRADE, std::to_string(m_id)));
 			auto msg = this->m_networkHandler->getMessage();
+			if (msg.getBody().type != bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK)
+				return false;
 			auto answers = bl::common::Toolbox::split(msg.getBody().message, ":");
 			return msg.getBody().type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK && answers[0] == std::to_string(this->m_id);
 		}

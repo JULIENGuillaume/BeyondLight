@@ -27,7 +27,7 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::getBuildingInfo
 		building->unlock(*planet);
 		auto sendingJson = building->serialize();
 		answer.getBody().message = sendingJson.dump();
-		bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
+		answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();
 	}
@@ -48,7 +48,7 @@ bl::network::server::ServerMessage bl::server::api::ApiBuilding::upgradeBuilding
 			answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 		}
 		this->basicApi.getCore().getDatabase().update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
-		bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
+		answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();
 	}

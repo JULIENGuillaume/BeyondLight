@@ -54,6 +54,7 @@ namespace bl {
 					msg = networkHandler->getMessage().getBody();
 					if (msg.type == network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK) {
 						callback->Success("Login success");
+						networkHandler->setTimeout(1000);
 						return (true);
 					}
 					callback->Failure(0, msg.message);

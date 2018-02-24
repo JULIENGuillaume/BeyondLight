@@ -28,6 +28,7 @@ namespace bl {
 				virtual void send(std::string const &cmd)= 0;
 				virtual std::future<std::string> asyncGetLine()= 0;
 				virtual void asyncSend(std::string const &cmd)= 0;
+				virtual void setTimeout(uint64_t milliseconds) = 0;
 			public:
 				virtual void addWatcher(
 						EWatcherType type,

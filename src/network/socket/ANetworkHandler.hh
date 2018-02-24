@@ -29,10 +29,12 @@ namespace bl {
 						std::function<void(std::string const &)>
 				) override;
 				void notifyWatchers(EWatcherType type) override;
+				void setTimeout(uint64_t milliseconds) override;
 			protected:
 				std::multimap<EWatcherType, std::pair<std::string, std::function<void(std::string const &)>>> m_watchers{};
 				std::map<EWatcherType, std::function<void(ANetworkHandler * )>> m_privateWatchers{};
 				std::queue<std::string> m_lines;
+				uint64_t m_timeout = 1000;
 			};
 		}
 	}

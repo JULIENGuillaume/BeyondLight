@@ -34,3 +34,7 @@ void bl::network::socket::ANetworkHandler::notifyWatchers(bl::network::socket::E
 		thread.join();
 	}
 }
+
+void bl::network::socket::ANetworkHandler::setTimeout(uint64_t milliseconds) {
+	this->m_timeout = milliseconds;
+}

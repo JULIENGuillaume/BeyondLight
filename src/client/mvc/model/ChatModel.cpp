@@ -13,13 +13,21 @@ namespace bl {
 		}
 
 		void ChatModel::update() {
-			this->m_messages.clear();
+			static uint64_t maxRetry = 3;
 			m_networkHandler->send(m_networkHandler->getApiHelper()->buildNewApiRequest(m_networkHandler->getApiHelper()->REQUEST_GET_LAST_42_CHAT_MESSAGES));
-			auto answer = m_networkHandler->getMessage();
-			auto data = common::Toolbox::split(answer.getBody().message, "\\:");
-			for (int i = 0; i + 1 < data.size(); i += 2) {
-				addMessage(data[i], data[i + 1]);
-				std::cout << data[i] << ": " << data[i + 1] << std::endl;
+			for (uint64_t j = 0; j < maxRetry; j++) {
+				auto answer = m_networkHandler->getMessage();
+				if (answer.getBody().type != bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK || answer.getBody().code != 235)
+					continue;
+				this->m_messages.clear();
+				auto data = common::Toolbox::split(answer.getBody().message, "\\:");
+				for (int i = 0;
+					 i + 1 < data.size();
+					 i += 2) {
+					addMessage(data[i], data[i + 1]);
+					std::cout << data[i] << ": " << data[i + 1] << std::endl;
+				}
+				return;
 			}
 		}
 
