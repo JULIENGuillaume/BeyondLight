@@ -2,11 +2,13 @@
 // Created by Guillaume on 28/12/2017.
 //
 
+#include <iostream>
 #include "FullUser.hh"
 
 nlohmann::json bl::server::user::FullUser::serialize() const {
 	nlohmann::json json = User::serialize();
 
+	std::cout << "Full user serialization" << std::endl;
 	json["lastName"] = this->m_lastname;
 	json["firstName"] = this->m_firstname;
 	json["email"] = this->m_email;

@@ -8,10 +8,12 @@
 ** Last update Thu Nov 09 17:56:28 2017 Guillaume Julien
 */
 
+#include <iostream>
 #include "User.hh"
 
 nlohmann::json bl::server::user::User::serialize() const {
 	nlohmann::json json = UniqueObject::serialize();
+	std::cout << "User serialization" << std::endl;
 
 	json["login"] = this->m_login;
 	json["lastPlanet"] = this->m_lastPlanetId;

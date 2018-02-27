@@ -37,6 +37,7 @@ void bl::server::ServerCore::executeCommand(std::pair<boost::asio::ip::udp::endp
 		auto session = m_data.activeSessions[msg.second.getBody().sessionId];
 		auto planet = this->getData().loadedPlanets[this->getData().activeSessions[msg.second.getBody().sessionId]->getUser().getLastPlanetId()];
 		m_database.update("planets", "uuid", planet->getUuidAsString(), planet->serialize());
+		m_database.update("users", "uuid", this->getData().activeSessions[msg.second.getBody().sessionId]->getUser().getUuidAsString(), this->getData().activeSessions[msg.second.getBody().sessionId]->getUser().serialize());
 		m_data.loadedPlanets.erase(planet->getUuidAsString());
 		m_data.activeUsers.erase(session->getUser().getUuidAsString());
 		m_data.loggedUsers.erase(session->getUser().getLogin());

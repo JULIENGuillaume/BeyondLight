@@ -45,6 +45,7 @@ bl::network::server::ServerMessage bl::server::api::ApiTechnology::unlockTechnol
 			basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().addTechnology(tech->getId());
 			answer.getBody().type = bl::network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
 			answer.getBody().message = std::to_string(tech->getId());
+			basicApi.getCore().getDatabase().update("users", "uuid", basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().getUuidAsString(), basicApi.getCore().getData().activeSessions[message.getBody().sessionId]->getUser().serialize());
 		}
 	} catch (std::exception &e) {
 		answer.getBody().message = e.what();

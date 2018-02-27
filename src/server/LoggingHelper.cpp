@@ -163,7 +163,7 @@ bl::network::server::ServerMessage bl::server::LoggingHelper::loginUser(std::vec
 				this->m_data.usersSession.emplace(user->getLogin(), session->getUuidAsString());
 			} else {
 				answer.getBody().type = network::server::ServerMessageType::SERVER_MESSAGE_TYPE_ANSWER_OK;
-				std::shared_ptr<user::User> user = std::make_shared<user::User>(fullUser);
+				std::shared_ptr<user::User> user = std::make_shared<user::FullUser>(fullUser);
 				std::shared_ptr<user::SessionIdentifier> session{new user::SessionIdentifier()};
 				session->setUser(user);
 				answer.getBody().message = session->getUuidAsString();
