@@ -195,7 +195,11 @@ set(CLIENT_SRC
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/ShipsController.cpp
         ${CLIENT_PROJECT_DIR}/mvc/controller/game/ShipsController.hh
         ${CLIENT_PROJECT_DIR}/mvc/model/ShipModel.cpp
-        ${CLIENT_PROJECT_DIR}/mvc/model/ShipModel.hh)
+        ${CLIENT_PROJECT_DIR}/mvc/model/ShipModel.hh
+        ${CLIENT_PROJECT_DIR}/mvc/controller/game/MapController.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/controller/game/MapController.hh
+        ${CLIENT_PROJECT_DIR}/mvc/model/PlanetModel.cpp
+        ${CLIENT_PROJECT_DIR}/mvc/model/PlanetModel.hh)
 
 set(CEF_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/cef")
 

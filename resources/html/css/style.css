@@ -339,11 +339,22 @@
     position: relative;
     float: left;
     display: block;
-    border-collapse:separate; 
+    border-collapse:separate;
     flex-flow:row wrap;
     justify-content:space-around;
     text-align: center;
     margin-left: 3%;
+}
+
+.game-planet-desc-res {
+    position: relative;
+    float: left;
+    display: block;
+    border-collapse:separate;
+    flex-flow:row wrap;
+    justify-content:space-around;
+    text-align: center;
+    margin-right: 3%;
 }
 
 .game-entity-desc-res-cost-img {
@@ -413,6 +424,53 @@
   background: rgba(77,168,74,1);
   box-shadow: 0 3px 0 0 rgba(0,0,0,0.1) inset;
   transition: 0.3s ease;
+}
+
+.attack-button {
+    float: right;
+    position: relative;
+    box-sizing: content-box;
+    cursor: pointer;
+    border: 1px solid #387dbe;
+    font: 100% "Questrial", Helvetica, sans-serif;
+    color: rgb(255, 255, 255);
+    text-overflow: clip;
+    background: linear-gradient(180deg, rgb(56, 125, 190) 0, rgb(50, 109, 168) 100%), rgb(56, 125, 190);
+    background-origin: padding-box;
+    background-clip: border-box;
+    background-size: auto auto;
+    font-size: 200%;
+}
+
+.attack-button:disabled {
+    border: 1px solid #969393;
+    background: linear-gradient(180deg, rgb(186, 190, 185) 0, rgb(144, 146, 144) 100%), rgb(186, 190, 185);
+}
+
+.attack-button:disabled:hover {
+    background: rgb(115, 117, 115);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11) ;
+    transition: all 150ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.attack-button:disabled:active {
+    border: 1px solid rgba(180,180,180,0.2);
+    background: rgb(144, 146, 144);
+    box-shadow: 0 3px 0 0 rgba(0,0,0,0.1) inset;
+    transition: 0.3s ease;
+}
+
+.attack-button:hover {
+    background: rgb(56, 125, 190);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.11) ;
+    transition: all 150ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.attack-button:active {
+    border: 1px solid rgba(180,180,180,0.2);
+    background: rgb(56, 125, 190);
+    box-shadow: 0 3px 0 0 rgba(0,0,0,0.1) inset;
+    transition: 0.3s ease;
 }
 
 .login-background {

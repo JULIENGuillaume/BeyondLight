@@ -12,6 +12,7 @@ namespace bl {
 				{"route-technologies", "/technologies"},
 				{"route-ships", "/ships"},
 				{"route-overview", "/overview"},
+				{"route-map", "/map"},
 				{"route-chat", "/chat"}
 		};
 
