@@ -352,6 +352,22 @@
     height: 20px;
 }
 
+.build-quantity-input { <!-- TODO add a style for up and down arrow since its input type is for number -->
+    float: right;
+    position: relative;
+    box-sizing: content-box;
+    cursor: pointer;
+    border: 1px solid #35c7ff66;
+    font: 100% "Questrial", Helvetica, sans-serif;
+    color: rgb(255, 255, 255);
+    text-overflow: clip;
+    background: linear-gradient(180deg, rgba(56, 125, 190, 0) 0, rgba(66, 146, 222, 0.5) 100%), rgba(56, 125, 190, 0.0);
+    background-origin: padding-box;
+    background-clip: border-box;
+    font-size: 200%;
+    width: 30%;
+}
+
 .upgrade-button {
   float: right;
   position: relative;
@@ -366,7 +382,6 @@
   background-clip: border-box;
   background-size: auto auto;
   font-size: 200%;
-
 }
 
 .upgrade-button:disabled {

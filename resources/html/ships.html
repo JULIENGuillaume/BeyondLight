@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Beyond Light</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="import" href="header.html">
+        <link rel="import" href="left-menu.html">
+        <link rel="import" href="entity-template.html">
+    </head>
+    <body style="overflow-y:hidden; height:100%;">
+        <header></header>
+        <left-menu></left-menu>
+        <div id="main-content-template">
+            <div class="game-main scrollbar" id="alpha-scrollbar">
+                <entities></entities>
+            </div>
+        </div>
+    </body>
+    <script src="js/utils.js"></script>
+    <script src="js/page-template.js"></script>
+    <script src="js/header-resources.js"></script>
+    <script src="js/left-menu.js"></script>
+    <script src="js/document-ready.js"></script>
+    <script>
+        function onCreateClick(e) {
+            var id = e.target.id.split('-').reverse()[0];
+            if (!document.getElementById("entity-upgrade-" + id).disabled) { // not needed but just in case
+                var quantityInput = document.getElementById("build-quantity-" + id);
+                var request_id = window.cefQuery({
+                    request: 'index-ship-create:' + id + ':' + quantityInput.value,
+                    persistent: false,
+                    onSuccess: function (response) {
+                        document.getElementById("entity-level-" + id).innerText = "Quantity " + response;
+                        // todo update resources
+                    },
+                    onFailure: function (error_code, error_message) {
+                        console.log("cannot create ships with id: " + id);
+                        console.log("error code: " + error_code + " reason: " + error_message);
+                    }
+                });
+            }
+        }
+
+        function onNbInput(e) {
+            var id = e.target.id.split('-').reverse()[0];
+            var buildButton = document.getElementById("entity-upgrade-" + id);
+            var ship = document.getElementById("entity-template-" + id);
+            if (ship != null) {
+                var quantityInput = Utils.findChildById(ship, "build-quantity-" + id, true);
+                var nbToBuild = 1;
+                if (quantityInput == null || quantityInput.value.length > 8 || quantityInput.value.length < 1) {
+                    e.preventDefault();
+                    return (false);
+                }
+                if (parseInt(quantityInput.value) > 0) {
+                    nbToBuild = parseInt(quantityInput.value);
+                }
+                var previousNb = parseInt(quantityInput.placeholder);
+                var iron = Utils.findChildById(ship, "iron-value", true);
+                var crystal = Utils.findChildById(ship, "crystal-value", true);
+                var iridium = Utils.findChildById(ship, "iridium-value", true);
+                var energy = Utils.findChildById(ship, "energy-value", true);
+                if (previousNb > 0 && nbToBuild > 0) {
+                    iron.innerText = (parseInt(iron.innerText) / previousNb) * nbToBuild; // todo fixme hack and value can be bugged when too high
+                    crystal.innerText = (parseInt(crystal.innerText) / previousNb) * nbToBuild;
+                    iridium.innerText = (parseInt(iridium.innerText) / previousNb) * nbToBuild;
+                    energy.innerText = (parseInt(energy.innerText) / previousNb) * nbToBuild;
+                    quantityInput.placeholder = nbToBuild; // todo fixme hack
+                    Utils.findChildById(ship, "upgrade-text", true).innerText = "Build cost for " + nbToBuild + " ship(s)";
+                    buildButton.disabled = !isUpgradable(iron, crystal, iridium, 0, energy);
+                }
+            }
+        }
+
+        function createShip(id, name, description, iron, crystal, iridium, energy, unlocked, nb) { // todo move to createEntity
+            var elements = document.querySelectorAll('link[rel=import]');
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].getAttribute("href") === "entity-template.html") {
+                    var post = elements[i].import.querySelector('#entity-template');
+                    var template = post.cloneNode(true);
+                    template.id += "-" + id;
+                    Utils.findChildById(template, "entity-img", true).src = "img/ship-nexus.jpg";
+                    Utils.findChildById(template, "entity-name", true).innerText = name;
+                    Utils.findChildById(template, "entity-level", true).innerText = "Quantity " + nb;
+                    Utils.findChildById(template, "entity-level", true).id += "-" + id;
+                    Utils.findChildById(template, "desc-text", true).innerText = description;
+                    Utils.findChildById(template, "upgrade-text", true).innerText = "Build cost for " + 1 + " ship(s)";
+                    Utils.findChildById(template, "iron-value", true).innerText = iron;
+                    Utils.findChildById(template, "crystal-value", true).innerText = crystal;
+                    Utils.findChildById(template, "iridium-value", true).innerText = iridium;
+                    Utils.findChildById(template, "energy-value", true).innerText = energy;
+                    Utils.findChildById(template, "entity-upgrade", true).id += "-" + id;
+                    Utils.findChildById(template, "entity-upgrade-" + id, true).onclick = function(e) {onCreateClick(e)};
+                    Utils.findChildById(template, "entity-upgrade-" + id, true).disabled = !isUpgradable(iron, crystal, iridium, 0, energy);
+                    Utils.findChildById(template, "entity-upgrade-" + id, true).value = "BUILD";
+                    var nbInput = document.createElement('input');
+                    nbInput.type = "number";
+                    nbInput.min = "1";
+                    nbInput.className = "build-quantity-input";
+                    nbInput.id = "build-quantity-" + id;
+                    nbInput.placeholder = "1";
+                    nbInput.addEventListener('input', onNbInput);
+                    Utils.findChildByClassName(template, "game-entity-desc-upgrade", true).appendChild(nbInput);
+                    var container = document.querySelector('entities');
+                    container.appendChild(template);
+                    return ;
+                }
+            }
+        }
+
+        function getAllShips() {
+            return (document.getElementsByClassName('game-entity'));
+        }
+
+        function updateShipsButtons() {
+            var technologies = getAllShips();
+            for (var i = 0; i < technologies.length; i++) {
+                var elem = technologies[i];
+                var upgradeButtons = elem.getElementsByClassName("upgrade-button");
+                if (upgradeButtons.length === 0)
+                    continue;
+                var firstButton = upgradeButtons.item(0);
+                var iron = Utils.findChildById(elem, "iron-value", true).innerText;
+                var crystal = Utils.findChildById(elem, "crystal-value", true).innerText;
+                var iridium = Utils.findChildById(elem, "iridium-value", true).innerText;
+                var energy = Utils.findChildById(elem, "energy-value", true).innerText;
+                firstButton.disabled = !isUpgradable(iron, crystal, iridium, 0, energy);
+            }
+        }
+
+        ready(function () {
+            document.getElementById("ships").className = "active";
+            window.setInterval(updateShipsButtons, 1000);
+        });
+    </script>
+</html>
+

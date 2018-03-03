@@ -10,6 +10,7 @@
 #include "game/BuildingsController.hh"
 #include "game/TechnologiesController.hh"
 #include "game/ChatController.hh"
+#include "game/ShipsController.hh"
 
 namespace bl {
 	namespace mvc {
@@ -43,6 +44,7 @@ namespace bl {
 					{"/overview",     std::shared_ptr<ControllerFactory<OverviewController>>(new ControllerFactory<OverviewController>())},
 					{"/buildings",    std::shared_ptr<ControllerFactory<BuildingsController>>(new ControllerFactory<BuildingsController>())},
 					{"/technologies", std::shared_ptr<ControllerFactory<TechnologiesController>>(new ControllerFactory<TechnologiesController>())},
+					{"/ships", std::shared_ptr<ControllerFactory<ShipsController>>(new ControllerFactory<ShipsController>())},
 					{"/chat", std::shared_ptr<ControllerFactory<ChatController>>(new ControllerFactory<ChatController>())}
 			};
 			this->changeRoute("/login");

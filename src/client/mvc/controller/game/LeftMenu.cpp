@@ -10,6 +10,7 @@ namespace bl {
 		const std::unordered_map<std::string, std::string> LeftMenu::m_requestToControllerRoute = {
 				{"route-buildings", "/buildings"},
 				{"route-technologies", "/technologies"},
+				{"route-ships", "/ships"},
 				{"route-overview", "/overview"},
 				{"route-chat", "/chat"}
 		};

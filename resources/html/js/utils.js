@@ -1,5 +1,22 @@
 var _Utils = function ()
 {
+    this.findChildByClassName = function (element, childClassName, isSearchInnerDescendant) // isSearchInnerDescendant <= true for search in inner childern
+    {
+        var retElement = null;
+        var lstChildren = isSearchInnerDescendant ? Utils.getAllDescendant(element) : element.childNodes;
+
+        for (var i = 0; i < lstChildren.length; i++)
+        {
+            if (lstChildren[i].className === childClassName)
+            {
+                retElement = lstChildren[i];
+                break;
+            }
+        }
+
+        return retElement;
+    }
+
     this.findChildById = function (element, childID, isSearchInnerDescendant) // isSearchInnerDescendant <= true for search in inner childern
     {
         var retElement = null;

@@ -7,6 +7,7 @@
 #include "ResourcesModel.hh"
 #include "TechnologyModel.hh"
 #include "ChatModel.hh"
+#include "ShipModel.hh"
 
 namespace bl {
 	namespace mvc {
@@ -19,7 +20,8 @@ namespace bl {
 					{"building-iridium-refinery",   std::shared_ptr<ABaseModel>(new BuildingModel(networkHandler, 4))}, // todo "buidling-id" instead ?
 					{"technology-refining-iridium", std::shared_ptr<ABaseModel>(new TechnologyModel(networkHandler, 1))}, // todo "buidling-id" instead ?
 					{"player-resources",            std::shared_ptr<ABaseModel>(new ResourcesModel(networkHandler, ::boost::uuids::uuid()))},
-					{"chat",                        std::shared_ptr<ABaseModel>(new ChatModel(networkHandler))}
+					{"chat",                        std::shared_ptr<ABaseModel>(new ChatModel(networkHandler))},
+					{"ship-nexus",                  std::shared_ptr<ABaseModel>(new ShipModel(networkHandler, 1))}
 			};
 		}
 	}
